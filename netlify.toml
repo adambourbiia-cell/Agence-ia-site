@@ -4,9 +4,20 @@
 
 # Images, CSS, JS : cache 1 semaine, revalidé ensuite
 [[headers]]
-  for = "/assets/*"
+  for = "/assets/img/*"
   [headers.values]
     Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+# CSS/JS : toujours revalidés (les pages y ajoutent ?v=… à chaque mise à jour)
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/demo/*/img/*"
