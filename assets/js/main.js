@@ -178,7 +178,7 @@
   const stepsLine = $('.steps__line i');
   const steps = $$('.step');
   const navLinks = $$('.header__nav a');
-  const sections = navLinks.map((a) => $(a.getAttribute('href'))).filter(Boolean);
+  const sections = navLinks.map((a) => { const h = a.getAttribute('href'); return h.startsWith('#') ? $(h) : null; });
   let lastY = window.scrollY;
   let ticking = false;
 
@@ -196,7 +196,7 @@
     lastY = y;
 
     let current = null;
-    sections.forEach((s, i) => { if (s.getBoundingClientRect().top < vh * 0.4) current = navLinks[i]; });
+    sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top < vh * 0.4) current = navLinks[i]; });
     navLinks.forEach((a) => a.classList.toggle('is-active', a === current));
 
     if (reduced) return;
