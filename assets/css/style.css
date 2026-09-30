@@ -408,6 +408,7 @@ h3 { font-size: 26px; line-height: 1.12; letter-spacing: -0.01em; }
   display: flex; flex-direction: column; gap: 8px; background: var(--white);
   transition: border-color .3s, background-color .3s, transform .5s var(--ease-out);
 }
+.pricing--two { grid-template-columns: repeat(2, 1fr); max-width: 900px; }
 .plan:hover { border-color: var(--lavender); transform: translateY(-6px); }
 .plan--featured { background: var(--wash); border-color: var(--lavender); }
 .plan--featured:hover { border-color: var(--indigo); }
@@ -458,7 +459,8 @@ h3 { font-size: 26px; line-height: 1.12; letter-spacing: -0.01em; }
 
 .form { display: grid; gap: 20px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22); border-radius: var(--radius); padding: 32px; }
 .field { display: grid; gap: 8px; }
-.field > label { font-size: 13px; font-weight: 400; color: var(--lilac); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.field > label, .field__label { font-size: 13px; font-weight: 400; color: var(--lilac); }
 .field input, .field select, .field textarea {
   font: inherit; font-size: 16px; color: var(--white); background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.28); border-radius: var(--radius); padding: 12px 14px; width: 100%;
@@ -513,7 +515,7 @@ h3 { font-size: 26px; line-height: 1.12; letter-spacing: -0.01em; }
   .method__sticky { position: static; }
   .method__meter { display: none; }
   .cards { grid-template-columns: repeat(2, 1fr); }
-  .pricing { grid-template-columns: 1fr; max-width: 560px; }
+  .pricing, .pricing--two { grid-template-columns: 1fr; max-width: 560px; }
   .contact__card { grid-template-columns: 1fr; padding: 56px 40px; gap: 48px; }
   .stats__grid { grid-template-columns: repeat(2, 1fr); row-gap: 48px; }
 }

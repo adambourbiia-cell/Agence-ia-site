@@ -1,5 +1,5 @@
 /* =========================================================
-   Ligne — interactions (vanilla, no dependencies)
+   Vortex — interactions (vanilla, no dependencies)
    ========================================================= */
 (() => {
   const doc = document.documentElement;
@@ -371,11 +371,13 @@
     });
   });
 
-  /* ---------- Contact form (client-side only) ---------- */
+  /* ---------- Contact form (Netlify Forms) ---------- */
   const form = $('.form');
   if (form) {
     const msg = $('.form__msg', form);
-    form.addEventListener('submit', (e) => {
+    const btn = $('button[type="submit"]', form);
+    const btnLabel = btn.firstChild;
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = form.elements.name;
       const email = form.elements.email;
@@ -386,14 +388,24 @@
         if (!valid) ok = false;
       });
       if (!ok) { msg.textContent = 'Merci de renseigner votre nom et un e‑mail valide.'; return; }
-      const btn = $('button[type="submit"]', form);
       btn.disabled = true;
-      btn.firstChild.textContent = 'Envoi… ';
-      setTimeout(() => {
-        msg.textContent = `Merci ${name.value.trim().split(' ')[0]} ! Nous revenons vers vous sous 24 h.`;
-        btn.firstChild.textContent = 'Demande envoyée ';
+      btnLabel.textContent = 'Envoi… ';
+      msg.textContent = '';
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        });
+        if (!res.ok) throw new Error(res.status);
+        msg.textContent = `Merci ${name.value.trim().split(' ')[0]} ! Votre demande est bien envoyée, réponse sous 24 h.`;
+        btnLabel.textContent = 'Demande envoyée ';
         form.reset();
-      }, 900);
+      } catch (err) {
+        msg.textContent = "L'envoi a échoué. Réessayez ou écrivez à vortex.twitch.live@gmail.com.";
+        btnLabel.textContent = 'Envoyer la demande ';
+        btn.disabled = false;
+      }
     });
   }
 
