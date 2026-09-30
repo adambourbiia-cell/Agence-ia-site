@@ -153,6 +153,22 @@
     });
   }
 
+  /* ---------- Project frame tilt ---------- */
+  if (finePointer && !reduced) {
+    $$('[data-tilt-frame]').forEach((frame) => {
+      const host = frame.parentElement;
+      host.addEventListener('pointermove', (e) => {
+        const r = host.getBoundingClientRect();
+        frame.style.setProperty('--ry', `${((e.clientX - r.left) / r.width - 0.5) * 10}deg`);
+        frame.style.setProperty('--rx', `${-((e.clientY - r.top) / r.height - 0.5) * 8}deg`);
+      });
+      host.addEventListener('pointerleave', () => {
+        frame.style.removeProperty('--ry');
+        frame.style.removeProperty('--rx');
+      });
+    });
+  }
+
   /* ---------- Scroll-driven effects ---------- */
   const header = $('#header');
   const bar = $('.scroll-progress span');

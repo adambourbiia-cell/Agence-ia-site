@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Le Brasier — Bistrot &amp; grill à Lyon (démo Vortex)</title>
+  <meta name="description" content="Site de démonstration réalisé par Vortex : Le Brasier, bistrot et grill au feu de bois à Lyon.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Demo banner -->
+  <div class="demo-bar">
+    <span>Site de démonstration conçu par <strong>Vortex</strong></span>
+    <a href="/#realisations">← Retour à Vortex</a>
+  </div>
+
+  <header class="nav" id="nav">
+    <a href="#top" class="brand">Le Brasier<span>Lyon</span></a>
+    <nav class="nav__links" aria-label="Navigation">
+      <a href="#maison">La maison</a>
+      <a href="#carte">La carte</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#infos">Infos</a>
+    </nav>
+    <a href="#reserver" class="btn btn--ember btn--sm" data-magnetic>Réserver</a>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__media"><img src="img/hero.jpg" alt="Une table dressée dans la salle du restaurant" fetchpriority="high"></div>
+      <div class="hero__shade"></div>
+      <canvas class="embers" aria-hidden="true"></canvas>
+      <div class="hero__content">
+        <p class="kicker" data-reveal>Bistrot &amp; grill au feu de bois · Lyon 2ᵉ</p>
+        <h1 class="hero__title" data-letters>Le Brasier</h1>
+        <p class="hero__lead" data-reveal style="--d:.7s">Une cuisine de marché saisie à la flamme, des vins vivants et une salle qui vit jusqu'à tard.</p>
+        <div class="hero__ctas" data-reveal style="--d:.85s">
+          <a href="#reserver" class="btn btn--ember" data-magnetic>Réserver une table</a>
+          <a href="#carte" class="btn btn--ghost">Voir la carte</a>
+        </div>
+      </div>
+      <a href="#maison" class="scroll-cue" aria-label="Défiler vers le bas"><span></span></a>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <span>Feu de bois</span><i>✦</i><span>Produits de saison</span><i>✦</i><span>Fait maison</span><i>✦</i><span>Vins natures</span><i>✦</i><span>Ouvert 7j/7</span><i>✦</i>
+        <span>Feu de bois</span><i>✦</i><span>Produits de saison</span><i>✦</i><span>Fait maison</span><i>✦</i><span>Vins natures</span><i>✦</i><span>Ouvert 7j/7</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- MAISON -->
+    <section class="about" id="maison">
+      <div class="wrap about__grid">
+        <div class="about__text">
+          <p class="kicker kicker--dark" data-reveal>La maison</p>
+          <h2 class="h2" data-words>Le goût de la braise, <em>l'âme d'un bouchon.</em></h2>
+          <p data-reveal style="--d:.2s">Au Brasier, tout passe par le feu. Viandes maturées, légumes du marché Saint-Antoine et poissons de ligne sont saisis sur la braise de chêne, sous vos yeux.</p>
+          <p data-reveal style="--d:.3s">Une cuisine généreuse et sincère, pensée pour se partager, dans une salle chaleureuse au cœur de la Presqu'île.</p>
+          <div class="about__sign" data-reveal style="--d:.4s">
+            <svg viewBox="0 0 220 60" aria-hidden="true"><path d="M8 42c14-22 26-30 30-26s-10 30-4 30 18-34 26-32-6 28 2 28 14-20 22-20 2 18 10 18 16-26 26-24-4 22 6 22 20-10 28-18 14 2 24 0 22-10 30-12"/></svg>
+            <span>Le chef, <em>Julien</em></span>
+          </div>
+        </div>
+        <div class="about__media">
+          <figure class="reveal-img about__img1"><img src="img/chef.jpg" alt="Le chef qui cisèle des herbes" loading="lazy"></figure>
+          <figure class="reveal-img about__img2" data-parallax="-0.08"><img src="img/plat-cote.jpg" alt="Côte de porc grillée et légumes" loading="lazy"></figure>
+          <div class="badge-round" aria-hidden="true">
+            <svg viewBox="0 0 120 120"><defs><path id="c" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"/></defs><text><textPath href="#c">· cuisine au feu de bois · depuis toujours </textPath></text></svg>
+            <span>🔥</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARTE -->
+    <section class="menu" id="carte">
+      <div class="wrap">
+        <div class="menu__head">
+          <p class="kicker" data-reveal>La carte</p>
+          <h2 class="h2 h2--light" data-words>Ce soir, <em>au menu.</em></h2>
+          <div class="tabs" role="tablist" data-reveal style="--d:.2s">
+            <button role="tab" aria-selected="true" data-tab="entrees">Entrées</button>
+            <button role="tab" aria-selected="false" data-tab="plats">Plats</button>
+            <button role="tab" aria-selected="false" data-tab="desserts">Desserts</button>
+            <span class="tabs__ink" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="menu__panels">
+          <ul class="dishes is-active" data-panel="entrees">
+            <li class="dish" data-img="img/plat-calamars.jpg"><div><h3>Calamars à la plancha</h3><p>Aïoli fumé, citron brûlé, pain grillé</p></div><span class="dish__dots"></span><b>12 €</b></li>
+            <li class="dish" data-img="img/plat-salade.jpg"><div><h3>Salade du marché</h3><p>Légumes crus et rôtis, feta, olives, noix</p></div><span class="dish__dots"></span><b>10 €</b></li>
+            <li class="dish" data-img="img/plat-boeuf.jpg"><div><h3>Tataki de bœuf</h3><p>Bœuf snacké, sauce aigre-douce, cajou</p></div><span class="dish__dots"></span><b>14 €</b></li>
+            <li class="dish"><div><h3>Os à moelle</h3><p>Fleur de sel, persillade, pain de campagne</p></div><span class="dish__dots"></span><b>9 €</b></li>
+          </ul>
+          <ul class="dishes" data-panel="plats">
+            <li class="dish" data-img="img/plat-cote.jpg"><div><h3>Côte de cochon fermier</h3><p>Pommes rôties, brocolis, jus corsé</p></div><span class="dish__dots"></span><b>24 €</b></li>
+            <li class="dish" data-img="img/plat-travers.jpg"><div><h3>Travers laqués au feu de bois</h3><p>Sauce barbecue maison, frites fraîches</p></div><span class="dish__dots"></span><b>22 €</b></li>
+            <li class="dish" data-img="img/plat-boeuf.jpg"><div><h3>Pièce du boucher</h3><p>Maturée 30 jours, beurre d'herbes, salade</p></div><span class="dish__dots"></span><b>29 €</b></li>
+            <li class="dish"><div><h3>Poisson de ligne</h3><p>Selon arrivage, légumes braisés, beurre blanc</p></div><span class="dish__dots"></span><b>26 €</b></li>
+          </ul>
+          <ul class="dishes" data-panel="desserts">
+            <li class="dish"><div><h3>Tarte aux pralines</h3><p>La recette lyonnaise, crème crue</p></div><span class="dish__dots"></span><b>9 €</b></li>
+            <li class="dish"><div><h3>Brioche perdue à la braise</h3><p>Caramel au beurre salé, glace vanille</p></div><span class="dish__dots"></span><b>10 €</b></li>
+            <li class="dish" data-img="img/cocktail.jpg"><div><h3>Café gourmand</h3><p>Trois douceurs du moment</p></div><span class="dish__dots"></span><b>8 €</b></li>
+          </ul>
+        </div>
+        <p class="menu__note" data-reveal>Menu du midi : entrée + plat ou plat + dessert · <strong>19 €</strong></p>
+      </div>
+      <div class="cursor-img" aria-hidden="true"><img alt=""></div>
+    </section>
+
+    <!-- GALERIE (horizontal on scroll) -->
+    <section class="gallery" id="galerie">
+      <div class="gallery__pin">
+        <div class="wrap gallery__head">
+          <p class="kicker kicker--dark">Galerie</p>
+          <h2 class="h2">Une soirée <em>au Brasier.</em></h2>
+        </div>
+        <div class="gallery__track">
+          <figure class="shot shot--tall"><img src="img/salle.jpg" alt="La salle du restaurant" loading="lazy"><figcaption>La salle</figcaption></figure>
+          <figure class="shot"><img src="img/plat-travers.jpg" alt="Travers laqués et frites" loading="lazy"><figcaption>Travers laqués</figcaption></figure>
+          <figure class="shot shot--tall"><img src="img/bar.jpg" alt="Le bar et ses bouteilles" loading="lazy"><figcaption>Le bar</figcaption></figure>
+          <figure class="shot"><img src="img/cocktail.jpg" alt="Un cocktail servi au bar" loading="lazy"><figcaption>Cocktails maison</figcaption></figure>
+          <figure class="shot shot--tall"><img src="img/chef.jpg" alt="En cuisine" loading="lazy"><figcaption>En cuisine</figcaption></figure>
+          <figure class="shot"><img src="img/plat-salade.jpg" alt="Salade du marché" loading="lazy"><figcaption>Le marché</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- AVIS -->
+    <section class="quote">
+      <div class="wrap">
+        <p class="quote__stars" data-reveal>★★★★★</p>
+        <blockquote class="quote__text" data-words>« Une adresse chaleureuse où la braise fait des merveilles. On y revient pour la côte de cochon. »</blockquote>
+        <p class="quote__by" data-reveal>Exemple d'avis client · démonstration</p>
+      </div>
+    </section>
+
+    <!-- INFOS + RESERVATION -->
+    <section class="infos" id="infos">
+      <div class="wrap infos__grid">
+        <div class="infos__col" data-reveal>
+          <p class="kicker kicker--dark">Horaires</p>
+          <ul class="hours">
+            <li><span>Lundi – Jeudi</span><b>12h – 14h30 · 19h – 23h</b></li>
+            <li><span>Vendredi – Samedi</span><b>12h – 14h30 · 19h – 00h</b></li>
+            <li><span>Dimanche</span><b>12h – 15h30</b></li>
+          </ul>
+          <p class="kicker kicker--dark infos__k2">Adresse</p>
+          <p class="infos__addr">Presqu'île, Lyon 2ᵉ<br><small>(adresse fictive — site de démonstration)</small></p>
+        </div>
+
+        <form class="resa" id="reserver" data-reveal style="--d:.1s" novalidate>
+          <h2 class="h3">Réserver une table</h2>
+          <div class="resa__row">
+            <label><span>Nom</span><input name="nom" type="text" placeholder="Votre nom" required></label>
+            <label><span>Téléphone</span><input name="tel" type="tel" placeholder="06 …"></label>
+          </div>
+          <div class="resa__row">
+            <label><span>Date</span><input name="date" type="date" required></label>
+            <label><span>Heure</span>
+              <select name="heure"><option>12h00</option><option>12h30</option><option>13h00</option><option selected>19h30</option><option>20h00</option><option>20h30</option><option>21h00</option></select>
+            </label>
+          </div>
+          <div class="resa__guests">
+            <span>Couverts</span>
+            <div class="stepper"><button type="button" data-step="-1" aria-label="Moins">−</button><output name="couverts">2</output><button type="button" data-step="1" aria-label="Plus">+</button></div>
+          </div>
+          <button type="submit" class="btn btn--ember btn--block" data-magnetic>Confirmer la réservation</button>
+          <p class="resa__msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <p class="brand brand--foot">Le Brasier<span>Lyon</span></p>
+      <p class="foot__made">Site de démonstration réalisé par <a href="/">Vortex</a> · Création de sites web à Lyon</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

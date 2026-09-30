@@ -210,6 +210,29 @@ svg { display: block; }
 .step h3 { font-family: var(--display); font-weight: 700; font-size: 22px; margin-bottom: 12px; }
 .step p { color: var(--muted); max-width: 320px; margin: 0 auto; }
 
+/* ---------- Work (dark) ---------- */
+.work { position: relative; padding: 110px 0 130px; background: var(--bg); border-top: 1px solid var(--line); overflow: hidden; }
+.work::before { content: ""; position: absolute; left: 50%; top: 40%; width: 900px; height: 500px; transform: translate(-50%, -50%); background: radial-gradient(ellipse, rgba(34,193,211,.12), transparent 65%); pointer-events: none; }
+.project { position: relative; display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center; }
+.project__visual { position: relative; display: block; perspective: 1200px; }
+.project__frame { --rx: 4deg; --ry: -8deg; border-radius: 14px; overflow: hidden; background: #0b0f16; border: 1px solid rgba(255,255,255,.12); transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .7s var(--ease-out), border-color .4s, box-shadow .5s; box-shadow: 0 40px 80px -40px rgba(0,0,0,.9), 0 0 0 0 rgba(34,193,211,0); }
+.project__visual:hover .project__frame { --rx: 0deg; --ry: 0deg; border-color: rgba(34,193,211,.5); box-shadow: 0 40px 80px -40px rgba(0,0,0,.9), 0 0 60px -10px rgba(34,193,211,.35); }
+.project__bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 12px; color: #7e8898; }
+.project__bar i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.18); }
+.project__bar span { margin-left: 10px; }
+.project__shot { overflow: hidden; aspect-ratio: 16 / 10; }
+.project__shot img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+.project__visual:hover .project__shot img { transform: scale(1.06); }
+.project__open { position: absolute; left: 50%; top: 55%; display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; background: rgba(15,17,23,.85); border: 1px solid rgba(34,193,211,.6); color: #fff; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transform: translate(-50%, -30%) scale(.9); transition: opacity .35s, transform .5s var(--ease-out); }
+.project__visual:hover .project__open { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.project__open .arrow { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.tag { display: inline-block; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--teal-2); background: rgba(34,193,211,.1); border: 1px solid rgba(34,193,211,.3); }
+.project__text h3 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 3.6vw, 46px); letter-spacing: -0.02em; margin: 18px 0 14px; }
+.project__text > p { color: var(--muted); max-width: 460px; }
+.project__tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 32px; }
+.project__tags li { padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #c6ccd6; background: rgba(255,255,255,.05); border: 1px solid var(--line); transition: border-color .25s, color .25s; }
+.project__tags li:hover { border-color: rgba(34,193,211,.5); color: #fff; }
+
 /* ---------- Offer (white) ---------- */
 .offer { background: #fff; color: var(--ink); padding: 120px 0; }
 .plans { max-width: 880px; margin: 0 auto; display: grid; gap: 14px; }
@@ -313,6 +336,8 @@ svg { display: block; }
   .services__grid { grid-template-columns: 1fr; gap: 48px; }
   .contact__box { grid-template-columns: 1fr; padding: 28px; }
   .form { padding-left: 0; border-left: 0; }
+  .project { grid-template-columns: 1fr; gap: 36px; }
+  .project__open { opacity: 1; transform: translate(-50%, -50%); }
 }
 @media (max-width: 760px) {
   :root { --gutter: 18px; }
@@ -337,6 +362,7 @@ svg { display: block; }
   .steps__line i { transform-origin: top; transform: scaleY(var(--p, 0)); }
   .step__num { background: var(--bg-2); }
   .plan { grid-template-columns: 1fr; }
+  .work { padding: 80px 0; }
   .plan--dark .plan__right, .plan--light .plan__right { border-left: 0; border-top: 1px solid rgba(127,127,127,.18); }
   .plan__left, .plan__right { padding: 26px 22px; }
   .contact__box { padding: 16px; border-radius: 20px; }
