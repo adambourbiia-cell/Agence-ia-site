@@ -225,7 +225,8 @@
   window.addEventListener('resize', requestTick);
   onScroll();
 
-  /* ---------- Contact form (Netlify Forms) ---------- */
+  /* ---------- Contact form: e-mail via Web3Forms + backup copy in Netlify Forms ---------- */
+  const WEB3FORMS_KEY = 'f8395aee-45d6-4075-b864-0a58bdfb17a0';
   const form = $('.form');
   if (form) {
     const msg = $('.form__msg', form);
@@ -246,12 +247,34 @@
       label.textContent = 'Envoi…';
       msg.textContent = '';
       try {
-        const res = await fetch('/', {
+        const data = new FormData(form);
+        const val = (k) => (data.get(k) || '').toString().trim();
+        // 1) E-mail notification (Web3Forms)
+        const mail = fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: `Nouvelle demande Vortex — ${val('name')} (${val('offre')})`,
+            from_name: 'Site Vortex',
+            replyto: val('email'),
+            Nom: val('name'),
+            'E-mail': val('email'),
+            'Téléphone': val('telephone') || '—',
+            Entreprise: val('entreprise') || '—',
+            Demande: val('offre'),
+            Message: val('message') || '—',
+            botcheck: val('bot-field'),
+          }),
+        }).then((r) => r.json()).then((j) => !!j.success).catch(() => false);
+        // 2) Backup copy in the Netlify dashboard
+        const backup = fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(new FormData(form)).toString(),
-        });
-        if (!res.ok) throw new Error(res.status);
+          body: new URLSearchParams(data).toString(),
+        }).then((r) => r.ok).catch(() => false);
+        const [mailOk, backupOk] = await Promise.all([mail, backup]);
+        if (!mailOk && !backupOk) throw new Error('send failed');
         msg.textContent = `Merci ${name.value.trim().split(' ')[0]} ! Votre demande est bien envoyée, on vous répond sous 24 h.`;
         label.textContent = 'Demande envoyée';
         form.reset();
