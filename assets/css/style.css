@@ -214,6 +214,9 @@ svg { display: block; }
 .work { position: relative; padding: 110px 0 130px; background: var(--bg); border-top: 1px solid var(--line); overflow: hidden; }
 .work::before { content: ""; position: absolute; left: 50%; top: 40%; width: 900px; height: 500px; transform: translate(-50%, -50%); background: radial-gradient(ellipse, rgba(34,193,211,.12), transparent 65%); pointer-events: none; }
 .project { position: relative; display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center; }
+.project + .project { margin-top: 110px; }
+.project--rev .project__visual { order: 2; }
+.project--rev .project__frame { --ry: 8deg; }
 .project__visual { position: relative; display: block; perspective: 1200px; }
 .project__frame { --rx: 4deg; --ry: -8deg; border-radius: 14px; overflow: hidden; background: #0b0f16; border: 1px solid rgba(255,255,255,.12); transform: rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .7s var(--ease-out), border-color .4s, box-shadow .5s; box-shadow: 0 40px 80px -40px rgba(0,0,0,.9), 0 0 0 0 rgba(34,193,211,0); }
 .project__visual:hover .project__frame { --rx: 0deg; --ry: 0deg; border-color: rgba(34,193,211,.5); box-shadow: 0 40px 80px -40px rgba(0,0,0,.9), 0 0 60px -10px rgba(34,193,211,.35); }
@@ -337,6 +340,8 @@ svg { display: block; }
   .contact__box { grid-template-columns: 1fr; padding: 28px; }
   .form { padding-left: 0; border-left: 0; }
   .project { grid-template-columns: 1fr; gap: 36px; }
+  .project--rev .project__visual { order: 0; }
+  .project + .project { margin-top: 80px; }
   .project__open { opacity: 1; transform: translate(-50%, -50%); }
 }
 @media (max-width: 760px) {
