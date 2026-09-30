@@ -263,6 +263,23 @@
     });
   }
 
+  /* ---------- FAQ smooth accordion ---------- */
+  $$('.faq__item').forEach((item) => {
+    const summary = $('summary', item);
+    const body = $('.faq__answer', item);
+    summary.addEventListener('click', (e) => {
+      if (reduced) return;
+      e.preventDefault();
+      if (item.open) {
+        body.animate([{ height: `${body.offsetHeight}px`, opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 300, easing: 'ease-out' }).onfinish = () => { item.open = false; };
+      } else {
+        $$('.faq__item[open]').forEach((o) => { if (o !== item) o.open = false; });
+        item.open = true;
+        body.animate([{ height: '0px', opacity: 0 }, { height: `${body.offsetHeight}px`, opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+      }
+    });
+  });
+
   /* ---------- Footer year ---------- */
   const year = $('.year');
   if (year) year.textContent = new Date().getFullYear();

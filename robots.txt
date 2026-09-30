@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /demo/
+Disallow: /merci.html
+
+Sitemap: https://ligne-studio-web.netlify.app/sitemap.xml
