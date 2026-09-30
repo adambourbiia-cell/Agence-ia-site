@@ -50,12 +50,25 @@
     <h1>Prospection <em>Vortex</em></h1>
     <div class="row">
       <select id="tpl" aria-label="Modèle de message">
-        <option value="first">1er message</option>
-        <option value="relance">Relance (3-5 jours après)</option>
+        <optgroup label="Prospection">
+          <option value="first">1. Premier message</option>
+          <option value="relance">2. Relance (3-5 jours après)</option>
+        </optgroup>
+        <optgroup label="Il est intéressé">
+          <option value="infos">3. Proposer la maquette gratuite</option>
+          <option value="maquette">4. Envoyer sa maquette + paiement</option>
+          <option value="paye">5. Merci + offre maintenance</option>
+        </optgroup>
+        <optgroup label="Réponses aux objections">
+          <option value="o-cher">« C'est trop cher »</option>
+          <option value="o-facebook">« J'ai déjà Facebook »</option>
+          <option value="o-temps">« Pas le temps »</option>
+          <option value="o-reflechir">« Je vais réfléchir »</option>
+        </optgroup>
       </select>
       <input id="me" placeholder="Ton prénom" size="10" aria-label="Ton prénom">
       <select id="filter" aria-label="Filtre">
-        <option value="todo">À contacter / relancer</option>
+        <option value="todo">Seulement les concernés</option>
         <option value="all">Tous</option>
       </select>
     </div>
@@ -140,13 +153,35 @@
 
     const isMobileNumber = (p) => /^0[67]/.test(p.replace(/\D/g, ''));
     const intl = (p) => { const d = p.replace(/\D/g, ''); return d.startsWith('0') ? '33' + d.slice(1) : d; };
+    const PAY = 'https://buy.stripe.com/6oU7sKeFweKm5UU84z7Zu04';
+    const MAINT = 'https://buy.stripe.com/9B63cucxo0Tw5UU5Wr7Zu05';
+    const STOP = '\nSTOP pour ne plus être contacté';
+    // statut appliqué automatiquement après l'envoi de chaque modèle
+    const NEXT = { first: 'envoye', relance: 'relance', infos: 'interesse', maquette: 'interesse', paye: 'client' };
     const msg = (p) => {
       const me = db.me || '[ton prénom]';
       const link = SITE + DEMO[p.job];
-      if ($('#tpl').value === 'relance') {
-        return `Bonjour, c'est ${me} de Vortex. Avez-vous pu regarder l'exemple de site que je vous ai envoyé ? Je peux vous préparer gratuitement une maquette avec le nom « ${p.name} » et vos photos, sans engagement. Bonne journée !\nSTOP pour ne plus être contacté`;
+      const mock = p.mockup || '[lien de sa maquette]';
+      switch ($('#tpl').value) {
+        case 'relance':
+          return `Bonjour, c'est ${me} de Vortex. Avez-vous pu regarder l'exemple de site que je vous ai envoyé ? Je peux vous préparer gratuitement une maquette avec le nom « ${p.name} » et vos photos, sans engagement. Bonne journée !${STOP}`;
+        case 'infos':
+          return `Merci pour votre retour ! Pour que vous voyiez concrètement, je vous prépare gratuitement une maquette de votre site, avec votre nom. Vous ne payez rien si elle ne vous plaît pas.\nIl me faut juste :\n1. vos services principaux\n2. votre zone d'intervention\n3. 3 ou 4 photos (chantiers, boutique…) et votre logo si vous en avez un\nVous pouvez me les envoyer ici directement 👍`;
+        case 'maquette':
+          return `Voici la maquette de votre site 👉 ${mock}\nRegardez tranquillement sur votre téléphone. Si vous voulez des changements (textes, couleurs, photos), dites-le-moi et je les fais.\nSi elle vous plaît, on la met en ligne pour 250 € tout compris, paiement sécurisé par carte ici 👉 ${PAY}`;
+        case 'paye':
+          return `Merci, paiement bien reçu ✅ Je m'occupe de la mise en ligne de votre site et je vous tiens au courant.\nPour que votre site reste à jour et sécurisé, et que je fasse vos modifications (horaires, tarifs, photos), il existe une formule à 50 €/mois sans engagement 👉 ${MAINT}`;
+        case 'o-cher':
+          return `Je comprends ! C'est 250 € une seule fois, sans abonnement obligatoire. Un seul nouveau client trouvé grâce au site le rembourse. Et je vous montre la maquette avant tout paiement 🙂`;
+        case 'o-facebook':
+          return `Facebook, c'est bien pour vos habitués, mais il remonte très peu sur Google. Quand quelqu'un cherche « ${LABEL[p.job] === 'votre métier' ? 'artisan' : LABEL[p.job].replace(/^un |^une /, '')} ${p.city} », ce sont les sites qui apparaissent. Les deux se complètent très bien !`;
+        case 'o-temps':
+          return `Justement, vous n'avez rien à faire : envoyez-moi 3 photos et vos services, je m'occupe de tout le reste. Ça vous prend 5 minutes 👍`;
+        case 'o-reflechir':
+          return `Aucun souci, prenez votre temps ! Je peux quand même vous préparer la maquette gratuitement, comme ça vous décidez en voyant votre futur site. Ça vous va ?`;
+        default:
+          return `Bonjour, je suis ${me}, je crée des sites web pour les pros de ${p.city}. J'ai vu que ${p.name} n'avait pas encore de site : voici un exemple de ce que ça pourrait donner pour ${LABEL[p.job]} 👉 ${link}\nSite clé en main à 250 €, visible sur Google. Intéressé(e) ?${STOP}`;
       }
-      return `Bonjour, je suis ${me}, je crée des sites web pour les pros de ${p.city}. J'ai vu que ${p.name} n'avait pas encore de site : voici un exemple de ce que ça pourrait donner pour ${LABEL[p.job]} 👉 ${link}\nSite clé en main à 250 €, visible sur Google. Intéressé(e) ?\nSTOP pour ne plus être contacté`;
     };
 
     function render() {
@@ -155,16 +190,25 @@
       const counts = {}; db.prospects.forEach((p) => { counts[p.status] = (counts[p.status] || 0) + 1; });
       $('#stats').innerHTML = `<span><b>${db.prospects.length}</b> prospects</span><span><b>${(counts.envoye || 0) + (counts.relance || 0)}</b> contactés</span><span><b>${(counts.interesse || 0) + (counts.client || 0)}</b> intéressés</span>`;
       db.prospects
-        .filter((p) => !todo || ['new', 'envoye'].includes(p.status))
+        .filter((p) => {
+          if (!todo) return true;
+          const t = $('#tpl').value;
+          if (t === 'first') return p.status === 'new';
+          if (t === 'relance') return p.status === 'envoye';
+          if (t === 'paye') return p.status === 'interesse';
+          if (['infos', 'maquette'].includes(t) || t.startsWith('o-')) return ['envoye', 'relance', 'interesse'].includes(p.status);
+          return true;
+        })
         .forEach((p) => {
           const card = document.createElement('div');
           card.className = 'card' + (['refus', 'stop', 'client'].includes(p.status) ? ' done' : '');
           const text = msg(p);
           const smsHref = `sms:${p.phone.replace(/\s/g, '')}?&body=${encodeURIComponent(text)}`;
           const waHref = `https://wa.me/${intl(p.phone)}?text=${encodeURIComponent(text)}`;
-          const blocked = p.status === 'stop' || p.status === 'refus';
+          const blocked = p.status === 'stop' || (p.status === 'refus' && ['first', 'relance'].includes($('#tpl').value));
           card.innerHTML = `
             <div class="top"><div><div class="name"></div><div class="meta"></div></div><span class="pill s-${p.status}">${STATUS[p.status]}</span></div>
+            ${$('#tpl').value === 'maquette' ? '<input class="mock" placeholder="Colle ici le lien de sa maquette" aria-label="Lien de la maquette" style="width:100%;margin-top:12px">' : ''}
             <textarea aria-label="Message"></textarea>
             <div class="btns">
               <a class="btn primary" data-act="sms" href="${smsHref}" ${blocked ? 'aria-disabled="true"' : ''}>💬 Envoyer le SMS</a>
@@ -177,18 +221,20 @@
           card.querySelector('.name').textContent = p.name;
           card.querySelector('.meta').textContent = `${p.city} · ${p.phone}`;
           const ta = card.querySelector('textarea'); ta.value = text;
+          const mk = card.querySelector('.mock');
+          if (mk) { mk.value = p.mockup || ''; mk.onchange = () => { p.mockup = mk.value.trim(); save(); render(); }; }
           ta.oninput = () => {
             card.querySelector('[data-act=sms]').href = `sms:${p.phone.replace(/\s/g, '')}?&body=${encodeURIComponent(ta.value)}`;
             card.querySelector('[data-act=wa]').href = `https://wa.me/${intl(p.phone)}?text=${encodeURIComponent(ta.value)}`;
           };
-          const mark = () => { p.status = $('#tpl').value === 'relance' ? 'relance' : 'envoye'; p.date = new Date().toLocaleDateString('fr-FR'); save(); setTimeout(render, 400); };
+          const mark = () => { const n = NEXT[$('#tpl').value]; if (n) p.status = n; p.date = new Date().toLocaleDateString('fr-FR'); save(); setTimeout(render, 400); };
           card.querySelector('[data-act=sms]').addEventListener('click', mark);
           card.querySelector('[data-act=wa]').addEventListener('click', mark);
           card.querySelector('select').onchange = (e) => { p.status = e.target.value; save(); render(); };
           card.querySelector('[data-act=del]').onclick = () => { if (confirm('Supprimer ce prospect ?')) { db.prospects = db.prospects.filter((x) => x !== p); save(); render(); } };
           list.appendChild(card);
         });
-      if (!list.children.length) list.innerHTML = '<div class="card">🎉 Plus personne à contacter dans ce filtre.</div>';
+      if (!list.children.length) list.innerHTML = '<div class="card">Personne dans cette étape pour l\'instant. Choisis « Tous » dans le filtre pour voir toute ta liste.</div>';
     }
 
     $('#a-add').onclick = () => {
