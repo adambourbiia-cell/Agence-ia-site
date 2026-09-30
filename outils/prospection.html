@@ -71,7 +71,7 @@
         <div class="add">
           <input id="a-name" placeholder="Nom de l'entreprise">
           <input id="a-phone" placeholder="Téléphone" inputmode="tel">
-          <select id="a-job"><option value="artisan">Artisan (plombier, électricien…)</option><option value="coiffure">Coiffeur / beauté</option><option value="restaurant">Restaurant</option><option value="garage">Garage</option><option value="commerce">Commerce</option></select>
+          <select id="a-job"><option value="artisan">Artisan (plombier, électricien…)</option><option value="batiment">Bâtiment (maçon, peintre…)</option><option value="coiffure">Coiffeur / beauté</option><option value="restaurant">Restaurant</option><option value="garage">Garage</option><option value="commerce">Commerce</option></select>
           <input id="a-city" placeholder="Ville" value="Givors">
           <button class="btn primary" id="a-add" type="button">Ajouter</button>
         </div>
@@ -84,8 +84,8 @@
   (() => {
     const KEY = 'vortex-prospects-v1';
     const SITE = 'https://ligne-studio-web.netlify.app';
-    const DEMO = { artisan: '/demo/artisan/', coiffure: '/demo/coiffure/', restaurant: '/demo/restaurant/', garage: '/demo/garage/', commerce: '/demo/coiffure/' };
-    const LABEL = { artisan: 'votre métier', coiffure: 'un salon de coiffure', restaurant: 'un restaurant', garage: 'un garage', commerce: 'votre commerce' };
+    const DEMO = { artisan: '/demo/artisan/', coiffure: '/demo/coiffure/', restaurant: '/demo/restaurant/', garage: '/demo/garage/', commerce: '/demo/coiffure/', batiment: '/demo/artisan/' };
+    const LABEL = { artisan: 'votre métier', coiffure: 'un salon de coiffure', restaurant: 'un restaurant', garage: 'un garage', commerce: 'votre commerce', batiment: 'un artisan du bâtiment' };
     const seed = [
       { id: 1, name: 'FAVIER Bruno', job: 'artisan', phone: '0681124284', city: 'Givors', status: 'new' },
       { id: 2, name: 'Sacha Plomberie', job: 'artisan', phone: '0675099653', city: 'Givors', status: 'new' },
@@ -94,11 +94,44 @@
       { id: 5, name: 'Aux Ciseaux de Carine', job: 'coiffure', phone: '0478815987', city: 'Givors', status: 'new' },
       { id: 6, name: 'Salon Pat', job: 'coiffure', phone: '0478730448', city: 'Givors', status: 'new' },
       { id: 7, name: 'MC Automobiles', job: 'garage', phone: '0458281407', city: 'Vénissieux', status: 'new' },
+      { id: 100, name: "Depann Home", job: 'artisan', phone: '0751246569', city: "Givors", status: 'new' },
+      { id: 101, name: "SHP Plomberie Générale", job: 'artisan', phone: '0641588899', city: "Givors", status: 'new' },
+      { id: 102, name: "M D M SARL (plomberie)", job: 'artisan', phone: '0614106189', city: "Givors", status: 'new' },
+      { id: 103, name: "Gaudin Plomberie Chauffage", job: 'artisan', phone: '0623895317', city: "Seyssuel", status: 'new' },
+      { id: 104, name: "Michel Da Mota (plomberie)", job: 'artisan', phone: '0619640072', city: "Ternay", status: 'new' },
+      { id: 105, name: "Ozkara Plomberie", job: 'artisan', phone: '0781963020', city: "Chasse-sur-Rhône", status: 'new' },
+      { id: 106, name: "Gaillard Plomberie", job: 'artisan', phone: '0673106979', city: "Sérézin-du-Rhône", status: 'new' },
+      { id: 107, name: "PC Plomberie", job: 'artisan', phone: '0782426062', city: "Chasse-sur-Rhône", status: 'new' },
+      { id: 108, name: "J2C Électricité", job: 'artisan', phone: '0608633249', city: "Givors", status: 'new' },
+      { id: 109, name: "Design Elec", job: 'artisan', phone: '0687846888', city: "Givors", status: 'new' },
+      { id: 110, name: "Ferroul Électricité Générale", job: 'artisan', phone: '0760207979', city: "Givors", status: 'new' },
+      { id: 111, name: "Belloutelec", job: 'artisan', phone: '0783466023', city: "Givors", status: 'new' },
+      { id: 112, name: "Alexis Rochet Elec", job: 'artisan', phone: '0634275839', city: "Chasse-sur-Rhône", status: 'new' },
+      { id: 113, name: "Yohann Reina (électricité)", job: 'artisan', phone: '0677486457', city: "Ternay", status: 'new' },
+      { id: 114, name: "Elecmab", job: 'artisan', phone: '0698038829', city: "Chasse-sur-Rhône", status: 'new' },
+      { id: 115, name: "Renov'Elec", job: 'artisan', phone: '0603710868', city: "Saint-Andéol-le-Château", status: 'new' },
+      { id: 116, name: "Syrius Elec", job: 'artisan', phone: '0677541365', city: "Sérézin-du-Rhône", status: 'new' },
+      { id: 117, name: "Pro Instal", job: 'artisan', phone: '0651230143', city: "Grigny", status: 'new' },
+      { id: 118, name: "Serge Di Murro (peinture)", job: 'batiment', phone: '0683559898', city: "Givors", status: 'new' },
+      { id: 119, name: "Christal8 Peinture", job: 'batiment', phone: '0766024401', city: "Communay", status: 'new' },
+      { id: 120, name: "Alya Peinture", job: 'batiment', phone: '0629492080', city: "Brignais", status: 'new' },
+      { id: 121, name: "Y.G.T Peinture", job: 'batiment', phone: '0638187244', city: "Vienne", status: 'new' },
+      { id: 122, name: "Pierre Ferreira (maçonnerie)", job: 'batiment', phone: '0611437028', city: "Givors", status: 'new' },
+      { id: 123, name: "C Bat Concept", job: 'batiment', phone: '0608180921', city: "Givors", status: 'new' },
+      { id: 124, name: "José Rodrigues (maçonnerie)", job: 'batiment', phone: '0635582932', city: "Givors", status: 'new' },
+      { id: 125, name: "Toumi Construction", job: 'batiment', phone: '0618734194', city: "Givors", status: 'new' },
+      { id: 126, name: "Romain Fletou (maçonnerie)", job: 'batiment', phone: '0677512520', city: "Givors", status: 'new' },
+      { id: 127, name: "ID (maçonnerie)", job: 'batiment', phone: '0632381099', city: "Givors", status: 'new' },
+      { id: 128, name: "BMG (maçonnerie)", job: 'batiment', phone: '0626307026', city: "Givors", status: 'new' },
+      { id: 129, name: "Façade Sener", job: 'batiment', phone: '0666506521', city: "Givors", status: 'new' },
+      { id: 130, name: "Bati Pro EURL", job: 'batiment', phone: '0650065388', city: "Grigny", status: 'new' },
     ];
     const STATUS = { new: 'À contacter', envoye: 'Message envoyé', relance: 'Relancé', interesse: 'Intéressé', client: 'Client ✓', refus: 'Pas intéressé', stop: 'STOP — ne plus contacter' };
     let db;
     try { db = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
     if (!db) db = { me: '', prospects: seed };
+    // merge newly added seed prospects into an existing saved list
+    seed.forEach((sp) => { if (!db.prospects.some((x) => x.id === sp.id)) db.prospects.push(sp); });
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} };
     const $ = (s) => document.querySelector(s);
     $('#me').value = db.me || '';
