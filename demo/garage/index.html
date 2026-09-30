@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delta Auto — Garage toutes marques à Vénissieux (démo Vortex)</title>
+  <meta name="description" content="Site de démonstration réalisé par Vortex : Delta Auto, garage mécanique toutes marques à Vénissieux.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="demo-bar">
+    <span>Site de démonstration conçu par <strong>Vortex</strong></span>
+    <a href="/#realisations">← Retour à Vortex</a>
+  </div>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav__inner">
+      <a href="#top" class="logo" aria-label="Delta Auto, accueil">
+        <span class="logo__mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 4 29 27H3z"/></svg></span>
+        <span class="logo__txt">Delta<em>Auto</em></span>
+      </a>
+      <nav class="nav__links" aria-label="Navigation">
+        <a href="#services">Services</a>
+        <a href="#devis">Devis express</a>
+        <a href="#atelier">L'atelier</a>
+        <a href="#rdv">Rendez-vous</a>
+        <a href="#infos">Accès</a>
+      </nav>
+      <a href="#rdv" class="btn btn--orange btn--sm" data-magnetic>Prendre RDV</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__bg"><img src="img/hero.jpg" alt="Une voiture dans l'atelier du garage" fetchpriority="high"></div>
+      <div class="hero__shade"></div>
+      <div class="hero__lines" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="wrap hero__content">
+        <p class="tag" data-reveal><span class="tag__dot"></span>Garage toutes marques · Vénissieux</p>
+        <h1 class="hero__title" data-lines>
+          <span>Votre voiture</span>
+          <span>entre de <em>bonnes</em></span>
+          <span><em>mains.</em></span>
+        </h1>
+        <p class="hero__lead" data-reveal style="--d:.55s">Entretien, freins, pneus, diagnostic électronique : un devis clair avant chaque intervention et votre véhicule rendu à l'heure.</p>
+        <div class="hero__ctas" data-reveal style="--d:.7s">
+          <a href="#devis" class="btn btn--orange" data-magnetic>Devis en 30 secondes</a>
+          <a href="#rdv" class="btn btn--ghost">Prendre rendez-vous</a>
+        </div>
+      </div>
+      <div class="hero__stats wrap" data-reveal style="--d:.85s">
+        <div><b data-count="18">0</b><span>ans d'expérience</span></div>
+        <div><b data-count="4800">0</b><span>véhicules réparés</span></div>
+        <div><b>4,8<small>/5</small></b><span>note moyenne (démo)</span></div>
+      </div>
+    </section>
+
+    <!-- MARQUES -->
+    <div class="brands" aria-label="Toutes marques">
+      <div class="brands__track">
+        <span>Renault</span><i>◆</i><span>Peugeot</span><i>◆</i><span>Citroën</span><i>◆</i><span>Volkswagen</span><i>◆</i><span>Toyota</span><i>◆</i><span>Dacia</span><i>◆</i><span>Ford</span><i>◆</i><span>BMW</span><i>◆</i><span>Audi</span><i>◆</i><span>Mercedes</span><i>◆</i>
+        <span aria-hidden="true">Renault</span><i>◆</i><span aria-hidden="true">Peugeot</span><i>◆</i><span aria-hidden="true">Citroën</span><i>◆</i><span aria-hidden="true">Volkswagen</span><i>◆</i><span aria-hidden="true">Toyota</span><i>◆</i><span aria-hidden="true">Dacia</span><i>◆</i><span aria-hidden="true">Ford</span><i>◆</i><span aria-hidden="true">BMW</span><i>◆</i><span aria-hidden="true">Audi</span><i>◆</i><span aria-hidden="true">Mercedes</span><i>◆</i>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <div class="wrap">
+        <div class="head">
+          <p class="kicker" data-reveal>Nos services</p>
+          <h2 class="h2" data-lines><span>Tout pour votre véhicule,</span><span><em>sous un même toit.</em></span></h2>
+        </div>
+        <div class="svc-grid">
+          <article class="svc" data-reveal data-tilt>
+            <div class="svc__img"><img src="img/vidange.jpg" alt="" loading="lazy"></div>
+            <div class="svc__body"><span class="svc__n">01</span><h3>Vidange &amp; entretien</h3><p>Révision constructeur, filtres, niveaux. Carnet d'entretien tamponné, garantie préservée.</p><span class="svc__price">dès 89 €</span></div>
+          </article>
+          <article class="svc" data-reveal data-tilt style="--d:.08s">
+            <div class="svc__img"><img src="img/pneus.jpg" alt="" loading="lazy"></div>
+            <div class="svc__body"><span class="svc__n">02</span><h3>Pneus &amp; géométrie</h3><p>Montage, équilibrage, parallélisme. Pneus toutes marques en stock ou livrés sous 24 h.</p><span class="svc__price">dès 25 €</span></div>
+          </article>
+          <article class="svc" data-reveal data-tilt style="--d:.16s">
+            <div class="svc__img"><img src="img/diagnostic.jpg" alt="" loading="lazy"></div>
+            <div class="svc__body"><span class="svc__n">03</span><h3>Diagnostic électronique</h3><p>Voyant allumé ? Lecture des codes défaut et explication claire de la panne.</p><span class="svc__price">dès 49 €</span></div>
+          </article>
+          <article class="svc" data-reveal data-tilt>
+            <div class="svc__img"><img src="img/mecano.jpg" alt="" loading="lazy"></div>
+            <div class="svc__body"><span class="svc__n">04</span><h3>Freinage</h3><p>Plaquettes, disques, liquide de frein. Votre sécurité n'attend pas.</p><span class="svc__price">dès 119 €</span></div>
+          </article>
+          <article class="svc" data-reveal data-tilt style="--d:.08s">
+            <div class="svc__img"><img src="img/atelier.jpg" alt="" loading="lazy"></div>
+            <div class="svc__body"><span class="svc__n">05</span><h3>Distribution &amp; embrayage</h3><p>Kits de distribution et embrayages remplacés avec pièces d'origine ou équivalentes.</p><span class="svc__price">sur devis</span></div>
+          </article>
+          <article class="svc" data-reveal data-tilt style="--d:.16s">
+            <div class="svc__img"><img src="img/suv.jpg" alt="" loading="lazy"></div>
+            <div class="svc__body"><span class="svc__n">06</span><h3>Pré-contrôle technique</h3><p>On vérifie tout avant le contrôle pour éviter la contre-visite.</p><span class="svc__price">dès 39 €</span></div>
+          </article>
+        </div>
+        <p class="note">Tarifs fictifs · site de démonstration</p>
+      </div>
+    </section>
+
+    <!-- DEVIS EXPRESS -->
+    <section class="quote" id="devis">
+      <div class="wrap quote__grid">
+        <div class="quote__intro">
+          <p class="kicker" data-reveal>Devis express</p>
+          <h2 class="h2 h2--light" data-lines><span>Votre prix</span><span><em>en 30 secondes.</em></span></h2>
+          <p class="quote__lead" data-reveal style="--d:.2s">Entrez votre plaque, choisissez l'intervention : on vous donne une estimation immédiate. Le prix final est confirmé avant toute réparation.</p>
+        </div>
+        <div class="qbox" data-reveal style="--d:.1s">
+          <label class="qbox__label" for="plate">1. Votre immatriculation</label>
+          <div class="plate">
+            <span class="plate__eu"><i>★</i>F</span>
+            <input id="plate" maxlength="9" placeholder="AB-123-CD" autocomplete="off" spellcheck="false" aria-label="Plaque d'immatriculation">
+            <span class="plate__dep">69</span>
+          </div>
+          <p class="plate__hint" aria-live="polite">Format français : AB-123-CD</p>
+
+          <p class="qbox__label">2. L'intervention</p>
+          <div class="chips" role="radiogroup" aria-label="Intervention">
+            <button type="button" class="chip is-on" data-min="89" data-max="169" data-label="Vidange &amp; révision" role="radio" aria-checked="true">Vidange</button>
+            <button type="button" class="chip" data-min="119" data-max="289" data-label="Freinage" role="radio" aria-checked="false">Freins</button>
+            <button type="button" class="chip" data-min="49" data-max="89" data-label="Diagnostic" role="radio" aria-checked="false">Diagnostic</button>
+            <button type="button" class="chip" data-min="390" data-max="890" data-label="Distribution" role="radio" aria-checked="false">Distribution</button>
+            <button type="button" class="chip" data-min="25" data-max="60" data-label="Pneus (par pneu, pose)" role="radio" aria-checked="false">Pneus</button>
+          </div>
+
+          <div class="gauge">
+            <svg viewBox="0 0 200 120" aria-hidden="true">
+              <path class="gauge__track" d="M20 110 A80 80 0 0 1 180 110"/>
+              <path class="gauge__fill" d="M20 110 A80 80 0 0 1 180 110"/>
+              <g class="gauge__ticks"></g>
+              <g class="gauge__needle"><line x1="100" y1="110" x2="100" y2="42"/><circle cx="100" cy="110" r="7"/></g>
+            </svg>
+            <div class="gauge__read">
+              <small class="gauge__label">Vidange &amp; révision</small>
+              <p><b class="q-min">89</b> – <b class="q-max">169</b> €</p>
+              <small class="gauge__car">Pièces et main d'œuvre · TTC</small>
+            </div>
+          </div>
+          <a href="#rdv" class="btn btn--orange btn--block" data-magnetic>Réserver ce créneau</a>
+          <p class="note note--light">Estimation fictive · site de démonstration</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ATELIER -->
+    <section class="shop" id="atelier">
+      <div class="wrap shop__grid">
+        <div class="shop__media">
+          <figure class="clip" data-reveal><img src="img/atelier.jpg" alt="L'atelier et ses outils" loading="lazy"></figure>
+          <figure class="clip clip--b" data-reveal style="--d:.15s" data-parallax="-0.08"><img src="img/mecano.jpg" alt="Un mécanicien au travail" loading="lazy"></figure>
+          <div class="badge" aria-hidden="true"><b>18</b><span>ans<br>d'expertise</span></div>
+        </div>
+        <div>
+          <p class="kicker" data-reveal>L'atelier</p>
+          <h2 class="h2" data-lines><span>Des mécaniciens</span><span><em>passionnés.</em></span></h2>
+          <p class="shop__text" data-reveal style="--d:.15s">Chez Delta Auto, chaque voiture est traitée comme la nôtre. Matériel de diagnostic constructeur, pièces garanties et un principe simple : on ne touche à rien sans votre accord.</p>
+          <ul class="checks" data-reveal style="--d:.25s">
+            <li>Devis gratuit et détaillé avant intervention</li>
+            <li>Pièces d'origine ou qualité équivalente</li>
+            <li>Garantie 12 mois pièces et main d'œuvre</li>
+            <li>Véhicule de prêt sur réservation</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="road">
+      <div class="wrap">
+        <div class="head head--center">
+          <p class="kicker" data-reveal>Comment ça marche</p>
+          <h2 class="h2" data-lines><span>Simple comme <em>un contact.</em></span></h2>
+        </div>
+        <div class="road__track">
+          <div class="road__line" aria-hidden="true"><i></i><span class="road__car">🚗</span></div>
+          <div class="road__steps">
+            <div class="rstep"><b>1</b><h3>Réservez</h3><p>En ligne ou par téléphone, en 30 secondes.</p></div>
+            <div class="rstep"><b>2</b><h3>Déposez</h3><p>Diagnostic et devis validé avec vous.</p></div>
+            <div class="rstep"><b>3</b><h3>On répare</h3><p>Suivi par SMS pendant l'intervention.</p></div>
+            <div class="rstep"><b>4</b><h3>Récupérez</h3><p>Voiture prête, facture détaillée.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AVIS -->
+    <section class="reviews">
+      <div class="wrap">
+        <div class="head">
+          <p class="kicker" data-reveal>Avis clients</p>
+          <h2 class="h2 h2--light" data-lines><span>Ils nous confient</span><span><em>leur voiture.</em></span></h2>
+        </div>
+        <div class="rev-grid">
+          <figure class="rev" data-reveal><p class="rev__stars">★★★★★</p><blockquote>« Devis respecté à l'euro près, voiture prête le soir même. Enfin un garage honnête. »</blockquote><figcaption>Mehdi · Vénissieux</figcaption></figure>
+          <figure class="rev" data-reveal style="--d:.1s"><p class="rev__stars">★★★★★</p><blockquote>« Ils m'ont expliqué la panne avec des photos avant de réparer. Très rassurant. »</blockquote><figcaption>Céline · Saint-Fons</figcaption></figure>
+          <figure class="rev" data-reveal style="--d:.2s"><p class="rev__stars">★★★★★</p><blockquote>« Pneus changés en 40 minutes sans rendez-vous. Accueil au top. »</blockquote><figcaption>Julien · Lyon 8ᵉ</figcaption></figure>
+        </div>
+        <p class="note note--light">Exemples d'avis · site de démonstration</p>
+      </div>
+    </section>
+
+    <!-- RDV -->
+    <section class="rdv" id="rdv">
+      <div class="wrap rdv__grid">
+        <div>
+          <p class="kicker" data-reveal>Rendez-vous</p>
+          <h2 class="h2" data-lines><span>Réservez votre</span><span><em>créneau.</em></span></h2>
+          <p class="rdv__text" data-reveal style="--d:.15s">Choisissez votre jour, on vous rappelle pour confirmer l'heure de dépôt.</p>
+          <a class="phone" href="#rdv" data-reveal style="--d:.25s"><span>☎</span>04 00 00 00 00 <small>(numéro fictif)</small></a>
+        </div>
+        <form class="rform" data-reveal style="--d:.1s" novalidate>
+          <div class="rform__row">
+            <label><span>Nom</span><input name="nom" placeholder="Votre nom" required></label>
+            <label><span>Téléphone</span><input name="tel" type="tel" placeholder="06 …" required></label>
+          </div>
+          <div class="rform__row">
+            <label><span>Véhicule</span><input name="vehicule" placeholder="Ex. Clio 4, 2017"></label>
+            <label><span>Intervention</span><select name="type"><option>Vidange &amp; révision</option><option>Freinage</option><option>Pneus</option><option>Diagnostic</option><option>Autre</option></select></label>
+          </div>
+          <p class="rform__label">Jour souhaité</p>
+          <div class="days"></div>
+          <button type="submit" class="btn btn--orange btn--block" data-magnetic>Demander ce rendez-vous</button>
+          <p class="rform__msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- INFOS -->
+    <section class="infos" id="infos">
+      <div class="wrap infos__grid">
+        <div data-reveal>
+          <p class="kicker">Horaires</p>
+          <ul class="hours">
+            <li><span>Lundi – Vendredi</span><b>8h – 12h · 13h30 – 18h30</b></li>
+            <li><span>Samedi</span><b>8h – 12h</b></li>
+            <li><span>Dimanche</span><b>Fermé</b></li>
+          </ul>
+          <p class="kicker infos__k">Adresse</p>
+          <p class="infos__addr">Vénissieux, zone artisanale<br><small>(adresse fictive — site de démonstration)</small></p>
+        </div>
+        <div class="map" data-reveal style="--d:.1s">
+          <iframe title="Carte Google Maps : Vénissieux" src="https://www.google.com/maps?q=V%C3%A9nissieux%2C%20France&amp;z=13&amp;hl=fr&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <span class="logo logo--foot"><span class="logo__txt">Delta<em>Auto</em></span></span>
+      <p>Site de démonstration réalisé par <a href="/">Vortex</a> · Création de sites web à Lyon</p>
+    </div>
+  </footer>
+
+  <a href="#rdv" class="callbar">☎ Appeler · Prendre RDV</a>
+
+  <script src="main.js"></script>
+</body>
+</html>
