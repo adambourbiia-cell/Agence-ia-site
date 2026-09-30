@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Devis / Facture — Vortex</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --ink: #0d1016; --muted: #5f6878; --teal: #1a9fb0; --line: #e3e6eb; --bg: #eef1f5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.5; }
+    .bar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; padding: 12px 16px; background: #0f1117; color: #c6ccd6; font-size: 13px; }
+    .bar select, .bar button { font: inherit; padding: 9px 14px; border-radius: 8px; border: 1px solid #2c3340; background: #171c27; color: #fff; cursor: pointer; }
+    .bar button.primary { background: var(--teal); border-color: var(--teal); font-weight: 600; }
+    .bar small { width: 100%; text-align: center; color: #7e8898; }
+    .sheet { width: 210mm; min-height: 297mm; margin: 24px auto; padding: 16mm; background: #fff; box-shadow: 0 20px 50px -30px rgba(0,0,0,.4); }
+    [contenteditable] { outline: none; border-radius: 4px; transition: background-color .2s; }
+    [contenteditable]:hover { background: #f1fbfc; }
+    [contenteditable]:focus { background: #e3f6f8; }
+    .top { display: flex; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: Syne, sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -.03em; }
+    .brand svg { width: 34px; height: 34px; }
+    .doc-title { text-align: right; }
+    .doc-title h1 { margin: 0; font-family: Syne, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -.02em; color: var(--teal); text-transform: uppercase; }
+    .doc-title p { margin: 2px 0; color: var(--muted); }
+    .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 30px; }
+    .box { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; }
+    .box h2 { margin: 0 0 6px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+    th { text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 10px 8px; border-bottom: 2px solid var(--ink); }
+    td { padding: 12px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    td.num, th.num { text-align: right; white-space: nowrap; }
+    .del { border: 0; background: none; color: #c0392b; cursor: pointer; font-size: 16px; }
+    .add { margin: 0 0 20px; font: inherit; border: 1px dashed var(--teal); background: none; color: var(--teal); padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+    .totals { margin-left: auto; width: 300px; }
+    .totals div { display: flex; justify-content: space-between; padding: 7px 0; }
+    .totals .grand { border-top: 2px solid var(--ink); margin-top: 6px; padding-top: 12px; font-weight: 700; font-size: 18px; }
+    .mention { margin-top: 4px; font-size: 12px; color: var(--muted); text-align: right; }
+    .pay { margin-top: 30px; padding: 14px 16px; border-radius: 10px; background: #f3fafb; border: 1px solid #cdeef2; }
+    .pay h2 { margin: 0 0 6px; font-size: 13px; }
+    .legal { margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+    .sign { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 30px; }
+    .sign div { height: 90px; border: 1px dashed var(--line); border-radius: 10px; padding: 10px; font-size: 12px; color: var(--muted); }
+    .only-devis, .only-facture { display: none; }
+    body.devis .only-devis, body.facture .only-facture { display: block; }
+    @media print {
+      @page { size: A4; margin: 0; }
+      body { background: #fff; }
+      .bar, .add, .del { display: none !important; }
+      .sheet { margin: 0; box-shadow: none; }
+      [contenteditable]:hover, [contenteditable]:focus { background: none; }
+    }
+    @media (max-width: 860px) { .sheet { width: auto; min-height: 0; margin: 12px; padding: 20px; } .parties { grid-template-columns: 1fr; } .top { flex-direction: column; } .doc-title { text-align: left; } }
+  </style>
+</head>
+<body class="facture">
+  <div class="bar">
+    <select id="type" aria-label="Type de document"><option value="facture">Facture</option><option value="devis">Devis</option></select>
+    <button id="reset">Nouveau document</button>
+    <button id="print" class="primary">Télécharger en PDF / Imprimer</button>
+    <small>Clique sur n'importe quel texte pour le modifier · sauvegarde automatique dans ce navigateur · « Imprimer » puis « Enregistrer en PDF »</small>
+  </div>
+
+  <div class="sheet">
+    <div class="top">
+      <div>
+        <div class="brand"><svg viewBox="0 0 32 32" fill="none" stroke="#0d1016" stroke-width="2.6" stroke-linecap="round"><path d="M16 3a13 13 0 0 1 12.2 8.5"/><path d="M29 16a13 13 0 0 1-8.5 12.2"/><path d="M16 29A13 13 0 0 1 3.8 20.5"/><path d="M3 16a13 13 0 0 1 8.5-12.2"/><circle cx="16" cy="16" r="4.5" fill="#22c1d3" stroke="none"/></svg>vortex</div>
+        <p data-k="emetteur" contenteditable style="margin:10px 0 0">[Prénom] Gallardo — EI<br>16 avenue Danielle Casanova, 69700 Givors<br>SIRET : 912 177 193 00014<br>vortex.twitch.live@gmail.com · [téléphone]</p>
+      </div>
+      <div class="doc-title">
+        <h1 id="docname">Facture</h1>
+        <p>N° <span data-k="numero" contenteditable>2026-001</span></p>
+        <p>Date : <span data-k="date" contenteditable></span></p>
+        <p class="only-devis">Valable jusqu'au : <span data-k="validite" contenteditable></span></p>
+        <p class="only-facture">Date de la prestation : <span data-k="dateprest" contenteditable></span></p>
+      </div>
+    </div>
+
+    <div class="parties">
+      <div class="box"><h2>Client</h2><div data-k="client" contenteditable>[Nom du client / entreprise]<br>[Adresse]<br>[Code postal, ville]<br>[E-mail]</div></div>
+      <div class="box"><h2>Objet</h2><div data-k="objet" contenteditable>Création d'un site web vitrine</div></div>
+    </div>
+
+    <table>
+      <thead><tr><th>Description</th><th class="num">Qté</th><th class="num">Prix unitaire</th><th class="num">Total</th><th></th></tr></thead>
+      <tbody id="lines"></tbody>
+    </table>
+    <button class="add" id="add">+ Ajouter une ligne</button>
+
+    <div class="totals">
+      <div><span>Total HT</span><span id="ht">0,00 €</span></div>
+      <div><span>TVA</span><span>0,00 €</span></div>
+      <div class="grand"><span>Total TTC</span><span id="ttc">0,00 €</span></div>
+      <div class="only-facture"><div><span>Acompte déjà versé</span><span data-k="acompte" contenteditable>0,00 €</span></div></div>
+      <p class="mention">TVA non applicable, art. 293 B du CGI</p>
+    </div>
+
+    <div class="pay">
+      <h2>Modalités de paiement</h2>
+      <div data-k="paiement" contenteditable>Acompte de 50 % à la commande, solde à la livraison avant mise en ligne.<br>Par virement (IBAN : [ton IBAN]) ou par carte via le lien de paiement envoyé par e-mail.</div>
+    </div>
+
+    <div class="sign only-devis">
+      <div>Bon pour accord — date et signature du client</div>
+      <div>Vortex</div>
+    </div>
+
+    <div class="legal only-facture">
+      Paiement à réception. En cas de retard de paiement, des pénalités au taux de 3 fois le taux d'intérêt légal sont applicables, ainsi qu'une indemnité forfaitaire de 40 € pour frais de recouvrement (art. L441-10 du Code de commerce, applicable aux clients professionnels). Pas d'escompte pour paiement anticipé.
+    </div>
+    <div class="legal only-devis">
+      Devis gratuit. Les travaux débutent à réception du devis signé et de l'acompte.
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    const KEY = 'vortex-invoice-v1';
+    const eur = (n) => n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    const parse = (s) => parseFloat(String(s).replace(/\s|€/g, '').replace(',', '.')) || 0;
+    const today = () => new Date().toLocaleDateString('fr-FR');
+    const plus = (d) => { const x = new Date(); x.setDate(x.getDate() + d); return x.toLocaleDateString('fr-FR'); };
+    const defaults = { lines: [{ d: 'Création de site web vitrine : design sur mesure, adaptation mobile, référencement de base, formulaire de contact, mise en ligne', q: 1, p: 250 }] };
+    let state = {};
+    try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+    const tbody = document.getElementById('lines');
+    const save = () => {
+      document.querySelectorAll('[data-k]').forEach((el) => { state[el.dataset.k] = el.innerHTML; });
+      state.lines = [...tbody.rows].map((r) => ({ d: r.cells[0].innerHTML, q: parse(r.cells[1].textContent), p: parse(r.cells[2].textContent) }));
+      state.type = document.getElementById('type').value;
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    };
+    const recalc = () => {
+      let total = 0;
+      [...tbody.rows].forEach((r) => { const t = parse(r.cells[1].textContent) * parse(r.cells[2].textContent); r.cells[3].textContent = eur(t); total += t; });
+      document.getElementById('ht').textContent = eur(total);
+      document.getElementById('ttc').textContent = eur(total);
+    };
+    const addLine = (l) => {
+      const tr = tbody.insertRow();
+      tr.innerHTML = `<td contenteditable>${l.d}</td><td class="num" contenteditable>${l.q}</td><td class="num" contenteditable>${eur(l.p)}</td><td class="num"></td><td><button class="del" title="Supprimer">×</button></td>`;
+      tr.querySelector('.del').onclick = () => { tr.remove(); recalc(); save(); };
+    };
+    const load = () => {
+      document.querySelectorAll('[data-k]').forEach((el) => { if (state[el.dataset.k] != null) el.innerHTML = state[el.dataset.k]; });
+      if (!state.date) document.querySelector('[data-k=date]').textContent = today();
+      if (!state.validite) document.querySelector('[data-k=validite]').textContent = plus(30);
+      if (!state.dateprest) document.querySelector('[data-k=dateprest]').textContent = today();
+      tbody.innerHTML = '';
+      (state.lines && state.lines.length ? state.lines : defaults.lines).forEach(addLine);
+      setType(state.type || 'facture');
+      recalc();
+    };
+    const setType = (t) => {
+      document.getElementById('type').value = t;
+      document.body.className = t;
+      document.getElementById('docname').textContent = t === 'devis' ? 'Devis' : 'Facture';
+      document.title = (t === 'devis' ? 'Devis ' : 'Facture ') + (document.querySelector('[data-k=numero]').textContent || '') + ' — Vortex';
+    };
+    document.getElementById('type').onchange = (e) => { setType(e.target.value); save(); };
+    document.getElementById('add').onclick = () => { addLine({ d: 'Nouvelle prestation', q: 1, p: 0 }); recalc(); save(); };
+    document.getElementById('print').onclick = () => { save(); window.print(); };
+    document.getElementById('reset').onclick = () => {
+      if (!confirm('Créer un nouveau document ? Le client et les lignes seront effacés (tes coordonnées sont conservées).')) return;
+      const keep = { emetteur: state.emetteur, paiement: state.paiement, type: state.type };
+      const n = (state.numero || '2026-000').match(/(\d+)$/);
+      state = { ...keep, numero: n ? (state.numero || '').replace(/\d+$/, String(+n[1] + 1).padStart(n[1].length, '0')) : '' };
+      load(); save();
+    };
+    document.addEventListener('input', () => { recalc(); save(); });
+    load();
+  })();
+  </script>
+</body>
+</html>
