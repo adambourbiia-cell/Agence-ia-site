@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Prospection — Vortex</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg: #0f1117; --card: #171c27; --line: rgba(255,255,255,.1); --teal: #22c1d3; --teal-d: #1a9fb0; --muted: #9aa3b2; --ok: #3ddc84; --warn: #ffb020; --no: #ff6b6b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font-family: Inter, system-ui, sans-serif; font-size: 15px; line-height: 1.5; }
+    header { position: sticky; top: 0; z-index: 5; padding: 14px 16px; background: rgba(15,17,23,.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    h1 { margin: 0 0 10px; font-family: Syne, sans-serif; font-size: 22px; }
+    h1 em { font-style: normal; color: var(--teal); }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    input, select, textarea { font: inherit; color: #fff; background: #0b0e14; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--teal); }
+    .stats { display: flex; gap: 14px; margin-top: 10px; font-size: 13px; color: var(--muted); }
+    .stats b { color: #fff; }
+    main { max-width: 760px; margin: 0 auto; padding: 16px; display: grid; gap: 12px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+    .card.done { opacity: .55; }
+    .top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+    .name { font-weight: 700; font-size: 17px; }
+    .meta { font-size: 13px; color: var(--muted); }
+    .pill { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; background: rgba(255,255,255,.08); }
+    .pill.s-envoye { background: rgba(34,193,211,.15); color: var(--teal); }
+    .pill.s-relance { background: rgba(255,176,32,.15); color: var(--warn); }
+    .pill.s-interesse, .pill.s-client { background: rgba(61,220,132,.15); color: var(--ok); }
+    .pill.s-refus, .pill.s-stop { background: rgba(255,107,107,.15); color: var(--no); }
+    textarea { width: 100%; min-height: 118px; margin: 12px 0 10px; resize: vertical; font-size: 14px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: rgba(255,255,255,.05); color: #fff; font: inherit; font-weight: 600; font-size: 14px; text-decoration: none; cursor: pointer; }
+    .btn.primary { background: linear-gradient(180deg, var(--teal), var(--teal-d)); border-color: transparent; }
+    .btn.wa { background: #1faa55; border-color: transparent; }
+    .btn[aria-disabled="true"] { opacity: .4; pointer-events: none; }
+    .btn.small { padding: 7px 10px; font-size: 13px; }
+    details { margin-top: 4px; }
+    summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+    .add { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .add input, .add select { width: 100%; }
+    .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    @media (max-width: 560px) { .add { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Prospection <em>Vortex</em></h1>
+    <div class="row">
+      <select id="tpl" aria-label="Modèle de message">
+        <option value="first">1er message</option>
+        <option value="relance">Relance (3-5 jours après)</option>
+      </select>
+      <input id="me" placeholder="Ton prénom" size="10" aria-label="Ton prénom">
+      <select id="filter" aria-label="Filtre">
+        <option value="todo">À contacter / relancer</option>
+        <option value="all">Tous</option>
+      </select>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <main id="list"></main>
+
+  <main>
+    <div class="card">
+      <details>
+        <summary>+ Ajouter un prospect</summary>
+        <div class="add">
+          <input id="a-name" placeholder="Nom de l'entreprise">
+          <input id="a-phone" placeholder="Téléphone" inputmode="tel">
+          <select id="a-job"><option value="artisan">Artisan (plombier, électricien…)</option><option value="coiffure">Coiffeur / beauté</option><option value="restaurant">Restaurant</option><option value="garage">Garage</option><option value="commerce">Commerce</option></select>
+          <input id="a-city" placeholder="Ville" value="Givors">
+          <button class="btn primary" id="a-add" type="button">Ajouter</button>
+        </div>
+      </details>
+      <p class="hint">Tout est enregistré dans ce navigateur uniquement. Chaque message contient « STOP » pour se désinscrire : respecte toujours un refus.</p>
+    </div>
+  </main>
+
+  <script>
+  (() => {
+    const KEY = 'vortex-prospects-v1';
+    const SITE = 'https://ligne-studio-web.netlify.app';
+    const DEMO = { artisan: '/demo/artisan/', coiffure: '/demo/coiffure/', restaurant: '/demo/restaurant/', garage: '/demo/garage/', commerce: '/demo/coiffure/' };
+    const LABEL = { artisan: 'votre métier', coiffure: 'un salon de coiffure', restaurant: 'un restaurant', garage: 'un garage', commerce: 'votre commerce' };
+    const seed = [
+      { id: 1, name: 'FAVIER Bruno', job: 'artisan', phone: '0681124284', city: 'Givors', status: 'new' },
+      { id: 2, name: 'Sacha Plomberie', job: 'artisan', phone: '0675099653', city: 'Givors', status: 'new' },
+      { id: 3, name: 'Salon Ricardo Catherine Coiffure', job: 'coiffure', phone: '0478070054', city: 'Givors', status: 'new' },
+      { id: 4, name: 'Hair du Temps', job: 'coiffure', phone: '0478730478', city: 'Givors', status: 'new' },
+      { id: 5, name: 'Aux Ciseaux de Carine', job: 'coiffure', phone: '0478815987', city: 'Givors', status: 'new' },
+      { id: 6, name: 'Salon Pat', job: 'coiffure', phone: '0478730448', city: 'Givors', status: 'new' },
+      { id: 7, name: 'MC Automobiles', job: 'garage', phone: '0458281407', city: 'Vénissieux', status: 'new' },
+    ];
+    const STATUS = { new: 'À contacter', envoye: 'Message envoyé', relance: 'Relancé', interesse: 'Intéressé', client: 'Client ✓', refus: 'Pas intéressé', stop: 'STOP — ne plus contacter' };
+    let db;
+    try { db = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    if (!db) db = { me: '', prospects: seed };
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} };
+    const $ = (s) => document.querySelector(s);
+    $('#me').value = db.me || '';
+    $('#me').oninput = (e) => { db.me = e.target.value.trim(); save(); render(); };
+    $('#tpl').onchange = render; $('#filter').onchange = render;
+
+    const isMobileNumber = (p) => /^0[67]/.test(p.replace(/\D/g, ''));
+    const intl = (p) => { const d = p.replace(/\D/g, ''); return d.startsWith('0') ? '33' + d.slice(1) : d; };
+    const msg = (p) => {
+      const me = db.me || '[ton prénom]';
+      const link = SITE + DEMO[p.job];
+      if ($('#tpl').value === 'relance') {
+        return `Bonjour, c'est ${me} de Vortex. Avez-vous pu regarder l'exemple de site que je vous ai envoyé ? Je peux vous préparer gratuitement une maquette avec le nom « ${p.name} » et vos photos, sans engagement. Bonne journée !\nSTOP pour ne plus être contacté`;
+      }
+      return `Bonjour, je suis ${me}, je crée des sites web pour les pros de ${p.city}. J'ai vu que ${p.name} n'avait pas encore de site : voici un exemple de ce que ça pourrait donner pour ${LABEL[p.job]} 👉 ${link}\nSite clé en main à 250 €, visible sur Google. Intéressé(e) ?\nSTOP pour ne plus être contacté`;
+    };
+
+    function render() {
+      const list = $('#list'); list.innerHTML = '';
+      const todo = $('#filter').value === 'todo';
+      const counts = {}; db.prospects.forEach((p) => { counts[p.status] = (counts[p.status] || 0) + 1; });
+      $('#stats').innerHTML = `<span><b>${db.prospects.length}</b> prospects</span><span><b>${(counts.envoye || 0) + (counts.relance || 0)}</b> contactés</span><span><b>${(counts.interesse || 0) + (counts.client || 0)}</b> intéressés</span>`;
+      db.prospects
+        .filter((p) => !todo || ['new', 'envoye'].includes(p.status))
+        .forEach((p) => {
+          const card = document.createElement('div');
+          card.className = 'card' + (['refus', 'stop', 'client'].includes(p.status) ? ' done' : '');
+          const text = msg(p);
+          const smsHref = `sms:${p.phone.replace(/\s/g, '')}?&body=${encodeURIComponent(text)}`;
+          const waHref = `https://wa.me/${intl(p.phone)}?text=${encodeURIComponent(text)}`;
+          const blocked = p.status === 'stop' || p.status === 'refus';
+          card.innerHTML = `
+            <div class="top"><div><div class="name"></div><div class="meta"></div></div><span class="pill s-${p.status}">${STATUS[p.status]}</span></div>
+            <textarea aria-label="Message"></textarea>
+            <div class="btns">
+              <a class="btn primary" data-act="sms" href="${smsHref}" ${blocked ? 'aria-disabled="true"' : ''}>💬 Envoyer le SMS</a>
+              <a class="btn wa" data-act="wa" href="${waHref}" target="_blank" rel="noopener" ${blocked || !isMobileNumber(p.phone) ? 'aria-disabled="true"' : ''}>WhatsApp</a>
+              <a class="btn" href="tel:${p.phone.replace(/\s/g, '')}">📞 Appeler</a>
+              <select aria-label="Statut">${Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${k === p.status ? 'selected' : ''}>${v}</option>`).join('')}</select>
+              <button class="btn small" data-act="del" type="button" title="Supprimer">🗑</button>
+            </div>
+            ${isMobileNumber(p.phone) ? '' : '<p class="hint">Numéro fixe : le SMS n\'arrivera probablement pas, préfère l\'appel.</p>'}`;
+          card.querySelector('.name').textContent = p.name;
+          card.querySelector('.meta').textContent = `${p.city} · ${p.phone}`;
+          const ta = card.querySelector('textarea'); ta.value = text;
+          ta.oninput = () => {
+            card.querySelector('[data-act=sms]').href = `sms:${p.phone.replace(/\s/g, '')}?&body=${encodeURIComponent(ta.value)}`;
+            card.querySelector('[data-act=wa]').href = `https://wa.me/${intl(p.phone)}?text=${encodeURIComponent(ta.value)}`;
+          };
+          const mark = () => { p.status = $('#tpl').value === 'relance' ? 'relance' : 'envoye'; p.date = new Date().toLocaleDateString('fr-FR'); save(); setTimeout(render, 400); };
+          card.querySelector('[data-act=sms]').addEventListener('click', mark);
+          card.querySelector('[data-act=wa]').addEventListener('click', mark);
+          card.querySelector('select').onchange = (e) => { p.status = e.target.value; save(); render(); };
+          card.querySelector('[data-act=del]').onclick = () => { if (confirm('Supprimer ce prospect ?')) { db.prospects = db.prospects.filter((x) => x !== p); save(); render(); } };
+          list.appendChild(card);
+        });
+      if (!list.children.length) list.innerHTML = '<div class="card">🎉 Plus personne à contacter dans ce filtre.</div>';
+    }
+
+    $('#a-add').onclick = () => {
+      const name = $('#a-name').value.trim(), phone = $('#a-phone').value.trim();
+      if (!name || !phone) { alert('Nom et téléphone obligatoires.'); return; }
+      db.prospects.unshift({ id: Date.now(), name, phone: phone.replace(/\s/g, ''), job: $('#a-job').value, city: $('#a-city').value.trim() || 'Lyon', status: 'new' });
+      $('#a-name').value = ''; $('#a-phone').value = ''; save(); render();
+    };
+    render();
+  })();
+  </script>
+</body>
+</html>
