@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atelier Lune — Salon de coiffure à Lyon (démo Vortex)</title>
+  <meta name="description" content="Site de démonstration réalisé par Vortex : Atelier Lune, salon de coiffure à Lyon 6e.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="demo-bar">
+    <span>Site de démonstration conçu par <strong>Vortex</strong></span>
+    <a href="/#realisations">← Retour à Vortex</a>
+  </div>
+
+  <header class="nav" id="nav">
+    <div class="wrap nav__inner">
+      <a href="#top" class="logo" aria-label="Atelier Lune, accueil">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M21 4.5A12 12 0 1 0 27.5 21 9.5 9.5 0 0 1 21 4.5z"/></svg>
+        <span>Atelier <em>Lune</em></span>
+      </a>
+      <nav class="nav__links" aria-label="Navigation">
+        <a href="#salon">Le salon</a>
+        <a href="#prestations">Prestations</a>
+        <a href="#lookbook">Lookbook</a>
+        <a href="#infos">Infos</a>
+      </nav>
+      <a href="#rdv" class="btn btn--ink btn--sm" data-magnetic>Prendre RDV</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <p class="overline" data-reveal>Salon de coiffure · Lyon 6ᵉ</p>
+          <h1 class="hero__title" data-words>L'art de <em>sublimer</em> vos cheveux.</h1>
+          <p class="hero__lead" data-reveal style="--d:.4s">Coupes, couleurs et soins sur mesure, dans un salon lumineux où l'on prend le temps de vous écouter.</p>
+          <div class="hero__ctas" data-reveal style="--d:.55s">
+            <a href="#rdv" class="btn btn--ink" data-magnetic>Réserver en ligne</a>
+            <a href="#prestations" class="link-arrow">Voir les tarifs <span>→</span></a>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <div class="arch" data-reveal style="--d:.15s"><img src="img/hero.jpg" alt="Une femme aux longs cheveux ondulés, de dos" fetchpriority="high"></div>
+          <a href="#rdv" class="spin-badge" aria-label="Prendre rendez-vous">
+            <svg viewBox="0 0 140 140" aria-hidden="true"><defs><path id="circ" d="M70 70m-52 0a52 52 0 1 1 104 0a52 52 0 1 1-104 0"/></defs><text textLength="318" lengthAdjust="spacing"><textPath href="#circ" textLength="318" lengthAdjust="spacing">réserver en ligne · atelier lune ·</textPath></text></svg>
+            <span>✦</span>
+          </a>
+          <div class="hero__card" data-reveal style="--d:.7s">
+            <span class="hero__stars">★★★★★</span>
+            <b>« Enfin une coiffeuse qui écoute ! »</b>
+            <small>Exemple d'avis · démo</small>
+          </div>
+        </div>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Coupe</span><i>✦</i><span><em>Balayage</em></span><i>✦</i><span>Couleur</span><i>✦</i><span><em>Soin</em></span><i>✦</i><span>Chignon</span><i>✦</i><span><em>Brushing</em></span><i>✦</i>
+          <span>Coupe</span><i>✦</i><span><em>Balayage</em></span><i>✦</i><span>Couleur</span><i>✦</i><span><em>Soin</em></span><i>✦</i><span>Chignon</span><i>✦</i><span><em>Brushing</em></span><i>✦</i>
+        </div>
+      </div>
+    </section>
+
+    <!-- SALON -->
+    <section class="about" id="salon">
+      <div class="wrap about__grid">
+        <div class="about__media">
+          <figure class="about__img about__img--main" data-parallax="-0.06"><img src="img/coiffeuse.jpg" alt="La coiffeuse qui réalise un brushing" loading="lazy"></figure>
+          <figure class="about__img about__img--small" data-parallax="0.08"><img src="img/salon.jpg" alt="L'intérieur du salon" loading="lazy"></figure>
+        </div>
+        <div class="about__text">
+          <p class="overline" data-reveal>Le salon</p>
+          <h2 class="h2" data-words>Bonjour, moi c'est <em>Léa.</em></h2>
+          <p data-reveal style="--d:.15s">Coiffeuse passionnée depuis plus de dix ans, j'ai ouvert l'Atelier Lune pour offrir un moment à part : un diagnostic personnalisé, des produits respectueux et des conseils pour prendre soin de vos cheveux à la maison.</p>
+          <p data-reveal style="--d:.25s">Ici, pas de chaîne : une seule cliente à la fois, un café, et tout le temps qu'il faut.</p>
+          <ul class="stats" data-reveal style="--d:.35s">
+            <li><b><span data-count="10">0</span>+</b><span>ans de métier</span></li>
+            <li><b><span data-count="100">0</span>%</b><span>produits vegan</span></li>
+            <li><b>1</b><span>cliente à la fois</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRESTATIONS -->
+    <section class="services" id="prestations">
+      <div class="wrap">
+        <div class="services__head">
+          <div>
+            <p class="overline" data-reveal>Prestations &amp; tarifs</p>
+            <h2 class="h2" data-words>Une carte <em>sur mesure.</em></h2>
+          </div>
+          <div class="tabs" role="tablist" data-reveal style="--d:.15s">
+            <button role="tab" aria-selected="true" data-tab="femme">Femme</button>
+            <button role="tab" aria-selected="false" data-tab="couleur">Couleur</button>
+            <button role="tab" aria-selected="false" data-tab="homme">Homme</button>
+            <button role="tab" aria-selected="false" data-tab="soins">Soins</button>
+            <span class="tabs__ink" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="services__body">
+          <div class="services__img" data-reveal><img src="img/brushing.jpg" alt="" class="is-on" data-for="femme" loading="lazy"><img src="img/couleur.jpg" alt="" data-for="couleur" loading="lazy"><img src="img/homme.jpg" alt="" data-for="homme" loading="lazy"><img src="img/soin.jpg" alt="" data-for="soins" loading="lazy"></div>
+          <div class="prices">
+            <ul class="plist is-on" data-panel="femme">
+              <li><div><h3>Shampoing, coupe &amp; brushing</h3><p>Cheveux courts à mi-longs</p></div><b>45 €</b></li>
+              <li><div><h3>Shampoing, coupe &amp; brushing</h3><p>Cheveux longs</p></div><b>55 €</b></li>
+              <li><div><h3>Brushing seul</h3><p>Lisse ou wavy</p></div><b>28 €</b></li>
+              <li><div><h3>Chignon &amp; coiffure d'événement</h3><p>Mariage, soirée, essai inclus</p></div><b>dès 65 €</b></li>
+            </ul>
+            <ul class="plist" data-panel="couleur">
+              <li><div><h3>Couleur racines</h3><p>Coloration végétale ou classique</p></div><b>48 €</b></li>
+              <li><div><h3>Balayage</h3><p>Effet naturel, soin patine inclus</p></div><b>dès 95 €</b></li>
+              <li><div><h3>Mèches</h3><p>Partielles ou complètes</p></div><b>dès 75 €</b></li>
+              <li><div><h3>Couleur fantaisie</h3><p>Pastel, cuivré, lavande…</p></div><b>sur devis</b></li>
+            </ul>
+            <ul class="plist" data-panel="homme">
+              <li><div><h3>Coupe homme</h3><p>Shampoing et coiffage</p></div><b>26 €</b></li>
+              <li><div><h3>Coupe &amp; barbe</h3><p>Taille et contours</p></div><b>35 €</b></li>
+              <li><div><h3>Coupe enfant</h3><p>Moins de 12 ans</p></div><b>18 €</b></li>
+            </ul>
+            <ul class="plist" data-panel="soins">
+              <li><div><h3>Soin profond</h3><p>Masque et massage du cuir chevelu</p></div><b>20 €</b></li>
+              <li><div><h3>Rituel détente</h3><p>Diagnostic, soin, massage 20 min</p></div><b>39 €</b></li>
+              <li><div><h3>Lissage brésilien</h3><p>Selon longueur</p></div><b>dès 150 €</b></li>
+            </ul>
+            <p class="prices__note">Tarifs fictifs · site de démonstration</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="booking" id="rdv">
+      <div class="wrap booking__grid">
+        <div class="booking__intro">
+          <p class="overline overline--light" data-reveal>Réservation en ligne</p>
+          <h2 class="h2 h2--light" data-words>Votre rendez-vous <em>en 30 secondes.</em></h2>
+          <p data-reveal style="--d:.2s">Choisissez votre prestation, votre jour et votre créneau. Vous recevez une confirmation immédiate.</p>
+        </div>
+        <div class="book" data-reveal style="--d:.1s">
+          <div class="book__step">
+            <p class="book__label"><span>1</span> Prestation</p>
+            <div class="pills" data-group="service">
+              <button type="button" class="pill is-on" data-value="Coupe &amp; brushing" data-dur="1h">Coupe &amp; brushing</button>
+              <button type="button" class="pill" data-value="Balayage" data-dur="2h30">Balayage</button>
+              <button type="button" class="pill" data-value="Couleur racines" data-dur="1h30">Couleur</button>
+              <button type="button" class="pill" data-value="Coupe homme" data-dur="30 min">Coupe homme</button>
+              <button type="button" class="pill" data-value="Rituel détente" data-dur="45 min">Soin</button>
+            </div>
+          </div>
+          <div class="book__step">
+            <p class="book__label"><span>2</span> Jour</p>
+            <div class="days" data-group="day"></div>
+          </div>
+          <div class="book__step">
+            <p class="book__label"><span>3</span> Créneau</p>
+            <div class="slots" data-group="slot"></div>
+          </div>
+          <div class="book__summary">
+            <div><small>Votre rendez-vous</small><p class="book__recap">Coupe &amp; brushing · choisissez un créneau</p></div>
+            <button type="button" class="btn btn--rose" data-magnetic disabled>Confirmer</button>
+          </div>
+          <p class="book__msg" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOOKBOOK -->
+    <section class="look" id="lookbook">
+      <div class="wrap">
+        <div class="look__head">
+          <p class="overline" data-reveal>Lookbook</p>
+          <h2 class="h2" data-words>Quelques <em>inspirations.</em></h2>
+        </div>
+        <div class="masonry">
+          <button class="shot shot--tall" data-reveal><img src="img/boucles.jpg" alt="Cheveux bouclés naturels" loading="lazy"><span>Boucles naturelles</span></button>
+          <button class="shot" data-reveal style="--d:.08s"><img src="img/couleur.jpg" alt="Couleur lavande" loading="lazy"><span>Couleur lavande</span></button>
+          <button class="shot shot--tall" data-reveal style="--d:.16s"><img src="img/chignon.jpg" alt="Chignon d'événement" loading="lazy"><span>Chignon d'événement</span></button>
+          <button class="shot shot--tall" data-reveal style="--d:.08s"><img src="img/hero.jpg" alt="Ondulations wavy" loading="lazy"><span>Wavy</span></button>
+          <button class="shot" data-reveal><img src="img/brushing.jpg" alt="Brushing" loading="lazy"><span>Brushing</span></button>
+          <button class="shot" data-reveal style="--d:.08s"><img src="img/shampoing.jpg" alt="Le bac à shampoing" loading="lazy"><span>Rituel soin</span></button>
+        </div>
+      </div>
+      <div class="lightbox" aria-hidden="true"><img alt=""><button class="lightbox__close" aria-label="Fermer">×</button></div>
+    </section>
+
+    <!-- AVIS -->
+    <section class="reviews">
+      <div class="wrap reviews__inner">
+        <div class="quotes">
+          <blockquote class="q is-on">« Léa a su exactement quoi faire de mes cheveux. Un balayage lumineux et naturel, je suis ravie. »<cite>Emma · Lyon 6ᵉ</cite></blockquote>
+          <blockquote class="q">« Un vrai moment de détente, le massage pendant le soin est incroyable. »<cite>Julie · Villeurbanne</cite></blockquote>
+          <blockquote class="q">« Coupe parfaite, conseils précieux et salon magnifique. Je ne vais plus ailleurs. »<cite>Sarah · Lyon 3ᵉ</cite></blockquote>
+        </div>
+        <div class="dots" role="tablist" aria-label="Avis"><button class="is-on" aria-label="Avis 1"></button><button aria-label="Avis 2"></button><button aria-label="Avis 3"></button></div>
+        <p class="reviews__note">Exemples d'avis · site de démonstration</p>
+      </div>
+    </section>
+
+    <!-- INFOS -->
+    <section class="infos" id="infos">
+      <div class="wrap infos__grid">
+        <div data-reveal>
+          <p class="overline">Horaires</p>
+          <ul class="hours">
+            <li><span>Mardi – Vendredi</span><b>9h30 – 19h</b></li>
+            <li><span>Samedi</span><b>9h – 17h</b></li>
+            <li><span>Dimanche – Lundi</span><b>Fermé</b></li>
+          </ul>
+          <p class="overline infos__k">Adresse</p>
+          <p class="infos__addr">Lyon 6ᵉ, quartier Brotteaux<br><small>(adresse fictive — site de démonstration)</small></p>
+        </div>
+        <div class="infos__map" data-reveal style="--d:.1s">
+          <iframe title="Carte Google Maps : Brotteaux, Lyon 6e" src="https://www.google.com/maps?q=Brotteaux%2C%2069006%20Lyon&amp;z=15&amp;hl=fr&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <span class="logo logo--foot"><span>Atelier <em>Lune</em></span></span>
+      <p>Site de démonstration réalisé par <a href="/">Vortex</a> · Création de sites web à Lyon</p>
+    </div>
+  </footer>
+
+  <a href="#rdv" class="rdv-bar">Prendre rendez-vous</a>
+
+  <script src="main.js"></script>
+</body>
+</html>
