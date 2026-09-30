@@ -173,6 +173,11 @@ button, input, select { font: inherit; }
 .infos__k2 { margin-top: 48px; }
 .infos__addr { font-family: var(--serif); font-size: 26px; line-height: 1.3; }
 .infos__addr small { font-family: var(--sans); font-size: 13px; color: var(--muted); }
+.map { position: relative; margin-top: 28px; border-radius: 6px; overflow: hidden; height: 300px; border: 1px solid rgba(34,28,24,.15); }
+.map iframe { width: 100%; height: 100%; border: 0; display: block; filter: grayscale(1) sepia(.25) contrast(1.05); transition: filter .6s var(--ease); }
+.map:hover iframe { filter: none; }
+.map__cta { position: absolute; right: 12px; bottom: 12px; padding: 9px 16px; border-radius: 999px; font-size: 14px; font-weight: 500; background: var(--ember); color: #fff; transition: background-color .25s, transform .35s var(--ease-out); }
+.map__cta:hover { background: var(--ember-2); transform: translateY(-2px); }
 .resa { background: var(--char); color: var(--cream); border-radius: 6px; padding: 42px; display: grid; gap: 18px; position: relative; overflow: hidden; }
 .resa::before { content: ""; position: absolute; right: -80px; top: -80px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(217,97,43,.35), transparent 70%); animation: glow 5s ease-in-out infinite; pointer-events: none; }
 @keyframes glow { 50% { transform: scale(1.25); opacity: .6; } }
