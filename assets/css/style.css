@@ -124,6 +124,12 @@ svg { display: block; }
 .hero__lead { margin-top: 26px; color: var(--muted); font-size: clamp(16px, 1.4vw, 18px); max-width: 640px; }
 .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
 
+.hero__stats { display: flex; margin-top: 40px; border: 1px solid var(--line-2); border-radius: 14px; background: rgba(255,255,255,.03); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.hstat { display: grid; gap: 2px; padding: 14px 30px; text-align: center; transition: background-color .3s; }
+.hstat + .hstat { border-left: 1px solid var(--line-2); }
+.hstat:hover { background: rgba(34,193,211,.06); }
+.hstat strong { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1.1; color: var(--teal-2); font-variant-numeric: tabular-nums; }
+.hstat > span { font-size: 13px; color: var(--muted); }
 .horizon { position: relative; flex: 1; min-height: 260px; margin-top: 40px; pointer-events: none; }
 .horizon__planet {
   position: absolute; left: 50%; top: 60px; width: 220vw; height: 220vw; max-width: 3200px; max-height: 3200px;
@@ -315,6 +321,9 @@ svg { display: block; }
   .hero { padding-top: 130px; }
   .hero__ctas { flex-direction: column; width: 100%; }
   .hero__ctas .btn { width: 100%; }
+  .hero__stats { width: 100%; }
+  .hstat { flex: 1; padding: 12px 10px; }
+  .hstat strong { font-size: 24px; }
   .horizon { min-height: 220px; }
   .sectors { bottom: 48px; }
   .sectors__track span { font-size: 17px; padding: 0 18px; }
