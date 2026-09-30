@@ -3,449 +3,223 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vortex — Création de sites web</title>
-  <meta name="description" content="Vortex conçoit, design et développe des sites web rapides, élégants et pensés pour convertir. Sites vitrines, e-commerce, applications web.">
+  <title>Vortex — Création de sites web à Lyon</title>
+  <meta name="description" content="Vortex crée le site web des artisans, restaurants et commerçants de Lyon. Création, référencement et maintenance, site clé en main à 250 €.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
-  <!-- ============ NAV ============ -->
-  <header class="nav" id="nav">
-    <div class="container nav__inner">
-      <a href="#top" class="wordmark" aria-label="Vortex, accueil">
-        <span class="wordmark__mark" aria-hidden="true"></span>vortex
+  <!-- ============ HEADER ============ -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#top" class="logo" aria-label="Vortex, accueil">
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5" /><path d="M29 16a13 13 0 0 1-8.5 12.2" /><path d="M16 29A13 13 0 0 1 3.8 20.5" /><path d="M3 16a13 13 0 0 1 8.5-12.2" /><circle cx="16" cy="16" r="4.5" /></svg>
+        <span>vortex</span>
       </a>
-      <nav class="nav__links" aria-label="Navigation principale">
-        <a href="#services">Expertises</a>
+      <nav class="header__nav" aria-label="Navigation principale">
+        <a href="#services">Services</a>
         <a href="#methode">Méthode</a>
-        <a href="#realisations">Réalisations</a>
-        <a href="#offres">Offres</a>
-        <a href="#faq">FAQ</a>
+        <a href="#offre">Offre</a>
+        <a href="#contact">Contact</a>
       </nav>
-      <div class="nav__actions">
-        <a href="#contact" class="btn btn--ghost btn--sm">Nous écrire</a>
-        <a href="#contact" class="btn btn--primary btn--sm" data-magnetic>Démarrer un projet <span class="chev">›</span></a>
-      </div>
-      <button class="nav__burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
-    </div>
-    <div class="nav__mobile">
-      <a href="#services">Expertises</a>
-      <a href="#methode">Méthode</a>
-      <a href="#realisations">Réalisations</a>
-      <a href="#offres">Offres</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact" class="btn btn--primary">Démarrer un projet</a>
+      <a href="#contact" class="btn btn--primary btn--sm" data-magnetic>Demander mon site</a>
     </div>
   </header>
 
   <main id="top">
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <div class="hero__gradient" aria-hidden="true">
-        <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span>
-      </div>
-      <div class="container hero__grid">
-        <div class="hero__text">
-          <p class="label" data-reveal>Création de sites web · Lyon</p>
-          <h1 class="display" data-split>
-            Des sites web qui
-            <span class="rotator" aria-live="polite"><span class="rotator__word">convertissent.</span></span>
-          </h1>
-          <p class="lead" data-reveal style="--d:.35s">Stratégie, design et développement réunis dans une seule équipe. Nous livrons des sites rapides, accessibles et mesurables — pensés pour votre croissance, pas pour un portfolio.</p>
-          <div class="cta-pair" data-reveal style="--d:.5s">
-            <a href="#contact" class="btn btn--primary" data-magnetic>Démarrer un projet <span class="chev">›</span></a>
-            <a href="#realisations" class="btn btn--ghost">
-              <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.5h12v9H2z M2 6h12 M4 4.75h.01 M5.5 4.75h.01"/></svg>
-              Voir nos réalisations
-            </a>
-          </div>
-          <ul class="hero__proof" data-reveal style="--d:.65s">
-            <li><strong>4,9/5</strong> sur 86 avis clients</li>
-            <li><strong>&lt; 1 s</strong> de chargement moyen</li>
-          </ul>
+      <canvas class="hero__stars" aria-hidden="true"></canvas>
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="container hero__content">
+        <div class="pill" data-reveal>
+          <span class="pill__dot"></span>
+          Création de sites web à <strong>Lyon</strong>
         </div>
-
-        <!-- Browser mockup that "builds" itself -->
-        <div class="hero__visual" data-reveal style="--d:.3s">
-          <div class="browser" data-tilt>
-            <div class="browser__bar">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="browser__url"><span class="lock">⌁</span> votre-marque.fr</span>
-              <span class="browser__status"><i></i><em class="status-text">Build en cours</em></span>
-            </div>
-            <div class="browser__body">
-              <div class="build">
-                <div class="build__nav"><i></i><b></b><b></b><b></b><u></u></div>
-                <div class="build__hero">
-                  <div class="build__lines"><i class="l1"></i><i class="l2"></i><i class="l3"></i><span class="build__btn"></span></div>
-                  <div class="build__img"><svg viewBox="0 0 120 80" preserveAspectRatio="none"><polyline points="0,70 20,52 40,58 60,30 80,38 100,14 120,20" /></svg></div>
-                </div>
-                <div class="build__cards"><i></i><i></i><i></i></div>
-              </div>
-              <div class="scores">
-                <div class="score" data-score="100"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9"/><circle class="arc" cx="18" cy="18" r="15.9"/></svg><span>0</span><small>Performance</small></div>
-                <div class="score" data-score="100"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9"/><circle class="arc" cx="18" cy="18" r="15.9"/></svg><span>0</span><small>Accessibilité</small></div>
-                <div class="score" data-score="100"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9"/><circle class="arc" cx="18" cy="18" r="15.9"/></svg><span>0</span><small>SEO</small></div>
-              </div>
-              <div class="terminal" aria-hidden="true">
-                <p class="t-line">$ vortex deploy --prod</p>
-                <p class="t-line"><span class="ok">✓</span> Compilation des pages <span class="mono-dim">42 routes</span></p>
-                <p class="t-line"><span class="ok">✓</span> Optimisation des images <span class="mono-dim">-68 %</span></p>
-                <p class="t-line"><span class="ok">✓</span> En ligne sur le CDN <span class="mono-dim">312 ms</span></p>
-              </div>
-            </div>
-          </div>
-          <div class="floating-tag tag-a" data-parallax="-0.08">+212 % de leads</div>
-          <div class="floating-tag tag-b" data-parallax="0.06">LCP 0,8 s</div>
+        <h1 class="hero__title" data-split>
+          L'agence qui crée le <em>site web</em> des artisans, restaurants et <em>commerçants.</em>
+        </h1>
+        <p class="hero__lead" data-reveal style="--d:.45s">Un site moderne, rapide et pensé pour être trouvé sur Google. On s'occupe de tout : création, référencement et maintenance.</p>
+        <div class="hero__ctas" data-reveal style="--d:.6s">
+          <a href="#contact" class="btn btn--primary" data-magnetic>Demander mon site <svg class="arrow" viewBox="0 0 12 12"><path d="M3 9l6-6M4 3h5v5"/></svg></a>
+          <a href="#offre" class="btn btn--dark">Voir l'offre à 250 € <svg class="arrow" viewBox="0 0 12 12"><path d="M3 9l6-6M4 3h5v5"/></svg></a>
         </div>
       </div>
-    </section>
 
-    <!-- ============ LOGOS ============ -->
-    <section class="logos" aria-label="Ils nous font confiance">
-      <div class="container">
-        <p class="label">Ils nous ont confié leur présence en ligne</p>
+      <div class="horizon" aria-hidden="true">
+        <div class="horizon__planet"></div>
+        <div class="horizon__glow"></div>
       </div>
-      <div class="marquee">
-        <div class="marquee__track">
-          <span>Maison Albe</span><span>Norvel</span><span>Kinetik</span><span>Hexa Santé</span><span>Orée Bank</span><span>Studio Palme</span><span>Vauban &amp; Fils</span><span>Lumo</span><span>Atlas Mobilité</span><span>Cèdre</span>
-          <span aria-hidden="true">Maison Albe</span><span aria-hidden="true">Norvel</span><span aria-hidden="true">Kinetik</span><span aria-hidden="true">Hexa Santé</span><span aria-hidden="true">Orée Bank</span><span aria-hidden="true">Studio Palme</span><span aria-hidden="true">Vauban &amp; Fils</span><span aria-hidden="true">Lumo</span><span aria-hidden="true">Atlas Mobilité</span><span aria-hidden="true">Cèdre</span>
-        </div>
-      </div>
-    </section>
 
-    <!-- ============ STATS ============ -->
-    <section class="section stats">
-      <div class="container">
-        <div class="stats__grid">
-          <div class="stat" data-reveal><span class="stat__num" data-count="148">0</span><span class="stat__label">sites livrés depuis 2017</span></div>
-          <div class="stat" data-reveal style="--d:.1s"><span class="stat__num" data-count="2.4" data-decimals="1" data-suffix="×">0</span><span class="stat__label">taux de conversion moyen après refonte</span></div>
-          <div class="stat" data-reveal style="--d:.2s"><span class="stat__num" data-count="97" data-suffix="/100">0</span><span class="stat__label">score Lighthouse médian</span></div>
-          <div class="stat" data-reveal style="--d:.3s"><span class="stat__num" data-count="8" data-suffix=" sem.">0</span><span class="stat__label">du brief à la mise en ligne</span></div>
+      <div class="sectors" data-reveal style="--d:.8s">
+        <div class="sectors__track">
+          <span>Artisans</span><span>Restaurants</span><span>Commerçants</span><span>Boulangeries</span><span>Plombiers</span><span>Coiffeurs</span><span>Électriciens</span><span>Fleuristes</span><span>Cafés</span><span>Boutiques</span>
+          <span aria-hidden="true">Artisans</span><span aria-hidden="true">Restaurants</span><span aria-hidden="true">Commerçants</span><span aria-hidden="true">Boulangeries</span><span aria-hidden="true">Plombiers</span><span aria-hidden="true">Coiffeurs</span><span aria-hidden="true">Électriciens</span><span aria-hidden="true">Fleuristes</span><span aria-hidden="true">Cafés</span><span aria-hidden="true">Boutiques</span>
         </div>
       </div>
     </section>
 
     <!-- ============ SERVICES ============ -->
-    <section class="section" id="services">
-      <div class="container">
-        <div class="section-head">
-          <p class="label" data-reveal>Expertises</p>
-          <h2 class="h-lg" data-split>Tout ce qu'il faut pour exister en ligne. Rien de superflu.</h2>
-          <p class="sub" data-reveal style="--d:.2s">Une équipe resserrée de designers et de développeurs qui prend votre projet de la première esquisse jusqu'à la centième itération.</p>
+    <section class="services" id="services">
+      <div class="container services__grid">
+        <div class="services__intro">
+          <h2 class="title" data-split>Tout ce qu'il faut pour <em>attirer plus de clients.</em></h2>
+          <p class="muted" data-reveal style="--d:.2s">On prend en charge votre présence en ligne de A à Z, pour que vous puissiez vous concentrer sur votre métier.</p>
+          <a href="#contact" class="btn btn--primary" data-reveal style="--d:.3s" data-magnetic>Demander mon site <svg class="arrow" viewBox="0 0 12 12"><path d="M3 9l6-6M4 3h5v5"/></svg></a>
         </div>
-
-        <div class="cards">
-          <article class="card" data-reveal>
-            <svg class="card__icon" viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="18" rx="1"/><path d="M4 11h24M11 28h10M16 24v4"/></svg>
-            <p class="card__tag">01 · Vitrine</p>
-            <h3>Sites vitrines</h3>
-            <p>Un site éditorial qui raconte votre marque, se charge instantanément et se met à jour sans développeur.</p>
-            <a href="#contact" class="link-chev">En savoir plus <span>›</span></a>
+        <div class="services__cards">
+          <article class="scard" data-reveal>
+            <span class="scard__icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span>
+            <h3>Référencement local</h3>
+            <p>Apparaissez sur Google quand un client cherche votre activité à Lyon et autour.</p>
           </article>
-          <article class="card" data-reveal style="--d:.08s">
-            <svg class="card__icon" viewBox="0 0 32 32"><path d="M5 7h3l3 14h14l3-10H10"/><circle cx="13" cy="26" r="1.6"/><circle cx="23" cy="26" r="1.6"/></svg>
-            <p class="card__tag">02 · Commerce</p>
-            <h3>E‑commerce</h3>
-            <p>Boutiques Shopify ou headless, tunnels d'achat optimisés, paiement fluide et fiches produits qui vendent.</p>
-            <a href="#contact" class="link-chev">En savoir plus <span>›</span></a>
+          <article class="scard" data-reveal style="--d:.1s">
+            <span class="scard__icon"><svg viewBox="0 0 24 24"><path d="M12 3l7.5 3v6c0 4.4-3.2 7.6-7.5 9-4.3-1.4-7.5-4.6-7.5-9V6z"/><path d="M8.8 12l2.2 2.2 4.3-4.4"/></svg></span>
+            <h3>Maintenance</h3>
+            <p>Mises à jour, sécurité, sauvegardes et petites modifications : votre site reste impeccable.</p>
           </article>
-          <article class="card" data-reveal style="--d:.16s">
-            <svg class="card__icon" viewBox="0 0 32 32"><path d="M11 10l-6 6 6 6M21 10l6 6-6 6M18 7l-4 18"/></svg>
-            <p class="card__tag">03 · Produit</p>
-            <h3>Applications web</h3>
-            <p>Espaces clients, back-offices, SaaS : des interfaces robustes construites avec des technologies éprouvées.</p>
-            <a href="#contact" class="link-chev">En savoir plus <span>›</span></a>
-          </article>
-          <article class="card" data-reveal>
-            <svg class="card__icon" viewBox="0 0 32 32"><path d="M6 26l4-1 14-14-3-3L7 22z M19 10l3 3"/><path d="M5 6h8M5 10h4"/></svg>
-            <p class="card__tag">04 · Design</p>
-            <h3>UI / UX design</h3>
-            <p>Recherche utilisateur, arborescence, design system et prototypes interactifs validés avant la première ligne de code.</p>
-            <a href="#contact" class="link-chev">En savoir plus <span>›</span></a>
-          </article>
-          <article class="card" data-reveal style="--d:.08s">
-            <svg class="card__icon" viewBox="0 0 32 32"><path d="M4 26h24M7 22l6-7 5 4 8-10"/><path d="M21 9h5v5"/></svg>
-            <p class="card__tag">05 · Visibilité</p>
-            <h3>SEO &amp; performance</h3>
-            <p>Core Web Vitals au vert, balisage sémantique, contenus structurés : votre trafic organique devient un actif.</p>
-            <a href="#contact" class="link-chev">En savoir plus <span>›</span></a>
-          </article>
-          <article class="card" data-reveal style="--d:.16s">
-            <svg class="card__icon" viewBox="0 0 32 32"><path d="M16 4l10 4v8c0 6-4.5 10-10 12C10.5 26 6 22 6 16V8z"/><path d="M11.5 16l3 3 6-6"/></svg>
-            <p class="card__tag">06 · Sérénité</p>
-            <h3>Maintenance &amp; évolution</h3>
-            <p>Mises à jour, sauvegardes, monitoring et un sprint d'amélioration chaque mois. Votre site ne vieillit pas.</p>
-            <a href="#contact" class="link-chev">En savoir plus <span>›</span></a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ MANIFESTO (scroll highlight) ============ -->
-    <section class="section manifesto">
-      <div class="container">
-        <p class="label" data-reveal>Notre conviction</p>
-        <p class="manifesto__text" data-highlight>
-          Un bon site ne se remarque pas. Il se charge avant qu'on l'attende, guide sans forcer, et transforme une visite en conversation. Chaque pixel que nous posons doit mériter sa place — sinon, nous le retirons.
-        </p>
-      </div>
-    </section>
-
-    <!-- ============ METHODE (sticky steps) ============ -->
-    <section class="section method" id="methode">
-      <div class="container method__grid">
-        <div class="method__intro">
-          <div class="method__sticky">
-            <p class="label">Méthode</p>
-            <h2 class="h-lg" data-split>Quatre étapes. Aucune zone d'ombre.</h2>
-            <p class="sub">Un planning clair, un interlocuteur unique et une démo chaque semaine. Vous savez toujours où en est votre site.</p>
-            <div class="method__meter" aria-hidden="true">
-              <span class="method__meter-num">01</span><span class="method__meter-total">/ 04</span>
+          <article class="scard scard--wide" data-reveal style="--d:.2s">
+            <div class="scard__text">
+              <span class="scard__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span>
+              <h3>Création de site web</h3>
+              <p>Un site vitrine moderne et animé, adapté au mobile, qui donne envie de vous contacter.</p>
             </div>
-          </div>
+            <div class="scard__mock" data-tilt>
+              <div class="mini mini--back"></div>
+              <div class="mini">
+                <div class="mini__bar"><i></i><i></i><i></i></div>
+                <div class="mini__body">
+                  <b class="mini__logo"></b>
+                  <b class="mini__h"></b><b class="mini__h mini__h--s"></b>
+                  <b class="mini__btn"></b>
+                  <div class="mini__cards"><i></i><i></i><i></i></div>
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
-        <ol class="steps">
-          <span class="steps__line" aria-hidden="true"><i></i></span>
-          <li class="step">
+      </div>
+    </section>
+
+    <!-- ============ METHODE ============ -->
+    <section class="method" id="methode">
+      <div class="container">
+        <div class="center-head">
+          <h2 class="title title--light" data-split>Votre site en <em>trois étapes.</em></h2>
+          <p class="muted muted--dark" data-reveal style="--d:.2s">Simple, rapide et sans jargon.</p>
+        </div>
+        <div class="steps">
+          <div class="steps__line" aria-hidden="true"><i></i></div>
+          <article class="step" data-reveal>
             <span class="step__num">01</span>
-            <div>
-              <p class="card__tag">Semaine 1</p>
-              <h3>Découverte</h3>
-              <p>Ateliers, analyse de l'existant, benchmark et objectifs chiffrés. Nous sortons avec une arborescence et un cahier des charges précis.</p>
-              <ul class="step__list"><li>Audit analytics &amp; SEO</li><li>Interviews utilisateurs</li><li>Arborescence validée</li></ul>
-            </div>
-          </li>
-          <li class="step">
+            <h3>On échange</h3>
+            <p>Vous nous parlez de votre activité, de vos clients et de ce que vous voulez mettre en avant.</p>
+          </article>
+          <article class="step" data-reveal style="--d:.12s">
             <span class="step__num">02</span>
-            <div>
-              <p class="card__tag">Semaines 2 – 3</p>
-              <h3>Design</h3>
-              <p>Wireframes, direction artistique puis maquettes haute fidélité. Tout est prototypé et testé avant d'être développé.</p>
-              <ul class="step__list"><li>Design system</li><li>Prototype Figma cliquable</li><li>Tests utilisateurs</li></ul>
-            </div>
-          </li>
-          <li class="step">
+            <h3>On crée</h3>
+            <p>On conçoit votre site, on vous le montre et on l'ajuste avec vous jusqu'à ce qu'il vous ressemble.</p>
+          </article>
+          <article class="step" data-reveal style="--d:.24s">
             <span class="step__num">03</span>
-            <div>
-              <p class="card__tag">Semaines 4 – 7</p>
-              <h3>Développement</h3>
-              <p>Intégration pixel-perfect, CMS sur mesure, animations et optimisation continue des performances. Démo chaque vendredi.</p>
-              <ul class="step__list"><li>Code revu &amp; testé</li><li>CMS headless</li><li>Recette en préproduction</li></ul>
-            </div>
-          </li>
-          <li class="step">
-            <span class="step__num">04</span>
-            <div>
-              <p class="card__tag">Semaine 8</p>
-              <h3>Lancement</h3>
-              <p>Mise en ligne sans interruption, redirections, formation de vos équipes et suivi des indicateurs pendant 30 jours.</p>
-              <ul class="step__list"><li>Migration SEO</li><li>Formation CMS</li><li>Tableau de bord KPI</li></ul>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ============ REALISATIONS (horizontal pinned) ============ -->
-    <section class="work" id="realisations">
-      <div class="work__pin">
-        <div class="container work__head">
-          <div>
-            <p class="label">Réalisations</p>
-            <h2 class="h-lg">Des projets, et surtout des résultats.</h2>
-          </div>
-          <div class="work__counter" aria-hidden="true"><span class="work__bar"><i></i></span></div>
-        </div>
-        <div class="work__track">
-          <article class="case">
-            <div class="case__visual v1">
-              <div class="mock"><i class="m-nav"></i><i class="m-h"></i><i class="m-h short"></i><i class="m-btn"></i><div class="m-grid"><i></i><i></i><i></i></div></div>
-            </div>
-            <div class="case__body">
-              <p class="card__tag">E‑commerce · Mode</p>
-              <h3>Maison Albe</h3>
-              <p>Refonte Shopify headless pour une maison de prêt-à-porter.</p>
-              <div class="case__metrics"><div><strong>+184 %</strong><span>ventes en ligne</span></div><div><strong>0,9 s</strong><span>LCP mobile</span></div></div>
-            </div>
-          </article>
-          <article class="case">
-            <div class="case__visual v2">
-              <div class="mock"><i class="m-nav"></i><div class="m-dash"><i></i><i></i><i></i><i></i></div><svg viewBox="0 0 100 40" preserveAspectRatio="none"><polyline points="0,35 15,28 30,30 45,18 60,22 75,10 100,6"/></svg></div>
-            </div>
-            <div class="case__body">
-              <p class="card__tag">SaaS · Fintech</p>
-              <h3>Orée Bank</h3>
-              <p>Site marketing et espace client pour une néobanque B2B.</p>
-              <div class="case__metrics"><div><strong>+212 %</strong><span>demandes de démo</span></div><div><strong>-41 %</strong><span>taux de rebond</span></div></div>
-            </div>
-          </article>
-          <article class="case">
-            <div class="case__visual v3">
-              <div class="mock"><i class="m-nav"></i><i class="m-h"></i><div class="m-split"><i></i><i></i></div><i class="m-h short"></i></div>
-            </div>
-            <div class="case__body">
-              <p class="card__tag">Santé · Plateforme</p>
-              <h3>Hexa Santé</h3>
-              <p>Prise de rendez-vous en ligne pour un réseau de 40 cliniques.</p>
-              <div class="case__metrics"><div><strong>32 000</strong><span>RDV / mois</span></div><div><strong>AA</strong><span>conformité RGAA</span></div></div>
-            </div>
-          </article>
-          <article class="case">
-            <div class="case__visual v4">
-              <div class="mock"><i class="m-nav"></i><div class="m-grid four"><i></i><i></i><i></i><i></i></div><i class="m-h"></i><i class="m-btn"></i></div>
-            </div>
-            <div class="case__body">
-              <p class="card__tag">Vitrine · Architecture</p>
-              <h3>Studio Palme</h3>
-              <p>Portfolio immersif pour un cabinet d'architectes primé.</p>
-              <div class="case__metrics"><div><strong>×3</strong><span>temps passé sur le site</span></div><div><strong>Awwwards</strong><span>Honorable mention</span></div></div>
-            </div>
-          </article>
-          <article class="case">
-            <div class="case__visual v5">
-              <div class="mock"><i class="m-nav"></i><i class="m-h"></i><i class="m-h short"></i><div class="m-dash"><i></i><i></i><i></i><i></i></div></div>
-            </div>
-            <div class="case__body">
-              <p class="card__tag">Mobilité · App web</p>
-              <h3>Atlas Mobilité</h3>
-              <p>Back-office de gestion de flotte en temps réel.</p>
-              <div class="case__metrics"><div><strong>-60 %</strong><span>temps de traitement</span></div><div><strong>99,98 %</strong><span>disponibilité</span></div></div>
-            </div>
+            <h3>On met en ligne</h3>
+            <p>Votre site est publié, référencé sur Google et suivi pour rester rapide et à jour.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ============ TESTIMONIALS ============ -->
-    <section class="section testimonials">
-      <div class="container testimonials__grid">
-        <div>
-          <p class="label" data-reveal>Témoignages</p>
-          <h2 class="h-lg" data-split>Ce qu'en disent nos clients.</h2>
-          <div class="t-controls" data-reveal style="--d:.2s">
-            <button class="btn btn--ghost btn--icon" data-t-prev aria-label="Témoignage précédent">‹</button>
-            <button class="btn btn--ghost btn--icon" data-t-next aria-label="Témoignage suivant">›</button>
-            <span class="t-index"><span class="t-current">01</span> / 03</span>
-          </div>
-        </div>
-        <div class="quotes" data-reveal style="--d:.15s">
-          <figure class="quote is-active">
-            <blockquote>« Vortex a compris notre marque mieux que nous. Le nouveau site a doublé nos ventes en ligne en un trimestre, et nos équipes le mettent à jour seules. »</blockquote>
-            <figcaption><span class="avatar">CA</span><span><strong>Camille Albe</strong> Directrice générale, Maison Albe</span></figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>« Une rigueur rare : planning tenu à la semaine près, démos chaque vendredi et un site qui score 100 partout. On ne reviendra pas en arrière. »</blockquote>
-            <figcaption><span class="avatar">TM</span><span><strong>Thomas Marchal</strong> Head of Growth, Orée Bank</span></figcaption>
-          </figure>
-          <figure class="quote">
-            <blockquote>« Ils ont transformé un outil de prise de rendez-vous complexe en une expérience limpide, pour nos patients comme pour nos praticiens. »</blockquote>
-            <figcaption><span class="avatar">NB</span><span><strong>Nadia Benali</strong> DSI, Hexa Santé</span></figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ OFFRES ============ -->
-    <section class="section" id="offres">
+    <!-- ============ OFFRE ============ -->
+    <section class="offer" id="offre">
       <div class="container">
-        <div class="section-head">
-          <p class="label" data-reveal>Offres</p>
-          <h2 class="h-lg" data-split>Des tarifs clairs, fixés avant de commencer.</h2>
-          <p class="sub" data-reveal style="--d:.2s">Pas de surprise : un prix annoncé, un prix payé.</p>
+        <div class="center-head">
+          <h2 class="title" data-split>Découvrez <em>notre offre.</em></h2>
+          <p class="muted" data-reveal style="--d:.2s">Un prix clair pour lancer votre présence en ligne. Pour un besoin spécifique, on construit votre devis ensemble.</p>
         </div>
-        <div class="pricing pricing--two">
-          <article class="plan plan--featured" data-reveal>
-            <span class="plan__badge">Offre principale</span>
-            <p class="card__tag">Création</p>
-            <h3>Création site web</h3>
-            <p class="plan__price"><span class="from">prix fixe</span> <span data-count="250">0</span> €</p>
-            <p class="plan__desc">Un site moderne, animé et rapide pour lancer votre présence en ligne.</p>
-            <ul class="checks"><li>Design sur mesure</li><li>Animations &amp; interactions</li><li>Adapté mobile &amp; tablette</li><li>Formulaire de contact</li><li>Mise en ligne incluse</li></ul>
-            <div class="cta-pair">
-              <a href="#contact" class="btn btn--primary" data-magnetic>Commander mon site <span class="chev">›</span></a>
-              <a href="#faq" class="btn btn--ghost">Questions</a>
+
+        <div class="plans">
+          <article class="plan plan--dark" data-reveal>
+            <div class="plan__left">
+              <p class="plan__kicker">Prix fixe</p>
+              <p class="plan__price"><span data-count="250">0</span>&nbsp;€</p>
+              <p class="plan__desc">Tout pour exister en ligne et attirer vos clients, clé en main.</p>
+              <a href="#contact" class="btn btn--primary btn--block" data-magnetic>Demander mon site <svg class="arrow" viewBox="0 0 12 12"><path d="M3 9l6-6M4 3h5v5"/></svg></a>
+            </div>
+            <div class="plan__right">
+              <p class="plan__kicker">Ce qui est inclus :</p>
+              <ul class="incl">
+                <li>Création de votre site web professionnel</li>
+                <li>Design moderne et animé</li>
+                <li>Adapté mobile et tablette</li>
+                <li>Référencement de base sur Google</li>
+                <li>Formulaire de contact</li>
+                <li>Mise en ligne incluse</li>
+              </ul>
             </div>
           </article>
-          <article class="plan" data-reveal style="--d:.1s">
-            <p class="card__tag">Sur mesure</p>
-            <h3>Projet spécifique</h3>
-            <p class="plan__price"><span class="from">sur</span> devis</p>
-            <p class="plan__desc">Boutique en ligne, fonctionnalités avancées ou besoin particulier.</p>
-            <ul class="checks"><li>Étude de votre besoin</li><li>Devis gratuit</li><li>Fonctionnalités sur mesure</li></ul>
-            <a href="#contact" class="btn btn--tertiary">Demander un devis</a>
-          </article>
-        </div>
-      </div>
-    </section>
 
-    <!-- ============ FAQ ============ -->
-    <section class="section" id="faq">
-      <div class="container faq__grid">
-        <div>
-          <p class="label" data-reveal>FAQ</p>
-          <h2 class="h-lg" data-split>Questions fréquentes.</h2>
-          <p class="sub" data-reveal style="--d:.2s">Une autre question ? <a href="#contact" class="u-link">Écrivez-nous</a>, nous répondons sous 24 h.</p>
-        </div>
-        <div class="faq">
-          <details class="faq__item" data-reveal>
-            <summary>Combien de temps faut-il pour créer un site ?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq__content"><p>Comptez 4 à 6 semaines pour un site vitrine et 8 à 12 semaines pour un site sur mesure ou e‑commerce. Le planning est fixé dès l'atelier de découverte.</p></div>
-          </details>
-          <details class="faq__item" data-reveal style="--d:.05s">
-            <summary>Pourrai-je modifier mon site moi-même ?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq__content"><p>Oui. Chaque site est livré avec un CMS pensé pour vos contenus et une formation de vos équipes. Aucune compétence technique n'est nécessaire.</p></div>
-          </details>
-          <details class="faq__item" data-reveal style="--d:.1s">
-            <summary>Quelles technologies utilisez-vous ?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq__content"><p>Next.js, Astro, Shopify, Webflow ou WordPress headless selon vos besoins. Nous choisissons l'outil le plus simple qui tienne vos objectifs sur cinq ans.</p></div>
-          </details>
-          <details class="faq__item" data-reveal style="--d:.15s">
-            <summary>Le référencement est-il inclus ?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq__content"><p>Le SEO technique l'est toujours : performance, balisage, sitemap, redirections. La stratégie de contenu et le netlinking font l'objet d'un accompagnement dédié.</p></div>
-          </details>
-          <details class="faq__item" data-reveal style="--d:.2s">
-            <summary>Que se passe-t-il après la mise en ligne ?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="faq__content"><p>Nous suivons vos indicateurs pendant 30 jours, puis proposons un forfait de maintenance mensuel incluant mises à jour, sauvegardes et un sprint d'amélioration.</p></div>
-          </details>
+          <article class="plan plan--light" data-reveal style="--d:.1s">
+            <div class="plan__left">
+              <p class="plan__kicker">Prix</p>
+              <p class="plan__price plan__price--dark">Sur devis</p>
+              <p class="plan__desc">Pour les projets plus complets ou un besoin particulier.</p>
+              <a href="#contact" class="btn btn--outline btn--block">Parler de mon projet <svg class="arrow" viewBox="0 0 12 12"><path d="M3 9l6-6M4 3h5v5"/></svg></a>
+            </div>
+            <div class="plan__right">
+              <p class="plan__kicker">Ce qui est inclus :</p>
+              <ul class="incl">
+                <li>Site sur mesure avec plus de pages</li>
+                <li>Référencement local avancé</li>
+                <li>Maintenance et suivi mensuel</li>
+                <li>Fonctionnalités spécifiques</li>
+              </ul>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="section contact" id="contact">
+    <section class="contact" id="contact">
       <div class="container">
-        <div class="contact__card" data-reveal>
-          <div class="contact__gradient" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
-          <div class="contact__text">
-            <p class="label label--light">Parlons de votre projet</p>
-            <h2 class="h-lg">Votre prochain site commence par une conversation de 30 minutes.</h2>
-            <p>Réponse sous 24 h ouvrées. Premier atelier offert, sans engagement.</p>
-            <ul class="contact__points"><li>Devis ferme sous 5 jours</li><li>Un chef de projet dédié</li><li>Code et contenus vous appartiennent</li></ul>
+        <div class="contact__box" data-reveal>
+          <div class="contact__side">
+            <div class="pill pill--small"><span class="pill__dot"></span>Réponse sous 24 h</div>
+            <h2 class="contact__title">Construisons dès maintenant <em>le site de votre entreprise.</em></h2>
+            <p class="muted muted--dark">Laissez-nous vos coordonnées : on vous recontacte rapidement pour parler de votre projet.</p>
+            <ul class="contact__list">
+              <li>Sans engagement</li>
+              <li>Site clé en main à 250 €</li>
+              <li>Basé à Lyon</li>
+            </ul>
           </div>
+
           <form class="form" name="contact" method="POST" action="/merci.html" data-netlify="true" netlify-honeypot="bot-field" novalidate>
             <input type="hidden" name="form-name" value="contact">
             <p class="hp" aria-hidden="true"><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-            <div class="field"><label for="f-name">Nom</label><input id="f-name" name="name" type="text" autocomplete="name" required placeholder="Camille Martin"></div>
-            <div class="field"><label for="f-mail">E‑mail</label><input id="f-mail" name="email" type="email" autocomplete="email" required placeholder="vous@exemple.fr"></div>
-            <div class="field"><label for="f-type">Type de projet</label>
-              <select id="f-type" name="type"><option>Site vitrine</option><option>E‑commerce</option><option>Application web</option><option>Refonte</option><option>Autre</option></select>
+            <div class="form__row">
+              <label class="field"><span class="sr">Prénom et nom</span><input name="name" type="text" autocomplete="name" placeholder="Prénom & Nom" required></label>
+              <label class="field"><span class="sr">Adresse e-mail</span><input name="email" type="email" autocomplete="email" placeholder="Adresse e-mail" required></label>
             </div>
-            <div class="field"><span class="field__label" id="l-offre">Offre</span>
-              <div class="chips" role="radiogroup" aria-labelledby="l-offre">
-                <label class="chip"><input type="radio" name="offre" value="Création site web 250 €" checked><span>Site web · 250 €</span></label>
-                <label class="chip"><input type="radio" name="offre" value="Sur devis"><span>Projet sur mesure</span></label>
-              </div>
+            <div class="form__row">
+              <label class="field"><span class="sr">Téléphone</span><input name="telephone" type="tel" autocomplete="tel" placeholder="Téléphone"></label>
+              <label class="field"><span class="sr">Entreprise</span><input name="entreprise" type="text" autocomplete="organization" placeholder="Entreprise (optionnel)"></label>
             </div>
-            <div class="field"><label for="f-msg">Votre projet en quelques mots</label><textarea id="f-msg" name="message" rows="3" placeholder="Objectifs, délais, site actuel…"></textarea></div>
-            <div class="cta-pair">
-              <button type="submit" class="btn btn--light" data-magnetic>Envoyer la demande <span class="chev">›</span></button>
-              <a href="mailto:vortex.twitch.live@gmail.com" class="btn btn--ghost-light">Écrire par e‑mail</a>
-            </div>
+            <label class="field"><span class="sr">Objet de votre demande</span>
+              <select name="offre">
+                <option value="Création site web 250 €">Création de site web · 250 €</option>
+                <option value="Sur devis">Projet sur devis</option>
+                <option value="Référencement">Référencement</option>
+                <option value="Maintenance">Maintenance</option>
+              </select>
+            </label>
+            <label class="field"><span class="sr">Votre message</span><textarea name="message" rows="4" placeholder="Décrivez votre activité et votre objectif principal…"></textarea></label>
+            <button type="submit" class="btn btn--primary btn--block btn--lg" data-magnetic><span class="btn__label">Demander mon site</span> <svg class="arrow" viewBox="0 0 12 12"><path d="M3 9l6-6M4 3h5v5"/></svg></button>
+            <p class="form__note">Sans engagement · Réponse sous 24 h</p>
             <p class="form__msg" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -456,22 +230,31 @@
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
     <div class="container">
-      <div class="footer__grid">
-        <div class="footer__brand">
-          <a href="#top" class="wordmark"><span class="wordmark__mark" aria-hidden="true"></span>vortex</a>
-          <p>Studio de création de sites web. Design, développement et performance.</p>
-        </div>
-        <div><h4>Expertises</h4><a href="#services">Sites vitrines</a><a href="#services">E‑commerce</a><a href="#services">Applications web</a><a href="#services">SEO &amp; performance</a></div>
-        <div><h4>Studio</h4><a href="#methode">Méthode</a><a href="#realisations">Réalisations</a><a href="#offres">Offres</a><a href="#faq">FAQ</a></div>
-        <div><h4>Contact</h4><a href="mailto:vortex.twitch.live@gmail.com">vortex.twitch.live@gmail.com</a><a href="#contact">Démarrer un projet</a><a href="#top">Lyon, France</a></div>
+      <div class="footer__links">
+        <a href="#services">Artisans</a><a href="#services">Restaurants</a><a href="#services">Commerçants</a>
+      </div>
+      <div class="footer__links footer__links--muted">
+        <span>Lyon</span><span>Villeurbanne</span><span>Vénissieux</span><span>Caluire-et-Cuire</span><span>Bron</span><span>Vaulx-en-Velin</span><span>Écully</span><span>Oullins</span>
       </div>
       <div class="footer__bottom">
-        <span>© <span class="year">2026</span> Vortex</span>
-        <span>Mentions légales · Confidentialité</span>
-        <a href="#top" class="link-chev back-top">Haut de page <span>↑</span></a>
+        <div>
+          <a href="#top" class="logo logo--small" aria-label="Vortex, haut de page">
+            <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5" /><path d="M29 16a13 13 0 0 1-8.5 12.2" /><path d="M16 29A13 13 0 0 1 3.8 20.5" /><path d="M3 16a13 13 0 0 1 8.5-12.2" /><circle cx="16" cy="16" r="4.5" /></svg>
+            <span>vortex</span>
+          </a>
+          <p class="footer__copy">© <span class="year">2026</span> Vortex. Tous droits réservés.</p>
+        </div>
+        <div class="footer__right">
+          <span>📍 Lyon</span>
+          <a href="mailto:vortex.twitch.live@gmail.com">vortex.twitch.live@gmail.com</a>
+        </div>
       </div>
     </div>
   </footer>
+
+  <a href="mailto:vortex.twitch.live@gmail.com" class="fab" aria-label="Nous écrire par e-mail">
+    <svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
+  </a>
 
   <script src="assets/js/main.js"></script>
 </body>

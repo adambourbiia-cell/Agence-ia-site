@@ -1,4 +1,4 @@
-# Vortex — Création de sites web
+# Vortex — Création de sites web à Lyon
 
 Site vitrine statique (HTML / CSS / JS vanilla, sans dépendance) inspiré du langage visuel Stripe :
 typographie Inter Tight 300, un seul accent indigo `#533afd`, rayons 4px, aucune ombre.
