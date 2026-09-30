@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paiement confirmé — Vortex</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .steps-done { list-style: none; margin: 34px auto 0; padding: 0; max-width: 520px; display: grid; gap: 12px; text-align: left; }
+    .steps-done li { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); color: #c6ccd6; font-size: 15px; }
+    .steps-done b { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: rgba(34,193,211,.15); color: #22c1d3; font-size: 13px; }
+    .check { width: 84px; height: 84px; margin: 0 auto 26px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(180deg,#22c1d3,#0f6f7c); box-shadow: 0 0 60px -10px rgba(34,193,211,.8); animation: pop .7s cubic-bezier(.3,1.6,.5,1) both; }
+    .check svg { width: 40px; height: 40px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; animation: draw .6s .45s ease forwards; }
+    @keyframes pop { from { transform: scale(0); } }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+  </style>
+</head>
+<body>
+  <main class="page-center">
+    <div>
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h1 class="hero__title">Merci, votre paiement <em>est confirmé.</em></h1>
+      <p class="hero__lead" style="margin-left:auto;margin-right:auto">Votre commande est bien enregistrée. Voici la suite :</p>
+      <ol class="steps-done">
+        <li><b>1</b><span>Je vous contacte <strong>sous 24 h</strong> pour faire le point sur votre activité et vos envies.</span></li>
+        <li><b>2</b><span>Envoyez-moi votre logo, vos photos et vos textes à <a href="mailto:vortex.twitch.live@gmail.com" style="color:#22c1d3">vortex.twitch.live@gmail.com</a>.</span></li>
+        <li><b>3</b><span>Je crée votre site, vous le validez, et il est mis en ligne.</span></li>
+      </ol>
+      <div class="hero__ctas">
+        <a href="/" class="btn btn--primary">Retour au site</a>
+        <a href="mailto:vortex.twitch.live@gmail.com" class="btn btn--dark">M'écrire</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -3,5 +3,6 @@ Allow: /
 Disallow: /demo/
 Disallow: /merci.html
 Disallow: /outils/
+Disallow: /paiement-confirme.html
 
 Sitemap: https://ligne-studio-web.netlify.app/sitemap.xml
