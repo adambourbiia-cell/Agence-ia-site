@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Vortex Pro</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="manifest" href="/outils/app/manifest.webmanifest">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/outils/app/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Vortex Pro">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; --gold:#f5b942; --ok:#3ecf8e; --red:#ef6461; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: #fff; font-family: "Inter", system-ui, sans-serif; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    body { padding: env(safe-area-inset-top) 0 calc(78px + env(safe-area-inset-bottom)); background: radial-gradient(800px 400px at 50% -10%, rgba(34,193,211,.12), transparent 70%), var(--bg); min-height: 100vh; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, p { margin: 0; }
+    button, input, select { font: inherit; color: inherit; }
+    .w { max-width: 600px; margin: 0 auto; padding: 0 16px; }
+    .top { display: flex; align-items: center; justify-content: space-between; padding: 16px 0 10px; }
+    .brand { display: flex; align-items: center; gap: 9px; font-family: "Syne", sans-serif; font-weight: 700; font-size: 20px; }
+    .brand svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; }
+    .brand svg circle { fill: var(--teal-2); stroke: none; }
+    .brand small { font-family: "Inter"; font-size: 11px; font-weight: 700; color: var(--teal-2); border: 1px solid rgba(34,193,211,.4); border-radius: 99px; padding: 1px 7px; }
+    .date { color: var(--muted); font-size: 13px; text-transform: capitalize; }
+    .view { display: none; }
+    .view.on { display: block; animation: in .35s cubic-bezier(.16,1,.3,1); }
+    @keyframes in { from { opacity: 0; transform: translateY(6px); } }
+    h1 { font-family: "Syne", sans-serif; font-size: 26px; line-height: 1.15; margin: 8px 0 14px; }
+    h1 em { font-style: normal; color: var(--teal-2); }
+    h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 22px 0 10px; font-weight: 700; }
+    .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 10px; }
+    .goal .row { display: flex; justify-content: space-between; align-items: baseline; }
+    .goal b { font-family: "Syne"; font-size: 30px; }
+    .goal small { color: var(--muted); }
+    .bar { height: 10px; background: var(--bg-3); border-radius: 99px; overflow: hidden; margin: 10px 0 6px; }
+    .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--teal), var(--teal-2)); border-radius: 99px; transition: width .8s cubic-bezier(.16,1,.3,1); }
+    .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .kpi { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+    .kpi b { display: block; font-family: "Syne"; font-size: 24px; line-height: 1.1; color: var(--teal-2); }
+    .kpi span { font-size: 12px; color: var(--muted); }
+    .kpi.alert b { color: var(--gold); }
+    .todo { display: flex; align-items: center; gap: 12px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 13px 14px; margin-bottom: 8px; }
+    .todo .e { font-size: 22px; }
+    .todo .t { flex: 1; }
+    .todo .t b { display: block; font-size: 15px; }
+    .todo .t small { color: var(--muted); font-size: 13px; }
+    .todo .go { color: var(--teal-2); font-weight: 700; font-size: 20px; }
+    .todo.done { opacity: .5; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tile { display: block; background: var(--bg-2); border: 1px solid var(--line); border-radius: 18px; padding: 15px; }
+    .tile .e { font-size: 26px; }
+    .tile b { display: block; margin-top: 6px; font-size: 15px; }
+    .tile small { color: var(--muted); font-size: 12.5px; }
+    .link { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-top: 1px solid var(--line); }
+    .link:first-of-type { border-top: 0; }
+    .link .t { flex: 1; min-width: 0; }
+    .link .t b { display: block; font-size: 14.5px; }
+    .link .t small { color: var(--muted); font-size: 12.5px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ib { flex: none; width: 38px; height: 38px; border-radius: 11px; border: 1px solid var(--line-2); background: var(--bg-3); display: grid; place-items: center; cursor: pointer; font-size: 16px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line-2); background: var(--bg-3); border-radius: 12px; padding: 12px 14px; font-weight: 650; cursor: pointer; }
+    .btn.p { background: linear-gradient(180deg, var(--teal-2), var(--teal) 60%, #0f6f7c); border-color: transparent; }
+    .full { width: 100%; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #d5dbe5; margin: 10px 0 5px; }
+    input, select { width: 100%; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 12px; padding: 12px; font-size: 16px; outline: none; }
+    input:focus, select:focus { border-color: var(--teal-2); }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sale { display: flex; justify-content: space-between; gap: 10px; padding: 11px 0; border-top: 1px solid var(--line); }
+    .sale:first-child { border-top: 0; }
+    .sale small { color: var(--muted); display: block; font-size: 12.5px; }
+    .sale b { white-space: nowrap; }
+    .x { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 13px; padding: 0 0 0 8px; }
+    .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: rgba(20,24,36,.96); backdrop-filter: blur(12px); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .tabs .w { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .tab { background: none; border: 0; color: var(--muted); padding: 9px 2px 8px; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 11.5px; font-weight: 600; cursor: pointer; }
+    .tab span { font-size: 20px; line-height: 1.2; }
+    .tab.on { color: var(--teal-2); }
+    .toast { position: fixed; left: 50%; bottom: calc(90px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px); background: #fff; color: #0f1117; font-weight: 600; font-size: 14px; padding: 10px 18px; border-radius: 99px; opacity: 0; pointer-events: none; transition: .3s; z-index: 30; white-space: nowrap; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+    .muted { color: var(--muted); font-size: 13.5px; }
+    .install { display: none; }
+    .install.on { display: block; }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5"/><path d="M29 16a13 13 0 0 1-8.5 12.2"/><path d="M16 29A13 13 0 0 1 3.8 20.5"/><path d="M3 16a13 13 0 0 1 8.5-12.2"/><circle cx="16" cy="16" r="4.5"/></svg>vortex <small>PRO</small></div>
+      <span class="date" id="today"></span>
+    </div>
+
+    <!-- AUJOURD'HUI -->
+    <section class="view on" id="v-home">
+      <h1 id="hello">Bonjour 👋</h1>
+      <div class="card goal">
+        <div class="row"><b id="mrr">0 €</b><small id="goalTxt">/ mois récurrent</small></div>
+        <div class="bar"><i id="goalBar"></i></div>
+        <div class="row"><small id="monthTxt">Ce mois-ci : 0 € encaissés</small><small id="goalPct">0 %</small></div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><b id="kSent">0</b><span>messages aujourd'hui</span></div>
+        <div class="kpi" id="kDueBox"><b id="kDue">0</b><span>relances à faire</span></div>
+        <div class="kpi"><b id="kHot">0</b><span>intéressés</span></div>
+      </div>
+      <h2>À faire aujourd'hui</h2>
+      <div id="todos"></div>
+      <div class="card install" id="install">
+        <b>📲 Installe Vortex Pro sur ton téléphone</b>
+        <p class="muted" id="installTxt" style="margin-top:4px"></p>
+        <button class="btn p full" id="installBtn" style="margin-top:10px" hidden>Installer</button>
+      </div>
+    </section>
+
+    <!-- OUTILS -->
+    <section class="view" id="v-tools">
+      <h1>Mes <em>outils</em></h1>
+      <div class="grid">
+        <a class="tile" href="/outils/prospection.html"><span class="e">📨</span><b>Prospection</b><small>SMS en rafale, relances</small></a>
+        <a class="tile" href="/outils/facture.html"><span class="e">🧾</span><b>Devis & factures</b><small>PDF en 1 minute</small></a>
+        <a class="tile" href="/outils/mes-videos.html"><span class="e">🎬</span><b>Mes vidéos</b><small>20 vidéos prêtes</small></a>
+        <a class="tile" href="/outils/videos.html"><span class="e">🗓️</span><b>Planning vidéos</b><small>30 jours de scripts</small></a>
+        <a class="tile" href="/outils/repondeur.html"><span class="e">🤖</span><b>Admin Répondeur</b><small>Assistantes IA, démos</small></a>
+        <a class="tile" href="/outils/codes-avis.html"><span class="e">⭐</span><b>Codes Avis</b><small>Activer un abonné</small></a>
+        <a class="tile" href="/"><span class="e">🌐</span><b>Mon site</b><small>vortex-agence.fr</small></a>
+        <a class="tile" href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener"><span class="e">💳</span><b>Stripe</b><small>Mes paiements</small></a>
+      </div>
+      <h2>Comptes externes</h2>
+      <div class="grid">
+        <a class="tile" href="https://business.google.com/" target="_blank" rel="noopener"><span class="e">📍</span><b>Google Business</b><small>Ma fiche, mes avis</small></a>
+        <a class="tile" href="https://search.google.com/search-console" target="_blank" rel="noopener"><span class="e">🔎</span><b>Search Console</b><small>Mon référencement</small></a>
+        <a class="tile" href="https://app.netlify.com/projects/ligne-studio-web" target="_blank" rel="noopener"><span class="e">🚀</span><b>Netlify</b><small>Hébergement</small></a>
+        <a class="tile" href="https://dashboard.vapi.ai/" target="_blank" rel="noopener"><span class="e">🎙️</span><b>Vapi</b><small>Voix de l'IA</small></a>
+      </div>
+    </section>
+
+    <!-- LIENS -->
+    <section class="view" id="v-links">
+      <h1>Liens à <em>envoyer</em></h1>
+      <p class="muted" style="margin-bottom:12px">📋 copier · 📤 partager (SMS, WhatsApp…)</p>
+      <div id="links"></div>
+    </section>
+
+    <!-- VENTES -->
+    <section class="view" id="v-sales">
+      <h1>Mes <em>ventes</em></h1>
+      <div class="card">
+        <div class="row2">
+          <div><label for="sOffer">Offre</label><select id="sOffer"></select></div>
+          <div><label for="sAmount">Montant (€)</label><input id="sAmount" type="number" inputmode="decimal" min="0"></div>
+        </div>
+        <label for="sClient">Client</label><input id="sClient" placeholder="Ex. Cuivre & Co">
+        <button class="btn p full" id="sAdd" style="margin-top:12px">+ Ajouter la vente</button>
+      </div>
+      <div class="card">
+        <label for="goal" style="margin-top:0">Mon objectif de revenu mensuel récurrent (€)</label>
+        <input id="goal" type="number" inputmode="numeric" min="0">
+      </div>
+      <h2>Historique</h2>
+      <div class="card" id="sales"></div>
+      <p class="muted">Enregistré uniquement sur ce téléphone. Les abonnements comptent dans ton revenu récurrent tant que tu ne les marques pas comme résiliés.</p>
+    </section>
+  </div>
+
+  <nav class="tabs" aria-label="Navigation">
+    <div class="w">
+      <button class="tab on" data-go="home"><span>🏠</span>Aujourd'hui</button>
+      <button class="tab" data-go="tools"><span>🧰</span>Outils</button>
+      <button class="tab" data-go="links"><span>🔗</span>Liens</button>
+      <button class="tab" data-go="sales"><span>💶</span>Ventes</button>
+    </div>
+  </nav>
+  <div class="toast" id="toast"></div>
+
+  <script>
+  (() => {
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => [...document.querySelectorAll(s)];
+    const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } };
+    const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const eur = (n) => Math.round(n).toLocaleString('fr-FR') + ' €';
+    let tt; const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 1800); };
+
+    /* Navigation (mémorise l'onglet) */
+    const go = (v) => { $$('.view').forEach((x) => x.classList.toggle('on', x.id === 'v-' + v)); $$('.tab').forEach((t) => t.classList.toggle('on', t.dataset.go === v)); try { sessionStorage.setItem('vx-tab', v); } catch (e) {} scrollTo(0, 0); };
+    document.addEventListener('click', (e) => { const g = e.target.closest('[data-go]'); if (g) go(g.dataset.go); });
+
+    /* Offres */
+    const OFFERS = [
+      { k: 'site', n: 'Site web', p: 250, rec: false },
+      { k: 'maint', n: 'Maintenance', p: 50, rec: true },
+      { k: 'rep', n: 'AI Répondeur', p: 199, rec: true },
+      { k: 'avis', n: 'Vortex Avis', p: 29, rec: true },
+      { k: 'autre', n: 'Autre', p: 0, rec: false },
+    ];
+    $('#sOffer').innerHTML = OFFERS.map((o) => `<option value="${o.k}">${o.n}${o.p ? ' · ' + o.p + ' €' + (o.rec ? '/mois' : '') : ''}</option>`).join('');
+    const setAmount = () => { const o = OFFERS.find((x) => x.k === $('#sOffer').value); $('#sAmount').value = o.p || ''; };
+    $('#sOffer').onchange = setAmount; setAmount();
+
+    /* Ventes */
+    let S = read('vx-pro', { sales: [], goal: 10000, name: '' });
+    const saveS = () => write('vx-pro', S);
+    $('#goal').value = S.goal; $('#goal').oninput = () => { S.goal = +$('#goal').value || 0; saveS(); renderHome(); };
+    const ym = (t) => { const d = new Date(t); return d.getFullYear() + '-' + d.getMonth(); };
+    const mrr = () => S.sales.filter((s) => s.rec && !s.ended).reduce((a, s) => a + s.amount, 0);
+    const monthCash = () => S.sales.filter((s) => ym(s.t) === ym(Date.now())).reduce((a, s) => a + s.amount, 0);
+    $('#sAdd').onclick = () => {
+      const o = OFFERS.find((x) => x.k === $('#sOffer').value), amount = +$('#sAmount').value;
+      if (!amount) { toast('Indique un montant'); return; }
+      S.sales.unshift({ t: Date.now(), offer: o.n, rec: o.rec, amount, client: $('#sClient').value.trim() });
+      saveS(); $('#sClient').value = ''; renderSales(); renderHome(); toast('Vente ajoutée 🎉');
+    };
+    const renderSales = () => {
+      $('#sales').innerHTML = S.sales.length ? S.sales.map((s, i) => `<div class="sale"><div><b>${esc(s.client || 'Client')}</b><small>${esc(s.offer)} · ${new Date(s.t).toLocaleDateString('fr-FR')}${s.rec ? (s.ended ? ' · résilié' : ' · abonnement actif') : ''}</small></div><div style="text-align:right"><b>${eur(s.amount)}${s.rec ? '/m' : ''}</b><br>${s.rec ? `<button class="x" data-end="${i}">${s.ended ? 'Réactiver' : 'Résilié ?'}</button>` : ''}<button class="x" data-del="${i}">Suppr.</button></div></div>`).join('') : '<p class="muted">Aucune vente pour l\'instant. La première arrive 💪</p>';
+    };
+    $('#sales').addEventListener('click', (e) => {
+      const d = e.target.closest('[data-del]'), en = e.target.closest('[data-end]');
+      if (d && confirm('Supprimer cette vente ?')) { S.sales.splice(+d.dataset.del, 1); }
+      if (en) { const s = S.sales[+en.dataset.end]; s.ended = !s.ended; }
+      if (d || en) { saveS(); renderSales(); renderHome(); }
+    });
+
+    /* Aujourd'hui : données de l'outil de prospection */
+    const today = () => new Date().toLocaleDateString('fr-FR');
+    const daysSince = (d) => { const m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(d || ''); if (!m) return 999; return Math.floor((Date.now() - new Date(+m[3], +m[2] - 1, +m[1])) / 86400000); };
+    function renderHome() {
+      const h = new Date().getHours();
+      const P = read('vortex-prospects-v1', null);
+      const name = (P && P.me) || '';
+      $('#hello').textContent = `${h < 18 ? 'Bonjour' : 'Bonsoir'}${name ? ' ' + name : ''} 👋`;
+      $('#today').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+      const m = mrr(), g = S.goal || 1;
+      $('#mrr').textContent = eur(m); $('#goalTxt').textContent = `/ ${eur(S.goal)} par mois`;
+      $('#goalBar').style.width = Math.min(100, m / g * 100) + '%'; $('#goalPct').textContent = Math.round(m / g * 100) + ' %';
+      $('#monthTxt').textContent = `Ce mois-ci : ${eur(monthCash())} encaissés`;
+      const pr = P ? P.prospects || [] : [];
+      const sent = P && P.sent ? P.sent[today()] || 0 : 0;
+      const due = pr.filter((p) => p.status === 'envoye' && daysSince(p.date) >= 3).length;
+      const hot = pr.filter((p) => p.status === 'interesse').length;
+      $('#kSent').textContent = sent; $('#kDue').textContent = due; $('#kHot').textContent = hot;
+      $('#kDueBox').classList.toggle('alert', due > 0);
+      const vids = read('vx-mes-videos', []).length;
+      const T = [
+        { e: '🔔', t: due ? `${due} relance${due > 1 ? 's' : ''} à envoyer` : 'Aucune relance aujourd\'hui', s: 'Messages envoyés il y a 3 jours sans réponse', href: '/outils/prospection.html', done: !due },
+        { e: '📨', t: `Nouveaux messages : ${sent} / 15`, s: P ? 'En mode rafale, ~5 minutes' : 'Ouvre la prospection pour charger tes prospects', href: '/outils/prospection.html', done: sent >= 15 },
+        { e: '🔥', t: hot ? `${hot} prospect${hot > 1 ? 's' : ''} intéressé${hot > 1 ? 's' : ''}` : 'Pas encore d\'intéressé', s: hot ? 'Envoie-leur leur maquette ou le lien de paiement' : 'Ça viendra avec les relances', href: '/outils/prospection.html', done: !hot },
+        { e: '🎬', t: `Poster la vidéo du jour (${vids}/20)`, s: 'TikTok + Reels + Shorts', href: '/outils/mes-videos.html', done: vids >= 20 },
+      ];
+      $('#todos').innerHTML = T.map((x) => `<a class="todo ${x.done ? 'done' : ''}" href="${x.href}"><span class="e">${x.e}</span><span class="t"><b>${esc(x.t)}</b><small>${esc(x.s)}</small></span><span class="go">›</span></a>`).join('');
+    }
+
+    /* Liens à envoyer */
+    const L = [
+      ['Mon site', 'https://vortex-agence.fr'],
+      ['Démo restaurant', 'https://vortex-agence.fr/demo/restaurant/'],
+      ['Démo artisan / plombier', 'https://vortex-agence.fr/demo/artisan/'],
+      ['Démo coiffure / beauté', 'https://vortex-agence.fr/demo/coiffure/'],
+      ['Démo garage', 'https://vortex-agence.fr/demo/garage/'],
+      ['💳 Paiement site 250 €', 'https://buy.stripe.com/6oU7sKeFweKm5UU84z7Zu04'],
+      ['💳 Maintenance 50 €/mois', 'https://buy.stripe.com/9B63cucxo0Tw5UU5Wr7Zu05'],
+      ['AI Répondeur — page', 'https://vortex-agence.fr/repondeur/'],
+      ['AI Répondeur — démo vocale', 'https://vortex-agence.fr/repondeur/demo/'],
+      ['💳 AI Répondeur 199 €/mois', 'https://buy.stripe.com/aFaeVc0OG7hUfvugB57Zu07'],
+      ['AI Répondeur — questionnaire client', 'https://vortex-agence.fr/repondeur/demarrage/'],
+      ['Vortex Avis — page', 'https://vortex-agence.fr/avis/'],
+      ['💳 Vortex Avis 29 €/mois', 'https://buy.stripe.com/dRm14mgNEbyagzyacH7Zu06'],
+    ];
+    $('#links').innerHTML = '<div class="card">' + L.map(([n, u], i) => `<div class="link"><div class="t"><b>${esc(n)}</b><small>${esc(u.replace('https://', ''))}</small></div><button class="ib" data-copy="${i}" aria-label="Copier">📋</button><button class="ib" data-share="${i}" aria-label="Partager">📤</button></div>`).join('') + '</div>';
+    $('#links').addEventListener('click', async (e) => {
+      const c = e.target.closest('[data-copy]'), s = e.target.closest('[data-share]');
+      if (c) { const u = L[+c.dataset.copy][1]; try { await navigator.clipboard.writeText(u); toast('Lien copié ✓'); } catch (err) { prompt('Copie le lien :', u); } }
+      if (s) { const [n, u] = L[+s.dataset.share]; if (navigator.share) { navigator.share({ title: n, url: u }).catch(() => {}); } else { location.href = `sms:?&body=${encodeURIComponent(u)}`; } }
+    });
+
+    /* Installation */
+    const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+    let deferred = null;
+    if (!standalone) {
+      $('#install').classList.add('on');
+      $('#installTxt').textContent = /iphone|ipad/i.test(navigator.userAgent) ? 'Dans Safari : bouton Partager ⬆️ puis « Sur l\'écran d\'accueil ».' : 'Dans Chrome : menu ⋮ puis « Installer l\'application » (ou « Ajouter à l\'écran d\'accueil »).';
+    }
+    addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; $('#installBtn').hidden = false; });
+    $('#installBtn').onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; $('#install').classList.remove('on'); };
+
+    renderHome(); renderSales();
+    try { const t = sessionStorage.getItem('vx-tab'); if (t) go(t); } catch (e) {}
+    addEventListener('pageshow', renderHome);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) renderHome(); });
+    if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/outils/app/sw.js').catch(() => {}));
+  })();
+  </script>
+</body>
+</html>
