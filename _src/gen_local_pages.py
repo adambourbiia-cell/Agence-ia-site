@@ -248,6 +248,8 @@ def links_block(current):
         <div class="local-links__row">{cities}</div>
         <p class="local-links__t">Et pour chaque métier</p>
         <div class="local-links__row">{jobs}</div>
+        <p class="local-links__t">Nos solutions pour les pros</p>
+        <div class="local-links__row"><a href="/repondeur/">AI Répondeur : plus d'appels manqués</a><a href="/avis/">Vortex Avis : plus d'avis Google</a></div>
       </div>
     </section>"""
 
