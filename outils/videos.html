@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>30 jours de vidéos — Vortex</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; --gold:#f5b942; --ok:#3ecf8e; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font-family: "Inter", system-ui, sans-serif; line-height: 1.5; font-size: 15px; -webkit-font-smoothing: antialiased; }
+    .w { max-width: 680px; margin: 0 auto; padding: 22px 16px 60px; }
+    h1 { font-family: "Syne", sans-serif; font-size: 28px; line-height: 1.15; margin: 0 0 8px; }
+    h1 em { font-style: normal; color: var(--teal-2); }
+    .lead { color: var(--muted); margin: 0 0 18px; }
+    .rules { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-bottom: 18px; font-size: 14px; }
+    .rules b { color: var(--gold); }
+    .rules ul { margin: 6px 0 0; padding-left: 18px; color: #d5dbe5; }
+    .bar { position: sticky; top: 0; z-index: 3; background: rgba(15,17,23,.95); backdrop-filter: blur(8px); padding: 10px 0; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+    .bar .prog { flex: 1; height: 8px; background: var(--bg-3); border-radius: 99px; overflow: hidden; }
+    .bar .prog i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--teal), var(--teal-2)); transition: width .4s; }
+    .bar span { font-size: 13px; color: var(--muted); white-space: nowrap; }
+    .bar select { background: var(--bg-3); color: #fff; border: 1px solid var(--line-2); border-radius: 10px; padding: 7px 9px; font: inherit; font-size: 13px; }
+    h2 { font-family: "Syne", sans-serif; font-size: 19px; margin: 26px 0 10px; }
+    .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 10px; overflow: hidden; }
+    .card.is-done { opacity: .55; }
+    .card summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; gap: 12px; align-items: center; }
+    .card summary::-webkit-details-marker { display: none; }
+    .day { flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--bg-3); display: grid; place-items: center; font-weight: 700; font-size: 13px; color: var(--teal-2); line-height: 1.05; text-align: center; }
+    .card.is-done .day { background: rgba(62,207,142,.15); color: var(--ok); }
+    .t b { display: block; font-size: 15px; }
+    .t small { color: var(--muted); font-size: 12.5px; }
+    .body { padding: 0 16px 16px; }
+    .lbl { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 12px 0 4px; }
+    .hook { font-size: 17px; font-weight: 700; color: var(--gold); }
+    ol { margin: 0; padding-left: 20px; color: #dfe4ec; }
+    ol li { margin: 3px 0; }
+    .desc { white-space: pre-wrap; background: var(--bg-3); border: 1px dashed var(--line-2); border-radius: 12px; padding: 11px 12px; font-size: 14px; color: #dfe4ec; }
+    .acts { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    button { border: 1px solid var(--line-2); background: var(--bg-3); color: #fff; border-radius: 10px; padding: 10px 13px; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; }
+    button.p { background: linear-gradient(180deg, var(--teal-2), var(--teal)); border-color: transparent; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: #fff; color: #0f1117; font-weight: 600; padding: 10px 18px; border-radius: 99px; opacity: 0; transition: .3s; pointer-events: none; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <h1>30 jours de <em>vidéos.</em></h1>
+    <p class="lead">Une vidéo par jour pour TikTok, Instagram Reels et YouTube Shorts (poste la même sur les trois). Ouvre le jour, filme, copie la description, publie, coche « Fait ».</p>
+    <div class="rules">
+      <b>Les 5 règles</b>
+      <ul>
+        <li>L'<b>accroche</b> doit être dite ou écrite dans les 2 premières secondes.</li>
+        <li>20 à 40 secondes, format vertical, sous-titres (CapCut les fait automatiquement).</li>
+        <li>Filme ton écran (enregistrement d'écran du téléphone) + ta voix, pas besoin de montrer ton visage au début.</li>
+        <li>Publie entre 12h et 13h ou entre 18h et 20h, et réponds à tous les commentaires dans l'heure.</li>
+        <li>Lien en bio : <b>vortex-agence.fr</b>. Ne mets jamais de faux chiffres ni de faux avis.</li>
+      </ul>
+    </div>
+    <div class="bar"><div class="prog"><i id="prog"></i></div><span id="count">0/30</span><select id="filter"><option value="all">Toutes</option><option value="todo">À faire</option></select></div>
+    <div id="list"></div>
+  </div>
+  <div class="toast" id="toast">Description copiée ✓</div>
+
+  <script>
+  (() => {
+    const H = '#creationsiteweb #artisan #entrepreneur #lyon #givors';
+    const V = [
+      // Semaine 1 — montrer ce que tu fais
+      { w: 'Semaine 1 — Montrer ce que tu fais', t: 'Le site d\'un plombier en 60 secondes', f: 'Démo accélérée',
+        h: 'Je crée le site d\'un plombier… en 60 secondes.',
+        s: ['Enregistre ton écran sur la démo Cuivre & Co (vortex-agence.fr/demo/artisan/) en scrollant doucement.', 'Accélère ×2 sur CapCut, musique tendance.', 'Montre 3 détails : bouton « Appeler », estimation de prix, avant/après.', 'Texte final : « Site clé en main : 250 €. Lien en bio. »'],
+        d: 'Le site d\'un plombier en 60 secondes ⚡ Bouton d\'appel, estimation de prix, avant/après… Tout ce qu\'il faut pour être appelé. Site clé en main à 250 €, lien en bio.\n#plombier ' + H },
+      { w: '', t: 'Un restaurant qui donne faim', f: 'Démo + voix',
+        h: 'Voilà à quoi devrait ressembler le site de ton restaurant.',
+        s: ['Scrolle la démo Le Brasier (vortex-agence.fr/demo/restaurant/).', 'Insiste sur le menu, les photos et la carte Google Maps.', 'Voix : « Un client affamé décide en 10 secondes. »', 'Fin : « Restaurateurs, c\'est 250 €. Lien en bio. »'],
+        d: 'Le site d\'un restaurant doit donner faim en 10 secondes 🍔 Menu clair, photos, itinéraire en un clic. Restaurateurs de Lyon et alentours : site à 250 €, lien en bio.\n#restaurant #restaurateur ' + H },
+      { w: '', t: 'Le site d\'une coiffeuse', f: 'Démo + voix',
+        h: 'Coiffeuses : vos clientes regardent votre site avant de réserver.',
+        s: ['Scrolle la démo Atelier Lune (vortex-agence.fr/demo/coiffure/).', 'Montre les prestations et les tarifs.', 'Voix : « Des tarifs clairs = moins d\'appels pour rien. »', 'Fin : appel à l\'action vers le lien en bio.'],
+        d: 'Un salon de coiffure mérite un site à son image ✂️ Prestations, tarifs, prise de contact en un geste. Site clé en main à 250 €, lien en bio.\n#coiffeuse #salondecoiffure ' + H },
+      { w: '', t: 'Le site d\'un garage', f: 'Démo + voix',
+        h: 'Garagistes : votre client tape sa plaque… et a son devis.',
+        s: ['Filme la démo Delta Auto (vortex-agence.fr/demo/garage/) : tape une plaque AB-123-CD.', 'Montre la jauge de prix qui bouge.', 'Montre la réservation d\'un créneau.', 'Fin : « Ce site, il peut être le vôtre. »'],
+        d: 'Un site de garage où le client tape sa plaque et voit une estimation 🚗 Plus de clients, moins d\'appels « juste pour un prix ». Lien en bio.\n#garage #garagiste #mecanique ' + H },
+      { w: '', t: 'Combien coûte un site internet ?', f: 'Face caméra ou texte',
+        h: 'Un site internet, ça coûte combien en vrai ?',
+        s: ['Texte à l\'écran : « Agence : 1 500 à 5 000 € ».', '« Faire soi-même : gratuit… mais 30 heures et un résultat moyen ».', '« Chez moi : 250 €, clé en main, maquette avant de payer ».', 'Fin : « Dis-moi ton métier en commentaire, je te dis ce qu\'il te faut. »'],
+        d: 'Combien coûte un site internet en 2026 ? 💸 Agence, faire soi-même ou clé en main à 250 € : je t\'explique. Dis-moi ton métier en commentaire 👇\n#siteinternet #prix ' + H },
+      { w: '', t: 'Avant / après : Facebook vs site', f: 'Comparatif écran',
+        h: 'Ta page Facebook ne suffit pas. Regarde.',
+        s: ['Montre une recherche Google « plombier Givors » : ce sont surtout des sites qui sortent.', 'Montre une page Facebook (floutée) puis un de tes sites démo.', 'Voix : « Facebook, c\'est pour tes habitués. Google, c\'est pour les nouveaux clients. »', 'Fin : lien en bio.'],
+        d: 'Facebook ou site internet ? Les deux, mais pas pour les mêmes clients 👀 Les nouveaux clients te cherchent sur Google. Lien en bio.\n#facebook #google ' + H },
+      { w: '', t: 'Qui je suis', f: 'Face caméra',
+        h: 'Je crée des sites pour les artisans de Givors à 250 €. Voilà pourquoi.',
+        s: ['Présente-toi en 3 phrases : prénom, Givors, ce que tu fais.', 'Pourquoi : trop de bons artisans invisibles sur Google.', 'Ce qui te différencie : maquette gratuite avant de payer, prix fixe.', 'Fin : « Abonne-toi, je montre tout ici. »'],
+        d: 'Je m\'appelle [prénom], je crée des sites pour les artisans et commerçants de Givors et Lyon 👋 Maquette gratuite, prix fixe à 250 €. Abonne-toi pour suivre l\'aventure.\n#entrepreneur #freelance ' + H },
+      // Semaine 2 — éduquer
+      { w: 'Semaine 2 — Donner des conseils', t: '3 erreurs qui font fuir les clients', f: 'Liste',
+        h: '3 erreurs qui font fuir les clients de ton site.',
+        s: ['1. Pas de numéro cliquable sur mobile.', '2. Un site qui met plus de 3 secondes à charger.', '3. Pas de prix, même indicatif.', 'Montre à chaque fois l\'exemple corrigé sur une de tes démos.'],
+        d: '3 erreurs qui font fuir les clients de ton site 🚫 La 1 est partout chez les artisans. Tu en fais combien ?\n#conseil #webdesign ' + H },
+      { w: '', t: 'Apparaître sur Google Maps', f: 'Tuto écran',
+        h: 'Comment apparaître sur Google Maps gratuitement.',
+        s: ['Montre la création d\'une fiche Google Business (business.google.com).', 'Les 3 infos indispensables : catégorie, horaires, photos.', 'Astuce : demander des avis à chaque client.', 'Fin : « Besoin d\'aide ? Lien en bio. »'],
+        d: 'Apparaître sur Google Maps, c\'est gratuit 📍 Voilà les 3 réglages à faire en 10 minutes. Enregistre la vidéo pour plus tard.\n#googlemaps #googlemybusiness ' + H },
+      { w: '', t: 'Pourquoi les avis Google comptent', f: 'Texte + écran',
+        h: 'Entre 4,8 étoiles et 3,9… tu appelles qui ?',
+        s: ['Montre deux fiches Google fictives côte à côte.', 'Explique : les clients comparent les étoiles et le nombre d\'avis.', 'Astuce : demander l\'avis juste après la prestation, avec le lien direct.', 'Fin : « Je te montre comment récupérer ton lien d\'avis ? »'],
+        d: 'Les avis Google, c\'est ce qui fait choisir entre deux artisans ⭐ L\'astuce : demander au bon moment, avec le bon lien.\n#avisgoogle #reputation ' + H },
+      { w: '', t: 'Un site en 2026 : le minimum', f: 'Checklist',
+        h: 'Ton site doit faire ces 5 choses. Sinon il ne sert à rien.',
+        s: ['Être parfait sur téléphone.', 'Afficher le numéro et un bouton d\'appel.', 'Dire clairement la zone d\'intervention.', 'Montrer de vraies photos et des avis.', 'Être trouvé sur Google pour « métier + ville ».'],
+        d: 'La checklist d\'un site qui ramène des clients ✅ Coche ce que ton site fait déjà en commentaire.\n#checklist #siteweb ' + H },
+      { w: '', t: 'Mythe : « Mes clients viennent du bouche-à-oreille »', f: 'Face caméra',
+        h: '« J\'ai pas besoin de site, j\'ai le bouche-à-oreille. »',
+        s: ['Réponds : le bouche-à-oreille, c\'est génial…', '…mais la personne à qui on te recommande va te chercher sur Google.', 'Si elle ne trouve rien ou un vieux Facebook, elle doute.', 'Fin : « Le site rassure ceux qu\'on t\'envoie. »'],
+        d: 'Le bouche-à-oreille, c\'est top… jusqu\'à ce qu\'on te cherche sur Google 🔎 Le site rassure les clients qu\'on t\'envoie.\n#boucheaoreille ' + H },
+      { w: '', t: 'Les mots-clés que tes clients tapent', f: 'Tuto écran',
+        h: 'Tes clients ne tapent pas ton nom sur Google. Ils tapent ça.',
+        s: ['Montre la saisie « plombier urgence Givors » dans Google.', 'Explique : il faut ces mots sur ton site.', 'Montre une de tes pages locales (ex. /site-internet-plombier-lyon/).', 'Fin : « Dis-moi ton métier, je te donne tes mots-clés. »'],
+        d: 'Tes clients tapent « métier + ville », pas ton nom 🔍 Voilà comment être trouvé. Dis-moi ton métier en commentaire, je te donne tes mots-clés.\n#seo #referencement ' + H },
+      { w: '', t: 'Questions / réponses', f: 'Réponse à commentaire',
+        h: 'Tu m\'as demandé : « C\'est quoi la différence entre 250 € et 3 000 € ? »',
+        s: ['Réponds à une vraie question reçue en commentaire (option TikTok « répondre en vidéo »).', 'Sois honnête : un gros site e-commerce coûte plus cher.', 'Pour un artisan, un site vitrine bien fait suffit.', 'Fin : « Pose ta question, je réponds en vidéo. »'],
+        d: 'Je réponds à vos questions sur les sites internet 💬 Pose la tienne en commentaire, je réponds en vidéo.\n#faq ' + H },
+      // Semaine 3 — coulisses et preuve
+      { w: 'Semaine 3 — Coulisses et preuves', t: 'Ma journée de créateur de sites', f: 'Vlog',
+        h: 'Une journée à créer des sites pour des artisans.',
+        s: ['Plans courts : café, ordi, maquette en cours, appel client (sans son).', 'Montre l\'outil de prospection ou la maquette.', 'Termine sur la mise en ligne.', 'Musique tendance, pas de voix nécessaire.'],
+        d: 'Une journée dans la peau d\'un créateur de sites à Givors ☕💻 De la maquette à la mise en ligne.\n#dayinmylife #freelance ' + H },
+      { w: '', t: 'Je fais une maquette en direct', f: 'Écran accéléré',
+        h: 'Je fais la maquette d\'un site… et le client ne paie que si elle lui plaît.',
+        s: ['Filme la personnalisation d\'une démo (nom, couleurs, textes).', 'Accéléré ×4.', 'Montre le résultat final sur téléphone.', 'Fin : « Tu veux la tienne ? Lien en bio. »'],
+        d: 'Maquette gratuite : tu vois ton site AVANT de payer 👀 Tu veux la tienne ? Lien en bio.\n#maquette #webdesign ' + H },
+      { w: '', t: 'Les coulisses d\'un site rapide', f: 'Écran',
+        h: 'Pourquoi mes sites chargent en moins de 2 secondes.',
+        s: ['Montre un test PageSpeed (pagespeed.web.dev) sur vortex-agence.fr.', 'Explique simplement : images légères, pas de plugins inutiles.', 'Voix : « Un site lent = des clients qui partent. »', 'Fin : lien en bio.'],
+        d: 'Un site lent fait fuir les clients 🐢 Voilà pourquoi les miens chargent vite.\n#vitesse #performance ' + H },
+      { w: '', t: 'Combien je gagne (honnêtement)', f: 'Face caméra',
+        h: 'Créer des sites à 250 € : combien je gagne vraiment ?',
+        s: ['Sois transparent avec TES vrais chiffres (même si c\'est le début).', 'Explique la maintenance à 50 €/mois.', 'Parle de tes objectifs.', 'Fin : « Abonne-toi pour suivre. »'],
+        d: 'Je montre mes vrais chiffres de créateur de sites 📊 Abonne-toi pour suivre l\'évolution.\n#business #transparence ' + H },
+      { w: '', t: 'Mon premier client', f: 'Storytelling',
+        h: 'Mon premier client m\'a dit non 3 fois.',
+        s: ['Raconte une vraie histoire (prospection, refus, ce que tu as appris).', 'Si tu n\'as pas encore de client : « Le jour où j\'ai envoyé mes 100 premiers messages ».', 'Leçon en 1 phrase.', 'Fin : question aux abonnés.'],
+        d: 'L\'histoire de mon premier client (ou presque) 😅 Et toi, ton premier client, c\'était comment ?\n#storytelling #entrepreneuriat ' + H },
+      { w: '', t: 'Étude de cas', f: 'Avant / après',
+        h: 'Avant : invisible sur Google. Après : regarde.',
+        s: ['Dès que tu as un client (avec son accord) : montre l\'avant (Facebook, rien).', 'Puis le nouveau site, page par page.', 'Si possible, un message ou un avis du client.', 'Sans client : utilise une démo et dis-le clairement.'],
+        d: 'Avant / après : le site d\'un [métier] de [ville] 🔥 Ton commerce pourrait être le prochain. Lien en bio.\n' + H },
+      { w: '', t: 'Ton site sur Google en 48 h', f: 'Tuto écran',
+        h: 'Ton site est en ligne mais pas sur Google ? Fais ça.',
+        s: ['Montre Google Search Console : ajouter le site.', 'Envoyer le sitemap.', 'Demander l\'indexation d\'une page.', 'Fin : « Enregistre pour plus tard. »'],
+        d: 'Ton site n\'apparaît pas sur Google ? Voilà comment le faire indexer rapidement ⚡ Enregistre la vidéo.\n#searchconsole #seo ' + H },
+      // Semaine 4 — engagement et offre
+      { w: 'Semaine 4 — Engagement et offre', t: 'Je note les sites de vos commerces', f: 'Série interactive',
+        h: 'Envoie-moi le site de ton commerce, je le note sur 10.',
+        s: ['Demande en commentaire les sites des abonnés.', 'Dans les vidéos suivantes : note-les avec bienveillance (points forts + 1 conseil).', 'Ne te moque jamais.', 'Fin : « Le tien, je le note demain ? »'],
+        d: 'Envoie-moi le site de ton commerce en commentaire, je le note sur 10 📝 Avec des conseils gratuits, sans jugement.\n#audit #conseil ' + H },
+      { w: '', t: 'Devine le métier', f: 'Jeu',
+        h: 'Devine le métier de ce site en 3 secondes.',
+        s: ['Montre une démo floutée qui se dévoile petit à petit.', 'Le public devine en commentaire.', 'Révèle à la fin + le prix.', 'Relance : « Lequel tu veux voir ensuite ? »'],
+        d: 'Devine le métier en 3 secondes 🤔 Réponse à la fin ! Commente avant de regarder.\n#jeu #devinette ' + H },
+      { w: '', t: 'Ce que j\'ai mis dans un site à 250 €', f: 'Liste',
+        h: 'Voilà tout ce que tu as pour 250 €.',
+        s: ['Montre chaque élément : design, mobile, Google, formulaire, mise en ligne.', 'Ajoute : maquette gratuite avant de payer.', 'Option : maintenance 50 €/mois.', 'Fin : lien en bio.'],
+        d: 'Tout ce qui est inclus dans un site à 250 € ✅ Sans surprise, sans abonnement obligatoire. Lien en bio.\n#offre ' + H },
+      { w: '', t: 'Réponse à « c\'est trop cher »', f: 'Face caméra',
+        h: '« 250 € pour un site, c\'est cher. » Vraiment ?',
+        s: ['Calcul simple : un seul client trouvé grâce au site le rembourse.', 'Comparer à une pub dans un journal local.', 'Rappeler : maquette gratuite, pas de risque.', 'Fin : question en commentaire.'],
+        d: '250 € pour un site, c\'est cher ? Faisons le calcul 🧮 Un seul nouveau client et c\'est remboursé.\n#objection #vente ' + H },
+      { w: '', t: 'Je fais le site d\'un abonné', f: 'Concours honnête',
+        h: 'Je crée GRATUITEMENT le site d\'un commerçant de Givors.',
+        s: ['Annonce : 1 site offert parmi les commentaires (commerce local réel).', 'Règles simples : s\'abonner + commenter son métier.', 'Tirage au sort en live ou vidéo.', 'Suivre la création dans les vidéos suivantes (contenu pour 2 semaines !).'],
+        d: '🎁 Je crée gratuitement le site d\'un commerçant de Givors / Lyon ! Abonne-toi et commente ton métier. Tirage au sort le [date].\n#concours #gratuit ' + H },
+      { w: '', t: 'Tuto : demander un avis Google', f: 'Tuto écran',
+        h: 'Le message parfait pour demander un avis Google.',
+        s: ['Montre comment copier son lien d\'avis dans Google Business.', 'Donne le message type à envoyer par SMS.', 'Montre Vortex Avis rapidement (vortex-agence.fr/avis/).', 'Fin : « Enregistre et teste-le cette semaine. »'],
+        d: 'Le message parfait pour obtenir des avis Google ⭐ Copie-le et envoie-le à tes 5 derniers clients.\n#avisgoogle #astuce ' + H },
+      { w: '', t: 'Le site d\'un artisan du bâtiment', f: 'Démo',
+        h: 'Maçons, peintres : vos chantiers sont votre meilleure pub.',
+        s: ['Montre la galerie avant/après de la démo artisan.', 'Explique : les photos de chantiers vendent mieux que n\'importe quel texte.', 'Astuce : prendre des photos avant/après à chaque chantier.', 'Fin : lien en bio.'],
+        d: 'Vos photos de chantiers sont votre meilleure pub 📸 Un site qui les met en valeur fait la différence.\n#maconnerie #peintre #batiment ' + H },
+      { w: '', t: 'Bilan du mois', f: 'Face caméra',
+        h: '30 jours de vidéos pour mon business. Résultat :',
+        s: ['Tes vrais chiffres : vues, abonnés, messages, clients.', 'Ce qui a le mieux marché.', 'Ce que tu fais le mois prochain.', 'Remercie la communauté.'],
+        d: 'J\'ai posté une vidéo par jour pendant 30 jours pour mon business. Voilà le résultat 📈 Merci à vous !\n#bilan #challenge ' + H },
+      { w: '', t: 'L\'offre du mois', f: 'Annonce',
+        h: 'Ce mois-ci : maquette gratuite + mise en ligne en 7 jours.',
+        s: ['Montre 3 démos rapidement.', 'Annonce une offre limitée réelle (ex. 5 places ce mois-ci).', 'Explique comment réserver : message ou lien en bio.', 'Fin : « Premier arrivé, premier servi. »'],
+        d: 'Ce mois-ci : maquette gratuite et site en ligne en 7 jours 🚀 Seulement [5] places. Écris-moi « SITE » en message privé.\n#offre #promo ' + H },
+    ];
+    const KEY = 'vx-videos-done';
+    let done = []; try { done = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {} };
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const toast = () => { const t = document.getElementById('toast'); t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1500); };
+    function render() {
+      const todo = document.getElementById('filter').value === 'todo';
+      let html = '';
+      V.forEach((v, i) => {
+        if (v.w && !todo) html += `<h2>${esc(v.w)}</h2>`;
+        const isDone = done.includes(i);
+        if (todo && isDone) return;
+        html += `<details class="card ${isDone ? 'is-done' : ''}" data-i="${i}" ${!isDone && i === V.findIndex((_, k) => !done.includes(k)) ? 'open' : ''}>
+          <summary><span class="day">J${i + 1}</span><span class="t"><b>${esc(v.t)}</b><small>${esc(v.f)}</small></span></summary>
+          <div class="body">
+            <div class="lbl">Accroche (2 premières secondes)</div><div class="hook">« ${esc(v.h)} »</div>
+            <div class="lbl">Ce que tu filmes</div><ol>${v.s.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>
+            <div class="lbl">Description + hashtags</div><div class="desc">${esc(v.d)}</div>
+            <div class="acts"><button class="p" data-a="copy">Copier la description</button><button data-a="done">${isDone ? 'Annuler' : '✓ Fait'}</button></div>
+          </div></details>`;
+      });
+      document.getElementById('list').innerHTML = html || '<p class="lead">Bravo, les 30 vidéos sont faites 🎉</p>';
+      document.getElementById('count').textContent = `${done.length}/30`;
+      document.getElementById('prog').style.width = (done.length / 30 * 100) + '%';
+    }
+    document.getElementById('filter').onchange = render;
+    document.getElementById('list').addEventListener('click', async (e) => {
+      const b = e.target.closest('[data-a]'); if (!b) return;
+      const i = +b.closest('[data-i]').dataset.i;
+      if (b.dataset.a === 'copy') { try { await navigator.clipboard.writeText(V[i].d); toast(); } catch (err) { prompt('Copie la description :', V[i].d); } }
+      if (b.dataset.a === 'done') { done = done.includes(i) ? done.filter((x) => x !== i) : [...done, i]; save(); render(); }
+    });
+    render();
+  })();
+  </script>
+</body>
+</html>
