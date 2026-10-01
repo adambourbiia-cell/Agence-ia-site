@@ -5,6 +5,7 @@ Disallow: /merci.html
 Disallow: /outils/
 Disallow: /avis/app/
 Disallow: /repondeur/demarrage/
+Disallow: /repondeur/demo/
 Disallow: /_src/
 Disallow: /paiement-confirme.html
 

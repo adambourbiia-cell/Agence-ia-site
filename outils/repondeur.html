@@ -84,6 +84,7 @@
       <label for="services">Services</label><textarea id="services"></textarea>
       <label for="faq">Infos utiles / FAQ</label><textarea id="faq"></textarea>
       <label for="greeting">Phrase d'accueil (facultatif)</label><input id="greeting">
+      <label style="display:flex;gap:10px;align-items:flex-start;font-weight:500;margin-top:14px"><input type="checkbox" id="demo" style="width:auto;margin-top:4px"> Assistante de démonstration pour un prospect (aucun SMS envoyé, 3 min max, « Portable des SMS » facultatif). Mets le portable du prospect dans « Numéro habituel » pour lui envoyer le lien.</label>
       <div class="btns">
         <button id="preview">Aperçu du script</button>
         <button class="p" id="create">Créer l'assistante</button>
@@ -136,7 +137,7 @@
       try { const m = raw.match(/\{[\s\S]*\}/); setClient(JSON.parse(m ? m[0] : raw)); say('Formulaire rempli. Vérifie puis crée l\'assistante.'); }
       catch (e) { say('Fiche illisible : colle le contenu du champ « fiche_json » de l\'e-mail.', true); }
     });
-    $('#clear').addEventListener('click', () => { setClient({}); $('#paste').value = ''; editing = null; $('#update').hidden = true; $('#create').hidden = false; $('#out').hidden = true; say(''); });
+    $('#clear').addEventListener('click', () => { $('#demo').checked = false; setClient({}); $('#paste').value = ''; editing = null; $('#update').hidden = true; $('#create').hidden = false; $('#out').hidden = true; say(''); });
 
     $('#preview').addEventListener('click', async () => {
       try { const d = await call('preview', { client: client() }); $('#out').hidden = false; $('#out').textContent = `ACCUEIL :\n${d.firstMessage}\n\nINSTRUCTIONS :\n${d.prompt}`; say(''); }
@@ -144,15 +145,16 @@
     });
     $('#create').addEventListener('click', async () => {
       if (!confirm(`Créer l'assistante pour « ${client().biz || '?'} » ?`)) return;
-      try { const d = await call('create', { client: client(), voice: $('#voice').value }); say(`Assistante créée ✓ (id ${d.id}). Lie-lui maintenant un numéro dans la liste ci-dessous.`); loadList(); }
+      try { const d = await call('create', { client: client(), voice: $('#voice').value, demo: $('#demo').checked }); say(`Assistante créée ✓ (id ${d.id}). Lie-lui maintenant un numéro dans la liste ci-dessous.`); loadList(); }
       catch (e) { say(e.message, true); }
     });
     $('#update').addEventListener('click', async () => {
-      try { await call('update', { id: editing, client: client(), voice: $('#voice').value }); say('Assistante mise à jour ✓'); loadList(); }
+      try { await call('update', { id: editing, client: client(), voice: $('#voice').value, demo: $('#demo').checked }); say('Assistante mise à jour ✓'); loadList(); }
       catch (e) { say(e.message, true); }
     });
 
     let rows = [];
+    const demoLink = (c) => `https://vortex-agence.fr/repondeur/demo/?id=${c.id}&n=${encodeURIComponent(c.biz || '')}`;
     async function loadList() {
       const L = $('#list'); L.innerHTML = '<p class="m" style="margin-top:12px">Chargement…</p>';
       try {
@@ -166,13 +168,12 @@
             <li>Si injoignable : <code>**62*${esc(num)}#</code></li>
             <li>Pour tout annuler : <code>##004#</code></li></ol></details>` : '';
           return `<div class="cl" data-i="${i}">
-            <b>${esc(c.biz)}</b>
-            <small>SMS vers ${esc(c.notify)} · ${num ? 'ligne IA : ' + c.numbers.map(esc).join(', ') : 'aucun numéro lié'}</small>
+            <b>${esc(c.biz)}</b>${c.demo ? ' <span class="pill on" style="margin-left:6px">démo</span>' : ''}
+            <small>${c.demo ? 'Lien : ' + esc(demoLink(c)) : 'SMS vers ' + esc(c.notify) + ' · ' + (num ? 'ligne IA : ' + c.numbers.map(esc).join(', ') : 'aucun numéro lié')}</small>
             <div class="btns">
               <button data-a="edit">Modifier</button>
-              <button data-a="num">${num ? 'Changer de numéro' : 'Lier un numéro'}</button>
-              <button data-a="sms">Tester le SMS</button>
-              ${num ? '<button data-a="send">SMS d\'activation au client</button>' : ''}
+              ${c.demo ? '<button data-a="copy">Copier le lien de démo</button><button data-a="demosms">Envoyer la démo par SMS</button><a class="b" target="_blank" rel="noopener" href="' + esc(demoLink(c)) + '">Tester</a>' : `<button data-a="num">${num ? 'Changer de numéro' : 'Lier un numéro'}</button><button data-a="sms">Tester le SMS</button>`}
+              ${num && !c.demo ? '<button data-a="send">SMS d\'activation au client</button>' : ''}
               <button class="d" data-a="del">Supprimer</button>
             </div>${fwd}</div>`;
         }).join('');
@@ -183,8 +184,14 @@
       const b = e.target.closest('[data-a]'); if (!b) return;
       const c = rows[+b.closest('.cl').dataset.i];
       try {
-        if (b.dataset.a === 'edit') { setClient(c.client); editing = c.id; $('#editing').textContent = '· ' + c.biz; $('#update').hidden = false; $('#create').hidden = true; scrollTo({ top: $('#paste').offsetTop - 80, behavior: 'smooth' }); }
+        if (b.dataset.a === 'edit') { $('#demo').checked = !!c.demo; setClient(c.client); editing = c.id; $('#editing').textContent = '· ' + c.biz; $('#update').hidden = false; $('#create').hidden = true; scrollTo({ top: $('#paste').offsetTop - 80, behavior: 'smooth' }); }
         if (b.dataset.a === 'num') { const n = prompt('Numéro Twilio (acheté pour ce client) à lier, ex. +33 4 xx xx xx xx'); if (!n) return; await call('import-number', { id: c.id, number: n, label: c.biz }); alert('Numéro lié ✓'); loadList(); }
+        if (b.dataset.a === 'copy') { await navigator.clipboard.writeText(demoLink(c)); alert('Lien copié ✓'); }
+        if (b.dataset.a === 'demosms') {
+          const to = (c.client.line || c.notify || '').replace(/[^\d+]/g, '');
+          const txt = `Bonjour, ici ${'[ton prénom]'} de Vortex. J'ai préparé l'assistante téléphonique de ${c.biz} : elle répond quand vous ne pouvez pas décrocher et vous envoie chaque demande par SMS. Testez-la en 1 minute, jouez un client qui appelle : ${demoLink(c)}`;
+          location.href = `sms:${to}?&body=${encodeURIComponent(txt)}`;
+        }
         if (b.dataset.a === 'sms') { await call('test-sms', { to: c.notify }); alert('SMS de test envoyé ✓'); }
         if (b.dataset.a === 'del') { if (!confirm(`Supprimer l'assistante de ${c.biz} ? Les appels ne seront plus pris en charge.`)) return; await call('delete', { id: c.id }); loadList(); }
         if (b.dataset.a === 'send') {

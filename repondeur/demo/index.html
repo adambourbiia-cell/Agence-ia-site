@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Démo en direct — AI Répondeur | Vortex</title>
+  <meta name="description" content="Parlez en direct avec une assistante téléphonique IA : jouez un client, elle prend votre demande et la transmet par SMS.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; --red:#ef6461; --ok:#3ecf8e; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: #fff; font-family: "Inter", system-ui, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    body { background: radial-gradient(900px 500px at 50% -10%, rgba(34,193,211,.14), transparent 70%), var(--bg); min-height: 100vh; }
+    .w { max-width: 620px; margin: 0 auto; padding: 22px 16px 50px; }
+    .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+    .logo { display: inline-flex; align-items: center; gap: 9px; font-family: "Syne", sans-serif; font-weight: 700; font-size: 19px; color: #fff; text-decoration: none; }
+    .logo svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; }
+    .logo svg circle { fill: var(--teal-2); stroke: none; }
+    .tag { font-size: 12.5px; font-weight: 600; color: var(--teal-2); border: 1px solid rgba(34,193,211,.35); border-radius: 99px; padding: 4px 11px; }
+    h1 { font-family: "Syne", sans-serif; font-size: 30px; line-height: 1.12; margin: 0 0 10px; text-align: center; letter-spacing: -.01em; }
+    h1 em { font-style: normal; color: var(--teal-2); }
+    .lead { color: var(--muted); text-align: center; margin: 0 auto 26px; max-width: 480px; font-size: 15.5px; }
+    .stage { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 22px; }
+    .mic { position: relative; width: 132px; height: 132px; border-radius: 50%; border: 0; cursor: pointer; color: #fff; background: radial-gradient(circle at 35% 30%, #5fe3f0, #1a9fb0 55%, #0f6f7c); box-shadow: 0 20px 50px -15px rgba(34,193,211,.6); transition: transform .2s; }
+    .mic:active { transform: scale(.96); }
+    .mic svg { width: 46px; height: 46px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .mic::before { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 2px solid rgba(34,193,211,.45); transform: scale(var(--v, 1)); transition: transform .12s; }
+    .mic.is-live { background: radial-gradient(circle at 35% 30%, #ff9d9a, #ef6461 55%, #b8403d); box-shadow: 0 20px 50px -15px rgba(239,100,97,.6); }
+    .mic.is-live::before { border-color: rgba(239,100,97,.5); }
+    .mic.is-wait { opacity: .7; cursor: wait; }
+    .status { font-weight: 600; font-size: 15px; min-height: 24px; text-align: center; }
+    .timer { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; min-height: 20px; }
+    .tips { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; font-size: 14px; color: #d5dbe5; margin-bottom: 18px; }
+    .tips b { color: #fff; }
+    .tips ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); }
+    .log { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .b { max-width: 86%; padding: 9px 13px; border-radius: 16px; font-size: 14.5px; line-height: 1.45; animation: in .35s cubic-bezier(.16,1,.3,1); }
+    @keyframes in { from { opacity: 0; transform: translateY(6px); } }
+    .b--ai { background: rgba(34,193,211,.12); border: 1px solid rgba(34,193,211,.25); border-bottom-left-radius: 5px; }
+    .b--me { background: #262c3b; align-self: flex-end; border-bottom-right-radius: 5px; }
+    .b.is-partial { opacity: .6; }
+    .sms { background: #fff; color: #11141b; border-radius: 18px; padding: 15px 17px; font-size: 14.5px; line-height: 1.5; white-space: pre-line; box-shadow: 0 30px 60px -25px rgba(0,0,0,.8); animation: in .5s cubic-bezier(.16,1,.3,1); margin-bottom: 18px; }
+    .sms small { display: block; color: #6b7482; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+    .cta { background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 18px; padding: 20px; text-align: center; }
+    .cta h2 { font-family: "Syne", sans-serif; font-size: 21px; margin: 0 0 6px; }
+    .cta p { color: var(--muted); font-size: 14.5px; margin: 0 0 14px; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; border-radius: 12px; padding: 13px 18px; font-weight: 700; font-size: 15px; color: #fff; text-decoration: none; background: linear-gradient(180deg, var(--teal-2), var(--teal) 60%, #0f6f7c); margin: 4px; }
+    .btn--dark { background: var(--bg-3); border: 1px solid var(--line-2); }
+    .err { color: var(--red); }
+    .note { color: var(--muted); font-size: 12.5px; text-align: center; margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <div class="top">
+      <a class="logo" href="/repondeur/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5"/><path d="M29 16a13 13 0 0 1-8.5 12.2"/><path d="M16 29A13 13 0 0 1 3.8 20.5"/><path d="M3 16a13 13 0 0 1 8.5-12.2"/><circle cx="16" cy="16" r="4.5"/></svg>vortex</a>
+      <span class="tag">Démo en direct</span>
+    </div>
+
+    <h1>Parlez à l'assistante de <em id="biz">Cuivre &amp; Co</em>.</h1>
+    <p class="lead">Mettez-vous à la place d'un client qui appelle et tombe sur l'AI Répondeur. Appuyez sur le bouton, autorisez le micro, et parlez normalement.</p>
+
+    <div class="stage">
+      <button class="mic" id="mic" type="button" aria-label="Démarrer la démo">
+        <svg viewBox="0 0 24 24" id="icoMic"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></svg>
+      </button>
+      <div class="status" id="status">Appuyez pour appeler</div>
+      <div class="timer" id="timer"></div>
+    </div>
+
+    <div class="tips" id="tips">
+      <b>Idées pour tester :</b>
+      <ul id="tipList">
+        <li>« Bonjour, j'ai une fuite d'eau sous mon évier, c'est urgent. »</li>
+        <li>« Vous intervenez à Grigny ? C'est combien le déplacement ? »</li>
+        <li>Donnez un faux nom et un faux numéro : l'assistante les note.</li>
+      </ul>
+    </div>
+
+    <div class="log" id="log" aria-live="polite"></div>
+    <div id="smsBox"></div>
+
+    <div class="cta">
+      <h2>La même pour votre entreprise ?</h2>
+      <p>Votre nom, vos services, vos horaires. Chaque appel manqué arrive résumé par SMS. 199 €/mois, sans engagement.</p>
+      <a class="btn" href="/repondeur/#tarif">Voir l'offre</a>
+      <a class="btn btn--dark" href="/#contact">Être rappelé</a>
+    </div>
+    <p class="note">Démonstration limitée à 3 minutes. Aucun enregistrement audio n'est conservé.</p>
+  </div>
+
+  <script type="module">
+    const PUBLIC_KEY = 'e14b8504-eb43-49d2-ba73-3cf3e4f9cc83';
+    const DEFAULT_ID = '__DEFAULT_DEMO_ID__';
+    const MAX = 180;
+    const q = new URLSearchParams(location.search);
+    const assistantId = /^[0-9a-f-]{36}$/i.test(q.get('id') || '') ? q.get('id') : DEFAULT_ID;
+    const biz = (q.get('n') || '').trim().slice(0, 60);
+    const $ = (s) => document.querySelector(s);
+    if (biz) {
+      $('#biz').textContent = biz;
+      document.title = `Démo — l'assistante de ${biz} | Vortex`;
+      $('#tipList').innerHTML = '<li>Appelez comme un vrai client : expliquez votre besoin, demandez un prix, un délai…</li><li>Donnez un faux nom et un faux numéro : l\'assistante les note.</li><li>À la fin, vous voyez le SMS que l\'entreprise recevrait.</li>';
+    }
+    const mic = $('#mic'), status = $('#status'), timer = $('#timer'), log = $('#log');
+    let vapi, live = false, t0 = 0, tick, partial = { assistant: null, user: null };
+
+    const setStatus = (t, err) => { status.textContent = t; status.classList.toggle('err', !!err); };
+    const pretty = (p) => { const d = String(p || '').replace(/[^\d]/g, ''); return d.length === 10 ? d.replace(/(\d{2})(?=\d)/g, '$1 ') : String(p || ''); };
+    const bubble = (role, text, isFinal) => {
+      const key = role === 'assistant' ? 'assistant' : 'user';
+      let el = partial[key];
+      if (!el) { el = document.createElement('div'); el.className = 'b ' + (key === 'assistant' ? 'b--ai' : 'b--me'); log.appendChild(el); }
+      el.textContent = text; el.classList.toggle('is-partial', !isFinal);
+      partial[key] = isFinal ? null : el;
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    };
+    const showSms = (a) => {
+      const urg = a.urgence === 'urgent' ? '🔴 URGENT' : a.urgence === 'pas pressé' ? 'Pas pressé' : 'Normal';
+      const lines = [`📞 Nouveau message — ${biz || 'Cuivre & Co'}`, `👤 ${a.nom || 'Nom non donné'}`, `☎️ ${pretty(a.telephone) || 'numéro de l\'appelant'}`, `📝 ${a.besoin || '—'}`, a.adresse ? `📍 ${a.adresse}` : '', `⏱ ${urg}${a.rappel ? ' · rappeler : ' + a.rappel : ''}`].filter(Boolean);
+      const box = document.createElement('div'); box.className = 'sms';
+      const sm = document.createElement('small'); sm.textContent = 'SMS reçu par l\'entreprise · à l\'instant';
+      box.appendChild(sm); box.appendChild(document.createTextNode(lines.join('\n')));
+      $('#smsBox').replaceChildren(box);
+      box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    };
+    const readArgs = (m) => {
+      const list = m.toolCallList || m.toolCalls || (m.toolWithToolCallList || []).map((x) => x.toolCall) || [];
+      for (const t of list) {
+        const name = t?.function?.name || t?.name;
+        if (name !== 'enregistrer_demande') continue;
+        let a = t.function?.arguments ?? t.parameters ?? t.arguments ?? {};
+        if (typeof a === 'string') { try { a = JSON.parse(a); } catch { a = {}; } }
+        return a;
+      }
+      return null;
+    };
+    const stopTimer = () => { clearInterval(tick); timer.textContent = ''; };
+    const reset = () => { live = false; mic.classList.remove('is-live', 'is-wait'); mic.style.setProperty('--v', 1); mic.setAttribute('aria-label', 'Démarrer la démo'); stopTimer(); };
+
+    async function load() {
+      if (vapi) return vapi;
+      const mod = await import('https://cdn.jsdelivr.net/npm/@vapi-ai/web@2.7.1/+esm');
+      const Vapi = mod.default?.default || mod.default;
+      vapi = new Vapi(PUBLIC_KEY);
+      vapi.on('call-start', () => {
+        live = true; mic.classList.remove('is-wait'); mic.classList.add('is-live'); mic.setAttribute('aria-label', 'Raccrocher');
+        setStatus('En ligne — parlez normalement'); t0 = Date.now();
+        tick = setInterval(() => { const s = Math.max(0, MAX - Math.floor((Date.now() - t0) / 1000)); timer.textContent = `Temps restant ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; }, 500);
+      });
+      vapi.on('call-end', () => { reset(); setStatus('Appel terminé. Vous pouvez recommencer.'); });
+      vapi.on('volume-level', (v) => mic.style.setProperty('--v', 1 + Math.min(v, 1) * .25));
+      vapi.on('message', (m) => {
+        if (m.type === 'transcript') bubble(m.role, m.transcript, m.transcriptType === 'final');
+        if (m.type === 'tool-calls') { const a = readArgs(m); if (a) showSms(a); }
+      });
+      vapi.on('error', (e) => { console.error(e); reset(); setStatus('La démo n\'a pas pu démarrer. Vérifiez votre connexion et réessayez.', true); });
+      return vapi;
+    }
+
+    mic.addEventListener('click', async () => {
+      if (live) { vapi.stop(); return; }
+      if (mic.classList.contains('is-wait')) return;
+      if (!navigator.mediaDevices?.getUserMedia) { setStatus('Votre navigateur ne permet pas la démo vocale. Essayez avec Chrome ou Safari.', true); return; }
+      mic.classList.add('is-wait'); setStatus('Connexion…');
+      try {
+        const s = await navigator.mediaDevices.getUserMedia({ audio: true }); s.getTracks().forEach((t) => t.stop());
+      } catch (e) { mic.classList.remove('is-wait'); setStatus('Autorisez le micro pour parler à l\'assistante.', true); return; }
+      try {
+        log.replaceChildren(); $('#smsBox').replaceChildren(); partial = { assistant: null, user: null };
+        await (await load()).start(assistantId);
+      } catch (e) { console.error(e); reset(); setStatus('La démo n\'a pas pu démarrer. Réessayez dans un instant.', true); }
+    });
+  </script>
+</body>
+</html>

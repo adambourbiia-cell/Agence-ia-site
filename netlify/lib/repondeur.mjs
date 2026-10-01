@@ -97,10 +97,10 @@ export const toolDefinition = (serverUrl, secret) => ({
 });
 
 /* Configuration complète envoyée à Vapi (POST /assistant ou PATCH /assistant/:id) */
-export function buildAssistant(c, { serverUrl, secret, voice, model } = {}) {
+export function buildAssistant(c, { serverUrl, secret, voice, model, demo = false } = {}) {
   const v = voice || { provider: 'azure', voiceId: 'fr-FR-DeniseNeural' };
   return {
-    name: `Vortex · ${clean(c.biz, 30)}`.slice(0, 40),
+    name: `${demo ? 'Démo' : 'Vortex'} · ${clean(c.biz, 30)}`.slice(0, 40),
     firstMessage: firstMessage(c),
     firstMessageMode: 'assistant-speaks-first',
     transcriber: { provider: 'deepgram', model: 'nova-2', language: 'fr' },
@@ -113,13 +113,15 @@ export function buildAssistant(c, { serverUrl, secret, voice, model } = {}) {
       tools: [toolDefinition(serverUrl, secret), { type: 'endCall' }],
     },
     endCallMessage: 'Merci pour votre appel, bonne journée !',
-    maxDurationSeconds: 420,
+    maxDurationSeconds: demo ? 180 : 420,
     silenceTimeoutSeconds: 25,
     artifactPlan: { recordingEnabled: false },
     server: { url: serverUrl, headers: { 'x-vortex-secret': secret } },
     serverMessages: ['end-of-call-report'],
+    clientMessages: ['transcript', 'tool-calls', 'speech-update', 'status-update'],
     metadata: {
       vortex: 'repondeur',
+      demo: demo ? '1' : '',
       biz: clean(c.biz, 120),
       notify: e164(c.notify),
       email: clean(c.email, 120),

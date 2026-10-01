@@ -27,6 +27,7 @@ export async function handle(req, fetchImpl = fetch) {
     const results = [];
     for (const t of calls) {
       if (t.name !== TOOL_NAME) { results.push({ name: t.name, toolCallId: t.id, result: 'Outil inconnu.' }); continue; }
+      if (meta.demo) { results.push({ name: t.name, toolCallId: t.id, result: 'Message transmis au gérant par SMS.' }); continue; }
       const sms = await sendSms(meta.notify, smsForRequest(meta, t.args, caller), fetchImpl);
       if (!sms.ok) console.error('SMS non envoyé :', sms.error);
       results.push({ name: t.name, toolCallId: t.id, result: sms.ok ? 'Message transmis au gérant par SMS.' : 'Message enregistré ; le gérant sera prévenu.' });
@@ -37,6 +38,7 @@ export async function handle(req, fetchImpl = fetch) {
   if (message.type === 'end-of-call-report') {
     if (toolWasCalled(message)) return json({ ok: true, skipped: 'déjà transmis' });
     const meta = await metaFor(message, fetchImpl);
+    if (meta.demo) return json({ ok: true, skipped: 'démo' });
     if (!meta.notify) return json({ ok: false, error: 'aucun numéro de notification' });
     const sms = await sendSms(meta.notify, smsForMissed(meta, caller, message), fetchImpl);
     if (!sms.ok) console.error('SMS non envoyé :', sms.error);

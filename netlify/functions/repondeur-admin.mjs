@@ -9,7 +9,7 @@ const VOICES = {
   onyx: { provider: 'openai', voiceId: 'onyx' },
 };
 
-const required = (c) => ['biz', 'notify'].filter((k) => !String(c?.[k] || '').trim());
+const required = (c, demo) => (demo ? ['biz'] : ['biz', 'notify']).filter((k) => !String(c?.[k] || '').trim());
 
 export async function handle(req, fetchImpl = fetch) {
   if (req.method !== 'POST') return json({ error: 'Méthode non autorisée' }, 405);
@@ -22,7 +22,8 @@ export async function handle(req, fetchImpl = fetch) {
   const { action, client = {}, id } = body;
   const serverUrl = env('REPONDEUR_PUBLIC_URL', SITE) + WEBHOOK_PATH;
   const secret = env('REPONDEUR_WEBHOOK_SECRET');
-  const opts = { serverUrl, secret, voice: VOICES[body.voice] || VOICES.denise, model: body.model };
+  const demo = !!body.demo;
+  const opts = { serverUrl, secret, voice: VOICES[body.voice] || VOICES.denise, model: body.model, demo };
 
   switch (action) {
     case 'status': {
@@ -38,7 +39,7 @@ export async function handle(req, fetchImpl = fetch) {
     }
 
     case 'preview': {
-      const miss = required(client);
+      const miss = required(client, demo);
       if (miss.length) return json({ error: `Champs manquants : ${miss.join(', ')}` }, 400);
       return json({ firstMessage: firstMessage(client), prompt: buildPrompt(client) });
     }
@@ -49,7 +50,7 @@ export async function handle(req, fetchImpl = fetch) {
       const ph = await vapi('/phone-number?limit=100', {}, fetchImpl);
       const numbers = ph.ok ? ph.data : [];
       const list = (Array.isArray(r.data) ? r.data : []).filter((a) => a.metadata?.vortex === 'repondeur').map((a) => ({
-        id: a.id, biz: a.metadata.biz, notify: a.metadata.notify, createdAt: a.createdAt,
+        id: a.id, biz: a.metadata.biz, notify: a.metadata.notify, demo: !!a.metadata.demo, createdAt: a.createdAt,
         numbers: numbers.filter((n) => n.assistantId === a.id).map((n) => n.number),
         client: (() => { try { return JSON.parse(a.metadata.client || '{}'); } catch { return {}; } })(),
       }));
@@ -58,9 +59,9 @@ export async function handle(req, fetchImpl = fetch) {
 
     case 'create':
     case 'update': {
-      const miss = required(client);
+      const miss = required(client, demo);
       if (miss.length) return json({ error: `Champs manquants : ${miss.join(', ')}` }, 400);
-      if (!e164(client.notify)) return json({ error: 'Numéro de notification invalide.' }, 400);
+      if (!demo && !e164(client.notify)) return json({ error: 'Numéro de notification invalide.' }, 400);
       if (!secret) return json({ error: 'REPONDEUR_WEBHOOK_SECRET n\'est pas configurée.' }, 500);
       const cfg = buildAssistant(client, opts);
       const r = action === 'create'
