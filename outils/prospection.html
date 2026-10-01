@@ -80,8 +80,13 @@
         <option value="todo">Seulement les concernés</option>
         <option value="all">Tous</option>
       </select>
+      <select id="mode" aria-label="Affichage">
+        <option value="rafale">⚡ Un par un (rafale)</option>
+        <option value="liste">Toute la liste</option>
+      </select>
     </div>
     <div class="stats" id="stats"></div>
+    <div id="due"></div>
   </header>
 
   <main id="list"></main>
@@ -258,7 +263,7 @@
     const $ = (s) => document.querySelector(s);
     $('#me').value = db.me || '';
     $('#me').oninput = (e) => { db.me = e.target.value.trim(); save(); render(); };
-    $('#tpl').onchange = render; $('#filter').onchange = render;
+    $('#tpl').onchange = () => { skipped = new Set(); render(); }; $('#filter').onchange = render;
 
     const isMobileNumber = (p) => /^0[67]/.test(p.replace(/\D/g, ''));
     const intl = (p) => { const d = p.replace(/\D/g, ''); return d.startsWith('0') ? '33' + d.slice(1) : d; };
@@ -308,21 +313,38 @@
       }
     };
 
+    // date « jj/mm/aaaa » → nombre de jours écoulés
+    const daysSince = (d) => { const m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(d || ''); if (!m) return 999; return Math.floor((Date.now() - new Date(+m[3], +m[2] - 1, +m[1])) / 86400000); };
+    const isDue = (p) => p.status === 'envoye' && daysSince(p.date) >= 3;
+    const today = () => new Date().toLocaleDateString('fr-FR');
+    let skipped = new Set();
+    if (!db.mode) db.mode = 'rafale';
+    $('#mode').value = db.mode;
+    $('#mode').onchange = () => { db.mode = $('#mode').value; save(); render(); };
+
     function render() {
       const list = $('#list'); list.innerHTML = '';
       const todo = $('#filter').value === 'todo';
       const counts = {}; db.prospects.forEach((p) => { counts[p.status] = (counts[p.status] || 0) + 1; });
-      $('#stats').innerHTML = `<span><b>${db.prospects.length}</b> prospects</span><span><b>${(counts.envoye || 0) + (counts.relance || 0)}</b> contactés</span><span><b>${(counts.interesse || 0) + (counts.client || 0)}</b> intéressés</span>`;
+      const sentToday = (db.sent && db.sent[today()]) || 0;
+      const due = db.prospects.filter(isDue).length;
+      $('#due').innerHTML = due && $('#tpl').value !== 'relance' ? `<button class="btn primary" id="goDue" type="button" style="width:100%;margin-top:10px">🔔 ${due} relance${due > 1 ? 's' : ''} à faire aujourd'hui</button>` : '';
+      const gd = $('#goDue'); if (gd) gd.onclick = () => { $('#tpl').value = 'relance'; $('#filter').value = 'todo'; skipped = new Set(); render(); };
+      $('#stats').innerHTML = `<span><b>${sentToday}</b>/15 aujourd'hui</span><span><b>${db.prospects.length}</b> prospects</span><span><b>${(counts.envoye || 0) + (counts.relance || 0)}</b> contactés</span><span><b>${(counts.interesse || 0) + (counts.client || 0)}</b> intéressés</span>`;
+      const rafale = db.mode === 'rafale' && todo;
+      let shown = 0, left = 0;
       db.prospects
+        .filter((p) => !(rafale && skipped.has(p.id)))
         .filter((p) => {
           if (!todo) return true;
           const t = $('#tpl').value;
           if (t === 'first') return p.status === 'new';
-          if (t === 'relance') return p.status === 'envoye';
+          if (t === 'relance') return isDue(p);
           if (t === 'paye') return p.status === 'interesse';
           if (['infos', 'maquette'].includes(t) || t.startsWith('o-')) return ['envoye', 'relance', 'interesse'].includes(p.status);
           return true;
         })
+        .filter((p) => { left++; return !rafale || shown++ < 1; })
         .forEach((p) => {
           const card = document.createElement('div');
           card.className = 'card' + (['refus', 'stop', 'client'].includes(p.status) ? ' done' : '');
@@ -340,6 +362,7 @@
               <a class="btn" href="tel:${p.phone.replace(/\s/g, '')}">📞 Appeler</a>
               <select aria-label="Statut">${Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${k === p.status ? 'selected' : ''}>${v}</option>`).join('')}</select>
               <button class="btn small" data-act="del" type="button" title="Supprimer">🗑</button>
+              ${rafale ? '<button class="btn small" data-act="skip" type="button">Passer ⏭</button>' : ''}
             </div>
             ${isMobileNumber(p.phone) ? '' : '<p class="hint">Numéro fixe : le SMS n\'arrivera probablement pas, préfère l\'appel.</p>'}`;
           card.querySelector('.name').textContent = p.name;
@@ -351,13 +374,20 @@
             card.querySelector('[data-act=sms]').href = `sms:${p.phone.replace(/\s/g, '')}?&body=${encodeURIComponent(ta.value)}`;
             card.querySelector('[data-act=wa]').href = `https://wa.me/${intl(p.phone)}?text=${encodeURIComponent(ta.value)}`;
           };
-          const mark = () => { const n = NEXT[$('#tpl').value]; if (n) p.status = n; p.date = new Date().toLocaleDateString('fr-FR'); save(); setTimeout(render, 400); };
+          const mark = () => {
+            const n = NEXT[$('#tpl').value]; if (n) p.status = n; p.date = today();
+            if (['first', 'r-first', 'a-first'].includes($('#tpl').value)) { db.sent = db.sent || {}; db.sent[today()] = (db.sent[today()] || 0) + 1; }
+            if (rafale) skipped.add(p.id);
+            save(); setTimeout(render, 400);
+          };
+          const sk = card.querySelector('[data-act=skip]'); if (sk) sk.onclick = () => { skipped.add(p.id); render(); };
           card.querySelector('[data-act=sms]').addEventListener('click', mark);
           card.querySelector('[data-act=wa]').addEventListener('click', mark);
           card.querySelector('select').onchange = (e) => { p.status = e.target.value; save(); render(); };
           card.querySelector('[data-act=del]').onclick = () => { if (confirm('Supprimer ce prospect ?')) { db.prospects = db.prospects.filter((x) => x !== p); save(); render(); } };
           list.appendChild(card);
         });
+      if (rafale && list.children.length) { const r = document.createElement('p'); r.className = 'hint'; r.style.textAlign = 'center'; r.textContent = `Encore ${left - 1} prospect${left - 1 > 1 ? 's' : ''} après celui-ci`; list.appendChild(r); }
       if (!list.children.length) list.innerHTML = '<div class="card">Personne dans cette étape pour l\'instant. Choisis « Tous » dans le filtre pour voir toute ta liste.</div>';
     }
 
