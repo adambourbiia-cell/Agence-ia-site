@@ -65,6 +65,15 @@
           <option value="o-temps">« Pas le temps »</option>
           <option value="o-reflechir">« Je vais réfléchir »</option>
         </optgroup>
+        <optgroup label="AI Répondeur (199 €/mois)">
+          <option value="r-first">R1. Premier message + démo</option>
+          <option value="r-relance">R2. Relance</option>
+          <option value="r-pay">R3. Il est partant : paiement + configuration</option>
+          <option value="r-cher">« C'est trop cher » (Répondeur)</option>
+        </optgroup>
+        <optgroup label="Vortex Avis (29 €/mois)">
+          <option value="a-first">A1. Proposer Vortex Avis</option>
+        </optgroup>
       </select>
       <input id="me" placeholder="Ton prénom" size="10" aria-label="Ton prénom">
       <select id="filter" aria-label="Filtre">
@@ -256,6 +265,11 @@
     const PAY = 'https://buy.stripe.com/6oU7sKeFweKm5UU84z7Zu04';
     const MAINT = 'https://buy.stripe.com/9B63cucxo0Tw5UU5Wr7Zu05';
     const STOP = '\nSTOP pour ne plus être contacté';
+    const REP = 'https://vortex-agence.fr/repondeur/';
+    const REP_DEMO = 'https://vortex-agence.fr/repondeur/demo/';
+    const REP_PAY = 'https://buy.stripe.com/aFaeVc0OG7hUfvugB57Zu07';
+    const REP_SETUP = 'https://vortex-agence.fr/repondeur/demarrage/';
+    const AVIS = 'https://vortex-agence.fr/avis/';
     // statut appliqué automatiquement après l'envoi de chaque modèle
     const NEXT = { first: 'envoye', relance: 'relance', infos: 'interesse', maquette: 'interesse', paye: 'client' };
     const msg = (p) => {
@@ -277,6 +291,16 @@
           return `Facebook, c'est bien pour vos habitués, mais il remonte très peu sur Google. Quand quelqu'un cherche « ${LABEL[p.job] === 'votre métier' ? 'artisan' : LABEL[p.job].replace(/^un |^une /, '')} ${p.city} », ce sont les sites qui apparaissent. Les deux se complètent très bien !`;
         case 'o-temps':
           return `Justement, vous n'avez rien à faire : envoyez-moi 3 photos et vos services, je m'occupe de tout le reste. Ça vous prend 5 minutes 👍`;
+        case 'r-first':
+          return `Bonjour, c'est ${me} de Vortex (${p.city}). Quand vous êtes ${p.job === 'garage' ? 'sous une voiture' : p.job === 'coiffure' ? 'avec une cliente' : 'sur un chantier'} et que vous ne pouvez pas décrocher, vos clients appellent souvent quelqu'un d'autre. J'ai créé une assistante téléphonique IA qui répond à votre place 24h/24 et vous envoie chaque demande par SMS (nom, numéro, besoin, urgence). Vous gardez votre numéro.\nTestez-la en 1 minute, jouez un client 👉 ${REP_DEMO}${STOP}`;
+        case 'r-relance':
+          return `Bonjour, c'est ${me} de Vortex. Avez-vous pu tester l'assistante téléphonique ? Je peux vous en préparer une au nom de « ${p.name} », gratuitement, pour que vous l'entendiez répondre à vos propres clients. Ça vous dit ?${STOP}`;
+        case 'r-pay':
+          return `Super ! Voici comment on démarre :\n1. L'abonnement, 199 €/mois sans engagement, mise en place incluse 👉 ${REP_PAY}\n2. Juste après, 5 minutes pour décrire votre activité 👉 ${REP_SETUP}\nJe configure votre assistante et je vous envoie les codes pour l'activer sur votre portable. Des questions, je suis là 🙂`;
+        case 'r-cher':
+          return `Je comprends. 199 €/mois, c'est moins de 7 € par jour, et un seul ${p.job === 'coiffure' ? 'client' : 'chantier'} récupéré grâce à un appel qui aurait été perdu le rembourse. C'est sans engagement : si ça ne vous rapporte rien, vous arrêtez quand vous voulez.`;
+        case 'a-first':
+          return `Bonjour, c'est ${me} de Vortex. Petite question : vos clients satisfaits pensent-ils à vous laisser un avis Google ? J'ai créé une appli qui vous permet de leur demander par SMS en 10 secondes après chaque prestation, avec rappel pour relancer. Plus d'avis = plus haut sur Google. 14 jours d'essai gratuit 👉 ${AVIS}${STOP}`;
         case 'o-reflechir':
           return `Aucun souci, prenez votre temps ! Je peux quand même vous préparer la maquette gratuitement, comme ça vous décidez en voyant votre futur site. Ça vous va ?`;
         default:
@@ -305,7 +329,7 @@
           const text = msg(p);
           const smsHref = `sms:${p.phone.replace(/\s/g, '')}?&body=${encodeURIComponent(text)}`;
           const waHref = `https://wa.me/${intl(p.phone)}?text=${encodeURIComponent(text)}`;
-          const blocked = p.status === 'stop' || (p.status === 'refus' && ['first', 'relance'].includes($('#tpl').value));
+          const blocked = p.status === 'stop' || (p.status === 'refus' && ['first', 'relance', 'r-first', 'r-relance', 'a-first'].includes($('#tpl').value));
           card.innerHTML = `
             <div class="top"><div><div class="name"></div><div class="meta"></div></div><span class="pill s-${p.status}">${STATUS[p.status]}</span></div>
             ${$('#tpl').value === 'maquette' ? '<input class="mock" placeholder="Colle ici le lien de sa maquette" aria-label="Lien de la maquette" style="width:100%;margin-top:12px">' : ''}
