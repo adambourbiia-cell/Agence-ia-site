@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Répondeur — l'assistante téléphonique IA des artisans et garages | Vortex</title>
+  <meta name="description" content="Ne perdez plus aucun client à cause d'un appel manqué : une assistante IA répond à votre place 24h/24, prend le message et vous l'envoie par SMS. Pour artisans, garages et agences. 199 €/mois.">
+  <link rel="canonical" href="https://vortex-agence.fr/repondeur/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#0f1117">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Vortex">
+  <meta property="og:title" content="AI Répondeur — plus jamais d'appel manqué">
+  <meta property="og:description" content="Une assistante IA répond à vos appels manqués 24h/24 et vous envoie chaque demande par SMS.">
+  <meta property="og:url" content="https://vortex-agence.fr/repondeur/">
+  <meta property="og:image" content="https://vortex-agence.fr/assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="/assets/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts.css?v=3b9ea1b4">
+  <link rel="stylesheet" href="/assets/css/style.css?v=6d6761c0">
+  <style>
+    .rp-hero__inner { display: grid; gap: 48px; align-items: center; }
+    @media (min-width: 960px) { .rp-hero__inner { grid-template-columns: 1.05fr .95fr; } }
+    .rp-demo { position: relative; max-width: 440px; width: 100%; margin: 0 auto; }
+    .rp-call { background: linear-gradient(160deg, #1b2130, #11141c); border: 1px solid rgba(255,255,255,.1); border-radius: 26px; padding: 18px; box-shadow: 0 40px 90px -40px rgba(0,0,0,.9); }
+    .rp-call__head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 12px; }
+    .rp-avatar { width: 42px; height: 42px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #5fe3f0, #1a9fb0 60%, #0f6f7c); position: relative; flex: none; }
+    .rp-avatar::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid rgba(34,193,211,.5); animation: rp-ring 1.8s ease-out infinite; }
+    @keyframes rp-ring { from { transform: scale(.9); opacity: 1; } to { transform: scale(1.35); opacity: 0; } }
+    .rp-call__head b { display: block; font-size: 15px; }
+    .rp-call__head small { color: var(--muted); font-size: 12.5px; }
+    .rp-live { margin-left: auto; font-size: 12px; font-weight: 600; color: #3ecf8e; display: flex; align-items: center; gap: 6px; }
+    .rp-live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #3ecf8e; animation: rp-blink 1.2s infinite; }
+    @keyframes rp-blink { 50% { opacity: .2; } }
+    .rp-lines { display: flex; flex-direction: column; gap: 8px; min-height: 300px; }
+    .rp-b { max-width: 86%; padding: 9px 13px; border-radius: 16px; font-size: 14px; line-height: 1.45; opacity: 0; transform: translateY(8px); transition: .45s cubic-bezier(.16,1,.3,1); }
+    .rp-b.is-on { opacity: 1; transform: none; }
+    .rp-b--ai { background: rgba(34,193,211,.12); border: 1px solid rgba(34,193,211,.25); border-bottom-left-radius: 5px; }
+    .rp-b--c { background: #262c3b; align-self: flex-end; border-bottom-right-radius: 5px; }
+    .rp-sms { position: absolute; right: -24px; bottom: -170px; width: 255px; background: #fff; color: #11141b; border-radius: 18px; padding: 13px 15px; font-size: 13px; line-height: 1.45; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); opacity: 0; transform: translateY(16px) scale(.96); transition: .6s cubic-bezier(.16,1,.3,1); }
+    .rp-sms.is-on { opacity: 1; transform: none; }
+    .rp-sms small { display: block; color: #6b7482; font-size: 11.5px; margin-bottom: 4px; font-weight: 600; }
+    @media (max-width: 520px) { .rp-sms { right: 0; bottom: -175px; width: 230px; } .rp-hero__inner { gap: 70px; } }
+    .rp-for { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 36px; }
+    .rp-for div { border: 1px solid var(--line); border-radius: 16px; padding: 22px; background: var(--bg-2); }
+    .rp-for b { display: block; font-size: 26px; margin-bottom: 8px; }
+    .rp-for h3 { font-size: 17px; margin-bottom: 6px; }
+    .rp-for p { color: var(--muted); font-size: 14.5px; }
+    .rp-note { color: var(--muted); font-size: 13px; margin-top: 14px; }
+    .rp-spacer { height: 170px; }
+  </style>
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"Service","name":"AI Répondeur","serviceType":"Assistante téléphonique IA","provider":{"@id":"https://vortex-agence.fr/#business"},"areaServed":"FR","url":"https://vortex-agence.fr/repondeur/","offers":{"@type":"Offer","price":"199","priceCurrency":"EUR","url":"https://vortex-agence.fr/repondeur/#tarif"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Est-ce que je garde mon numéro ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Vos clients continuent d'appeler votre numéro habituel. Vous activez simplement un renvoi d'appel conditionnel : quand vous ne décrochez pas, l'appel bascule vers votre assistante."}},{"@type":"Question","name":"Mes clients savent-ils qu'ils parlent à une IA ?","acceptedAnswer":{"@type":"Answer","text":"Oui, l'assistante se présente comme assistante virtuelle de votre entreprise. C'est plus honnête, et en pratique les clients apprécient surtout d'être pris en charge tout de suite plutôt que de tomber sur une messagerie."}},{"@type":"Question","name":"Que se passe-t-il si l'assistante ne sait pas répondre ?","acceptedAnswer":{"@type":"Answer","text":"Elle ne donne que les informations que vous lui avez fournies. Pour le reste, elle prend le message et précise que vous rappellerez. Elle n'invente jamais un prix ni une disponibilité."}},{"@type":"Question","name":"Y a-t-il un engagement ?","acceptedAnswer":{"@type":"Answer","text":"Non. L'abonnement est à 199 € par mois, mise en place incluse, résiliable à tout moment par simple e-mail. Il comprend jusqu'à 300 minutes d'appel par mois."}}]}]</script>
+</head>
+<body class="local-page">
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="/" class="logo" aria-label="Vortex, accueil">
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5" /><path d="M29 16a13 13 0 0 1-8.5 12.2" /><path d="M16 29A13 13 0 0 1 3.8 20.5" /><path d="M3 16a13 13 0 0 1 8.5-12.2" /><circle cx="16" cy="16" r="4.5" /></svg>
+        <span>vortex</span>
+      </a>
+      <nav class="header__nav" aria-label="Navigation principale">
+        <a href="#fonctionnement">Fonctionnement</a>
+        <a href="#tarif">Tarif</a>
+        <a href="#faq">FAQ</a>
+        <a href="/">Création de sites</a>
+      </nav>
+      <a href="/#contact" class="btn btn--primary btn--sm" data-magnetic>Demander une démo</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="local-hero">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="container rp-hero__inner">
+        <div>
+          <div class="pill" data-reveal><span class="pill__dot"></span>Nouveau · <strong>AI Répondeur</strong></div>
+          <h1 class="local-title" data-split>Plus jamais un <em>appel manqué.</em></h1>
+          <p class="hero__lead" data-reveal style="--d:.35s">Sur un chantier, sous une voiture ou en rendez-vous, vous ne pouvez pas toujours décrocher. Votre assistante IA répond à votre place, 24h/24, comprend la demande et vous l'envoie <strong>par SMS en quelques secondes</strong>. Vous rappelez le client quand vous êtes disponible.</p>
+          <div class="hero__ctas" data-reveal style="--d:.5s">
+            <a href="https://buy.stripe.com/aFaeVc0OG7hUfvugB57Zu07" class="btn btn--primary" rel="noopener" data-magnetic>Démarrer · 199 €/mois <svg class="arrow" viewBox="0 0 12 12"><path d="M3 9l6-6M4 3h5v5"/></svg></a>
+            <a href="#fonctionnement" class="btn btn--dark">Voir comment ça marche</a>
+          </div>
+          <p class="rp-note" data-reveal style="--d:.6s">Vous gardez votre numéro · Mise en place incluse · Sans engagement</p>
+        </div>
+        <div class="rp-demo" data-reveal style="--d:.3s" aria-label="Exemple d'appel pris en charge par l'assistante">
+          <div class="rp-call">
+            <div class="rp-call__head"><span class="rp-avatar" aria-hidden="true"></span><div><b>Assistante · Cuivre &amp; Co</b><small>Appel entrant · 06 •• •• •• 21</small></div><span class="rp-live">En ligne</span></div>
+            <div class="rp-lines" id="rpLines">
+              <div class="rp-b rp-b--ai">Bonjour, vous êtes bien chez Cuivre &amp; Co. Julien n'est pas disponible, je prends votre message. C'est à quel sujet ?</div>
+              <div class="rp-b rp-b--c">Bonjour, j'ai une fuite sous l'évier, ça coule pas mal…</div>
+              <div class="rp-b rp-b--ai">D'accord, je note que c'est urgent. Quel est votre nom, et vous êtes sur quelle commune ?</div>
+              <div class="rp-b rp-b--c">Mme Martin, à Grigny.</div>
+              <div class="rp-b rp-b--ai">Merci Mme Martin. Je transmets tout de suite : Julien vous rappelle dans l'heure, à ce numéro.</div>
+            </div>
+          </div>
+          <div class="rp-sms" id="rpSms"><small>SMS · Vortex · à l'instant</small>📞 Nouveau message — Cuivre &amp; Co<br>👤 Mme Martin<br>☎️ 06 •• •• •• 21<br>📝 Fuite sous l'évier<br>📍 Grigny<br>⏱ 🔴 URGENT</div>
+        </div>
+      </div>
+      <div class="rp-spacer"></div>
+    </section>
+
+    <section class="local-text">
+      <div class="container local-text__grid">
+        <div data-reveal>
+          <h2 class="title">Un appel manqué, c'est souvent <em>un client perdu.</em></h2>
+        </div>
+        <div class="local-text__body" data-reveal style="--d:.1s">
+          <p>Quand un particulier cherche un plombier, un garage ou une agence, il appelle le premier numéro trouvé sur Google. S'il tombe sur une messagerie, il laisse rarement un message : <strong>il appelle le suivant</strong>.</p>
+          <p>Une secrétaire coûte cher, et un service de permanence téléphonique facture souvent chaque appel. L'AI Répondeur décroche à chaque fois, même le soir et le week-end, pour un prix fixe.</p>
+          <p>Vous ne changez rien à vos habitudes : quand vous pouvez décrocher, vous décrochez. Quand vous ne pouvez pas, <strong>l'assistante prend le relais</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="local-steps" id="fonctionnement">
+      <div class="container">
+        <h2 class="title title--light" data-split>Comment ça <em>marche.</em></h2>
+        <div class="local-steps__grid">
+          <div data-reveal><b>01</b><h3>Vous nous décrivez votre activité</h3><p>Services, zone, horaires, urgences : 5 minutes de questionnaire. Nous configurons et testons votre assistante.</p></div>
+          <div data-reveal style="--d:.1s"><b>02</b><h3>Vous activez le renvoi</h3><p>Trois codes à composer sur votre portable. Vous gardez votre numéro : seuls les appels sans réponse basculent vers l'assistante.</p></div>
+          <div data-reveal style="--d:.2s"><b>03</b><h3>Vous recevez les demandes</h3><p>Nom, numéro, besoin, adresse, urgence : chaque appel arrive résumé par SMS. Même ceux qui raccrochent sans parler.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="local-feats">
+      <div class="container">
+        <h2 class="title" data-split>Une vraie secrétaire, <em>sans le salaire.</em></h2>
+        <div class="local-feats__grid">
+          <article class="scard" data-reveal><h3>Répond 24h/24, 7j/7</h3><p>Le soir, le week-end, pendant vos interventions : aucun appel ne tombe dans le vide.</p></article>
+          <article class="scard" data-reveal style="--d:.08s"><h3>Parle comme vous</h3><p>Elle connaît vos services, votre zone et vos horaires, et répond aux questions courantes avec vos informations.</p></article>
+          <article class="scard" data-reveal style="--d:.16s"><h3>Trie les urgences</h3><p>Fuite, panne, véhicule immobilisé : les demandes urgentes sont signalées en rouge dans le SMS.</p></article>
+          <article class="scard" data-reveal style="--d:.24s"><h3>Honnête et prudente</h3><p>Elle se présente comme assistante virtuelle, n'invente jamais un prix ou un délai, et ne prend aucun engagement à votre place.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="local-text">
+      <div class="container">
+        <h2 class="title" data-reveal>Pensé pour les métiers <em>qui ne peuvent pas décrocher.</em></h2>
+        <div class="rp-for">
+          <div data-reveal><b>🔧</b><h3>Artisans</h3><p>Plombiers, électriciens, chauffagistes, maçons : les mains prises sur le chantier, l'assistante note le dépannage.</p></div>
+          <div data-reveal style="--d:.08s"><b>🚗</b><h3>Garages</h3><p>Demandes de rendez-vous, devis, véhicule en panne : tout est récupéré, même quand l'atelier tourne à plein.</p></div>
+          <div data-reveal style="--d:.16s"><b>🏢</b><h3>Agences</h3><p>Immobilier, voyages, services : aucun prospect perdu pendant les visites, les rendez-vous ou après la fermeture.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="local-offer" id="tarif">
+      <div class="container local-offer__grid">
+        <div data-reveal>
+          <h2 class="title title--light">AI Répondeur <em>199 €/mois.</em></h2>
+          <p class="muted muted--dark">Mise en place incluse, sans engagement. Un seul client récupéré par mois suffit souvent à le rentabiliser.</p>
+        </div>
+        <ul class="incl local-offer__list" data-reveal style="--d:.1s">
+          <li>Assistante vocale IA personnalisée à votre entreprise</li>
+          <li>Réponse 24h/24, 7j/7, jusqu'à 300 minutes d'appel par mois</li>
+          <li>Chaque demande résumée par SMS en quelques secondes</li>
+          <li>Alerte même quand l'appelant raccroche sans message</li>
+          <li>Vous gardez votre numéro habituel</li>
+          <li>Modifications de votre script incluses, résiliable à tout moment</li>
+        </ul>
+        <div class="local-offer__cta" data-reveal style="--d:.2s">
+          <a href="https://buy.stripe.com/aFaeVc0OG7hUfvugB57Zu07" class="btn btn--primary btn--lg" rel="noopener" data-magnetic>Démarrer maintenant <svg class="arrow" viewBox="0 0 12 12"><path d="M3 9l6-6M4 3h5v5"/></svg></a>
+          <a href="/#contact" class="btn btn--dark">Demander une démo d'abord</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="container faq__grid">
+        <div class="faq__intro"><h2 class="title" data-split>Questions <em>fréquentes.</em></h2></div>
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary>Est-ce que je garde mon numéro ?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__answer"><p>Oui. Vos clients continuent d'appeler votre numéro habituel. Vous activez simplement un renvoi d'appel conditionnel : quand vous ne décrochez pas, l'appel bascule vers votre assistante. Vous pouvez le désactiver à tout moment.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Mes clients savent-ils qu'ils parlent à une IA ?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__answer"><p>Oui, l'assistante se présente comme assistante virtuelle de votre entreprise. C'est plus honnête, et en pratique les clients apprécient surtout d'être pris en charge tout de suite plutôt que de tomber sur une messagerie.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Que se passe-t-il si elle ne sait pas répondre ?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__answer"><p>Elle ne donne que les informations que vous lui avez fournies. Pour le reste, elle prend le message et précise que vous rappellerez. Elle n'invente jamais un prix ni une disponibilité.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Le renvoi d'appel est-il payant ?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__answer"><p>Avec la plupart des forfaits mobiles illimités, le renvoi vers un numéro fixe français est inclus. Vérifiez simplement votre forfait ; on vous aide à l'activer.</p></div>
+          </details>
+          <details class="faq__item">
+            <summary>Y a-t-il un engagement ?<span class="faq__icon" aria-hidden="true"></span></summary>
+            <div class="faq__answer"><p>Non. L'abonnement est à 199 € par mois, mise en place incluse, résiliable à tout moment par simple e-mail. Il comprend jusqu'à 300 minutes d'appel par mois, largement assez pour la plupart des entreprises.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="local-links">
+      <div class="container">
+        <p class="local-links__t">Nos autres solutions</p>
+        <div class="local-links__row"><a href="/">Création de site web dès 250 €</a><a href="/avis/">Vortex Avis : plus d'avis Google</a><a href="/site-internet-garage-lyon/">Site garage</a><a href="/site-internet-plombier-lyon/">Site plombier</a></div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <div>
+          <a href="/" class="logo logo--small" aria-label="Vortex, accueil">
+            <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5" /><path d="M29 16a13 13 0 0 1-8.5 12.2" /><path d="M16 29A13 13 0 0 1 3.8 20.5" /><path d="M3 16a13 13 0 0 1 8.5-12.2" /><circle cx="16" cy="16" r="4.5" /></svg>
+            <span>vortex</span>
+          </a>
+          <p class="footer__copy">© <span class="year">2026</span> Vortex. Tous droits réservés. · <a href="/mentions-legales.html">Mentions légales &amp; confidentialité</a></p>
+        </div>
+        <div class="footer__right"><span>📍 Givors · Lyon</span><a href="mailto:vortex.twitch.live@gmail.com">vortex.twitch.live@gmail.com</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js?v=3554a65c"></script>
+  <script>
+    (() => {
+      const lines = [...document.querySelectorAll('#rpLines .rp-b')], sms = document.getElementById('rpSms');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { lines.forEach((l) => l.classList.add('is-on')); sms.classList.add('is-on'); return; }
+      let started = false;
+      const run = () => {
+        lines.forEach((l) => l.classList.remove('is-on')); sms.classList.remove('is-on');
+        lines.forEach((l, i) => setTimeout(() => l.classList.add('is-on'), 500 + i * 1500));
+        setTimeout(() => sms.classList.add('is-on'), 500 + lines.length * 1500);
+      };
+      const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && !started) { started = true; run(); setInterval(run, 15000); } }), { threshold: .3 });
+      io.observe(document.getElementById('rpLines'));
+    })();
+  </script>
+</body>
+</html>

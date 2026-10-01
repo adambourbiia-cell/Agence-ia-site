@@ -4,6 +4,7 @@ Disallow: /demo/
 Disallow: /merci.html
 Disallow: /outils/
 Disallow: /avis/app/
+Disallow: /repondeur/demarrage/
 Disallow: /_src/
 Disallow: /paiement-confirme.html
 

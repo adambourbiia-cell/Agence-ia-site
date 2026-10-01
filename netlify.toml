@@ -2,6 +2,10 @@
   publish = "."
   command = ""
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Images, CSS, JS : cache 1 semaine, revalidé ensuite
 [[headers]]
   for = "/assets/img/*"
@@ -44,4 +48,11 @@
   from = "https://ligne-studio-web.netlify.app/*"
   to = "https://vortex-agence.fr/:splat"
   status = 301
+  force = true
+
+# Code des fonctions : jamais servi comme fichier public
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
   force = true

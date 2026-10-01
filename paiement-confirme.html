@@ -43,6 +43,13 @@
       li[1].innerHTML = 'Envoyez vos demandes de modifications à <a href="mailto:vortex.twitch.live@gmail.com" style="color:#22c1d3">vortex.twitch.live@gmail.com</a>.';
       li[2].innerHTML = 'Chaque mois : mises à jour, sauvegardes et petites modifications incluses. Résiliable à tout moment par simple e-mail.';
     }
+    if (new URLSearchParams(location.search).get('offre') === 'repondeur') {
+      document.querySelector('.hero__title').innerHTML = 'Bienvenue sur <em>AI Répondeur.</em>';
+      const li = document.querySelectorAll('.steps-done li span');
+      li[0].innerHTML = '<a href="/repondeur/demarrage/" style="color:#22c1d3;font-weight:600">Remplissez votre fiche de configuration</a> (5 minutes).';
+      li[1].innerHTML = 'Nous préparons votre assistante et vous envoyons son numéro <strong>sous 48 h ouvrées</strong>.';
+      li[2].innerHTML = 'Vous composez 3 codes sur votre portable : vos appels manqués sont pris en charge. Résiliable à tout moment par simple e-mail.';
+    }
     if (new URLSearchParams(location.search).get('offre') === 'avis') {
       document.querySelector('.hero__title').innerHTML = 'Bienvenue sur <em>Vortex Avis.</em>';
       const li = document.querySelectorAll('.steps-done li span');

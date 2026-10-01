@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin AI Répondeur — Vortex</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; --red:#ef6461; --ok:#3ecf8e; --gold:#f5b942; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font-family: Inter, system-ui, sans-serif; line-height: 1.5; font-size: 15px; }
+    .w { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+    h1 { font-size: 24px; margin: 0 0 4px; }
+    h2 { font-size: 17px; margin: 0 0 10px; }
+    p.m { color: var(--muted); margin: 0 0 16px; font-size: 14px; }
+    .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #d5dbe5; margin: 12px 0 5px; }
+    input, textarea, select { width: 100%; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 10px; padding: 10px 12px; color: #fff; font: inherit; font-size: 15px; outline: none; }
+    textarea { min-height: 70px; resize: vertical; }
+    input:focus, textarea:focus { border-color: var(--teal-2); }
+    .row { display: grid; gap: 0 12px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+    .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    button, a.b { border: 1px solid var(--line-2); background: var(--bg-3); color: #fff; border-radius: 10px; padding: 10px 14px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; font-size: 14px; }
+    button.p { background: linear-gradient(180deg, var(--teal-2), var(--teal)); border-color: transparent; }
+    button.d { color: var(--red); }
+    .st { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill { border-radius: 99px; padding: 4px 11px; font-size: 13px; font-weight: 600; background: rgba(239,100,97,.14); color: var(--red); }
+    .pill.on { background: rgba(62,207,142,.14); color: var(--ok); }
+    .out { white-space: pre-wrap; background: var(--bg-3); border: 1px dashed var(--line-2); border-radius: 12px; padding: 12px; font-size: 13px; color: #d9dee7; margin-top: 12px; max-height: 340px; overflow: auto; }
+    .msg { margin-top: 10px; font-size: 14px; min-height: 20px; }
+    .cl { border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 10px; background: var(--bg-3); }
+    .cl b { font-size: 15.5px; }
+    .cl small { color: var(--muted); display: block; margin-top: 2px; }
+    code { background: #0b0d13; border-radius: 6px; padding: 2px 6px; font-size: 13px; color: var(--gold); }
+    details summary { cursor: pointer; color: var(--teal-2); font-weight: 600; }
+    ol { padding-left: 20px; color: #cfd5df; } ol li { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <h1>Admin · AI Répondeur</h1>
+    <p class="m">Crée et gère l'assistante vocale de chaque client. Les données restent chez Vapi (assistantes) ; rien n'est stocké ici à part ta clé admin.</p>
+
+    <div class="card">
+      <h2>1. Connexion</h2>
+      <div class="row">
+        <div><label for="key">Clé admin (REPONDEUR_ADMIN_KEY)</label><input id="key" type="password" autocomplete="off"></div>
+        <div style="display:flex;align-items:flex-end"><button class="p" id="connect" style="width:100%">Vérifier la configuration</button></div>
+      </div>
+      <div class="st" id="status" style="margin-top:12px"></div>
+      <details style="margin-top:12px"><summary>Première mise en route (une seule fois)</summary>
+        <ol>
+          <li>Crée un compte sur <b>vapi.ai</b> (assistantes vocales) et copie ta clé API privée (« Private Key »).</li>
+          <li>Crée un compte <b>Twilio</b>, achète un numéro français (pièces justificatives demandées) et note <i>Account SID</i> et <i>Auth Token</i>.</li>
+          <li>Dans Netlify → ton projet → <b>Project configuration → Environment variables</b>, ajoute : <code>VAPI_API_KEY</code>, <code>TWILIO_ACCOUNT_SID</code>, <code>TWILIO_AUTH_TOKEN</code>, <code>REPONDEUR_ADMIN_KEY</code> et <code>REPONDEUR_WEBHOOK_SECRET</code> (deux longues phrases secrètes inventées), puis redéploie.</li>
+          <li>Facultatif : <code>TWILIO_SMS_FROM</code> (expéditeur des SMS, « Vortex » par défaut).</li>
+        </ol>
+      </details>
+    </div>
+
+    <div class="card">
+      <h2>2. Fiche client</h2>
+      <label for="paste">Coller la fiche reçue par e-mail <small style="color:var(--muted);font-weight:400">(champ « fiche_json »)</small></label>
+      <textarea id="paste" placeholder='{"biz":"Cuivre & Co", …}'></textarea>
+      <div class="btns" style="margin-top:8px"><button id="fill">Remplir le formulaire</button><button id="clear">Vider</button></div>
+      <div class="row">
+        <div><label for="biz">Entreprise *</label><input id="biz"></div>
+        <div><label for="owner">Prénom du gérant</label><input id="owner"></div>
+        <div><label for="job">Métier</label><input id="job"></div>
+        <div><label for="city">Ville</label><input id="city"></div>
+        <div><label for="notify">Portable des SMS *</label><input id="notify" type="tel"></div>
+        <div><label for="email">E-mail</label><input id="email"></div>
+        <div><label for="line">Numéro habituel du client</label><input id="line" type="tel"></div>
+        <div><label for="website">Site internet</label><input id="website"></div>
+        <div><label for="zone">Zone</label><input id="zone"></div>
+        <div><label for="hours">Horaires</label><input id="hours"></div>
+        <div><label for="prices">Tarifs annonçables</label><input id="prices"></div>
+        <div><label for="urgency">Urgences</label><input id="urgency"></div>
+        <div><label for="callback">Délai de rappel</label><input id="callback"></div>
+        <div><label for="voice">Voix</label><select id="voice"><option value="denise">Denise (femme, Azure)</option><option value="henri">Henri (homme, Azure)</option><option value="nova">Nova (femme, OpenAI)</option><option value="onyx">Onyx (homme, OpenAI)</option></select></div>
+      </div>
+      <label for="services">Services</label><textarea id="services"></textarea>
+      <label for="faq">Infos utiles / FAQ</label><textarea id="faq"></textarea>
+      <label for="greeting">Phrase d'accueil (facultatif)</label><input id="greeting">
+      <div class="btns">
+        <button id="preview">Aperçu du script</button>
+        <button class="p" id="create">Créer l'assistante</button>
+        <button class="p" id="update" hidden>Mettre à jour <span id="editing"></span></button>
+      </div>
+      <div class="msg" id="msg"></div>
+      <div class="out" id="out" hidden></div>
+    </div>
+
+    <div class="card">
+      <h2>3. Clients</h2>
+      <button id="refresh">Actualiser la liste</button>
+      <div id="list"></div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    const API = '/.netlify/functions/repondeur-admin';
+    const F = ['biz', 'owner', 'job', 'city', 'notify', 'email', 'line', 'website', 'zone', 'hours', 'prices', 'urgency', 'callback', 'services', 'faq', 'greeting'];
+    const $ = (s) => document.querySelector(s);
+    const key = $('#key');
+    try { key.value = localStorage.getItem('vx-rep-key') || ''; } catch (e) {}
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const say = (t, bad) => { const m = $('#msg'); m.style.color = bad ? '#ef6461' : '#3ecf8e'; m.textContent = t; };
+    let editing = null;
+
+    async function call(action, extra = {}) {
+      try { localStorage.setItem('vx-rep-key', key.value); } catch (e) {}
+      const r = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json', 'x-admin-key': key.value }, body: JSON.stringify({ action, ...extra }) });
+      const d = await r.json().catch(() => ({ error: `Erreur ${r.status}` }));
+      if (!r.ok) throw new Error(d.error || `Erreur ${r.status}`);
+      return d;
+    }
+    const client = () => Object.fromEntries(F.map((k) => [k, $('#' + k).value.trim()]).filter(([, v]) => v));
+    const setClient = (c) => F.forEach((k) => { $('#' + k).value = c?.[k] || ''; });
+
+    $('#connect').addEventListener('click', async () => {
+      const s = $('#status'); s.innerHTML = 'Vérification…';
+      try {
+        const d = await call('status');
+        const pill = (ok, t) => `<span class="pill ${ok ? 'on' : ''}">${ok ? '✓' : '✗'} ${t}</span>`;
+        s.innerHTML = pill(true, 'Clé admin') + pill(d.vapi, 'Vapi') + pill(d.twilio, 'Twilio') + pill(d.webhookSecret, 'Secret webhook') + `<span class="pill on">SMS : ${esc(d.smsFrom)}</span>`;
+        loadList();
+      } catch (e) { s.innerHTML = `<span class="pill">✗ ${esc(e.message)}</span>`; }
+    });
+
+    $('#fill').addEventListener('click', () => {
+      const raw = $('#paste').value.trim(); if (!raw) return;
+      try { const m = raw.match(/\{[\s\S]*\}/); setClient(JSON.parse(m ? m[0] : raw)); say('Formulaire rempli. Vérifie puis crée l\'assistante.'); }
+      catch (e) { say('Fiche illisible : colle le contenu du champ « fiche_json » de l\'e-mail.', true); }
+    });
+    $('#clear').addEventListener('click', () => { setClient({}); $('#paste').value = ''; editing = null; $('#update').hidden = true; $('#create').hidden = false; $('#out').hidden = true; say(''); });
+
+    $('#preview').addEventListener('click', async () => {
+      try { const d = await call('preview', { client: client() }); $('#out').hidden = false; $('#out').textContent = `ACCUEIL :\n${d.firstMessage}\n\nINSTRUCTIONS :\n${d.prompt}`; say(''); }
+      catch (e) { say(e.message, true); }
+    });
+    $('#create').addEventListener('click', async () => {
+      if (!confirm(`Créer l'assistante pour « ${client().biz || '?'} » ?`)) return;
+      try { const d = await call('create', { client: client(), voice: $('#voice').value }); say(`Assistante créée ✓ (id ${d.id}). Lie-lui maintenant un numéro dans la liste ci-dessous.`); loadList(); }
+      catch (e) { say(e.message, true); }
+    });
+    $('#update').addEventListener('click', async () => {
+      try { await call('update', { id: editing, client: client(), voice: $('#voice').value }); say('Assistante mise à jour ✓'); loadList(); }
+      catch (e) { say(e.message, true); }
+    });
+
+    let rows = [];
+    async function loadList() {
+      const L = $('#list'); L.innerHTML = '<p class="m" style="margin-top:12px">Chargement…</p>';
+      try {
+        rows = (await call('list')).list;
+        if (!rows.length) { L.innerHTML = '<p class="m" style="margin-top:12px">Aucun client pour l\'instant.</p>'; return; }
+        L.innerHTML = rows.map((c, i) => {
+          const num = c.numbers[0];
+          const fwd = num ? `<details style="margin-top:10px"><summary>Codes de renvoi à envoyer au client</summary><ol>
+            <li>Si pas de réponse (après 20 s) : <code>**61*${esc(num)}**20#</code></li>
+            <li>Si occupé : <code>**67*${esc(num)}#</code></li>
+            <li>Si injoignable : <code>**62*${esc(num)}#</code></li>
+            <li>Pour tout annuler : <code>##004#</code></li></ol></details>` : '';
+          return `<div class="cl" data-i="${i}">
+            <b>${esc(c.biz)}</b>
+            <small>SMS vers ${esc(c.notify)} · ${num ? 'ligne IA : ' + c.numbers.map(esc).join(', ') : 'aucun numéro lié'}</small>
+            <div class="btns">
+              <button data-a="edit">Modifier</button>
+              <button data-a="num">${num ? 'Changer de numéro' : 'Lier un numéro'}</button>
+              <button data-a="sms">Tester le SMS</button>
+              ${num ? '<button data-a="send">SMS d\'activation au client</button>' : ''}
+              <button class="d" data-a="del">Supprimer</button>
+            </div>${fwd}</div>`;
+        }).join('');
+      } catch (e) { L.innerHTML = `<p class="m" style="color:#ef6461;margin-top:12px">${esc(e.message)}</p>`; }
+    }
+    $('#refresh').addEventListener('click', loadList);
+    $('#list').addEventListener('click', async (e) => {
+      const b = e.target.closest('[data-a]'); if (!b) return;
+      const c = rows[+b.closest('.cl').dataset.i];
+      try {
+        if (b.dataset.a === 'edit') { setClient(c.client); editing = c.id; $('#editing').textContent = '· ' + c.biz; $('#update').hidden = false; $('#create').hidden = true; scrollTo({ top: $('#paste').offsetTop - 80, behavior: 'smooth' }); }
+        if (b.dataset.a === 'num') { const n = prompt('Numéro Twilio (acheté pour ce client) à lier, ex. +33 4 xx xx xx xx'); if (!n) return; await call('import-number', { id: c.id, number: n, label: c.biz }); alert('Numéro lié ✓'); loadList(); }
+        if (b.dataset.a === 'sms') { await call('test-sms', { to: c.notify }); alert('SMS de test envoyé ✓'); }
+        if (b.dataset.a === 'del') { if (!confirm(`Supprimer l'assistante de ${c.biz} ? Les appels ne seront plus pris en charge.`)) return; await call('delete', { id: c.id }); loadList(); }
+        if (b.dataset.a === 'send') {
+          const n = c.numbers[0];
+          const txt = `Bonjour ! Votre AI Répondeur Vortex est prêt 🎉\nPour l'activer, composez ces codes depuis votre portable (touche appel) :\n1) Si vous ne répondez pas : **61*${n}**20#\n2) Si vous êtes en ligne : **67*${n}#\n3) Si vous êtes injoignable : **62*${n}#\nTestez en vous faisant appeler sans décrocher : vous recevrez le message par SMS.\nPour désactiver : ##004#\nVortex`;
+          location.href = `sms:${(c.client.line || c.notify).replace(/[^\d+]/g, '')}?&body=${encodeURIComponent(txt)}`;
+        }
+      } catch (err) { alert(err.message); }
+    });
+  })();
+  </script>
+</body>
+</html>

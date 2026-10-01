@@ -384,7 +384,7 @@ def main():
     for j in JOBS:
         write(j["slug"], *job_page(j)); slugs.append(j["slug"])
     # sitemap
-    urls = [("", "1.0"), ("avis/", "0.9"), ("mentions-legales.html", "0.3")] + [(s + "/", "0.8") for s in slugs]
+    urls = [("", "1.0"), ("avis/", "0.9"), ("repondeur/", "0.9"), ("mentions-legales.html", "0.3")] + [(s + "/", "0.8") for s in slugs]
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     xml += "".join(f"  <url><loc>{SITE}/{u}</loc><lastmod>{TODAY}</lastmod><priority>{p}</priority></url>\n" for u, p in urls)
     xml += "</urlset>\n"

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurer mon AI Répondeur — Vortex</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; --red:#ef6461; --ok:#3ecf8e; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font-family: "Inter", system-ui, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+    .w { max-width: 640px; margin: 0 auto; padding: 28px 16px 60px; }
+    .logo { display: inline-flex; align-items: center; gap: 9px; font-family: "Syne", sans-serif; font-weight: 700; font-size: 19px; color: #fff; text-decoration: none; margin-bottom: 26px; }
+    .logo svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; }
+    .logo svg circle { fill: var(--teal-2); stroke: none; }
+    h1 { font-family: "Syne", sans-serif; font-size: 30px; line-height: 1.15; margin: 0 0 10px; }
+    h1 em { font-style: normal; color: var(--teal-2); }
+    .lead { color: var(--muted); margin: 0 0 24px; }
+    fieldset { border: 1px solid var(--line); border-radius: 16px; background: var(--bg-2); padding: 18px; margin: 0 0 16px; }
+    legend { padding: 0 8px; font-weight: 700; font-size: 15px; }
+    label { display: block; font-size: 13.5px; font-weight: 600; color: #d5dbe5; margin: 14px 0 6px; }
+    label:first-of-type { margin-top: 4px; }
+    label small { color: var(--muted); font-weight: 400; }
+    input, textarea { width: 100%; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 13px; color: #fff; font: inherit; font-size: 16px; outline: none; }
+    textarea { min-height: 88px; resize: vertical; }
+    input:focus, textarea:focus { border-color: var(--teal-2); }
+    .is-bad { border-color: var(--red) !important; }
+    .row { display: grid; gap: 0 12px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+    .btn { width: 100%; border: 0; border-radius: 12px; padding: 15px; font: inherit; font-weight: 700; font-size: 16px; color: #fff; background: linear-gradient(180deg, var(--teal-2), var(--teal) 60%, #0f6f7c); cursor: pointer; }
+    .btn[disabled] { opacity: .6; cursor: wait; }
+    .msg { margin-top: 12px; font-size: 14.5px; min-height: 22px; }
+    .ok { background: rgba(62,207,142,.1); border: 1px solid rgba(62,207,142,.35); border-radius: 14px; padding: 18px; }
+    .ok h2 { margin: 0 0 6px; font-size: 19px; }
+    .note { color: var(--muted); font-size: 13px; margin-top: 14px; }
+    .hp { position: absolute; left: -9999px; }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <a class="logo" href="/repondeur/"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5"/><path d="M29 16a13 13 0 0 1-8.5 12.2"/><path d="M16 29A13 13 0 0 1 3.8 20.5"/><path d="M3 16a13 13 0 0 1 8.5-12.2"/><circle cx="16" cy="16" r="4.5"/></svg>vortex</a>
+    <h1>Configurons votre <em>AI Répondeur.</em></h1>
+    <p class="lead">5 minutes pour nous dire comment présenter votre entreprise. Votre assistante est prête sous 48 h ouvrées, et on vous accompagne pour l'activer sur votre téléphone.</p>
+
+    <form id="f" novalidate>
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+      <fieldset>
+        <legend>Votre entreprise</legend>
+        <label for="biz">Nom de l'entreprise *</label><input id="biz" required placeholder="Ex. Cuivre & Co Plomberie">
+        <div class="row">
+          <div><label for="owner">Votre prénom <small>(cité au téléphone)</small></label><input id="owner" placeholder="Ex. Julien"></div>
+          <div><label for="job">Métier</label><input id="job" placeholder="Ex. plombier chauffagiste"></div>
+        </div>
+        <div class="row">
+          <div><label for="city">Ville</label><input id="city" placeholder="Ex. Givors"></div>
+          <div><label for="website">Site internet <small>(facultatif)</small></label><input id="website" placeholder="https://…"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Où recevoir les messages ?</legend>
+        <div class="row">
+          <div><label for="notify">Portable qui reçoit les SMS *</label><input id="notify" type="tel" inputmode="tel" required placeholder="06 12 34 56 78"></div>
+          <div><label for="email">E-mail *</label><input id="email" type="email" inputmode="email" required placeholder="vous@exemple.fr"></div>
+        </div>
+        <label for="line">Numéro sur lequel vos clients vous appellent</label><input id="line" type="tel" inputmode="tel" placeholder="Ex. 06 12 34 56 78">
+      </fieldset>
+
+      <fieldset>
+        <legend>Ce que l'assistante doit savoir</legend>
+        <label for="services">Vos services principaux</label><textarea id="services" placeholder="Ex. dépannage fuite, chauffe-eau, rénovation salle de bain, entretien chaudière…"></textarea>
+        <div class="row">
+          <div><label for="zone">Zone d'intervention</label><input id="zone" placeholder="Ex. Givors et 25 km autour"></div>
+          <div><label for="hours">Horaires</label><input id="hours" placeholder="Ex. lun–ven 8h–18h, sam matin"></div>
+        </div>
+        <label for="prices">Tarifs que l'assistante peut annoncer <small>(sinon, laissez vide)</small></label><input id="prices" placeholder="Ex. déplacement 49 €, devis gratuit">
+        <label for="urgency">Urgences <small>(les prenez-vous ? le soir, le week-end ?)</small></label><input id="urgency" placeholder="Ex. oui, 7j/7 pour les fuites">
+        <label for="callback">Sous quel délai rappelez-vous en général ?</label><input id="callback" placeholder="Ex. dans l'heure, avant 18 h">
+        <label for="faq">Questions fréquentes et infos utiles</label><textarea id="faq" placeholder="Ex. On ne fait pas les piscines. Paiement par carte accepté. Parking devant l'atelier…"></textarea>
+        <label for="greeting">Phrase d'accueil souhaitée <small>(facultatif, sinon on la rédige)</small></label><input id="greeting" placeholder="Ex. Bonjour, Cuivre & Co, que puis-je pour vous ?">
+      </fieldset>
+
+      <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--muted)"><input type="checkbox" id="consent" style="width:auto;margin-top:4px" required> J'accepte que mes réponses servent à configurer mon assistante, et que les appels reçus soient traités comme décrit dans les <a href="/mentions-legales.html#repondeur" style="color:#22c1d3">mentions légales</a>.</label>
+      <button class="btn" type="submit" id="send" style="margin-top:16px">Envoyer ma configuration</button>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+    </form>
+    <p class="note">Une question ? <a href="mailto:vortex.twitch.live@gmail.com" style="color:#22c1d3">vortex.twitch.live@gmail.com</a></p>
+  </div>
+  <script>
+    (() => {
+      const KEY = 'f8395aee-45d6-4075-b864-0a58bdfb17a0';
+      const f = document.getElementById('f'), msg = document.getElementById('msg'), btn = document.getElementById('send');
+      const ids = ['biz', 'owner', 'job', 'city', 'website', 'notify', 'email', 'line', 'services', 'zone', 'hours', 'prices', 'urgency', 'callback', 'faq', 'greeting'];
+      const v = (id) => document.getElementById(id).value.trim();
+      const phoneOk = (p) => /^(?:0\d{9}|\+\d{10,15})$/.test(p.replace(/[\s.\-()]/g, ''));
+      f.addEventListener('input', (e) => e.target.classList.remove('is-bad'));
+      f.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const bad = [];
+        if (!v('biz')) bad.push('biz');
+        if (!phoneOk(v('notify'))) bad.push('notify');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email'))) bad.push('email');
+        bad.forEach((id) => document.getElementById(id).classList.add('is-bad'));
+        if (!document.getElementById('consent').checked) { msg.style.color = '#ef6461'; msg.textContent = 'Merci de cocher la case d\'accord.'; return; }
+        if (bad.length) { msg.style.color = '#ef6461'; msg.textContent = 'Merci de compléter les champs en rouge.'; document.getElementById(bad[0]).focus(); return; }
+        const client = Object.fromEntries(ids.map((id) => [id, v(id)]).filter(([, x]) => x));
+        btn.disabled = true; msg.style.color = ''; msg.textContent = 'Envoi en cours…';
+        try {
+          const r = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              access_key: KEY, subject: `AI Répondeur — configuration de ${client.biz}`, from_name: 'Vortex AI Répondeur', replyto: client.email,
+              botcheck: f.botcheck.checked, ...client,
+              fiche_json: JSON.stringify(client),
+            }),
+          });
+          const d = await r.json().catch(() => ({}));
+          if (!r.ok || d.success === false) throw new Error(d.message || 'erreur');
+          f.outerHTML = `<div class="ok"><h2>Merci, c'est reçu ✅</h2><p>Nous préparons votre assistante. Vous recevrez sous 48 h ouvrées un SMS avec son numéro et le code à composer pour activer le renvoi de vos appels manqués.</p></div>`;
+        } catch (err) {
+          btn.disabled = false; msg.style.color = '#ef6461';
+          msg.innerHTML = 'L\'envoi a échoué. Réessayez, ou écrivez-nous à <a href="mailto:vortex.twitch.live@gmail.com" style="color:#22c1d3">vortex.twitch.live@gmail.com</a>.';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
