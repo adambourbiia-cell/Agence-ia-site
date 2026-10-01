@@ -25,11 +25,17 @@ export async function handle(req, fetchImpl = fetch) {
   const opts = { serverUrl, secret, voice: VOICES[body.voice] || VOICES.denise, model: body.model };
 
   switch (action) {
-    case 'status':
+    case 'status': {
+      let vapiOk = false, vapiError = '';
+      if (env('VAPI_API_KEY')) {
+        const r = await vapi('/assistant?limit=1', {}, fetchImpl);
+        vapiOk = r.ok; if (!r.ok) vapiError = r.status === 401 ? 'clé Vapi refusée' : (r.data.message || `erreur ${r.status}`);
+      }
       return json({
-        vapi: !!env('VAPI_API_KEY'), twilio: !!(env('TWILIO_ACCOUNT_SID') && env('TWILIO_AUTH_TOKEN')),
+        vapi: vapiOk, vapiError, twilio: !!(env('TWILIO_ACCOUNT_SID') && env('TWILIO_AUTH_TOKEN')),
         webhookSecret: !!secret, smsFrom: env('TWILIO_MESSAGING_SERVICE_SID') ? 'Messaging Service' : env('TWILIO_SMS_FROM', 'Vortex'), webhook: serverUrl,
       });
+    }
 
     case 'preview': {
       const miss = required(client);

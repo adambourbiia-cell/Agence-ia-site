@@ -126,7 +126,7 @@
       try {
         const d = await call('status');
         const pill = (ok, t) => `<span class="pill ${ok ? 'on' : ''}">${ok ? '✓' : '✗'} ${t}</span>`;
-        s.innerHTML = pill(true, 'Clé admin') + pill(d.vapi, 'Vapi') + pill(d.twilio, 'Twilio') + pill(d.webhookSecret, 'Secret webhook') + `<span class="pill on">SMS : ${esc(d.smsFrom)}</span>`;
+        s.innerHTML = pill(true, 'Clé admin') + pill(d.vapi, d.vapiError ? 'Vapi : ' + d.vapiError : 'Vapi') + pill(d.twilio, 'Twilio') + pill(d.webhookSecret, 'Secret webhook') + `<span class="pill on">SMS : ${esc(d.smsFrom)}</span>`;
         loadList();
       } catch (e) { s.innerHTML = `<span class="pill">✗ ${esc(e.message)}</span>`; }
     });
