@@ -3,6 +3,7 @@ Allow: /
 Disallow: /demo/
 Disallow: /merci.html
 Disallow: /outils/
+Disallow: /avis/app/
 Disallow: /_src/
 Disallow: /paiement-confirme.html
 

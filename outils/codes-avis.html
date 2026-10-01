@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codes d'accès Vortex Avis</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    body { margin: 0; background: #0f1117; color: #fff; font-family: Inter, system-ui, sans-serif; line-height: 1.5; }
+    .w { max-width: 520px; margin: 0 auto; padding: 28px 16px; }
+    h1 { font-size: 24px; margin: 0 0 6px; }
+    p { color: #9aa3b2; font-size: 14.5px; margin: 0 0 16px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6px; }
+    input { width: 100%; box-sizing: border-box; background: #1d2231; border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: 13px; color: #fff; font: inherit; font-size: 16px; }
+    button, a.b { display: inline-flex; justify-content: center; align-items: center; width: 100%; box-sizing: border-box; margin-top: 12px; border: 0; border-radius: 12px; padding: 14px; font: inherit; font-weight: 650; color: #fff; background: linear-gradient(180deg, #22c1d3, #1a9fb0); cursor: pointer; text-decoration: none; }
+    a.b.alt { background: #1d2231; border: 1px solid rgba(255,255,255,.16); }
+    .code { font-family: ui-monospace, monospace; font-size: 28px; letter-spacing: 2px; text-align: center; background: #161a26; border: 1px dashed #22c1d3; border-radius: 14px; padding: 18px; margin-top: 18px; }
+    .log { margin-top: 24px; font-size: 13.5px; color: #cfd5df; }
+    .log div { border-bottom: 1px solid rgba(255,255,255,.08); padding: 8px 0; display: flex; justify-content: space-between; gap: 10px; }
+    .log span { color: #9aa3b2; }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <h1>Codes d'accès Vortex Avis</h1>
+    <p>Après chaque abonnement Stripe (29 €/mois), génère un code et envoie-le au client. Si un client résilie, il garde son code : coupe simplement le service en ne renouvelant pas l'assistance (la v2 avec comptes en ligne gérera ça automatiquement).</p>
+    <label for="who">Nom du client (pour ton suivi)</label>
+    <input id="who" placeholder="Ex. Cuivre & Co — Julien">
+    <label for="tel">Son téléphone (facultatif, pour envoyer le code par SMS)</label>
+    <input id="tel" type="tel" placeholder="06 12 34 56 78">
+    <button type="button" id="gen">Générer un code</button>
+    <div class="code" id="code" hidden></div>
+    <a class="b alt" id="sms" href="#" hidden>Envoyer le code par SMS</a>
+    <div class="log" id="log"></div>
+  </div>
+  <script>
+    const ALPHA = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    const check = (a) => { let h = 7; for (const ch of a + 'vortex-avis') h = (h * 31 + ch.charCodeAt(0)) >>> 0; let o = ''; for (let i = 0; i < 4; i++) { o += ALPHA[h % ALPHA.length]; h = Math.floor(h / ALPHA.length); } return o; };
+    const rnd = () => { const a = new Uint32Array(4); crypto.getRandomValues(a); return [...a].map((n) => ALPHA[n % ALPHA.length]).join(''); };
+    const KEY = 'vortex-avis-codes';
+    let log = []; try { log = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
+    const render = () => { document.getElementById('log').innerHTML = log.map((l) => `<div><b>${l.code}</b><span>${l.who.replace(/</g, '&lt;')} · ${new Date(l.t).toLocaleDateString('fr-FR')}</span></div>`).join(''); };
+    document.getElementById('gen').addEventListener('click', () => {
+      const a = rnd(); const code = `AV-${a}-${check(a)}`;
+      const who = document.getElementById('who').value.trim() || 'Client';
+      const tel = document.getElementById('tel').value.replace(/[^\d+]/g, '');
+      const c = document.getElementById('code'); c.textContent = code; c.hidden = false;
+      const msg = `Bonjour, merci pour votre abonnement à Vortex Avis ! 🎉\n1) Ouvrez https://vortex-agence.fr/avis/app/ sur votre téléphone\n2) Dans Réglages > Abonnement, saisissez votre code : ${code}\n3) Ajoutez votre lien d'avis Google, et c'est parti.\nUne question ? Répondez simplement à ce message.\nVortex`;
+      const s = document.getElementById('sms'); s.hidden = !tel; s.href = `sms:${tel}?&body=${encodeURIComponent(msg)}`;
+      log.unshift({ code, who, t: Date.now() }); try { localStorage.setItem(KEY, JSON.stringify(log)); } catch (e) {}
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>
