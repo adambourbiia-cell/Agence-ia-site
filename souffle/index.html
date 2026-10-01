@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Souffle — de l'aide quand ça ne va pas</title>
+  <meta name="description" content="Souffle : une application gratuite et anonyme pour traverser les moments très difficiles. Numéros d'écoute, plan de sécurité personnel, exercices pour apaiser une crise. Rien n'est envoyé : tout reste sur votre téléphone.">
+  <meta name="theme-color" content="#f6f3ef">
+  <link rel="manifest" href="/souffle/manifest.webmanifest">
+  <link rel="icon" href="/souffle/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/souffle/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Souffle">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#f6f3ef; --card:#ffffff; --ink:#24303a; --muted:#66727c; --line:#e6e0d8; --soft:#eef4f3; --teal:#2f7f7a; --teal-2:#3f9a93; --lav:#ece8f6; --lav-ink:#5a4f8a; --sos:#c2413b; --sos-bg:#fbeceb; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#151a1f; --card:#1d242b; --ink:#e9edf0; --muted:#9aa6b0; --line:#2b343c; --soft:#1e2b2c; --teal:#5cb8b0; --teal-2:#79cbc4; --lav:#26233a; --lav-ink:#bdb3ea; --sos:#ef7a74; --sos-bg:#3a2224; } }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Inter", system-ui, -apple-system, sans-serif; font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    body { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+    a { color: var(--teal); }
+    h1, h2, h3, p { margin: 0; }
+    button, input, textarea { font: inherit; color: inherit; }
+    .wrap { max-width: 560px; margin: 0 auto; padding: 0 18px; }
+    header { padding: 22px 0 6px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: "Syne", sans-serif; font-weight: 700; font-size: 22px; }
+    .brand svg { width: 30px; height: 30px; }
+    main { padding: 10px 0 30px; }
+    .view { display: none; }
+    .view.on { display: block; animation: in .45s ease; }
+    @keyframes in { from { opacity: 0; transform: translateY(6px); } }
+    h1 { font-family: "Syne", sans-serif; font-size: 28px; line-height: 1.2; margin: 6px 0 10px; letter-spacing: -.01em; }
+    h2 { font-size: 19px; margin-bottom: 6px; }
+    .lead { color: var(--muted); margin-bottom: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; margin-bottom: 14px; }
+    .sos { background: var(--sos-bg); border-color: transparent; }
+    .sos h2 { color: var(--sos); }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; border: 1px solid var(--line); background: var(--card); border-radius: 16px; padding: 15px 16px; font-weight: 650; font-size: 17px; text-decoration: none; color: var(--ink); cursor: pointer; margin-top: 10px; text-align: center; }
+    .btn--sos { background: var(--sos); color: #fff; border-color: transparent; font-size: 19px; padding: 18px; }
+    .btn--teal { background: var(--teal); color: #fff; border-color: transparent; }
+    .btn--soft { background: var(--soft); border-color: transparent; }
+    .btn small { display: block; font-weight: 500; font-size: 13.5px; opacity: .85; }
+    .btn .t { text-align: left; flex: 1; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tile { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; text-align: left; cursor: pointer; }
+    .tile b { display: block; font-size: 16px; margin-top: 6px; }
+    .tile span { font-size: 26px; }
+    .tile small { color: var(--muted); font-size: 13.5px; }
+    .res { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+    .res:first-of-type { border-top: 0; }
+    .res .i { flex: 1; }
+    .res b { display: block; }
+    .res small { color: var(--muted); font-size: 14px; }
+    .res a.call { flex: none; background: var(--teal); color: #fff; text-decoration: none; border-radius: 12px; padding: 9px 13px; font-weight: 650; font-size: 15px; }
+    .res a.alt { flex: none; background: var(--soft); color: var(--ink); text-decoration: none; border-radius: 12px; padding: 9px 13px; font-weight: 650; font-size: 15px; }
+    label { display: block; font-weight: 650; margin: 2px 0 4px; }
+    .hint { color: var(--muted); font-size: 14.5px; margin-bottom: 8px; }
+    textarea, input[type=text], input[type=tel] { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 12px 13px; font-size: 16px; outline: none; }
+    textarea { min-height: 84px; resize: vertical; line-height: 1.5; }
+    textarea:focus, input:focus { border-color: var(--teal); }
+    .step { counter-increment: s; }
+    .step h2::before { content: counter(s) ". "; color: var(--teal); }
+    .plan { counter-reset: s; }
+    .saved { color: var(--teal); font-size: 14px; min-height: 20px; margin-top: 6px; }
+    .breath { display: grid; place-items: center; height: 300px; }
+    .circle { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, var(--teal-2), var(--teal)); display: grid; place-items: center; color: #fff; font-weight: 650; font-size: 18px; transition: transform 4s ease-in-out; box-shadow: 0 0 0 18px color-mix(in srgb, var(--teal) 12%, transparent); }
+    .circle.big { transform: scale(1.9); }
+    .count { text-align: center; color: var(--muted); }
+    .ground { text-align: center; padding: 10px 0; }
+    .ground .n { font-family: "Syne", sans-serif; font-size: 64px; color: var(--teal); line-height: 1; }
+    .ground p { font-size: 20px; margin: 10px 0 6px; }
+    .entry { border-top: 1px solid var(--line); padding: 12px 0; }
+    .entry small { color: var(--muted); }
+    .entry p { white-space: pre-wrap; margin-top: 4px; }
+    .linkbtn { background: none; border: 0; color: var(--muted); font-size: 14px; cursor: pointer; padding: 4px 0; text-decoration: underline; }
+    .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: color-mix(in srgb, var(--card) 94%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+    .tabs .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .tab { background: none; border: 0; padding: 10px 2px 9px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12.5px; font-weight: 600; color: var(--muted); cursor: pointer; }
+    .tab span { font-size: 21px; line-height: 1.1; }
+    .tab.on { color: var(--teal); }
+    .tab--sos { color: var(--sos); }
+    .note { color: var(--muted); font-size: 13.5px; margin-top: 18px; }
+    .back { background: none; border: 0; color: var(--teal); font-weight: 650; padding: 0; margin-bottom: 6px; cursor: pointer; font-size: 16px; }
+    ul.tips { padding-left: 20px; margin: 6px 0 0; }
+    ul.tips li { margin: 6px 0; }
+    @media print { .tabs, .noprint, header { display: none !important; } body { padding: 0; background: #fff; color: #000; } .view { display: none !important; } #v-plan { display: block !important; } textarea { border: 1px solid #999; min-height: 0; } }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#2f7f7a"/><path d="M8 18c3-6 7-6 8-2s5 4 8-2" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>Souffle</div>
+  </header>
+
+  <main class="wrap">
+    <!-- ACCUEIL -->
+    <section class="view on" id="v-home">
+      <h1>Vous n'êtes pas seul·e.</h1>
+      <p class="lead">Si vous traversez un moment très dur, cette application est là pour vous aider à tenir, maintenant, et à trouver quelqu'un à qui parler. Rien de ce que vous écrivez ici ne quitte votre téléphone.</p>
+
+      <div class="card sos">
+        <h2>Vous pensez à vous faire du mal maintenant ?</h2>
+        <p>Appelez le 3114. Quelqu'un de formé vous répond, jour et nuit, gratuitement.</p>
+        <a class="btn btn--sos" href="tel:3114">📞 Appeler le 3114</a>
+        <button class="btn" type="button" data-go="sos">Je ne me sens pas en sécurité</button>
+      </div>
+
+      <div class="grid">
+        <button class="tile" type="button" data-go="talk"><span>💬</span><b>Parler à quelqu'un</b><small>Écoute par téléphone ou par chat</small></button>
+        <button class="tile" type="button" data-go="plan"><span>🧭</span><b>Mon plan de sécurité</b><small>Ce qui m'aide à tenir</small></button>
+        <button class="tile" type="button" data-go="breathe"><span>🌬️</span><b>Respirer</b><small>Apaiser le corps, 2 minutes</small></button>
+        <button class="tile" type="button" data-go="ground"><span>🌿</span><b>Revenir ici</b><small>Exercice 5-4-3-2-1</small></button>
+        <button class="tile" type="button" data-go="journal"><span>📓</span><b>Mon journal</b><small>Déposer ce que je ressens</small></button>
+        <button class="tile" type="button" data-go="other"><span>🤝</span><b>Pour un proche</b><small>Je m'inquiète pour quelqu'un</small></button>
+      </div>
+      <p class="note">Souffle ne remplace pas un professionnel. En cas de danger immédiat : <a href="tel:15">15</a> (SAMU) ou <a href="tel:112">112</a>. Si vous ne pouvez pas parler : SMS au <a href="sms:114">114</a>.</p>
+    </section>
+
+    <!-- SOS -->
+    <section class="view" id="v-sos">
+      <button class="back" type="button" data-go="home">← Retour</button>
+      <h1>Restons ensemble, une étape à la fois.</h1>
+      <div class="card sos">
+        <h2>1. Appelez quelqu'un maintenant</h2>
+        <p>Vous n'avez pas besoin de savoir quoi dire. « Je ne vais pas bien » suffit.</p>
+        <a class="btn btn--sos" href="tel:3114">📞 3114 — prévention du suicide, 24h/24</a>
+        <a class="btn" href="tel:112">🚨 112 — urgence, danger immédiat</a>
+        <a class="btn" href="sms:114">✉️ 114 — urgence par SMS</a>
+      </div>
+      <div class="card" id="sosContacts" hidden>
+        <h2>Mes personnes de confiance</h2>
+        <div id="sosContactList"></div>
+      </div>
+      <div class="card">
+        <h2>2. Mettez de la distance</h2>
+        <p>Si quelque chose autour de vous pourrait servir à vous faire du mal, éloignez-vous-en ou confiez-le à quelqu'un. Allez dans une pièce où il y a du monde, ou sortez dans un lieu fréquenté.</p>
+      </div>
+      <div class="card">
+        <h2>3. Laissez passer la vague</h2>
+        <p>Cette douleur est immense, mais l'intensité d'une crise finit par redescendre. Votre seul objectif maintenant : traverser les prochaines minutes.</p>
+        <button class="btn btn--soft" type="button" data-go="breathe">🌬️ Respirer avec moi</button>
+        <button class="btn btn--soft" type="button" data-go="plan" id="sosPlanBtn">🧭 Relire mon plan de sécurité</button>
+      </div>
+    </section>
+
+    <!-- PARLER -->
+    <section class="view" id="v-talk">
+      <button class="back" type="button" data-go="home">← Retour</button>
+      <h1>Parler à quelqu'un</h1>
+      <p class="lead">Des personnes formées, bienveillantes, qui écoutent sans juger. C'est gratuit et vous pouvez rester anonyme.</p>
+      <div class="card">
+        <div class="res"><div class="i"><b>3114</b><small>Numéro national de prévention du suicide. 24h/24, 7j/7, gratuit. Aussi pour les proches.</small></div><a class="call" href="tel:3114">Appeler</a></div>
+        <div class="res"><div class="i"><b>SOS Amitié</b><small>Écoute anonyme 24h/24. Chat et messagerie sur leur site.</small></div><a class="call" href="tel:0972394050">Appeler</a></div>
+        <div class="res"><div class="i"><b>SOS Amitié — chat</b><small>Si c'est plus facile d'écrire que de parler.</small></div><a class="alt" href="https://www.sos-amitie.com/" target="_blank" rel="noopener">Ouvrir</a></div>
+        <div class="res"><div class="i"><b>Suicide Écoute</b><small>Écoute anonyme 24h/24.</small></div><a class="call" href="tel:0145394000">Appeler</a></div>
+        <div class="res"><div class="i"><b>Fil Santé Jeunes</b><small>Pour les 12-25 ans. Téléphone gratuit et chat (voir horaires sur le site).</small></div><a class="call" href="tel:0800235236">Appeler</a></div>
+        <div class="res"><div class="i"><b>Fil Santé Jeunes — chat</b><small>Écrire anonymement à des professionnels.</small></div><a class="alt" href="https://www.filsantejeunes.com/" target="_blank" rel="noopener">Ouvrir</a></div>
+      </div>
+      <div class="card sos">
+        <h2>Danger immédiat</h2>
+        <a class="btn btn--sos" href="tel:112">🚨 Appeler le 112</a>
+        <a class="btn" href="tel:15">15 — SAMU</a>
+        <a class="btn" href="sms:114">✉️ 114 — urgence par SMS (si vous ne pouvez pas parler)</a>
+      </div>
+    </section>
+
+    <!-- PLAN -->
+    <section class="view" id="v-plan">
+      <button class="back noprint" type="button" data-go="home">← Retour</button>
+      <h1>Mon plan de sécurité</h1>
+      <p class="lead noprint">À remplir à un moment où ça va un peu mieux, seul·e ou avec quelqu'un de confiance. Quand la crise arrive, vous n'aurez plus qu'à le relire et suivre les étapes. Tout reste sur ce téléphone.</p>
+      <div class="plan">
+        <div class="card step"><h2>Mes signaux d'alerte</h2><p class="hint">Les pensées, émotions ou situations qui me montrent que ça commence à aller mal.</p><textarea data-k="warn" placeholder="Ex. je m'isole, je ne dors plus, je pense que je suis un poids…"></textarea></div>
+        <div class="card step"><h2>Ce que je peux faire seul·e pour m'apaiser</h2><p class="hint">Des choses simples qui m'ont déjà aidé, même un peu.</p><textarea data-k="cope" placeholder="Ex. marcher, prendre une douche chaude, écouter cette playlist, respirer avec Souffle…"></textarea></div>
+        <div class="card step"><h2>Des personnes et des lieux pour me changer les idées</h2><textarea data-k="places" placeholder="Ex. appeler Léa pour parler d'autre chose, aller au café du coin, à la salle de sport…"></textarea></div>
+        <div class="card step"><h2>Les personnes à qui je peux demander de l'aide</h2><p class="hint">Elles apparaîtront aussi sur l'écran d'urgence, avec un bouton pour les appeler.</p>
+          <div id="contacts"></div>
+          <div class="grid" style="margin-top:8px"><input type="text" id="cName" placeholder="Prénom"><input type="tel" id="cTel" placeholder="Téléphone" inputmode="tel"></div>
+          <button class="btn btn--soft" type="button" id="cAdd">+ Ajouter cette personne</button>
+        </div>
+        <div class="card step"><h2>Les professionnels que je peux appeler</h2><textarea data-k="pros" placeholder="Ex. mon médecin, mon psy, le CMP… (avec leurs numéros)">3114 — prévention du suicide, 24h/24
+112 — urgence</textarea></div>
+        <div class="card step"><h2>Rendre mon environnement plus sûr</h2><p class="hint">Ce que je peux mettre à distance ou confier à quelqu'un quand ça va mal.</p><textarea data-k="safe"></textarea></div>
+        <div class="card step"><h2>Ce qui compte pour moi, mes raisons de tenir</h2><p class="hint">Des personnes, des projets, des petites choses. Même une seule.</p><textarea data-k="reasons" placeholder="Ex. mon chat, ma sœur, revoir la mer…"></textarea></div>
+      </div>
+      <div class="saved" id="saved" aria-live="polite"></div>
+      <button class="btn noprint" type="button" id="printPlan">🖨️ Imprimer / enregistrer en PDF</button>
+      <p class="note noprint">Ce plan s'inspire du « plan de sécurité » utilisé par les soignants. N'hésitez pas à le montrer à votre médecin ou à un proche.</p>
+    </section>
+
+    <!-- RESPIRER -->
+    <section class="view" id="v-breathe">
+      <button class="back" type="button" data-go="home">← Retour</button>
+      <h1>Respirer</h1>
+      <p class="lead">Suivez le cercle. Inspirez quand il grandit, expirez quand il rapetisse. Une expiration plus longue aide le corps à se calmer.</p>
+      <div class="breath"><div class="circle" id="circle">Prêt·e ?</div></div>
+      <p class="count" id="bCount"></p>
+      <button class="btn btn--teal" type="button" id="bStart">Commencer (2 minutes)</button>
+    </section>
+
+    <!-- ANCRAGE -->
+    <section class="view" id="v-ground">
+      <button class="back" type="button" data-go="home">← Retour</button>
+      <h1>Revenir ici, maintenant</h1>
+      <p class="lead">Quand les pensées s'emballent, ramener l'attention sur ce qui vous entoure peut faire redescendre la tension. Prenez votre temps à chaque étape.</p>
+      <div class="card ground" id="ground"></div>
+      <button class="btn btn--teal" type="button" id="gNext">Commencer</button>
+    </section>
+
+    <!-- JOURNAL -->
+    <section class="view" id="v-journal">
+      <button class="back" type="button" data-go="home">← Retour</button>
+      <h1>Mon journal</h1>
+      <p class="lead">Écrire ce qu'on ressent aide parfois à y voir plus clair. Personne d'autre ne le lira : c'est enregistré uniquement sur ce téléphone.</p>
+      <div class="card">
+        <label for="jText">Comment ça va, là, maintenant ?</label>
+        <textarea id="jText" placeholder="Vous pouvez tout écrire ici."></textarea>
+        <button class="btn btn--teal" type="button" id="jSave">Enregistrer</button>
+      </div>
+      <div class="card" id="jList" hidden></div>
+    </section>
+
+    <!-- PROCHE -->
+    <section class="view" id="v-other">
+      <button class="back" type="button" data-go="home">← Retour</button>
+      <h1>Je m'inquiète pour quelqu'un</h1>
+      <p class="lead">Vous pouvez vraiment aider. Vous n'avez pas besoin d'avoir les bonnes réponses, juste d'être là.</p>
+      <div class="card">
+        <h2>Ce qui aide</h2>
+        <ul class="tips">
+          <li><b>Posez la question directement</b> : « Est-ce que tu penses au suicide ? » En parler ne donne pas l'idée : au contraire, ça soulage souvent.</li>
+          <li><b>Écoutez sans juger</b>, sans minimiser (« ça va passer ») ni faire la morale.</li>
+          <li><b>Ne gardez pas ça pour vous</b>, même si on vous demande le secret.</li>
+          <li><b>Proposez d'appeler ensemble</b> le 3114 ou un médecin.</li>
+          <li><b>Si le danger est immédiat</b>, ne laissez pas la personne seule et appelez le 15 ou le 112.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Le 3114 répond aussi aux proches</h2>
+        <p>Pour savoir comment réagir, ou simplement pour vous, parce que c'est lourd à porter.</p>
+        <a class="btn btn--teal" href="tel:3114">📞 Appeler le 3114</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Navigation">
+    <div class="wrap">
+      <button class="tab on" type="button" data-go="home"><span>🏠</span>Accueil</button>
+      <button class="tab" type="button" data-go="talk"><span>💬</span>Parler</button>
+      <button class="tab" type="button" data-go="plan"><span>🧭</span>Mon plan</button>
+      <button class="tab tab--sos" type="button" data-go="sos"><span>🆘</span>Urgence</button>
+    </div>
+  </nav>
+
+  <script>
+  (() => {
+    const KEY = 'souffle-v1';
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => [...document.querySelectorAll(s)];
+    let db = {}; try { db = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+    db.plan = db.plan || {}; db.contacts = db.contacts || []; db.journal = db.journal || [];
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} };
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    /* Navigation */
+    const go = (v) => {
+      $$('.view').forEach((x) => x.classList.toggle('on', x.id === 'v-' + v));
+      $$('.tab').forEach((t) => t.classList.toggle('on', t.dataset.go === v));
+      if (v === 'sos') renderSosContacts();
+      if (v === 'journal') renderJournal();
+      if (v !== 'breathe') stopBreath();
+      scrollTo(0, 0);
+    };
+    document.addEventListener('click', (e) => { const g = e.target.closest('[data-go]'); if (g) go(g.dataset.go); });
+
+    /* Plan de sécurité */
+    let st;
+    $$('#v-plan textarea[data-k]').forEach((ta) => {
+      if (db.plan[ta.dataset.k] !== undefined) ta.value = db.plan[ta.dataset.k];
+      ta.addEventListener('input', () => { db.plan[ta.dataset.k] = ta.value; save(); $('#saved').textContent = 'Enregistré sur ce téléphone ✓'; clearTimeout(st); st = setTimeout(() => { $('#saved').textContent = ''; }, 1800); });
+    });
+    const tel = (t) => String(t).replace(/[^\d+]/g, '');
+    const renderContacts = () => {
+      $('#contacts').innerHTML = db.contacts.map((c, i) => `<div class="res"><div class="i"><b>${esc(c.name)}</b><small>${esc(c.tel)}</small></div><a class="call" href="tel:${tel(c.tel)}">Appeler</a><button class="linkbtn" type="button" data-del="${i}">Retirer</button></div>`).join('');
+    };
+    $('#cAdd').addEventListener('click', () => {
+      const name = $('#cName').value.trim(), t = $('#cTel').value.trim();
+      if (!name || !/\d{6,}/.test(tel(t))) { $('#saved').textContent = 'Indiquez un prénom et un numéro.'; return; }
+      db.contacts.push({ name, tel: t }); save(); $('#cName').value = ''; $('#cTel').value = ''; renderContacts();
+    });
+    $('#contacts').addEventListener('click', (e) => { const b = e.target.closest('[data-del]'); if (!b) return; db.contacts.splice(+b.dataset.del, 1); save(); renderContacts(); });
+    const renderSosContacts = () => {
+      $('#sosContacts').hidden = !db.contacts.length;
+      $('#sosContactList').innerHTML = db.contacts.map((c) => `<a class="btn btn--soft" href="tel:${tel(c.tel)}">📞 Appeler ${esc(c.name)}</a>`).join('');
+      $('#sosPlanBtn').hidden = !Object.values(db.plan).some((v) => String(v).trim());
+    };
+    $('#printPlan').addEventListener('click', () => window.print());
+
+    /* Respiration : 4 s inspiration, 6 s expiration, 12 cycles = 2 min */
+    let bTimer = null;
+    const circle = $('#circle');
+    function stopBreath() { clearTimeout(bTimer); bTimer = null; circle.classList.remove('big'); circle.textContent = 'Prêt·e ?'; $('#bCount').textContent = ''; $('#bStart').textContent = 'Commencer (2 minutes)'; }
+    $('#bStart').addEventListener('click', () => {
+      if (bTimer) { stopBreath(); return; }
+      let n = 12; $('#bStart').textContent = 'Arrêter';
+      const cycle = () => {
+        if (n-- <= 0) { stopBreath(); circle.textContent = 'Bravo 🌿'; $('#bCount').textContent = 'Vous pouvez recommencer autant de fois que nécessaire.'; return; }
+        circle.style.transitionDuration = '4s'; circle.classList.add('big'); circle.textContent = 'Inspirez…'; $('#bCount').textContent = `Encore ${n + 1} respiration${n ? 's' : ''}`;
+        bTimer = setTimeout(() => { circle.style.transitionDuration = '6s'; circle.classList.remove('big'); circle.textContent = 'Expirez…'; bTimer = setTimeout(cycle, 6000); }, 4000);
+      };
+      cycle();
+    });
+
+    /* Ancrage 5-4-3-2-1 */
+    const G = [[5, 'choses que vous voyez', 'Regardez autour de vous et nommez-les, même à voix basse.'], [4, 'choses que vous pouvez toucher', 'Le tissu de vos vêtements, le sol sous vos pieds, une table…'], [3, 'sons que vous entendez', 'Proches ou lointains.'], [2, 'odeurs que vous sentez', 'Ou deux odeurs que vous aimez, si rien ne vient.'], [1, 'chose agréable à propos de vous', 'Même toute petite.']];
+    let gi = -1;
+    $('#gNext').addEventListener('click', () => {
+      gi++;
+      if (gi >= G.length) { $('#ground').innerHTML = '<p>Vous êtes ici, maintenant. 🌿</p><p class="hint">Respirez encore un instant. Si la tension remonte, vous pouvez recommencer, ou appeler le 3114.</p>'; $('#gNext').textContent = 'Recommencer'; gi = -1; return; }
+      const [n, t, h] = G[gi];
+      $('#ground').innerHTML = `<div class="n">${n}</div><p>${t}</p><p class="hint">${h}</p>`;
+      $('#gNext').textContent = gi === G.length - 1 ? 'Terminer' : 'Suivant';
+    });
+
+    /* Journal */
+    const renderJournal = () => {
+      const L = $('#jList'); L.hidden = !db.journal.length;
+      L.innerHTML = '<h2>Mes notes</h2>' + db.journal.map((j, i) => `<div class="entry"><small>${new Date(j.t).toLocaleString('fr-FR', { dateStyle: 'medium', timeStyle: 'short' })}</small><p>${esc(j.text)}</p><button class="linkbtn" type="button" data-jdel="${i}">Supprimer</button></div>`).join('');
+    };
+    $('#jSave').addEventListener('click', () => { const t = $('#jText').value.trim(); if (!t) return; db.journal.unshift({ t: Date.now(), text: t }); save(); $('#jText').value = ''; renderJournal(); });
+    $('#jList').addEventListener('click', (e) => { const b = e.target.closest('[data-jdel]'); if (!b || !confirm('Supprimer cette note ?')) return; db.journal.splice(+b.dataset.jdel, 1); save(); renderJournal(); });
+
+    renderContacts();
+    if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/souffle/sw.js').catch(() => {}));
+  })();
+  </script>
+</body>
+</html>
