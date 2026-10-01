@@ -38,3 +38,10 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "SAMEORIGIN"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Ancienne adresse Netlify → domaine principal
+[[redirects]]
+  from = "https://ligne-studio-web.netlify.app/*"
+  to = "https://vortex-agence.fr/:splat"
+  status = 301
+  force = true

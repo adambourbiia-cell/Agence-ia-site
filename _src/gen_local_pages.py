@@ -9,7 +9,7 @@ import json
 import os
 import re
 
-SITE = "https://ligne-studio-web.netlify.app"
+SITE = "https://vortex-agence.fr"
 PAY = "https://buy.stripe.com/6oU7sKeFweKm5UU84z7Zu04"
 TODAY = "2026-10-01"
 

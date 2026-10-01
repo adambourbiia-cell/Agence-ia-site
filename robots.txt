@@ -6,4 +6,4 @@ Disallow: /outils/
 Disallow: /_src/
 Disallow: /paiement-confirme.html
 
-Sitemap: https://ligne-studio-web.netlify.app/sitemap.xml
+Sitemap: https://vortex-agence.fr/sitemap.xml

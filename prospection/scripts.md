@@ -1,6 +1,6 @@
 # Scripts de prospection Vortex
 
-Remplace [Prénom] par ton prénom. Démos : https://ligne-studio-web.netlify.app/demo/…
+Remplace [Prénom] par ton prénom. Démos : https://vortex-agence.fr/demo/…
 
 ## 📞 Appel (30 secondes)
 > Bonjour, je suis [Prénom], je crée des sites web pour les artisans et commerçants de Givors.

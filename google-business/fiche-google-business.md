@@ -10,7 +10,7 @@
 - **Type d'entreprise :** « J'effectue des livraisons ou des visites chez mes clients » → **ne pas afficher d'adresse** (entreprise sans local)
 - **Zone desservie :** Lyon, Villeurbanne, Vénissieux, Caluire-et-Cuire, Bron, Vaulx-en-Velin, Écully, Oullins, Saint-Priest, Tassin-la-Demi-Lune
 - **Téléphone :** ton numéro (obligatoire pour la vérification)
-- **Site web :** https://ligne-studio-web.netlify.app (à remplacer par ton nom de domaine quand tu l'auras)
+- **Site web :** https://vortex-agence.fr (à remplacer par ton nom de domaine quand tu l'auras)
 - **E-mail (dans les coordonnées) :** vortex.twitch.live@gmail.com
 
 ## 2. Description (moins de 750 caractères)
