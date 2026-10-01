@@ -26,3 +26,29 @@ Passe en heure creuse (14 h 30 – 16 h 30), téléphone en main avec la démo o
 - Une seule relance, puis tu arrêtes si la personne ne répond pas ou dit non.
 - Si quelqu'un demande à ne plus être contacté, note-le dans le tableau et ne le recontacte plus.
 - Note chaque contact dans la colonne « Statut » du tableau.
+
+---
+
+## AI Répondeur (199 €/mois) — artisans, garages, agences
+
+**Premier message (SMS / WhatsApp)**
+> Bonjour, ici [prénom] de Vortex à Givors. Quand vous êtes sur un chantier et que vous ne pouvez pas décrocher, vos clients appellent souvent le concurrent suivant. J'ai mis en place une assistante IA qui répond à votre place 24h/24 et vous envoie chaque demande par SMS (nom, numéro, besoin, urgence). Vous gardez votre numéro. Ça vous intéresse que je vous montre ? https://vortex-agence.fr/repondeur/ — STOP pour ne plus être contacté.
+
+**Relance (J+3)**
+> Bonjour, je me permets de relancer : je peux vous faire tester l'AI Répondeur sur un exemple avec votre entreprise, sans engagement. Combien d'appels pensez-vous rater par semaine ?
+
+**Objection « c'est cher »**
+> 199 €/mois, c'est moins de 7 € par jour. Un seul chantier récupéré par mois grâce à un appel qui aurait été perdu, et c'est remboursé. Et c'est sans engagement : si ça ne vous rapporte rien, vous arrêtez.
+
+**Objection « mes clients n'aiment pas les robots »**
+> L'assistante se présente honnêtement, elle est polie et va droit au but. Surtout, la comparaison n'est pas avec vous au téléphone, c'est avec la messagerie où personne ne laisse de message.
+
+**Après le paiement** : envoyer le lien https://vortex-agence.fr/repondeur/demarrage/ → créer l'assistante dans https://vortex-agence.fr/outils/repondeur.html → lier un numéro → bouton « SMS d'activation au client ».
+
+---
+
+## Vortex Avis (29 €/mois) — tous commerces
+
+> Bonjour, ici [prénom] de Vortex. J'ai créé une petite appli qui aide les pros à avoir plus d'avis Google : après chaque client, vous lui envoyez la demande par SMS en 10 secondes, et l'app vous rappelle qui relancer. 14 jours d'essai gratuit : https://vortex-agence.fr/avis/ — STOP pour ne plus être contacté.
+
+**Après le paiement** : générer le code dans https://vortex-agence.fr/outils/codes-avis.html et l'envoyer par SMS.
