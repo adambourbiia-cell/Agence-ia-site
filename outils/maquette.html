@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Générateur de maquettes — Vortex</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font-family: "Inter", system-ui, sans-serif; line-height: 1.5; font-size: 15px; -webkit-font-smoothing: antialiased; }
+    .w { max-width: 980px; margin: 0 auto; padding: 22px 16px 60px; display: grid; gap: 22px; }
+    @media (min-width: 900px) { .w { grid-template-columns: 1fr 380px; align-items: start; } }
+    h1 { font-family: "Syne", sans-serif; font-size: 26px; line-height: 1.15; margin: 0 0 6px; }
+    h1 em { font-style: normal; color: var(--teal-2); }
+    .lead { color: var(--muted); margin: 0 0 16px; }
+    .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #d5dbe5; margin: 12px 0 5px; }
+    label:first-child { margin-top: 0; }
+    input, select, textarea { width: 100%; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 12px; padding: 12px; color: #fff; font: inherit; font-size: 16px; outline: none; }
+    textarea { min-height: 120px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--teal-2); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+    .tpls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .tpl { border: 2px solid var(--line-2); background: var(--bg-3); border-radius: 12px; padding: 10px 4px; text-align: center; cursor: pointer; font-size: 13px; font-weight: 600; color: #cfd5df; }
+    .tpl span { display: block; font-size: 22px; }
+    .tpl.on { border-color: var(--teal-2); color: #fff; background: rgba(34,193,211,.1); }
+    .colors { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .sw { width: 34px; height: 34px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; }
+    .sw.on { border-color: #fff; }
+    .colors input[type=color] { width: 44px; height: 38px; padding: 2px; border-radius: 10px; }
+    .link { word-break: break-all; font-size: 13.5px; background: var(--bg-3); border: 1px dashed var(--line-2); border-radius: 12px; padding: 10px 12px; color: var(--teal-2); }
+    .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line-2); background: var(--bg-3); color: #fff; border-radius: 12px; padding: 12px; font: inherit; font-weight: 650; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; }
+    .btn.p { background: linear-gradient(180deg, var(--teal-2), var(--teal) 60%, #0f6f7c); border-color: transparent; }
+    .btn.wa { background: #1fa855; border-color: transparent; }
+    .phone { position: sticky; top: 16px; width: 360px; max-width: 100%; margin: 0 auto; border-radius: 40px; padding: 10px; background: linear-gradient(160deg, #2a3142, #11141c); box-shadow: 0 40px 80px -30px rgba(0,0,0,.8); }
+    .screen { width: 100%; aspect-ratio: 390 / 780; border-radius: 30px; overflow: hidden; background: #fff; position: relative; }
+    .screen iframe { position: absolute; left: 0; top: 0; width: 390px; height: 780px; border: 0; transform-origin: 0 0; }
+    .hint { color: var(--muted); font-size: 13px; margin-top: 8px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: #fff; color: #0f1117; font-weight: 600; padding: 10px 18px; border-radius: 99px; opacity: 0; transition: .3s; pointer-events: none; z-index: 9; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <div>
+      <h1>Générateur de <em>maquettes</em></h1>
+      <p class="lead">Le site du prospect, à son nom, en 10 secondes. Envoie-lui le lien : il voit « son » site avant de payer.</p>
+      <div class="card">
+        <label>Modèle</label>
+        <div class="tpls" id="tpls">
+          <button class="tpl on" data-t="artisan" type="button"><span>🔧</span>Artisan</button>
+          <button class="tpl" data-t="restaurant" type="button"><span>🍽️</span>Restaurant</button>
+          <button class="tpl" data-t="coiffure" type="button"><span>✂️</span>Coiffure / beauté</button>
+          <button class="tpl" data-t="garage" type="button"><span>🚗</span>Garage</button>
+        </div>
+        <label for="n">Nom de l'entreprise</label><input id="n" placeholder="Ex. Plomberie Martin" maxlength="40">
+        <div class="row">
+          <div><label for="v">Ville</label><input id="v" placeholder="Ex. Givors" maxlength="30"></div>
+          <div><label for="t">Son téléphone <small style="color:var(--muted);font-weight:400">(affiché sur le site)</small></label><input id="t" type="tel" placeholder="06 12 34 56 78" maxlength="20"></div>
+        </div>
+        <label>Couleur principale</label>
+        <div class="colors" id="colors"></div>
+      </div>
+      <div class="card">
+        <label>Lien de la maquette</label>
+        <div class="link" id="link"></div>
+        <div class="btns">
+          <button class="btn p" id="copy" type="button">📋 Copier le lien</button>
+          <a class="btn" id="open" target="_blank" rel="noopener">👁 Ouvrir</a>
+        </div>
+        <label for="msg">Message à envoyer</label>
+        <textarea id="msg"></textarea>
+        <label for="to">Numéro du prospect</label><input id="to" type="tel" placeholder="06 12 34 56 78">
+        <div class="btns">
+          <a class="btn p" id="sms">💬 Envoyer par SMS</a>
+          <a class="btn wa" id="wa" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <p class="hint">Astuce : dans l'outil de prospection, le modèle « 4. Envoyer sa maquette » génère maintenant ce lien automatiquement pour chaque prospect.</p>
+      </div>
+    </div>
+    <div>
+      <div class="phone"><div class="screen" id="screen"><iframe id="frame" title="Aperçu de la maquette"></iframe></div></div>
+      <p class="hint" style="text-align:center">Aperçu en direct</p>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script>
+  (() => {
+    const $ = (s) => document.querySelector(s);
+    const PRESETS = {
+      artisan: ['ffc233', '2a9d8f', 'e76f51', '2f7fd8', '8ac926', 'c8703a'],
+      restaurant: ['d9612b', 'b5179e', 'c9a36a', '2a9d8f', 'e63946', '6a994e'],
+      coiffure: ['b76e5d', '6d5bd0', 'd4a373', '2a9d8f', 'e5989b', '1d3557'],
+      garage: ['ff6a13', '1e88e5', 'e63946', 'ffd60a', '2ec4b6', '8338ec'],
+    };
+    let tpl = 'artisan', color = '';
+    const ME = (() => { try { return (JSON.parse(localStorage.getItem('vortex-prospects-v1')) || {}).me || ''; } catch (e) { return ''; } })();
+    const url = () => {
+      const q = new URLSearchParams();
+      if ($('#n').value.trim()) q.set('n', $('#n').value.trim());
+      if ($('#v').value.trim()) q.set('v', $('#v').value.trim());
+      if ($('#t').value.trim()) q.set('t', $('#t').value.trim());
+      if (color) q.set('c', color);
+      const s = q.toString();
+      return `https://vortex-agence.fr/demo/${tpl}/${s ? '?' + s : ''}`;
+    };
+    const message = (u) => `Bonjour${ME ? ', c\'est ' + ME + ' de Vortex' : ''} ! Comme promis, voici la maquette du site de ${$('#n').value.trim() || 'votre entreprise'} 👉 ${u}\nRegardez-la tranquillement sur votre téléphone. Textes, photos, couleurs : je modifie tout ce que vous voulez.\nSi elle vous plaît, on la met en ligne pour 250 € tout compris.`;
+    let msgEdited = false, timer;
+    const fit = () => { const sc = $('#screen').clientWidth / 390; $('#frame').style.transform = `scale(${sc})`; };
+    function update(reload = true) {
+      const u = url();
+      $('#link').textContent = u; $('#open').href = u;
+      if (!msgEdited) $('#msg').value = message(u);
+      const to = $('#to').value.replace(/[^\d+]/g, ''), intl = to.startsWith('0') ? '33' + to.slice(1) : to.replace('+', '');
+      $('#sms').href = `sms:${to}?&body=${encodeURIComponent($('#msg').value)}`;
+      $('#wa').href = `https://wa.me/${intl}?text=${encodeURIComponent($('#msg').value)}`;
+      if (reload) { clearTimeout(timer); timer = setTimeout(() => { $('#frame').src = u.replace('https://vortex-agence.fr', ''); }, 450); }
+    }
+    const drawColors = () => {
+      $('#colors').innerHTML = PRESETS[tpl].map((c, i) => `<button type="button" class="sw ${(!color && i === 0) || color === c ? 'on' : ''}" data-c="${i === 0 ? '' : c}" style="background:#${c}" aria-label="Couleur ${c}"></button>`).join('') + '<input type="color" id="custom" value="#22c1d3" aria-label="Autre couleur">';
+      $('#custom').oninput = (e) => { color = e.target.value.slice(1); document.querySelectorAll('.sw').forEach((s) => s.classList.remove('on')); update(); };
+    };
+    $('#colors').addEventListener('click', (e) => { const s = e.target.closest('.sw'); if (!s) return; color = s.dataset.c; document.querySelectorAll('.sw').forEach((x) => x.classList.toggle('on', x === s)); update(); });
+    $('#tpls').addEventListener('click', (e) => { const b = e.target.closest('.tpl'); if (!b) return; tpl = b.dataset.t; color = ''; document.querySelectorAll('.tpl').forEach((x) => x.classList.toggle('on', x === b)); drawColors(); update(); });
+    ['#n', '#v', '#t'].forEach((s) => $(s).addEventListener('input', () => update()));
+    $('#to').addEventListener('input', () => update(false));
+    $('#msg').addEventListener('input', () => { msgEdited = true; update(false); });
+    $('#copy').onclick = async () => { try { await navigator.clipboard.writeText(url()); const t = $('#toast'); t.textContent = 'Lien copié ✓'; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1500); } catch (e) { prompt('Copie le lien :', url()); } };
+    // Pré-remplissage depuis l'URL : ?n=&v=&tpl=&to=
+    const q = new URLSearchParams(location.search);
+    if (q.get('tpl') && PRESETS[q.get('tpl')]) { tpl = q.get('tpl'); document.querySelectorAll('.tpl').forEach((x) => x.classList.toggle('on', x.dataset.t === tpl)); }
+    if (q.get('n')) $('#n').value = q.get('n'); if (q.get('v')) $('#v').value = q.get('v'); if (q.get('to')) $('#to').value = q.get('to');
+    addEventListener('resize', fit); drawColors(); fit(); update();
+  })();
+  </script>
+</body>
+</html>

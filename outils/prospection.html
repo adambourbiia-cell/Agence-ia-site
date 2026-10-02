@@ -277,10 +277,13 @@
     const AVIS = 'https://vortex-agence.fr/avis/';
     // statut appliqué automatiquement après l'envoi de chaque modèle
     const NEXT = { first: 'envoye', relance: 'relance', infos: 'interesse', maquette: 'interesse', paye: 'client' };
+    // lien de maquette personnalisée générée automatiquement (nom + ville du prospect)
+    const TPL = { artisan: 'artisan', batiment: 'artisan', coiffure: 'coiffure', commerce: 'coiffure', restaurant: 'restaurant', garage: 'garage' };
+    const mockUrl = (p) => `${SITE}/demo/${TPL[p.job] || 'artisan'}/?n=${encodeURIComponent(p.name.replace(/\s*\(.*?\)\s*/g, ' ').trim())}&v=${encodeURIComponent(p.city)}`;
     const msg = (p) => {
       const me = db.me || '[ton prénom]';
       const link = SITE + DEMO[p.job];
-      const mock = p.mockup || '[lien de sa maquette]';
+      const mock = p.mockup || mockUrl(p);
       switch ($('#tpl').value) {
         case 'relance':
           return `Bonjour, c'est ${me} de Vortex. Avez-vous pu regarder l'exemple de site que je vous ai envoyé ? Je peux vous préparer gratuitement une maquette avec le nom « ${p.name} » et vos photos, sans engagement. Bonne journée !${STOP}`;
@@ -354,12 +357,13 @@
           const blocked = p.status === 'stop' || (p.status === 'refus' && ['first', 'relance', 'r-first', 'r-relance', 'a-first'].includes($('#tpl').value));
           card.innerHTML = `
             <div class="top"><div><div class="name"></div><div class="meta"></div></div><span class="pill s-${p.status}">${STATUS[p.status]}</span></div>
-            ${$('#tpl').value === 'maquette' ? '<input class="mock" placeholder="Colle ici le lien de sa maquette" aria-label="Lien de la maquette" style="width:100%;margin-top:12px">' : ''}
+            ${$('#tpl').value === 'maquette' ? '<input class="mock" placeholder="Maquette générée automatiquement — colle un autre lien pour la remplacer" aria-label="Lien de la maquette" style="width:100%;margin-top:12px">' : ''}
             <textarea aria-label="Message"></textarea>
             <div class="btns">
               <a class="btn primary" data-act="sms" href="${smsHref}" ${blocked ? 'aria-disabled="true"' : ''}>💬 Envoyer le SMS</a>
               <a class="btn wa" data-act="wa" href="${waHref}" target="_blank" rel="noopener" ${blocked || !isMobileNumber(p.phone) ? 'aria-disabled="true"' : ''}>WhatsApp</a>
               <a class="btn" href="tel:${p.phone.replace(/\s/g, '')}">📞 Appeler</a>
+              <a class="btn" href="/outils/maquette.html?tpl=${TPL[p.job] || 'artisan'}&n=${encodeURIComponent(p.name.replace(/\s*\(.*?\)\s*/g, ' ').trim())}&v=${encodeURIComponent(p.city)}&to=${encodeURIComponent(p.phone)}">🎨 Maquette</a>
               <select aria-label="Statut">${Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${k === p.status ? 'selected' : ''}>${v}</option>`).join('')}</select>
               <button class="btn small" data-act="del" type="button" title="Supprimer">🗑</button>
               ${rafale ? '<button class="btn small" data-act="skip" type="button">Passer ⏭</button>' : ''}
