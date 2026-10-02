@@ -1,0 +1,682 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+@font-face {
+  font-family: "Syne";
+  src: url("assets/fonts/syne-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Syne";
+  src: url("assets/fonts/syne-latin-ext.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin-ext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+#root {
+  --bg: #0f1117;
+  --bg2: #0d1016;
+  --panel: #151922;
+  --panel2: #1a1f2a;
+  --line: rgba(255, 255, 255, 0.09);
+  --ink: #ffffff;
+  --mute: #b7bfcb;
+  --dim: #8b94a3;
+  --acc: #22c1d3;
+  --acc2: #1a9fb0;
+  --acc3: #0f6f7c;
+  font-family: "Inter", sans-serif;
+  color: var(--ink);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+#root * {
+  box-sizing: border-box;
+}
+.disp {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+.acc {
+  color: var(--acc);
+}
+.cam {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+}
+/* mask reveal */
+.mw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.06em 0.03em 0.14em;
+  margin: -0.06em -0.03em -0.14em;
+}
+.mwi {
+  display: inline-block;
+  will-change: transform;
+}
+/* text rotate */
+.rot {
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+  white-space: nowrap;
+  height: 1.16em;
+}
+.rot-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  display: inline-flex;
+}
+.rot-m {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.02em 0 0.14em;
+}
+.rot-l {
+  display: inline-block;
+}
+/* border beam */
+.beam {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  overflow: hidden;
+}
+.beam-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 220px;
+  margin: -110px 0 0 -110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #7fe6f1 14%, rgba(34, 193, 211, 0.85) 28%, rgba(34, 193, 211, 0) 66%);
+}
+/* UI cards */
+.card {
+  position: absolute;
+  background: linear-gradient(180deg, #171b25 0%, #12151d 100%);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), 0 2px 0 rgba(255, 255, 255, 0.03) inset;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(21, 25, 34, 0.85);
+  color: var(--mute);
+  font-size: 24px;
+  font-weight: 500;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 14px var(--acc);
+}
+.browser {
+  position: absolute;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b0d12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55);
+}
+.browser .bar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background: #171a22;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.browser .bar i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #3a404c;
+  display: block;
+}
+.browser .bar .url {
+  margin-left: 14px;
+  flex: 1;
+  height: 24px;
+  border-radius: 8px;
+  background: #0f1117;
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 24px;
+  padding-left: 12px;
+}
+.browser .shot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  bottom: 0;
+  overflow: hidden;
+}
+.browser .shot img {
+  width: 100%;
+  display: block;
+}
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 48px;
+  z-index: 50;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  color: #0d1016;
+  background: linear-gradient(180deg, #3fd3e3 0%, #1fb3c4 100%);
+}
+
+
+.cam { transform-origin: 0 0; }
+.bento { position: absolute; inset: 0; }
+.cell { position: absolute; border-radius: 26px; background: linear-gradient(180deg, #181c26, #12151d); border: 1px solid rgba(255,255,255,0.09); box-shadow: 0 30px 80px rgba(0,0,0,0.45); padding: 26px 28px; overflow: hidden; }
+.spot { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle 320px at var(--sx) var(--sy), rgba(34,193,211,0.10), rgba(34,193,211,0) 70%); }
+.lab { display: flex; align-items: center; gap: 14px; font-family: "Syne", sans-serif; font-weight: 700; font-size: 30px; margin-bottom: 20px; position: relative; z-index: 2; }
+.li { font-size: 16px; color: var(--acc); border: 1.5px solid rgba(34,193,211,0.5); border-radius: 999px; padding: 4px 10px; font-family: "Inter", sans-serif; }
+.cA { left: 60px; top: 150px; width: 960px; height: 470px; }
+.cB { left: 60px; top: 650px; width: 960px; height: 480px; }
+.cC { left: 60px; top: 1160px; width: 960px; height: 290px; }
+.cD { left: 60px; top: 1480px; width: 960px; height: 400px; }
+.mini { left: 28px; right: 28px; top: 90px; bottom: 0; border-radius: 16px 16px 0 0; }
+.scroller { position: absolute; left: 0; right: 0; top: 0; }
+.scroller img { width: 100%; display: block; }
+.sq { display: flex; align-items: center; gap: 12px; height: 54px; border-radius: 27px; background: #0f1218; border: 1px solid rgba(255,255,255,0.1); padding: 0 20px; font-size: 22px; margin-bottom: 18px; }
+.sq svg { width: 22px; height: 22px; }
+.rank { position: relative; height: 340px; }
+.rk { position: absolute; left: 0; right: 0; top: 0; height: 54px; border-radius: 14px; display: flex; align-items: center; gap: 16px; padding: 0 18px; background: #161a22; border: 1px solid rgba(255,255,255,0.06); }
+.rk i { display: block; height: 12px; border-radius: 6px; background: #2c323d; }
+.rk .f { width: 26px; height: 26px; border-radius: 8px; background: #252b35; flex: none; }
+.rk.me { background: rgba(34,193,211,0.1); border-color: rgba(34,193,211,0.55); z-index: 2; }
+.rk.me .f { background: var(--acc); }
+.rk.me b { font-size: 22px; font-weight: 700; color: var(--acc); }
+.rk.me span { font-size: 18px; color: var(--mute); }
+.gp { display: flex; gap: 22px; }
+.gmap { width: 200px; height: 180px; border-radius: 16px; flex: none; position: relative; background:
+  linear-gradient(90deg, transparent 47%, #1e2733 47% 55%, transparent 55%),
+  linear-gradient(0deg, transparent 40%, #1e2733 40% 47%, transparent 47%),
+  linear-gradient(30deg, transparent 60%, #173a4a 60% 70%, transparent 70%), #121821; }
+.gpin { position: absolute; left: 50%; top: 50%; width: 40px; height: 52px; margin: -52px 0 0 -20px; }
+.ginfo b { display: block; font-family: "Syne", sans-serif; font-size: 30px; }
+.ginfo span { display: block; font-size: 20px; color: var(--mute); margin-top: 6px; }
+.ginfo em { display: inline-block; font-style: normal; font-size: 18px; color: var(--acc); font-weight: 600; margin-top: 8px; }
+.gbtns { display: flex; gap: 10px; margin-top: 18px; }
+.gbtns i { font-style: normal; font-size: 17px; font-weight: 600; padding: 9px 14px; border-radius: 999px; border: 1px solid rgba(34,193,211,0.5); color: var(--acc); }
+.md { display: flex; gap: 40px; align-items: flex-end; margin-top: 30px; }
+.checks { width: 330px; display: flex; flex-direction: column; gap: 16px; }
+.ck { display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 600; }
+.ck svg { width: 34px; height: 34px; padding: 5px; border-radius: 10px; background: rgba(34,193,211,0.14); fill: none; stroke: #22c1d3; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.bars { flex: 1; height: 220px; display: flex; align-items: flex-end; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.12); padding: 0 6px; }
+.bars i { flex: 1; display: block; height: 100%; border-radius: 8px 8px 0 0; background: linear-gradient(180deg, #22c1d3, rgba(34,193,211,0.25)); transform-origin: 50% 100%; }
+.veil { position: absolute; inset: -400px; background: rgba(11,13,18,0.72); opacity: 0; }
+.final { position: absolute; left: 60px; right: 60px; top: 800px; text-align: center; font-size: 112px; }
+
+      </style>
+      <div id="root" data-composition-id="s07" data-width="1080" data-height="1920" data-duration="5.429">
+<div class="cam">
+  <div class="bento">
+    <div class="cell cA">
+      <div class="lab"><span class="li">01</span>Création de site web</div>
+      <div class="browser mini"><div class="bar"><i></i><i></i><i></i><div class="url">votre-entreprise.fr</div></div><div class="shot"><div class="scroller"></div></div></div>
+    </div>
+    <div class="cell cB">
+      <div class="lab"><span class="li">02</span>Référencement local</div>
+      <div class="sq"><svg viewBox="0 0 24 24" fill="none" stroke="#8b94a3" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>coiffeur Lyon</div>
+      <div class="rank"></div>
+    </div>
+    <div class="cell cC">
+      <div class="lab"><span class="li">03</span>Fiche Google</div>
+      <div class="gp">
+        <div class="gmap"><svg class="gpin" viewBox="0 0 40 52"><path d="M20 50s-16-15.5-16-28a16 16 0 0 1 32 0c0 12.5-16 28-16 28z" fill="#22c1d3"/><circle cx="20" cy="21" r="6.5" fill="#0d1016"/></svg></div>
+        <div class="ginfo"><b>Votre entreprise</b><span>Coiffeur · Lyon</span><em>Ouvert</em>
+          <div class="gbtns"><i>Itinéraire</i><i>Appeler</i><i>Site web</i></div></div>
+      </div>
+    </div>
+    <div class="cell cD">
+      <div class="lab"><span class="li">04</span>Maintenance &amp; suivi mensuel</div>
+      <div class="md">
+        <div class="checks">
+          <div class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Mises à jour</div>
+          <div class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sécurité</div>
+          <div class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sauvegardes</div>
+        </div>
+        <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="veil"></div>
+  <h2 class="disp final">On s'occupe <span class="acc">de tout.</span></h2>
+</div>
+      </div>
+      <script>
+// Shared, deterministic motion helpers. Inlined into every scene by tools/build.mjs.
+// Everything is a pure function of scene time t (seconds) — no clocks, no randomness.
+window.VX = window.VX || (function () {
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const prog = (t, t0, t1) => (t1 <= t0 ? (t >= t1 ? 1 : 0) : clamp((t - t0) / (t1 - t0)));
+  const E = {
+    lin: (p) => p,
+    outCubic: (p) => 1 - Math.pow(1 - p, 3),
+    inCubic: (p) => p * p * p,
+    inOutCubic: (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2),
+    outQuart: (p) => 1 - Math.pow(1 - p, 4),
+    outExpo: (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p)),
+    inExpo: (p) => (p <= 0 ? 0 : Math.pow(2, 10 * p - 10)),
+    inOutExpo: (p) =>
+      p <= 0 ? 0 : p >= 1 ? 1 : p < 0.5 ? Math.pow(2, 20 * p - 10) / 2 : (2 - Math.pow(2, -20 * p + 10)) / 2,
+    inOutSine: (p) => -(Math.cos(Math.PI * p) - 1) / 2,
+  };
+  const tw = (t, t0, t1, a, b, ease = E.outCubic) => lerp(a, b, ease(prog(t, t0, t1)));
+
+  // Closed-form step response of a damped spring (unit step at tau = 0).
+  function step(tau, f, z) {
+    if (tau <= 0) return 0;
+    const w = 2 * Math.PI * f;
+    if (z >= 1) return 1 - Math.exp(-w * tau) * (1 + w * tau);
+    const wd = w * Math.sqrt(1 - z * z);
+    return 1 - Math.exp(-z * w * tau) * (Math.cos(wd * tau) + ((z * w) / wd) * Math.sin(wd * tau));
+  }
+  // Spring through a list of target changes: keys = [[t0, v0], [t1, v1], ...].
+  // Value = v0 + sum of (vi - v(i-1)) * step(t - ti): one step response per target change.
+  function spring(t, keys, f = 2.4, z = 0.74) {
+    let v = keys[0][1];
+    for (let i = 1; i < keys.length; i++) v += (keys[i][1] - keys[i - 1][1]) * step(t - keys[i][0], f, z);
+    return v;
+  }
+  // Spring 0 -> 1 starting at t0.
+  const sp = (t, t0, f = 2.4, z = 0.74) => step(t - t0, f, z);
+
+  // Seeded PRNG (mulberry32) for deterministic scatter.
+  function rng(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6d2b79f5) >>> 0;
+      let r = Math.imul(a ^ (a >>> 15), 1 | a);
+      r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  const set = (el, css) => {
+    if (!el) return;
+    for (const k in css) {
+      if (k.startsWith("--")) el.style.setProperty(k, css[k]);
+      else el.style[k] = css[k];
+    }
+  };
+  const tf = (el, s) => el && (el.style.transform = s);
+  const op = (el, v) => el && (el.style.opacity = String(clamp(v)));
+
+  // Split an element's words into mask-reveal structures: <span.mw><span.mwi>word</span></span>
+  function splitWords(el) {
+    const parts = [];
+    const walk = (node, cls) => {
+      for (const child of Array.from(node.childNodes)) {
+        if (child.nodeType === 3) {
+          child.textContent.split(/(\s+)/).forEach((w) => {
+            if (!w) return;
+            if (/^\s+$/.test(w)) parts.push({ space: true });
+            else parts.push({ w, cls });
+          });
+        } else if (child.nodeType === 1) {
+          walk(child, (cls ? cls + " " : "") + (child.className || ""));
+        }
+      }
+    };
+    walk(el, "");
+    el.innerHTML = "";
+    const words = [];
+    parts.forEach((p) => {
+      if (p.space) {
+        el.appendChild(document.createTextNode(" "));
+        return;
+      }
+      const mw = document.createElement("span");
+      mw.className = "mw";
+      const mwi = document.createElement("span");
+      mwi.className = "mwi" + (p.cls ? " " + p.cls : "");
+      mwi.textContent = p.w;
+      mw.appendChild(mwi);
+      el.appendChild(mw);
+      words.push(mwi);
+    });
+    return words;
+  }
+  // Mask reveal: word rises from below a cut line. times[i] = start time of word i.
+  function revealWords(words, t, times, dur = 0.42) {
+    words.forEach((w, i) => {
+      const t0 = times[Math.min(i, times.length - 1)];
+      const p = sp(t, t0, 2.6, 0.78);
+      tf(w, `translate3d(0, ${(1 - p) * 112}%, 0) rotate(${(1 - clamp(p)) * 4}deg)`);
+      w.style.opacity = t < t0 ? "0" : "1";
+    });
+  }
+  // Exit: words drop/rise away.
+  function hideWords(words, t, t0, stagger = 0.02) {
+    words.forEach((w, i) => {
+      const p = E.inCubic(prog(t, t0 + i * stagger, t0 + i * stagger + 0.3));
+      if (p > 0) tf(w, `translate3d(0, ${-p * 112}%, 0)`);
+    });
+  }
+
+  // Text Rotate: swaps words letter by letter. Builds stacked layers inside `el`.
+  function rotator(el, words, opts = {}) {
+    el.innerHTML = "";
+    el.classList.add("rot");
+    el.setAttribute("data-layout-allow-overlap", ""); // stacked letter layers are intentional
+    const layers = words.map((w) => {
+      const lay = document.createElement("span");
+      lay.className = "rot-layer";
+      const letters = Array.from(w).map((ch) => {
+        const m = document.createElement("span");
+        m.className = "rot-m";
+        const l = document.createElement("span");
+        l.className = "rot-l";
+        l.textContent = ch === " " ? " " : ch;
+        m.appendChild(l);
+        lay.appendChild(m);
+        return l;
+      });
+      el.appendChild(lay);
+      return { lay, letters, width: 0 };
+    });
+    let measured = false;
+    const measure = () => {
+      layers.forEach((L, i) => (L.width = textW(words[i].replace(/ /g, "\u00a0"), el)));
+      measured = layers.every((L) => L.width > 0);
+    };
+    const stg = opts.stagger ?? 0.028;
+    const d = opts.dur ?? 0.34;
+    // times[i] = time word i becomes current (times[0] is its entry time, may be -1 for "already there").
+    function render(t, times) {
+      if (!measured) measure();
+      let cur = 0;
+      for (let i = 0; i < times.length; i++) if (t >= times[i]) cur = i;
+      layers.forEach((L, i) => {
+        const tin = times[i];
+        const tout = i + 1 < times.length ? times[i + 1] : 1e9;
+        L.letters.forEach((l, k) => {
+          const pin = tin < 0 ? 1 : E.outCubic(prog(t, tin + k * stg, tin + k * stg + d));
+          const pout = E.inCubic(prog(t, tout + k * stg, tout + k * stg + d * 0.8));
+          const y = (1 - pin) * 105 - pout * 105;
+          l.style.transform = `translate3d(0, ${y}%, 0)`;
+          l.style.opacity = pin > 0 && pout < 1 ? "1" : "0";
+        });
+      });
+      // width follows the current word with a spring
+      const keys = [[0, layers[0].width]];
+      for (let i = 1; i < times.length; i++) keys.push([times[i], layers[i].width]);
+      el.style.width = spring(t, keys, 2.8, 0.8).toFixed(2) + "px";
+      return cur;
+    }
+    return { measure, render, layers };
+  }
+
+  // Border Beam: a light blob travelling around a rounded rect, masked to the border ring.
+  function beam(host, opts = {}) {
+    const ring = document.createElement("div");
+    ring.className = "beam";
+    ring.setAttribute("data-layout-allow-overflow", "");
+    if (opts.radius != null) ring.style.borderRadius = opts.radius + "px";
+    const dot = document.createElement("div");
+    dot.className = "beam-dot";
+    if (opts.size) set(dot, { width: opts.size + "px", height: opts.size + "px", margin: `${-opts.size / 2}px 0 0 ${-opts.size / 2}px` });
+    ring.appendChild(dot);
+    host.appendChild(ring);
+    let W = 0, H = 0;
+    const R = opts.radius ?? 20;
+    const measure = () => {
+      W = host.offsetWidth;
+      H = host.offsetHeight;
+    };
+    function point(u) {
+      // u in [0,1) along a rounded-rect perimeter, clockwise from top-left straight segment
+      const r = Math.min(R, W / 2, H / 2);
+      const sx = W - 2 * r, sy = H - 2 * r, arc = (Math.PI * r) / 2;
+      const P = 2 * sx + 2 * sy + 4 * arc;
+      let d = (((u % 1) + 1) % 1) * P;
+      const segs = [
+        [sx, (q) => [r + q, 0]],
+        [arc, (q) => { const a = -Math.PI / 2 + (q / arc) * (Math.PI / 2); return [W - r + r * Math.cos(a), r + r * Math.sin(a)]; }],
+        [sy, (q) => [W, r + q]],
+        [arc, (q) => { const a = (q / arc) * (Math.PI / 2); return [W - r + r * Math.cos(a), H - r + r * Math.sin(a)]; }],
+        [sx, (q) => [W - r - q, H]],
+        [arc, (q) => { const a = Math.PI / 2 + (q / arc) * (Math.PI / 2); return [r + r * Math.cos(a), H - r + r * Math.sin(a)]; }],
+        [sy, (q) => [0, H - r - q]],
+        [arc, (q) => { const a = Math.PI + (q / arc) * (Math.PI / 2); return [r + r * Math.cos(a), r + r * Math.sin(a)]; }],
+      ];
+      for (const [len, f] of segs) {
+        if (d <= len) return f(d);
+        d -= len;
+      }
+      return [r, 0];
+    }
+    function render(t, speed = 0.42, phase = 0, alpha = 1) {
+      if (!W) measure();
+      const [x, y] = point(t * speed + phase);
+      dot.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+      ring.style.opacity = String(alpha);
+    }
+    return { render, measure, ring };
+  }
+
+  // Layout-independent text width (canvas) — works even while the slot is hidden.
+  const _cv = document.createElement("canvas").getContext("2d");
+  function textW(text, el) {
+    const cs = getComputedStyle(el);
+    _cv.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const ls = parseFloat(cs.letterSpacing) || 0;
+    return _cv.measureText(text).width + ls * Array.from(text).length;
+  }
+
+  // Deterministic looping offset (marquee).
+  const loop = (t, speed, len) => (((t * speed) % len) + len) % len;
+
+  // Render clock: a property setter tweened by the paused GSAP timeline calls render(t)
+  // on every seek, so the whole scene state is a pure function of time.
+  function clock(tl, dur, render) {
+    let cur = -1;
+    const proxy = {};
+    Object.defineProperty(proxy, "t", {
+      get: () => cur,
+      set: (v) => {
+        cur = v;
+        render(v);
+      },
+    });
+    tl.fromTo(proxy, { t: 0 }, { t: dur, duration: dur, ease: "none" }, 0);
+    render(0);
+    return tl;
+  }
+
+  async function ready(fonts) {
+    try {
+      await Promise.all(
+        (fonts || ['800 100px "Syne"', '700 100px "Syne"', '400 40px "Inter"', '600 40px "Inter"']).map((f) => document.fonts.load(f)),
+      );
+      await document.fonts.ready;
+    } catch (e) {}
+  }
+
+  return { textW, clamp, lerp, prog, E, tw, step, spring, sp, rng, set, tf, op, splitWords, revealWords, hideWords, rotator, beam, loop, clock, ready };
+})();
+
+(function () {
+  const ID = "s07";
+  const DUR = 5.429;
+  const T0 = 28;
+  const A = (x) => x - T0; // absolute (voice-over) time -> scene time
+  const root = document.querySelector('[data-composition-id="s07"]');
+  const q = (sel) => root.querySelector(sel);
+  const qa = (sel) => Array.from(root.querySelectorAll(sel));
+
+const cam = q(".cam");
+const cells = qa(".cell");
+const scroller = q(".scroller");
+const rank = q(".rank");
+const checks = qa(".ck svg path");
+const ckRows = qa(".ck");
+const barEls = qa(".bars i");
+const veil = q(".veil");
+const final = q(".final");
+const gpin = q(".gpin");
+["brasier", "cuivre", "lune", "delta", "brasier", "cuivre"].forEach((n) => {
+  const im = document.createElement("img");
+  im.src = "assets/img/" + n + ".jpg";
+  scroller.appendChild(im);
+});
+const spots = cells.map((c) => {
+  const s = document.createElement("div");
+  s.className = "spot";
+  c.appendChild(s);
+  return s;
+});
+const cbeams = cells.map((c) => VX.beam(c, { radius: 26, size: 280 }));
+// ranking rows: index 4 = "Votre entreprise", climbs to the top
+const rows = [];
+for (let i = 0; i < 5; i++) {
+  const r = document.createElement("div");
+  r.className = "rk" + (i === 4 ? " me" : "");
+  r.innerHTML = i === 4 ? '<i class="f"></i><b>Votre entreprise</b><span>votre-entreprise.fr</span>' : `<i class="f"></i><i style="width:${[52, 40, 60, 46][i]}%"></i>`;
+  rank.appendChild(r);
+  rows.push(r);
+}
+const CLIMB = A(29.3);
+checks.forEach((p) => { p.style.strokeDasharray = "24"; });
+const BH = [0.38, 0.46, 0.44, 0.58, 0.64, 0.72, 0.86];
+const fw = VX.splitWords(final);
+const FT = [31.48, 31.52, 31.98, 32.14].map(A);
+
+// camera targets (absolute times): centre x, centre y, scale
+const CAM = [
+  [28.0, 540, 1015, 1.0],
+  [28.36, 540, 385, 1.22],
+  [29.02, 540, 890, 1.22],
+  [29.88, 540, 1305, 1.3],
+  [30.5, 540, 1680, 1.22],
+  [31.42, 540, 1015, 0.94],
+];
+const ck = (k) => CAM.map((c) => [A(c[0]), c[k]]);
+const KX = ck(1), KY = ck(2), KS = ck(3);
+
+function render(t) {
+  const ta = t + T0;
+  // cells fly in from different directions
+  const FROM = [[-900, -200, -12], [900, -100, 12], [-900, 200, 10], [900, 400, -10]];
+  cells.forEach((c, i) => {
+    const p = VX.sp(t, 0.02 + i * 0.07, 2.2, 0.76);
+    const [fx, fy, fr] = FROM[i];
+    VX.tf(c, `translate3d(${((1 - p) * fx).toFixed(1)}px, ${((1 - p) * fy).toFixed(1)}px, 0) rotate(${((1 - p) * fr).toFixed(2)}deg) scale(${(0.8 + 0.2 * VX.clamp(p, 0, 1.05)).toFixed(4)})`);
+    VX.op(c, VX.clamp(p * 1.6));
+    spots[i].style.setProperty("--sx", (300 + Math.sin(t * 1.4 + i * 2) * 260).toFixed(0) + "px");
+    spots[i].style.setProperty("--sy", (160 + Math.cos(t * 1.1 + i) * 120).toFixed(0) + "px");
+  });
+  // focus beam on the cell the camera dives into
+  const focus = [[A(28.36), A(29.02)], [A(29.02), A(29.88)], [A(29.88), A(30.5)], [A(30.5), A(31.42)]];
+  cbeams.forEach((b, i) => {
+    const [a, z] = focus[i];
+    b.render(t, 0.5, i * 0.2, VX.tw(t, a, a + 0.2, 0, 1) * (1 - VX.tw(t, z, z + 0.2, 0, 1)));
+  });
+
+  // A: website scrolls continuously
+  VX.tf(scroller, `translate3d(0, ${(-VX.loop(t, 260, 4 * 565)).toFixed(1)}px, 0)`);
+  // B: "Votre entreprise" climbs from 5th to 1st
+  rows.forEach((r, i) => {
+    let slot;
+    if (i === 4) slot = VX.spring(t, [[0, 4], [CLIMB, 3], [CLIMB + 0.18, 2], [CLIMB + 0.36, 1], [CLIMB + 0.54, 0]], 3, 0.8);
+    else slot = i + VX.sp(t, CLIMB + (3 - i) * 0.18, 3, 0.8);
+    VX.tf(r, `translate3d(0, ${(slot * 62).toFixed(1)}px, 0)`);
+  });
+  // C: pin bounce
+  const pp = VX.sp(t, A(29.95), 2.8, 0.55);
+  VX.tf(gpin, `translate3d(0, ${((1 - pp) * -60).toFixed(1)}px, 0)`);
+  // D: checks draw, bars grow
+  checks.forEach((p, i) => {
+    p.style.strokeDashoffset = (24 * (1 - VX.E.outCubic(VX.prog(ta, 30.62 + i * 0.16, 30.9 + i * 0.16)))).toFixed(2);
+    VX.op(ckRows[i], VX.tw(ta, 30.55 + i * 0.16, 30.75 + i * 0.16, 0.35, 1));
+  });
+  barEls.forEach((b, i) => {
+    const p = VX.sp(ta, 30.7 + i * 0.07, 2.6, 0.7);
+    VX.tf(b, `scaleY(${(BH[i] * Math.max(0, p)).toFixed(4)})`);
+  });
+
+  // camera dives into each cell as the voice names it, then pulls back
+  const s = VX.spring(t, KS, 1.9, 0.86), cx = VX.spring(t, KX, 1.9, 0.86), cy = VX.spring(t, KY, 1.9, 0.86);
+  const wout = VX.E.inCubic(VX.prog(ta, 33.143, 33.429));
+  const S = s * (1 - 0.15 * wout);
+  VX.tf(cam, `translate3d(${(540 - cx * S).toFixed(1)}px, ${(960 - cy * S).toFixed(1)}px, 0) scale(${S.toFixed(4)})`);
+  cam.style.filter = wout > 0.02 ? `blur(${(wout * 10).toFixed(1)}px)` : "none";
+  VX.op(cam, 1 - wout);
+
+  // "On s'occupe de tout."
+  VX.op(veil, VX.tw(ta, 31.4, 31.8, 0, 1));
+  VX.revealWords(fw, t, FT);
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+
+})();
+      </script>
+    </template>
+  </body>
+</html>

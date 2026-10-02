@@ -1,0 +1,152 @@
+<div class="cam">
+  <div class="wall-wrap"><div class="wall"></div></div>
+  <div class="left">
+    <div class="pill eb"><span class="dot"></span>Nos réalisations</div>
+    <div class="disp l1">Un site</div>
+    <div class="disp l2 acc"><span class="rw"></span></div>
+  </div>
+  <div class="stack-wrap">
+    <div class="stack"></div>
+    <div class="chips"></div>
+  </div>
+</div>
+
+<style>
+.wall-wrap { position: absolute; inset: -300px; perspective: 1600px;
+  -webkit-mask: radial-gradient(ellipse 55% 55% at 50% 50%, #000 0%, transparent 80%);
+  mask: radial-gradient(ellipse 55% 55% at 50% 50%, #000 0%, transparent 80%); }
+.wall { position: absolute; left: 50%; top: 50%; width: 2600px; height: 3000px; margin: -1500px 0 0 -1300px; display: flex; gap: 30px; justify-content: center; }
+.wcol { width: 460px; display: flex; flex-direction: column; gap: 30px; }
+.wcol img { width: 460px; height: 288px; border-radius: 16px; display: block; flex: none; object-fit: cover; }
+.left { position: absolute; left: 90px; top: 420px; width: 920px; }
+.eb { margin-bottom: 34px; }
+.l1 { font-size: 116px; }
+.l2 { font-size: 124px; margin-top: 4px; height: 170px; }
+.stack-wrap { position: absolute; left: 110px; top: 980px; width: 820px; height: 640px; perspective: 1800px; }
+.stack { position: absolute; inset: 0; transform-style: preserve-3d; }
+.bcard { position: absolute; left: 30px; top: 40px; width: 760px; height: 515px; border-radius: 18px; transform-origin: 50% 60%; }
+.bcard .browser { position: absolute; inset: 0; }
+.bcard .shot img { height: 100%; object-fit: cover; object-position: top; }
+.spot { position: absolute; inset: 0; border-radius: 18px; pointer-events: none; background: radial-gradient(circle 360px at var(--sx) var(--sy), rgba(255,255,255,0.16), rgba(255,255,255,0) 70%); mix-blend-mode: screen; }
+.chips { position: absolute; left: 30px; top: 620px; width: 860px; height: 80px; }
+.chip { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 18px; padding: 14px 26px 14px 16px; border-radius: 999px; background: rgba(21,25,34,0.92); border: 1px solid rgba(255,255,255,0.12); white-space: nowrap; }
+.chip .tag { font-size: 18px; font-weight: 600; color: #0d1016; background: var(--acc); padding: 7px 14px; border-radius: 999px; }
+.chip b { font-family: "Syne", sans-serif; font-size: 28px; font-weight: 700; }
+.chip span { font-size: 20px; color: var(--mute); }
+</style>
+
+<script>
+const cam = q(".cam");
+const wall = q(".wall");
+const stack = q(".stack");
+const chipsEl = q(".chips");
+const eb = q(".eb");
+const l1 = q(".l1");
+const IMGS = ["brasier", "cuivre", "lune", "delta"];
+const SITES = [
+  { img: "brasier", url: "le-brasier · démo", name: "Le Brasier", desc: "Restaurant · réservation en ligne" },
+  { img: "cuivre", url: "cuivre-and-co · démo", name: "Cuivre & Co", desc: "Plombier · estimation en ligne" },
+  { img: "lune", url: "atelier-lune · démo", name: "Atelier Lune", desc: "Coiffure · rendez-vous en ligne" },
+  { img: "delta", url: "delta-auto · démo", name: "Delta Auto", desc: "Garage · devis express" },
+];
+// background wall of real demo sites
+const wcols = [];
+for (let c = 0; c < 5; c++) {
+  const col = document.createElement("div");
+  col.className = "wcol";
+  for (let k = 0; k < 10; k++) {
+    const im = document.createElement("img");
+    im.src = "assets/img/" + IMGS[(k + c * 3) % 4] + ".jpg";
+    col.appendChild(im);
+  }
+  wall.appendChild(col);
+  wcols.push(col);
+}
+// card stack (front = index 0)
+const cards = SITES.map((s, i) => {
+  const c = document.createElement("div");
+  c.className = "bcard";
+  c.innerHTML = `<div class="browser"><div class="bar"><i></i><i></i><i></i><div class="url">${s.url}</div></div><div class="shot"><img src="assets/img/${s.img}.jpg"></div></div><div class="spot"></div>`;
+  stack.appendChild(c);
+  return c;
+});
+cards.slice().reverse().forEach((c) => stack.appendChild(c)); // DOM order: back first, front last
+const beams = cards.map((c) => VX.beam(c, { radius: 18, size: 240 }));
+const chips = SITES.map((s) => {
+  const c = document.createElement("div");
+  c.className = "chip";
+  c.innerHTML = `<span class="tag">Site de démonstration</span><b>${s.name}</b><span>${s.desc}</span>`;
+  chipsEl.appendChild(c);
+  return c;
+});
+const rw = VX.rotator(q(".rw"), ["moderne.", "rapide.", "mobile."], { stagger: 0.03, dur: 0.32 });
+const RT = [A(12.12), A(12.86), A(13.9)];
+const FLY = [12.86, 13.5, 14.14].map(A); // card i leaves at FLY[i]
+
+function render(t) {
+  const ta = t + T0;
+  // wall
+  VX.tf(wall, `rotateX(42deg) rotateZ(14deg) translate3d(0, ${(-t * 40).toFixed(1)}px, 0)`);
+  wcols.forEach((col, i) => {
+    const dir = i % 2 ? 1 : -1;
+    const y = -900 + dir * VX.loop(t, 120 + i * 14, 318 * 4) - (dir > 0 ? 318 * 4 : 0);
+    VX.tf(col, `translate3d(0, ${y.toFixed(1)}px, 0)`);
+  });
+  q(".wall-wrap").style.opacity = "0.22";
+
+  // left copy
+  const pe = VX.sp(t, 0.2, 2.6, 0.8);
+  VX.tf(eb, `translate3d(${((1 - pe) * -40).toFixed(1)}px, 0, 0)`);
+  VX.op(eb, VX.clamp(pe * 1.5));
+  const p1 = VX.sp(ta, 11.74, 2.6, 0.8);
+  VX.tf(l1, `translate3d(0, ${((1 - p1) * 80).toFixed(1)}px, 0)`);
+  l1.style.clipPath = `inset(-20% -10% ${((1 - VX.clamp(p1)) * 100).toFixed(1)}% -10%)`;
+  VX.op(l1, t < A(11.74) ? 0 : 1);
+  if (t >= RT[0]) rw.render(t, RT);
+  else rw.layers.forEach((L) => L.letters.forEach((l) => (l.style.opacity = "0")));
+
+  // stack: each card's depth = its index minus the number of cards flown
+  const lead = [0, 1, 2, 3].map((k) => (k === 0 ? 0 : VX.sp(t, FLY[k - 1], 2.3, 0.72)));
+  const flown = lead.reduce((a, b) => a + b, 0);
+  const pin = VX.sp(t, 0.08, 1.9, 0.8);
+  cards.forEach((c, i) => {
+    const depth = i - flown;
+    const fly = i < 3 ? VX.E.inCubic(VX.prog(t, FLY[i] - 0.05, FLY[i] + 0.38)) : 0;
+    const d = Math.max(depth, 0);
+    const x = d * 34 + fly * 1000;
+    const y = -d * 34 - fly * 520 + (1 - pin) * 500;
+    const z = -d * 90;
+    const rz = fly * 24 + d * 2.5;
+    const tiltY = -16 + Math.sin(t * 1.3 + i) * 3;
+    const tiltX = 7 + Math.cos(t * 1.1 + i) * 2;
+    VX.tf(c, `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${tiltY.toFixed(2)}deg) rotateX(${tiltX.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg)`);
+    VX.op(c, (1 - fly) * VX.clamp(1.4 - d * 0.28) * VX.clamp(pin * 1.4));
+    c.style.filter = d > 0.05 ? `brightness(${(1 - d * 0.22).toFixed(3)})` : "none";
+    // spotlight drifts across the front card
+    c.style.setProperty("--sx", (380 + Math.sin(t * 1.6 + i) * 300).toFixed(0) + "px");
+    c.style.setProperty("--sy", (220 + Math.cos(t * 1.2 + i) * 160).toFixed(0) + "px");
+    beams[i].render(t, 0.55, i * 0.25, VX.clamp(1 - d * 2) * (1 - fly));
+  });
+  // chips: current card's chip slides in, previous slides out
+  chips.forEach((ch, i) => {
+    const tin = i === 0 ? 0.5 : FLY[i - 1] + 0.1;
+    const tout = i < 3 ? FLY[i] : 99;
+    const pi = VX.sp(t, tin, 2.8, 0.8);
+    const po = VX.E.inCubic(VX.prog(t, tout - 0.05, tout + 0.2));
+    VX.tf(ch, `translate3d(${((1 - pi) * 60 - po * 60).toFixed(1)}px, 0, 0)`);
+    VX.op(ch, VX.clamp(pi * 1.5) * (1 - po));
+  });
+
+  // camera: whip in from the right, drift, whip out upward
+  const win = VX.E.outExpo(VX.prog(t, 0, 0.42));
+  const wout = VX.E.inExpo(VX.prog(ta, 15.4, 15.714));
+  VX.tf(cam, `translate3d(${((1 - win) * 2200).toFixed(1)}px, ${(-wout * 1300 - t * 6).toFixed(1)}px, 0) scale(${(1.02 + t * 0.008).toFixed(4)}) skewX(${(-(1 - win) * 8).toFixed(2)}deg)`);
+  const bl = Math.max((1 - win) * 14, wout * 14);
+  cam.style.filter = bl > 0.3 ? `blur(${bl.toFixed(1)}px)` : "none";
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+</script>

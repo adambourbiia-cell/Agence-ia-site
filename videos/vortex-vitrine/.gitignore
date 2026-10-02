@@ -4,3 +4,4 @@ renders/*
 !renders/video.mp4
 assets/audio/mix.wav
 .hyperframes/
+!renders/video-916.mp4

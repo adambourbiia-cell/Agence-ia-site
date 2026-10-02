@@ -3,10 +3,10 @@
 #   1. motion blur: average 4 sub-frames (tmix) and resample to 60 fps
 #   2. replace the render's stem audio with the master mix (tools/mix.py), loudness-normalised
 #      to -15 LUFS / -1.5 dBTP (two-pass loudnorm)
-# Usage (from the project root): bash tools/finish.sh
+# Usage (from the project root): bash tools/finish.sh [in.mp4] [out.mp4]
 set -euo pipefail
-IN=renders/v-240.mp4
-OUT=renders/video.mp4
+IN=${1:-renders/v-240.mp4}
+OUT=${2:-renders/video.mp4}
 MIX=assets/audio/mix.wav
 
 # pass 1: measure loudness

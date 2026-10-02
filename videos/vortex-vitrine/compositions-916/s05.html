@@ -1,0 +1,605 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+@font-face {
+  font-family: "Syne";
+  src: url("assets/fonts/syne-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Syne";
+  src: url("assets/fonts/syne-latin-ext.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin-ext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+#root {
+  --bg: #0f1117;
+  --bg2: #0d1016;
+  --panel: #151922;
+  --panel2: #1a1f2a;
+  --line: rgba(255, 255, 255, 0.09);
+  --ink: #ffffff;
+  --mute: #b7bfcb;
+  --dim: #8b94a3;
+  --acc: #22c1d3;
+  --acc2: #1a9fb0;
+  --acc3: #0f6f7c;
+  font-family: "Inter", sans-serif;
+  color: var(--ink);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+#root * {
+  box-sizing: border-box;
+}
+.disp {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+.acc {
+  color: var(--acc);
+}
+.cam {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+}
+/* mask reveal */
+.mw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.06em 0.03em 0.14em;
+  margin: -0.06em -0.03em -0.14em;
+}
+.mwi {
+  display: inline-block;
+  will-change: transform;
+}
+/* text rotate */
+.rot {
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+  white-space: nowrap;
+  height: 1.16em;
+}
+.rot-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  display: inline-flex;
+}
+.rot-m {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.02em 0 0.14em;
+}
+.rot-l {
+  display: inline-block;
+}
+/* border beam */
+.beam {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  overflow: hidden;
+}
+.beam-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 220px;
+  margin: -110px 0 0 -110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #7fe6f1 14%, rgba(34, 193, 211, 0.85) 28%, rgba(34, 193, 211, 0) 66%);
+}
+/* UI cards */
+.card {
+  position: absolute;
+  background: linear-gradient(180deg, #171b25 0%, #12151d 100%);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), 0 2px 0 rgba(255, 255, 255, 0.03) inset;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(21, 25, 34, 0.85);
+  color: var(--mute);
+  font-size: 24px;
+  font-weight: 500;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 14px var(--acc);
+}
+.browser {
+  position: absolute;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b0d12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55);
+}
+.browser .bar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background: #171a22;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.browser .bar i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #3a404c;
+  display: block;
+}
+.browser .bar .url {
+  margin-left: 14px;
+  flex: 1;
+  height: 24px;
+  border-radius: 8px;
+  background: #0f1117;
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 24px;
+  padding-left: 12px;
+}
+.browser .shot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  bottom: 0;
+  overflow: hidden;
+}
+.browser .shot img {
+  width: 100%;
+  display: block;
+}
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 48px;
+  z-index: 50;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  color: #0d1016;
+  background: linear-gradient(180deg, #3fd3e3 0%, #1fb3c4 100%);
+}
+
+
+.left { position: absolute; left: 70px; top: 300px; width: 940px; }
+.eb { margin-bottom: 30px; }
+.big { font-size: 88px; line-height: 1.12; white-space: nowrap; }
+.w { display: inline-block; }
+.vis { position: relative; display: inline-block; }
+.strike { position: absolute; left: -6px; right: -6px; top: 54%; height: 10px; border-radius: 5px; background: var(--acc); transform-origin: 0 50%; display: block; }
+.feed { position: absolute; left: 60px; top: 790px; width: 960px; height: 1020px; overflow: hidden;
+  -webkit-mask: linear-gradient(180deg, transparent 0, #000 50px, #000 860px, transparent 1020px);
+  mask: linear-gradient(180deg, transparent 0, #000 50px, #000 860px, transparent 1020px); }
+.list { position: absolute; left: 10px; right: 10px; top: 50px; }
+.note { position: absolute; left: 0; right: 0; top: 0; height: 118px; display: flex; align-items: center; gap: 22px; padding: 0 26px; border-radius: 24px; background: linear-gradient(180deg, #1a1f2a, #141821); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.4); transform-origin: 50% 0; }
+.note .ic { width: 64px; height: 64px; border-radius: 18px; background: rgba(34,193,211,0.12); display: flex; align-items: center; justify-content: center; flex: none; }
+.note .ic svg { width: 32px; height: 32px; }
+.note .tx { flex: 1; min-width: 0; }
+.note b { display: block; font-size: 27px; font-weight: 700; color: #fff; white-space: nowrap; }
+.note span { display: block; font-size: 21px; color: var(--mute); margin-top: 4px; white-space: nowrap; }
+.note em { font-style: normal; font-size: 18px; color: var(--dim); align-self: flex-start; margin-top: 26px; }
+
+      </style>
+      <div id="root" data-composition-id="s05" data-width="1080" data-height="1920" data-duration="3.714">
+<div class="cam">
+  <div class="left">
+    <div class="pill eb"><span class="dot"></span>Résultat</div>
+    <div class="disp big"><span class="w w1">Vos</span> <span class="vis"><span class="w w2">visiteurs</span><i class="strike"></i></span></div>
+    <div class="disp big"><span class="w w3">deviennent</span></div>
+    <div class="disp big"><span class="w w4">des</span> <span class="w w5 acc">clients.</span></div>
+  </div>
+  <div class="feed"><div class="list"></div></div>
+</div>
+      </div>
+      <script>
+// Shared, deterministic motion helpers. Inlined into every scene by tools/build.mjs.
+// Everything is a pure function of scene time t (seconds) — no clocks, no randomness.
+window.VX = window.VX || (function () {
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const prog = (t, t0, t1) => (t1 <= t0 ? (t >= t1 ? 1 : 0) : clamp((t - t0) / (t1 - t0)));
+  const E = {
+    lin: (p) => p,
+    outCubic: (p) => 1 - Math.pow(1 - p, 3),
+    inCubic: (p) => p * p * p,
+    inOutCubic: (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2),
+    outQuart: (p) => 1 - Math.pow(1 - p, 4),
+    outExpo: (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p)),
+    inExpo: (p) => (p <= 0 ? 0 : Math.pow(2, 10 * p - 10)),
+    inOutExpo: (p) =>
+      p <= 0 ? 0 : p >= 1 ? 1 : p < 0.5 ? Math.pow(2, 20 * p - 10) / 2 : (2 - Math.pow(2, -20 * p + 10)) / 2,
+    inOutSine: (p) => -(Math.cos(Math.PI * p) - 1) / 2,
+  };
+  const tw = (t, t0, t1, a, b, ease = E.outCubic) => lerp(a, b, ease(prog(t, t0, t1)));
+
+  // Closed-form step response of a damped spring (unit step at tau = 0).
+  function step(tau, f, z) {
+    if (tau <= 0) return 0;
+    const w = 2 * Math.PI * f;
+    if (z >= 1) return 1 - Math.exp(-w * tau) * (1 + w * tau);
+    const wd = w * Math.sqrt(1 - z * z);
+    return 1 - Math.exp(-z * w * tau) * (Math.cos(wd * tau) + ((z * w) / wd) * Math.sin(wd * tau));
+  }
+  // Spring through a list of target changes: keys = [[t0, v0], [t1, v1], ...].
+  // Value = v0 + sum of (vi - v(i-1)) * step(t - ti): one step response per target change.
+  function spring(t, keys, f = 2.4, z = 0.74) {
+    let v = keys[0][1];
+    for (let i = 1; i < keys.length; i++) v += (keys[i][1] - keys[i - 1][1]) * step(t - keys[i][0], f, z);
+    return v;
+  }
+  // Spring 0 -> 1 starting at t0.
+  const sp = (t, t0, f = 2.4, z = 0.74) => step(t - t0, f, z);
+
+  // Seeded PRNG (mulberry32) for deterministic scatter.
+  function rng(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6d2b79f5) >>> 0;
+      let r = Math.imul(a ^ (a >>> 15), 1 | a);
+      r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  const set = (el, css) => {
+    if (!el) return;
+    for (const k in css) {
+      if (k.startsWith("--")) el.style.setProperty(k, css[k]);
+      else el.style[k] = css[k];
+    }
+  };
+  const tf = (el, s) => el && (el.style.transform = s);
+  const op = (el, v) => el && (el.style.opacity = String(clamp(v)));
+
+  // Split an element's words into mask-reveal structures: <span.mw><span.mwi>word</span></span>
+  function splitWords(el) {
+    const parts = [];
+    const walk = (node, cls) => {
+      for (const child of Array.from(node.childNodes)) {
+        if (child.nodeType === 3) {
+          child.textContent.split(/(\s+)/).forEach((w) => {
+            if (!w) return;
+            if (/^\s+$/.test(w)) parts.push({ space: true });
+            else parts.push({ w, cls });
+          });
+        } else if (child.nodeType === 1) {
+          walk(child, (cls ? cls + " " : "") + (child.className || ""));
+        }
+      }
+    };
+    walk(el, "");
+    el.innerHTML = "";
+    const words = [];
+    parts.forEach((p) => {
+      if (p.space) {
+        el.appendChild(document.createTextNode(" "));
+        return;
+      }
+      const mw = document.createElement("span");
+      mw.className = "mw";
+      const mwi = document.createElement("span");
+      mwi.className = "mwi" + (p.cls ? " " + p.cls : "");
+      mwi.textContent = p.w;
+      mw.appendChild(mwi);
+      el.appendChild(mw);
+      words.push(mwi);
+    });
+    return words;
+  }
+  // Mask reveal: word rises from below a cut line. times[i] = start time of word i.
+  function revealWords(words, t, times, dur = 0.42) {
+    words.forEach((w, i) => {
+      const t0 = times[Math.min(i, times.length - 1)];
+      const p = sp(t, t0, 2.6, 0.78);
+      tf(w, `translate3d(0, ${(1 - p) * 112}%, 0) rotate(${(1 - clamp(p)) * 4}deg)`);
+      w.style.opacity = t < t0 ? "0" : "1";
+    });
+  }
+  // Exit: words drop/rise away.
+  function hideWords(words, t, t0, stagger = 0.02) {
+    words.forEach((w, i) => {
+      const p = E.inCubic(prog(t, t0 + i * stagger, t0 + i * stagger + 0.3));
+      if (p > 0) tf(w, `translate3d(0, ${-p * 112}%, 0)`);
+    });
+  }
+
+  // Text Rotate: swaps words letter by letter. Builds stacked layers inside `el`.
+  function rotator(el, words, opts = {}) {
+    el.innerHTML = "";
+    el.classList.add("rot");
+    el.setAttribute("data-layout-allow-overlap", ""); // stacked letter layers are intentional
+    const layers = words.map((w) => {
+      const lay = document.createElement("span");
+      lay.className = "rot-layer";
+      const letters = Array.from(w).map((ch) => {
+        const m = document.createElement("span");
+        m.className = "rot-m";
+        const l = document.createElement("span");
+        l.className = "rot-l";
+        l.textContent = ch === " " ? " " : ch;
+        m.appendChild(l);
+        lay.appendChild(m);
+        return l;
+      });
+      el.appendChild(lay);
+      return { lay, letters, width: 0 };
+    });
+    let measured = false;
+    const measure = () => {
+      layers.forEach((L, i) => (L.width = textW(words[i].replace(/ /g, "\u00a0"), el)));
+      measured = layers.every((L) => L.width > 0);
+    };
+    const stg = opts.stagger ?? 0.028;
+    const d = opts.dur ?? 0.34;
+    // times[i] = time word i becomes current (times[0] is its entry time, may be -1 for "already there").
+    function render(t, times) {
+      if (!measured) measure();
+      let cur = 0;
+      for (let i = 0; i < times.length; i++) if (t >= times[i]) cur = i;
+      layers.forEach((L, i) => {
+        const tin = times[i];
+        const tout = i + 1 < times.length ? times[i + 1] : 1e9;
+        L.letters.forEach((l, k) => {
+          const pin = tin < 0 ? 1 : E.outCubic(prog(t, tin + k * stg, tin + k * stg + d));
+          const pout = E.inCubic(prog(t, tout + k * stg, tout + k * stg + d * 0.8));
+          const y = (1 - pin) * 105 - pout * 105;
+          l.style.transform = `translate3d(0, ${y}%, 0)`;
+          l.style.opacity = pin > 0 && pout < 1 ? "1" : "0";
+        });
+      });
+      // width follows the current word with a spring
+      const keys = [[0, layers[0].width]];
+      for (let i = 1; i < times.length; i++) keys.push([times[i], layers[i].width]);
+      el.style.width = spring(t, keys, 2.8, 0.8).toFixed(2) + "px";
+      return cur;
+    }
+    return { measure, render, layers };
+  }
+
+  // Border Beam: a light blob travelling around a rounded rect, masked to the border ring.
+  function beam(host, opts = {}) {
+    const ring = document.createElement("div");
+    ring.className = "beam";
+    ring.setAttribute("data-layout-allow-overflow", "");
+    if (opts.radius != null) ring.style.borderRadius = opts.radius + "px";
+    const dot = document.createElement("div");
+    dot.className = "beam-dot";
+    if (opts.size) set(dot, { width: opts.size + "px", height: opts.size + "px", margin: `${-opts.size / 2}px 0 0 ${-opts.size / 2}px` });
+    ring.appendChild(dot);
+    host.appendChild(ring);
+    let W = 0, H = 0;
+    const R = opts.radius ?? 20;
+    const measure = () => {
+      W = host.offsetWidth;
+      H = host.offsetHeight;
+    };
+    function point(u) {
+      // u in [0,1) along a rounded-rect perimeter, clockwise from top-left straight segment
+      const r = Math.min(R, W / 2, H / 2);
+      const sx = W - 2 * r, sy = H - 2 * r, arc = (Math.PI * r) / 2;
+      const P = 2 * sx + 2 * sy + 4 * arc;
+      let d = (((u % 1) + 1) % 1) * P;
+      const segs = [
+        [sx, (q) => [r + q, 0]],
+        [arc, (q) => { const a = -Math.PI / 2 + (q / arc) * (Math.PI / 2); return [W - r + r * Math.cos(a), r + r * Math.sin(a)]; }],
+        [sy, (q) => [W, r + q]],
+        [arc, (q) => { const a = (q / arc) * (Math.PI / 2); return [W - r + r * Math.cos(a), H - r + r * Math.sin(a)]; }],
+        [sx, (q) => [W - r - q, H]],
+        [arc, (q) => { const a = Math.PI / 2 + (q / arc) * (Math.PI / 2); return [r + r * Math.cos(a), H - r + r * Math.sin(a)]; }],
+        [sy, (q) => [0, H - r - q]],
+        [arc, (q) => { const a = Math.PI + (q / arc) * (Math.PI / 2); return [r + r * Math.cos(a), r + r * Math.sin(a)]; }],
+      ];
+      for (const [len, f] of segs) {
+        if (d <= len) return f(d);
+        d -= len;
+      }
+      return [r, 0];
+    }
+    function render(t, speed = 0.42, phase = 0, alpha = 1) {
+      if (!W) measure();
+      const [x, y] = point(t * speed + phase);
+      dot.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+      ring.style.opacity = String(alpha);
+    }
+    return { render, measure, ring };
+  }
+
+  // Layout-independent text width (canvas) — works even while the slot is hidden.
+  const _cv = document.createElement("canvas").getContext("2d");
+  function textW(text, el) {
+    const cs = getComputedStyle(el);
+    _cv.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const ls = parseFloat(cs.letterSpacing) || 0;
+    return _cv.measureText(text).width + ls * Array.from(text).length;
+  }
+
+  // Deterministic looping offset (marquee).
+  const loop = (t, speed, len) => (((t * speed) % len) + len) % len;
+
+  // Render clock: a property setter tweened by the paused GSAP timeline calls render(t)
+  // on every seek, so the whole scene state is a pure function of time.
+  function clock(tl, dur, render) {
+    let cur = -1;
+    const proxy = {};
+    Object.defineProperty(proxy, "t", {
+      get: () => cur,
+      set: (v) => {
+        cur = v;
+        render(v);
+      },
+    });
+    tl.fromTo(proxy, { t: 0 }, { t: dur, duration: dur, ease: "none" }, 0);
+    render(0);
+    return tl;
+  }
+
+  async function ready(fonts) {
+    try {
+      await Promise.all(
+        (fonts || ['800 100px "Syne"', '700 100px "Syne"', '400 40px "Inter"', '600 40px "Inter"']).map((f) => document.fonts.load(f)),
+      );
+      await document.fonts.ready;
+    } catch (e) {}
+  }
+
+  return { textW, clamp, lerp, prog, E, tw, step, spring, sp, rng, set, tf, op, splitWords, revealWords, hideWords, rotator, beam, loop, clock, ready };
+})();
+
+(function () {
+  const ID = "s05";
+  const DUR = 3.714;
+  const T0 = 19.429;
+  const A = (x) => x - T0; // absolute (voice-over) time -> scene time
+  const root = document.querySelector('[data-composition-id="s05"]');
+  const q = (sel) => root.querySelector(sel);
+  const qa = (sel) => Array.from(root.querySelectorAll(sel));
+
+const cam = q(".cam");
+const eb = q(".eb");
+const W = qa(".w");
+const strike = q(".strike");
+const list = q(".list");
+const I = {
+  doc: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+  phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
+  cal: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  msg: '<path d="M4 5h16v11H8l-4 4z"/>',
+  pin: '<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+};
+const N = [
+  ["doc", "Nouvelle demande de devis", "via votre site"],
+  ["phone", "Appel entrant", "depuis Google"],
+  ["cal", "Rendez-vous réservé", "Mardi · 10 h 30"],
+  ["msg", "Nouveau message", "Formulaire de contact"],
+  ["pin", "Demande d'itinéraire", "depuis Google Maps"],
+  ["cal", "Réservation en ligne", "Samedi · 20 h"],
+  ["phone", "Demande de rappel", "via votre site"],
+  ["user", "Nouveau client", "Premier rendez-vous"],
+  ["check", "Devis accepté", "via votre site"],
+  ["phone", "Appel entrant", "depuis votre fiche Google"],
+  ["cal", "Rendez-vous réservé", "Jeudi · 15 h"],
+];
+const T_START = A(19.62), GAP = 0.3, ROW = 136;
+const notes = N.map(([ic, b, s], i) => {
+  const el = document.createElement("div");
+  el.className = "note";
+  el.innerHTML = `<div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#22c1d3" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${I[ic]}</svg></div><div class="tx"><b>${b}</b><span>${s}</span></div><em>maintenant</em>`;
+  list.appendChild(el);
+  return { el, t0: T_START + i * GAP };
+});
+const WT = [20.7, 20.84, 21.26, 21.74, 21.88].map(A);
+
+function render(t) {
+  const ta = t + T0;
+  const pe = VX.sp(ta, 19.66, 2.6, 0.8);
+  VX.tf(eb, `translate3d(${((1 - pe) * -40).toFixed(1)}px, 0, 0)`);
+  VX.op(eb, VX.clamp(pe * 1.5));
+  W.forEach((w, i) => {
+    const p = VX.sp(t, WT[i], 2.7, 0.78);
+    VX.tf(w, `translate3d(0, ${((1 - p) * 90).toFixed(1)}px, 0)`);
+    w.style.clipPath = `inset(-30% -5% ${((1 - VX.clamp(p)) * 100).toFixed(1)}% -5%)`;
+    VX.op(w, t < WT[i] ? 0 : 1);
+  });
+  // "visiteurs" gets struck through and dims
+  const ps = VX.E.inOutCubic(VX.prog(ta, 21.3, 21.62));
+  VX.tf(strike, `scaleX(${ps.toFixed(4)})`);
+  W[1].style.color = `rgba(255,255,255,${(1 - 0.62 * ps).toFixed(3)})`;
+  // "clients." pops slightly
+  const pc = VX.sp(ta, 21.88, 3, 0.5);
+  W[4].style.transform += ` scale(${(1 + 0.06 * Math.max(0, pc - 1) * 4).toFixed(4)})`;
+
+  // animated list: newest on top; each arrival pushes the stack down with a spring
+  notes.forEach((n, i) => {
+    const pin = VX.sp(t, n.t0, 2.7, 0.7);
+    // slots below: number of later notes that have arrived (spring-weighted)
+    let slot = 0;
+    for (let k = i + 1; k < notes.length; k++) slot += VX.sp(t, notes[k].t0, 3.4, 0.82);
+    const y = slot * ROW;
+    VX.tf(n.el, `translate3d(0, ${(y - (1 - VX.clamp(pin)) * 50).toFixed(1)}px, 0) scale(${(0.6 + 0.4 * VX.clamp(pin, 0, 1.06)).toFixed(4)})`);
+    VX.op(n.el, VX.clamp(pin * 2) * VX.clamp(1 - (slot - 5.6) / 1.2));
+  });
+
+  // camera: enter by push-out from the previous zoom, exit whip left
+  const win = VX.E.outExpo(VX.prog(t, 0, 0.42));
+  const wout = VX.E.inExpo(VX.prog(ta, 22.86, 23.143));
+  VX.tf(cam, `translate3d(${(-wout * 2400).toFixed(1)}px, ${(-t * 5).toFixed(1)}px, 0) scale(${(0.7 + 0.3 * win + t * 0.01).toFixed(4)}) skewX(${(wout * 8).toFixed(2)}deg)`);
+  const bl = Math.max((1 - win) * 12, wout * 14);
+  cam.style.filter = bl > 0.3 ? `blur(${bl.toFixed(1)}px)` : "none";
+  VX.op(cam, win);
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+
+})();
+      </script>
+    </template>
+  </body>
+</html>

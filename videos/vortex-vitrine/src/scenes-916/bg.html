@@ -1,0 +1,72 @@
+<div class="layer bg-fill"></div>
+<div class="layer bg-grid-wrap"><div class="bg-grid"></div></div>
+<div class="layer bg-stars"></div>
+<div class="bg-rings"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div></div>
+<div class="bg-arc" data-layout-allow-overflow><div class="arc-glow"></div><div class="arc-body"></div></div>
+<div class="layer bg-vig"></div>
+
+<style>
+.bg-fill { background: radial-gradient(ellipse 80% 70% at 50% 40%, #121722 0%, #0f1117 55%, #0b0d12 100%); }
+.bg-grid-wrap { overflow: hidden; }
+.bg-grid {
+  position: absolute; left: -160px; top: -160px; width: 1400px; height: 2240px;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 80px 80px;
+  -webkit-mask: radial-gradient(ellipse 70% 65% at 50% 45%, #000 30%, transparent 100%);
+  mask: radial-gradient(ellipse 70% 65% at 50% 45%, #000 30%, transparent 100%);
+}
+.bg-stars i { position: absolute; display: block; border-radius: 50%; background: #cfe9ee; }
+.bg-rings { position: absolute; left: 540px; top: 960px; width: 0; height: 0; }
+.ring { position: absolute; border-radius: 50%; border: 1px solid rgba(34,193,211,0.07); }
+.r1 { width: 900px; height: 900px; margin: -450px 0 0 -450px; }
+.r2 { width: 1400px; height: 1400px; margin: -700px 0 0 -700px; border-color: rgba(255,255,255,0.04); border-style: dashed; }
+.r3 { width: 2000px; height: 2000px; margin: -1000px 0 0 -1000px; border-color: rgba(34,193,211,0.05); }
+.bg-arc { position: absolute; left: 50%; top: 0; width: 3600px; height: 3600px; margin-left: -1800px; }
+.arc-body {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 50% 8%, #0e2a33 0%, #0b1118 22%, #0b0d12 45%);
+  border-top: 2px solid rgba(80, 220, 235, 0.95);
+  box-shadow: inset 0 18px 60px rgba(34,193,211,0.35);
+}
+.arc-glow {
+  position: absolute; left: 10%; right: 10%; top: -120px; height: 380px; border-radius: 50%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(34,193,211,0.28), rgba(34,193,211,0) 70%);
+}
+.bg-vig { background: radial-gradient(ellipse 75% 75% at 50% 50%, transparent 55%, rgba(5,6,9,0.75) 100%); }
+</style>
+
+<script>
+const grid = q(".bg-grid");
+const stars = q(".bg-stars");
+const arc = q(".bg-arc");
+const rings = q(".bg-rings");
+const R = VX.rng(11);
+const S = [];
+for (let i = 0; i < 110; i++) {
+  const el = document.createElement("i");
+  const s = 1 + R() * 2.2;
+  VX.set(el, { left: R() * 1080 + "px", top: R() * 1920 + "px", width: s + "px", height: s + "px" });
+  stars.appendChild(el);
+  S.push({ el, ph: R() * 6.28, sp: 0.6 + R() * 1.6, base: 0.12 + R() * 0.4, dx: (R() - 0.5) * 6 });
+}
+// Horizon arc height per beat-grid section (absolute times), eased with springs.
+const ARC = [[0, 2050], [5.714, 1850], [11.429, 2020], [15.429, 2090], [19.429, 1960], [22.857, 2030], [28.0, 2100], [33.143, 1900], [36.571, 1560]];
+function render(t) {
+  const g = VX.loop(t, 26, 80);
+  VX.tf(grid, `translate3d(${g.toFixed(2)}px, ${g.toFixed(2)}px, 0)`);
+  S.forEach((s) => {
+    s.el.style.opacity = (s.base * (0.55 + 0.45 * Math.sin(t * s.sp + s.ph))).toFixed(3);
+    s.el.style.transform = `translate3d(${(s.dx * t).toFixed(1)}px, ${(-t * 2).toFixed(1)}px, 0)`;
+  });
+  const y = VX.spring(t, ARC, 0.9, 0.9);
+  VX.tf(arc, `translate3d(0, ${y.toFixed(1)}px, 0)`);
+  VX.tf(rings, `rotate(${(t * 3).toFixed(2)}deg) scale(${(1 + 0.03 * Math.sin(t * 0.5)).toFixed(4)})`);
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+</script>

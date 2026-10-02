@@ -6,16 +6,22 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+// --portrait builds the 9:16 variant: src/scenes-916 -> compositions-916/ + index-916.html
+const PORTRAIT = process.argv.includes("--portrait");
+const W = PORTRAIT ? 1080 : 1920, H = PORTRAIT ? 1920 : 1080;
+const SRC = PORTRAIT ? "src/scenes-916" : "src/scenes";
+const OUTC = PORTRAIT ? "compositions-916" : "compositions";
+const INDEX = PORTRAIT ? "index-916.html" : "index.html";
 const T = JSON.parse(fs.readFileSync(path.join(ROOT, "tools/timeline.json"), "utf8"));
-T.scenes = T.scenes.filter((s) => fs.existsSync(path.join(ROOT, "src/scenes", s.id + ".html")));
+T.scenes = T.scenes.filter((s) => fs.existsSync(path.join(ROOT, SRC, s.id + ".html")));
 const lib = fs.readFileSync(path.join(ROOT, "src/lib.js"), "utf8");
 const base = fs.readFileSync(path.join(ROOT, "src/base.css"), "utf8");
-fs.mkdirSync(path.join(ROOT, "compositions"), { recursive: true });
+fs.mkdirSync(path.join(ROOT, OUTC), { recursive: true });
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 
 for (const s of T.scenes) {
-  const src = fs.readFileSync(path.join(ROOT, "src/scenes", s.id + ".html"), "utf8");
+  const src = fs.readFileSync(path.join(ROOT, SRC, s.id + ".html"), "utf8");
   const style = (src.match(/<style>([\s\S]*?)<\/style>/) || [, ""])[1];
   const script = (src.match(/<script>([\s\S]*?)<\/script>/) || [, ""])[1];
   const markup = src.replace(/<style>[\s\S]*?<\/style>/, "").replace(/<script>[\s\S]*?<\/script>/, "").trim();
@@ -30,7 +36,7 @@ for (const s of T.scenes) {
 ${base}
 ${style}
       </style>
-      <div id="root" data-composition-id="${s.id}" data-width="1920" data-height="1080" data-duration="${r3(s.dur)}">
+      <div id="root" data-composition-id="${s.id}" data-width="${W}" data-height="${H}" data-duration="${r3(s.dur)}">
 ${markup}
       </div>
       <script>
@@ -50,7 +56,7 @@ ${script}
   </body>
 </html>
 `;
-  fs.writeFileSync(path.join(ROOT, "compositions", s.id + ".html"), html);
+  fs.writeFileSync(path.join(ROOT, OUTC, s.id + ".html"), html);
 }
 
 const total = r3(T.total);
@@ -59,12 +65,12 @@ const slots = T.scenes
     (s, i) => `      <div
         id="slot-${s.id}"
         data-composition-id="${s.id}"
-        data-composition-src="compositions/${s.id}.html"
+        data-composition-src="${OUTC}/${s.id}.html"
         data-start="${r3(s.start)}"
         data-duration="${r3(s.dur)}"
         data-track-index="${s.track ?? i + 1}"
-        data-width="1920"
-        data-height="1080"
+        data-width="${W}"
+        data-height="${H}"
       ></div>`,
   )
   .join("\n");
@@ -80,16 +86,16 @@ const index = `<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
+    <meta name="viewport" content="width=${W}, height=${H}" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #0f1117; }
+      html, body { margin: 0; width: ${W}px; height: ${H}px; overflow: hidden; background: #0f1117; }
       #root { width: 100%; height: 100%; position: relative; background: #0f1117; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="${total}" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="${total}" data-width="${W}" data-height="${H}">
 ${slots}
 ${audio}
     </div>
@@ -100,5 +106,5 @@ ${audio}
   </body>
 </html>
 `;
-fs.writeFileSync(path.join(ROOT, "index.html"), index);
+fs.writeFileSync(path.join(ROOT, INDEX), index);
 console.log("built", T.scenes.length, "scenes, total", total + "s");

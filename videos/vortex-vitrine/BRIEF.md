@@ -53,4 +53,7 @@ python3 tools/mix.py          # assets/audio/mix.wav (master)
 npx hyperframes check
 npx hyperframes render --quality high --fps 240 --workers 4 --output renders/v-240.mp4
 bash tools/finish.sh          # flou de mouvement + audio -15 LUFS -> renders/video.mp4
+
+# Variante 9:16 (1080×1920) : scènes dans src/scenes-916/
+bash tools/render-916.sh      # -> renders/video-916.mp4
 ```
