@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prix d'un site internet : calculez votre tarif en direct | Vortex</title>
+  <meta name="description" content="Combien coûte votre site internet ? Choisissez vos options et voyez le prix en direct : site clé en main dès 250 €, devis signable en ligne. Artisans, restaurants, commerces à Givors et Lyon.">
+  <link rel="canonical" href="https://vortex-agence.fr/tarif/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#0f1117">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Vortex">
+  <meta property="og:title" content="Calculez le prix de votre site en direct">
+  <meta property="og:description" content="Site clé en main dès 250 €. Choisissez vos options, le prix s'affiche en direct.">
+  <meta property="og:url" content="https://vortex-agence.fr/tarif/">
+  <meta property="og:image" content="https://vortex-agence.fr/assets/img/og-image.jpg">
+  <link rel="preload" href="/assets/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts.css?v=3b9ea1b4">
+  <link rel="stylesheet" href="/assets/css/style.css?v=24de26df">
+  <style>
+    .tf { display: grid; gap: 28px; align-items: start; }
+    @media (min-width: 960px) { .tf { grid-template-columns: 1fr 380px; } }
+    .tf-card { background: #161a26; border: 1px solid rgba(255,255,255,.1); border-radius: 22px; padding: 22px 20px; }
+    .tf-card + .tf-card { margin-top: 16px; }
+    .tf-h { font-family: var(--display); font-size: 20px; margin: 0 0 4px; }
+    .tf-sub { color: #9aa3b2; font-size: 14px; margin: 0 0 14px; }
+    .tf-base { display: flex; justify-content: space-between; gap: 12px; align-items: center; background: rgba(34,193,211,.08); border: 1px solid rgba(34,193,211,.35); border-radius: 14px; padding: 14px; }
+    .tf-base b { font-size: 16px; } .tf-base small { display: block; color: #9aa3b2; font-size: 13px; margin-top: 2px; }
+    .tf-opt { display: grid; grid-template-columns: 26px 1fr auto; gap: 12px; align-items: center; padding: 13px 4px; border-top: 1px solid rgba(255,255,255,.07); cursor: pointer; }
+    .tf-opt:first-of-type { border-top: 0; }
+    .tf-opt input { width: 22px; height: 22px; accent-color: #22c1d3; margin: 0; cursor: pointer; }
+    .tf-opt b { font-size: 15px; font-weight: 650; } .tf-opt small { display: block; color: #9aa3b2; font-size: 13px; line-height: 1.4; margin-top: 2px; }
+    .tf-pr { font-weight: 700; color: #22c1d3; white-space: nowrap; font-size: 15px; }
+    .tf-step { display: flex; align-items: center; gap: 8px; }
+    .tf-step button { width: 34px; height: 34px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); background: #1d2231; color: #fff; font-size: 18px; cursor: pointer; }
+    .tf-step span { min-width: 22px; text-align: center; font-weight: 700; }
+    .tf-sum { position: sticky; top: 90px; }
+    .tf-tot { font-family: var(--display); font-size: 46px; line-height: 1; margin: 6px 0 2px; color: #fff; }
+    .tf-mo { color: #22c1d3; font-weight: 700; font-size: 16px; min-height: 22px; }
+    .tf-lines { list-style: none; padding: 0; margin: 14px 0; font-size: 14px; color: #c9d0db; }
+    .tf-lines li { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-bottom: 1px dashed rgba(255,255,255,.08); }
+    .tf-sum .btn { width: 100%; margin-top: 10px; }
+    .tf-form { display: none; margin-top: 12px; } .tf-form.on { display: block; animation: tfIn .45s var(--ease-out); }
+    @keyframes tfIn { from { opacity: 0; transform: translateY(8px); } }
+    .tf-form input { width: 100%; background: #1d2231; border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: 13px; color: #fff; font: inherit; font-size: 16px; outline: none; margin-bottom: 9px; }
+    .tf-form input:focus { border-color: var(--teal-2); }
+    .tf-note { color: #9aa3b2; font-size: 13px; margin-top: 10px; line-height: 1.5; }
+    .tf-msg { min-height: 20px; font-size: 14.5px; margin-top: 4px; }
+    .tf-mob { display: none; }
+    @media (max-width: 959px) {
+      .tf-mob { display: flex; position: fixed; left: 12px; right: 86px; bottom: 16px; z-index: 59; height: 58px; align-items: center; justify-content: space-between; gap: 10px; padding: 0 16px; border-radius: 16px; background: #1d2231; border: 1px solid rgba(34,193,211,.45); box-shadow: 0 14px 34px -10px rgba(0,0,0,.7); color: #fff; font-weight: 700; text-decoration: none; }
+      .tf-mob b { font-family: var(--display); font-size: 22px; color: #22c1d3; }
+      main { padding-bottom: 70px; }
+    }
+    .hp { position: absolute; left: -9999px; }
+  </style>
+</head>
+<body class="local-page">
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="/" class="logo" aria-label="Vortex, accueil">
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5" /><path d="M29 16a13 13 0 0 1-8.5 12.2" /><path d="M16 29A13 13 0 0 1 3.8 20.5" /><path d="M3 16a13 13 0 0 1 8.5-12.2" /><circle cx="16" cy="16" r="4.5" /></svg>
+        <span>vortex</span>
+      </a>
+      <nav class="header__nav" aria-label="Navigation principale">
+        <a href="/#realisations">Réalisations</a>
+        <a href="/#offre">Offre</a>
+        <a href="/tarif/">Tarifs</a>
+        <a href="/audit/">Audit gratuit</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+      <a href="/#offre" class="btn btn--primary btn--sm" data-magnetic>Voir l'offre</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="local-hero" style="padding-bottom:70px">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="container">
+        <div class="pill"><span class="pill__dot"></span>Prix clair · sans surprise</div>
+        <h1 class="local-title" style="font-size:clamp(34px,7vw,60px)">Combien coûte <em>votre site ?</em></h1>
+        <p class="hero__lead" style="margin-bottom:30px">Cochez ce dont vous avez besoin : le prix se calcule en direct. Votre devis est prêt en 1 minute, à signer sur votre téléphone.</p>
+        <div class="tf">
+          <div>
+            <div class="tf-card">
+              <h2 class="tf-h">1. Votre site</h2>
+              <p class="tf-sub">La base, incluse dans tous les sites.</p>
+              <div class="tf-base"><div><b>Site vitrine clé en main</b><small>Design sur mesure · mobile · Google · formulaire de contact · mise en ligne</small></div><span class="tf-pr">250 €</span></div>
+            </div>
+            <div class="tf-card">
+              <h2 class="tf-h">2. Les options</h2>
+              <p class="tf-sub">Ajoutez seulement ce qui vous sert.</p>
+              <div id="opts"></div>
+            </div>
+            <div class="tf-card">
+              <h2 class="tf-h">3. Les services mensuels</h2>
+              <p class="tf-sub">Sans engagement, résiliables à tout moment.</p>
+              <div id="monthly"></div>
+            </div>
+          </div>
+          <aside class="tf-card tf-sum" id="sum">
+            <p class="tf-sub" style="margin:0">Votre site</p>
+            <div class="tf-tot"><span id="tot">250</span>&nbsp;€</div>
+            <div class="tf-mo" id="mo"></div>
+            <ul class="tf-lines" id="lines"></ul>
+            <a class="btn btn--primary" id="pay" href="https://buy.stripe.com/6oU7sKeFweKm5UU84z7Zu04" rel="noopener">Payer 250 € en ligne</a>
+            <button class="btn btn--dark" type="button" id="want">📄 Recevoir mon devis</button>
+            <form class="tf-form" id="form" novalidate>
+              <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+              <input id="fEnt" placeholder="Nom de votre entreprise *" autocomplete="organization" maxlength="60">
+              <input id="fName" placeholder="Votre prénom et nom *" autocomplete="name" maxlength="60">
+              <input id="fTel" type="tel" placeholder="Votre téléphone *" inputmode="tel" autocomplete="tel">
+              <input id="fMail" type="email" placeholder="E-mail (facultatif)" inputmode="email" autocomplete="email">
+              <button class="btn btn--primary" type="submit" id="fBtn">Créer mon devis</button>
+              <p class="tf-msg" id="fMsg" role="status" aria-live="polite"></p>
+            </form>
+            <p class="tf-note">✓ Maquette gratuite avant de payer · ✓ TVA non applicable, le prix affiché est le prix final · <a href="/mon-site/" style="color:var(--teal-2)">Voir mon site en 10 s →</a></p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+  <a class="tf-mob" href="#sum" id="mob"><span>Votre prix</span><b><span id="mobTot">250</span> €</b></a>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <div>
+          <a href="/" class="logo logo--small" aria-label="Vortex, accueil">
+            <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5" /><path d="M29 16a13 13 0 0 1-8.5 12.2" /><path d="M16 29A13 13 0 0 1 3.8 20.5" /><path d="M3 16a13 13 0 0 1 8.5-12.2" /><circle cx="16" cy="16" r="4.5" /></svg>
+            <span>vortex</span>
+          </a>
+          <p class="footer__copy">© <span class="year">2026</span> Vortex. Tous droits réservés. · <a href="/mentions-legales.html">Mentions légales &amp; confidentialité</a></p>
+        </div>
+        <div class="footer__right"><span>📍 Givors · Lyon</span><a href="mailto:vortex.twitch.live@gmail.com">vortex.twitch.live@gmail.com</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js?v=8f7ad9cf"></script>
+  <script>
+  (() => {
+    const $ = (s) => document.querySelector(s);
+    const BASE = 250;
+    const PAY_BASE = 'https://buy.stripe.com/6oU7sKeFweKm5UU84z7Zu04';
+    // [id, titre, détail, prix, max (quantité) ou 0 pour une case]
+    const OPTS = [
+      ['pages', 'Pages supplémentaires', 'Une page en plus : un service détaillé, l\'équipe, une zone d\'intervention…', 40, 8],
+      ['textes', 'Rédaction des textes', 'On écrit tous les textes du site pour vous, optimisés pour Google.', 50, 0],
+      ['galerie', 'Galerie photos / avant-après', 'Vos réalisations, votre salle, vos plats, en grand.', 40, 0],
+      ['menu', 'Carte, menu ou grille de tarifs', 'Facile à lire sur téléphone, mise à jour par nos soins.', 40, 0],
+      ['rdv', 'Prise de rendez-vous ou réservation en ligne', 'Vos clients réservent un créneau ou une table 24h/24.', 90, 0],
+      ['estim', 'Estimation de prix en ligne', 'Le client obtient une fourchette de prix en quelques clics.', 90, 0],
+      ['avis', 'Avis Google affichés sur le site', 'Vos meilleures notes, mises en avant.', 30, 0],
+      ['logo', 'Création de votre logo', '3 propositions, fichiers fournis pour vos cartes et votre camion.', 60, 0],
+      ['gmb', 'Fiche Google optimisée', 'Création ou mise à jour de votre fiche Google (Maps) : photos, horaires, catégories.', 50, 0],
+      ['en', 'Version anglaise', 'Tout le site traduit en anglais.', 80, 0],
+      ['express', 'Livraison express en 72 h', 'Votre site en ligne en 3 jours ouvrés.', 60, 0],
+    ];
+    const MONTHLY = [
+      ['maint', 'Maintenance & modifications', 'Mises à jour, sécurité, sauvegardes, petites modifications incluses.', 50, true],
+      ['avisapp', 'Vortex Avis', 'Récoltez plus d\'avis Google en 10 secondes par client.', 29, false],
+      ['rep', 'AI Répondeur', 'Une assistante IA répond à vos appels manqués 24h/24 et vous envoie un SMS.', 199, false],
+    ];
+    const st = {}; OPTS.forEach((o) => { st[o[0]] = 0; }); MONTHLY.forEach((m) => { st[m[0]] = m[4] ? 1 : 0; });
+    const eur = (n) => n.toLocaleString('fr-FR') + ' €';
+    const row = (o, monthly) => {
+      const [id, t, d, p, max] = o;
+      if (!monthly && max) return `<div class="tf-opt" style="cursor:default"><span>➕</span><div><b>${t}</b><small>${d}</small><div class="tf-step" style="margin-top:8px"><button type="button" data-m="${id}" aria-label="Moins">−</button><span id="q-${id}">0</span><button type="button" data-p="${id}" aria-label="Plus">+</button></div></div><span class="tf-pr">+${p} €<small style="display:block;text-align:right;color:#9aa3b2;font-weight:500">/page</small></span></div>`;
+      return `<label class="tf-opt"><input type="checkbox" data-id="${id}" ${st[id] ? 'checked' : ''}><div><b>${t}</b><small>${d}</small></div><span class="tf-pr">+${p} €${monthly ? '<small style="display:inline;color:#9aa3b2;font-weight:500">/mois</small>' : ''}</span></label>`;
+    };
+    $('#opts').innerHTML = OPTS.map((o) => row(o, false)).join('');
+    $('#monthly').innerHTML = MONTHLY.map((o) => row(o, true)).join('');
+    const lines = () => {
+      const l = [{ d: 'Site vitrine clé en main (design sur mesure, mobile, référencement de base, formulaire, mise en ligne)', q: 1, p: BASE }];
+      OPTS.forEach(([id, t, , p]) => { if (st[id]) l.push({ d: t, q: st[id], p }); });
+      return l;
+    };
+    const monthly = () => MONTHLY.filter((m) => st[m[0]]);
+    const calc = () => {
+      const l = lines(), tot = l.reduce((a, x) => a + x.q * x.p, 0), mo = monthly(), mTot = mo.reduce((a, m) => a + m[3], 0);
+      $('#tot').textContent = tot.toLocaleString('fr-FR'); $('#mobTot').textContent = tot.toLocaleString('fr-FR');
+      $('#mo').textContent = mTot ? `puis ${eur(mTot)}/mois · sans engagement` : 'aucun abonnement';
+      $('#lines').innerHTML = l.map((x) => `<li><span>${x.d.split(' (')[0]}${x.q > 1 ? ' ×' + x.q : ''}</span><span>${eur(x.q * x.p)}</span></li>`).join('') + mo.map((m) => `<li><span>${m[1]}</span><span>${m[3]} €/mois</span></li>`).join('');
+      $('#pay').textContent = tot === BASE ? 'Payer 250 € en ligne' : 'Réserver · acompte de 250 €';
+      OPTS.forEach(([id, , , , max]) => { if (max) $('#q-' + id).textContent = st[id]; });
+      return { l, tot, mo, mTot };
+    };
+    document.addEventListener('change', (e) => { const id = e.target.dataset && e.target.dataset.id; if (id) { st[id] = e.target.checked ? 1 : 0; calc(); } });
+    document.addEventListener('click', (e) => {
+      const p = e.target.closest('[data-p]'), m = e.target.closest('[data-m]');
+      if (p) { const o = OPTS.find((x) => x[0] === p.dataset.p); st[o[0]] = Math.min(o[4], st[o[0]] + 1); calc(); }
+      if (m) { st[m.dataset.m] = Math.max(0, st[m.dataset.m] - 1); calc(); }
+    });
+    $('#want').onclick = () => { $('#form').classList.add('on'); $('#fEnt').focus(); };
+    const b64 = (s) => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const fmt = (d) => d.toLocaleDateString('fr-FR');
+    $('#form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const ent = $('#fEnt').value.trim(), name = $('#fName').value.trim(), tel = $('#fTel').value.trim(), msg = $('#fMsg');
+      if (!ent || !name || !/\d{9,}/.test(tel.replace(/\D/g, ''))) { msg.style.color = '#ef6461'; msg.textContent = 'Merci d\'indiquer votre entreprise, votre nom et votre téléphone.'; return; }
+      const { l, tot, mo, mTot } = calc();
+      const now = new Date(), no = 'W' + now.toISOString().slice(2, 10).replace(/-/g, '') + '-' + String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
+      const r = [tot > BASE ? `Acompte de ${BASE} € à la commande, solde à la mise en ligne.` : '', mo.length ? 'Services mensuels choisis (sans engagement, facturés à part) : ' + mo.map((m) => `${m[1]} ${m[3]} €/mois`).join(', ') + '.' : ''].filter(Boolean).join(' ');
+      const D = { no, d: fmt(now), v: fmt(new Date(now.getTime() + 30 * 86400000)), c: ent, ca: name, o: 'Création de site internet', l, r, pay: PAY_BASE, acompte: tot > BASE };
+      const url = 'https://vortex-agence.fr/signer/#' + b64(JSON.stringify(D));
+      $('#fBtn').disabled = true; msg.style.color = ''; msg.textContent = 'Création du devis…';
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({
+          access_key: 'f8395aee-45d6-4075-b864-0a58bdfb17a0', subject: `💶 Devis en ligne — ${ent} (${eur(tot)}${mTot ? ' + ' + mTot + ' €/mois' : ''})`, from_name: 'Vortex · Configurateur',
+          Entreprise: ent, Nom: name, 'Téléphone': tel, 'E-mail': $('#fMail').value.trim() || '—', 'Total site': eur(tot), 'Mensuel': mTot ? mTot + ' €/mois' : '—',
+          Prestations: l.map((x) => `${x.d.split(' (')[0]} — ${x.q} × ${eur(x.p)}`).join('\n') + (mo.length ? '\n' + mo.map((m) => `${m[1]} — ${m[3]} €/mois`).join('\n') : ''),
+          'Lien du devis': url, botcheck: e.target.botcheck.checked,
+        }) });
+        const d = await res.json().catch(() => ({}));
+        if (!res.ok || d.success === false) throw new Error();
+        $('#form').innerHTML = `<p style="font-weight:700;font-size:18px;margin:6px 0">Votre devis est prêt ✅</p><p class="tf-note" style="font-size:14.5px;margin:0 0 6px">Devis n° ${no} · ${eur(tot)}. Lisez-le et signez-le en 1 minute. On vous recontacte aussi pour préparer votre maquette.</p><a class="btn btn--primary" href="${url.replace('https://vortex-agence.fr', '')}">✍️ Lire et signer mon devis</a>`;
+        $('#want').hidden = true;
+      } catch (err) { $('#fBtn').disabled = false; msg.style.color = '#ef6461'; msg.innerHTML = 'L\'envoi a échoué. Écrivez-nous à <a href="mailto:vortex.twitch.live@gmail.com" style="color:var(--teal-2)">vortex.twitch.live@gmail.com</a>.'; }
+    });
+    calc();
+  })();
+  </script>
+</body>
+</html>
