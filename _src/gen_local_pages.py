@@ -8,10 +8,14 @@ import html
 import json
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from blog_articles import ARTICLES  # noqa: E402
 
 SITE = "https://vortex-agence.fr"
 PAY = "https://buy.stripe.com/6oU7sKeFweKm5UU84z7Zu04"
-TODAY = "2026-10-01"
+TODAY = "2026-10-02"
 
 
 def ver(path):
@@ -249,7 +253,7 @@ def links_block(current):
         <p class="local-links__t">Et pour chaque métier</p>
         <div class="local-links__row">{jobs}</div>
         <p class="local-links__t">Nos solutions pour les pros</p>
-        <div class="local-links__row"><a href="/repondeur/">AI Répondeur : plus d'appels manqués</a><a href="/avis/">Vortex Avis : plus d'avis Google</a></div>
+        <div class="local-links__row"><a href="/repondeur/">AI Répondeur : plus d'appels manqués</a><a href="/avis/">Vortex Avis : plus d'avis Google</a><a href="/tarif/">Calculer le prix de mon site</a><a href="/blog/">Nos conseils (blog)</a></div>
       </div>
     </section>"""
 
@@ -379,14 +383,117 @@ def write(slug, title, desc, url, faq, body):
     open(os.path.join(slug, "index.html"), "w").write(page)
 
 
+# ---------- Blog ----------
+BLOG_CSS = """
+  <style>
+    .post { background: var(--light); color: var(--ink); padding: 80px 0 90px; }
+    .post__body { max-width: 720px; margin: 0 auto; font-size: 18px; line-height: 1.75; }
+    .post__body p, .post__body li { color: var(--ink-muted); }
+    .post__body p { margin: 0 0 18px; }
+    .post__body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 30px); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin: 44px 0 14px; }
+    .post__body h3 { font-size: 20px; color: var(--ink); margin: 28px 0 8px; }
+    .post__body ul, .post__body ol { margin: 0 0 20px; padding-left: 22px; }
+    .post__body li { margin-bottom: 8px; }
+    .post__body strong { color: var(--ink); }
+    .post__body a { color: #0f7f8d; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+    .post__meta { color: var(--muted); font-size: 14px; margin-top: 18px; }
+    .post__cta { max-width: 720px; margin: 46px auto 0; padding: 26px; border-radius: 20px; background: #0f1117; color: #fff; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+    .post__cta p { margin: 0; font-family: var(--display); font-size: 20px; }
+    .post-list { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+    .post-card { display: flex; flex-direction: column; gap: 10px; padding: 26px; border-radius: 20px; background: #fff; border: 1px solid rgba(15,17,23,.08); color: var(--ink); transition: transform .4s var(--ease-out), box-shadow .3s; }
+    .post-card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -24px rgba(15,17,23,.35); }
+    .post-card h2, .post-card h3 { font-family: var(--display); font-size: 21px; line-height: 1.25; margin: 0; color: var(--ink); }
+    .post-card p { margin: 0; color: var(--ink-muted); font-size: 15.5px; line-height: 1.6; }
+    .post-card span { margin-top: auto; color: #0f7f8d; font-weight: 700; font-size: 14px; }
+    .post-more { max-width: 1100px; margin: 70px auto 0; }
+    .post-more > p { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 14px; }
+  </style>
+"""
+
+
+def fr_date(d):
+    y, m, j = d.split("-")
+    mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+    return f"{int(j)} {mois[int(m) - 1]} {y}"
+
+
+def post_card(a, tag="h3"):
+    return (f'<a class="post-card" href="/blog/{a["slug"]}/"><{tag}>{html.escape(a["title"])}</{tag}>'
+            f'<p>{html.escape(a["excerpt"])}</p><span>Lire l\'article · {a["read"]} min →</span></a>')
+
+
+def blog_hero(kicker, h1_plain, h1_em, lead, crumbs, meta=""):
+    return f"""
+  <main id="top">
+    <section class="local-hero" style="padding-bottom:70px">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="container local-hero__inner">
+        <nav class="crumbs" aria-label="Fil d'Ariane">{crumbs}</nav>
+        <div class="pill" data-reveal><span class="pill__dot"></span>{kicker}</div>
+        <h1 class="local-title" data-split style="font-size:clamp(34px,5.4vw,62px)">{html.escape(h1_plain)} <em>{html.escape(h1_em)}</em></h1>
+        <p class="hero__lead" data-reveal style="--d:.35s">{lead}</p>{meta}
+      </div>
+    </section>"""
+
+
+def write_page(path, title, desc, url, ld, body, og_type="website"):
+    os.makedirs(path, exist_ok=True)
+    head = HEAD.format(title=html.escape(title), desc=html.escape(desc), url=url, site=SITE, vf=V_FONTS, vc=V_CSS, ld=ld)
+    head = head.replace('<meta property="og:type" content="website">', f'<meta property="og:type" content="{og_type}">')
+    head = head.replace("</head>", BLOG_CSS + "</head>")
+    open(os.path.join(path, "index.html"), "w").write(head + body + FOOT.format(vj=V_JS))
+
+
+def blog_pages():
+    for a in ARTICLES:
+        url = f"{SITE}/blog/{a['slug']}/"
+        ld = json.dumps([
+            {"@context": "https://schema.org", "@type": "BlogPosting", "headline": a["title"], "description": a["desc"], "url": url,
+             "datePublished": a["date"], "dateModified": a["date"], "inLanguage": "fr-FR", "image": SITE + "/assets/img/og-image.jpg",
+             "author": {"@type": "Organization", "name": "Vortex", "url": SITE + "/"},
+             "publisher": {"@type": "Organization", "name": "Vortex", "logo": {"@type": "ImageObject", "url": SITE + "/assets/img/apple-touch-icon.png"}},
+             "mainEntityOfPage": url},
+            {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Blog", "item": SITE + "/blog/"},
+                {"@type": "ListItem", "position": 3, "name": a["title"], "item": url}]},
+        ], ensure_ascii=False)
+        crumbs = f'<a href="/">Accueil</a><span>›</span><a href="/blog/">Blog</a><span>›</span><span>{html.escape(a["h1"][0] + " " + a["h1"][1])}</span>'
+        meta = f'\n        <p class="post__meta" data-reveal style="--d:.45s">Par Vortex · {fr_date(a["date"])} · {a["read"]} min de lecture</p>'
+        others = [o for o in ARTICLES if o["slug"] != a["slug"]][:3]
+        body = blog_hero("Blog · conseils pour les pros", a["h1"][0], a["h1"][1], html.escape(a["excerpt"]), crumbs, meta) + f"""
+    <section class="post">
+      <div class="container">
+        <article class="post__body">{a["body"]}</article>
+        <div class="post__cta"><p>Passez à l'action 👇</p><a href="{a["cta"][0]}" class="btn btn--primary">{html.escape(a["cta"][1])} {ARROW}</a></div>
+        <div class="post-more"><p>À lire aussi</p><div class="post-list">{"".join(post_card(o) for o in others)}</div></div>
+      </div>
+    </section>""" + offer_block("de Givors, Lyon et alentours") + links_block("")
+        write_page(f"blog/{a['slug']}", a["title"] + " | Vortex", a["desc"], url, ld, body, "article")
+    # index
+    url = SITE + "/blog/"
+    ld = json.dumps({"@context": "https://schema.org", "@type": "Blog", "name": "Blog Vortex", "url": url, "inLanguage": "fr-FR",
+                     "blogPost": [{"@type": "BlogPosting", "headline": a["title"], "url": f"{SITE}/blog/{a['slug']}/", "datePublished": a["date"]} for a in ARTICLES]},
+                    ensure_ascii=False)
+    body = blog_hero("Blog", "Conseils pour les artisans", "et commerçants.", "Site internet, Google, avis clients, appels manqués : des conseils simples et concrets pour trouver plus de clients près de chez vous.",
+                     '<a href="/">Accueil</a><span>›</span><span>Blog</span>') + f"""
+    <section class="post">
+      <div class="container"><div class="post-list">{"".join(post_card(a, "h2") for a in ARTICLES)}</div></div>
+    </section>""" + offer_block("de Givors, Lyon et alentours")
+    write_page("blog", "Blog : conseils site internet et Google pour artisans et commerçants | Vortex",
+               "Conseils simples pour les artisans, restaurants et commerçants : prix d'un site internet, fiche Google, avis clients, appels manqués.", url, ld, body)
+    return ["blog/"] + [f"blog/{a['slug']}/" for a in ARTICLES]
+
+
 def main():
     slugs = []
     for c in CITIES:
         write(c["slug"], *city_page(c)); slugs.append(c["slug"])
     for j in JOBS:
         write(j["slug"], *job_page(j)); slugs.append(j["slug"])
+    blog = blog_pages()
     # sitemap
-    urls = [("", "1.0"), ("mon-site/", "0.8"), ("tarif/", "0.8"), ("audit/", "0.8"), ("avis/", "0.9"), ("repondeur/", "0.9"), ("mentions-legales.html", "0.3")] + [(s + "/", "0.8") for s in slugs]
+    urls = [("", "1.0"), ("mon-site/", "0.8"), ("tarif/", "0.8"), ("audit/", "0.8"), ("avis/", "0.9"), ("repondeur/", "0.9"), ("mentions-legales.html", "0.3")] + [(s + "/", "0.8") for s in slugs] + [(b, "0.7") for b in blog]
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     xml += "".join(f"  <url><loc>{SITE}/{u}</loc><lastmod>{TODAY}</lastmod><priority>{p}</priority></url>\n" for u, p in urls)
     xml += "</urlset>\n"
