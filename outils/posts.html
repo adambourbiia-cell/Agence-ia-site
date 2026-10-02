@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Posts Google Business — Vortex</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; --ok:#3ecf8e; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font-family: "Inter", system-ui, sans-serif; line-height: 1.5; font-size: 15px; -webkit-font-smoothing: antialiased; }
+    .w { max-width: 680px; margin: 0 auto; padding: 22px 16px 60px; }
+    h1 { font-family: "Syne", sans-serif; font-size: 26px; line-height: 1.15; margin: 0 0 6px; }
+    h1 em { font-style: normal; color: var(--teal-2); }
+    .lead { color: var(--muted); margin: 0 0 14px; }
+    .how { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; font-size: 14px; color: #d5dbe5; margin-bottom: 16px; }
+    .how ol { margin: 6px 0 0; padding-left: 20px; }
+    .p { display: grid; grid-template-columns: 120px 1fr; gap: 14px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 12px; margin-bottom: 12px; }
+    .p.done { opacity: .5; }
+    .p img { width: 120px; height: 120px; object-fit: cover; border-radius: 12px; background: var(--bg-3); }
+    .wk { font-size: 12px; font-weight: 700; color: var(--teal-2); text-transform: uppercase; letter-spacing: .06em; }
+    .p h2 { font-size: 16px; margin: 2px 0 6px; }
+    .txt { font-size: 13.5px; color: #c9d0db; white-space: pre-wrap; background: var(--bg-3); border-radius: 10px; padding: 8px 10px; max-height: 120px; overflow: auto; }
+    .meta { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+    .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .btn { border: 1px solid var(--line-2); background: var(--bg-3); color: #fff; border-radius: 10px; padding: 8px 11px; font: inherit; font-weight: 600; font-size: 13px; cursor: pointer; text-decoration: none; }
+    .btn.p1 { background: linear-gradient(180deg, var(--teal-2), var(--teal)); border-color: transparent; }
+    @media (max-width: 440px) { .p { grid-template-columns: 1fr; } .p img { width: 100%; height: 160px; } }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: #fff; color: #0f1117; font-weight: 600; padding: 10px 18px; border-radius: 99px; opacity: 0; transition: .3s; pointer-events: none; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <h1>Posts <em>Google Business</em></h1>
+    <p class="lead">Un post par semaine sur ta fiche Google : ça montre que tu es actif, et Google valorise les fiches vivantes. 12 semaines prêtes.</p>
+    <div class="how"><b>Comment publier (1 minute) :</b><ol><li>Télécharge l'image du post.</li><li>Ouvre <a href="https://business.google.com/" target="_blank" rel="noopener" style="color:#22c1d3">ta fiche Google</a> → « Ajouter une actualité » (ou « Ajouter une mise à jour »).</li><li>Ajoute la photo, colle le texte, choisis le bouton indiqué, publie.</li></ol></div>
+    <div id="list"></div>
+  </div>
+  <div class="toast" id="toast">Texte copié ✓</div>
+  <script>
+  (() => {
+    const S = 'https://vortex-agence.fr';
+    const P = [
+      ['Présentation', '/google-business/vortex-couverture-1024x576.png', 'Vortex crée des sites internet pour les artisans, restaurants et commerçants de Givors et de la région lyonnaise.\n\n✅ Site clé en main dès 250 €\n✅ Adapté au téléphone et visible sur Google\n✅ Maquette gratuite avant de payer\n\nUn interlocuteur local, à Givors, qui s\'occupe de tout.', 'En savoir plus', S],
+      ['Démo artisan', '/assets/img/demo-cuivre.jpg', 'Plombiers, électriciens, chauffagistes : voici le type de site que nous créons pour vous.\n\n🔧 Bouton d\'appel toujours visible\n💶 Estimation de prix en ligne\n📸 Vos chantiers en avant / après\n\nRegardez l\'exemple sur votre téléphone 👇', 'En savoir plus', S + '/demo/artisan/'],
+      ['Combien coûte un site ?', '/assets/img/og-image.jpg', 'Combien coûte un site internet pour un artisan ou un commerce ?\n\nChez Vortex, c\'est 250 € clé en main : design sur mesure, version mobile, référencement de base, formulaire de contact et mise en ligne.\n\nEt vous voyez votre maquette avant de payer quoi que ce soit.', 'En savoir plus', S + '/#offre'],
+      ['Démo restaurant', '/assets/img/demo-brasier.jpg', 'Restaurateurs : votre site doit donner faim en 10 secondes 🍽️\n\nMenu clair, belles photos, itinéraire et réservation en un clic.\n\nDécouvrez notre exemple de site de restaurant 👇', 'En savoir plus', S + '/demo/restaurant/'],
+      ['Audit gratuit', '/assets/img/og-image.jpg', 'Votre entreprise est-elle bien visible sur Google ?\n\nFaites notre test gratuit en 2 minutes : 10 questions, un score sur 100 et des conseils concrets pour attirer plus de clients.', 'En savoir plus', S + '/audit/'],
+      ['Démo coiffure', '/assets/img/demo-lune.jpg', 'Coiffeuses, esthéticiennes : vos clientes regardent votre site avant de réserver ✂️\n\nPrestations, tarifs clairs et prise de rendez-vous en ligne.\n\nVoici un exemple de site de salon 👇', 'En savoir plus', S + '/demo/coiffure/'],
+      ['Facebook ne suffit pas', '/google-business/vortex-photo-travail-1200x900.jpg', 'Une page Facebook, c\'est bien pour vos habitués. Mais les nouveaux clients, eux, vous cherchent sur Google : « plombier Givors », « coiffeur Grigny »…\n\nUn site internet vous fait apparaître dans ces recherches. Les deux se complètent très bien.', 'En savoir plus', S],
+      ['Démo garage', '/assets/img/demo-garage.jpg', 'Garagistes : un site où le client tape sa plaque et obtient une estimation 🚗\n\nMoins d\'appels « juste pour un prix », plus de rendez-vous.\n\nDécouvrez l\'exemple 👇', 'En savoir plus', S + '/demo/garage/'],
+      ['AI Répondeur', '/assets/img/demo-cuivre.jpg', 'Vous ratez des appels quand vous êtes sur un chantier ? Notre assistante téléphonique IA répond à votre place 24h/24 et vous envoie chaque demande par SMS.\n\nVous gardez votre numéro. Testez la démo en direct 👇', 'En savoir plus', S + '/repondeur/demo/'],
+      ['Maquette gratuite', '/assets/img/demo-cuivre.jpg', 'Vous hésitez à faire un site ? On vous prépare une maquette gratuite, à votre nom, pour que vous voyiez le résultat avant de décider.\n\nSans engagement. Écrivez-nous ou appelez-nous.', 'Appeler', S + '/#contact'],
+      ['Avis Google', '/assets/img/avis-app-send.jpg', 'Astuce : demandez un avis Google à chaque client satisfait, juste après la prestation, avec le lien direct. 20 avis changent complètement la confiance des nouveaux clients ⭐\n\nNotre appli Vortex Avis vous aide à le faire en 10 secondes.', 'En savoir plus', S + '/avis/'],
+      ['Maintenance', '/google-business/vortex-photo-travail-1200x900.jpg', 'Votre site est en ligne, et après ?\n\nAvec la maintenance Vortex à 50 €/mois sans engagement : mises à jour, sécurité, sauvegardes et petites modifications (horaires, tarifs, photos) incluses.\n\nVous ne vous occupez de rien.', 'En savoir plus', S + '/#offre'],
+    ];
+    const KEY = 'vx-posts-done'; let done = []; try { done = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
+    const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const render = () => {
+      document.getElementById('list').innerHTML = P.map(([t, img, txt, btn, url], i) => `<div class="p ${done.includes(i) ? 'done' : ''}" data-i="${i}"><img src="${img}" alt="" loading="lazy"><div><span class="wk">Semaine ${i + 1}</span><h2>${esc(t)}</h2><div class="txt">${esc(txt)}</div><p class="meta">Bouton : « ${btn} » → ${esc(url.replace('https://', ''))}</p><div class="acts"><button class="btn p1" data-a="copy">📋 Copier le texte</button><a class="btn" href="${img}" download>⬇ Image</a><button class="btn" data-a="url">🔗 Copier le lien</button><button class="btn" data-a="done">${done.includes(i) ? 'Annuler' : '✓ Publié'}</button></div></div></div>`).join('');
+    };
+    const toast = (m) => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1500); };
+    document.getElementById('list').addEventListener('click', async (e) => {
+      const b = e.target.closest('[data-a]'); if (!b) return; const i = +b.closest('[data-i]').dataset.i;
+      const copy = async (s, m) => { try { await navigator.clipboard.writeText(s); toast(m); } catch (err) { prompt('Copie :', s); } };
+      if (b.dataset.a === 'copy') copy(P[i][2], 'Texte copié ✓');
+      if (b.dataset.a === 'url') copy(P[i][4], 'Lien copié ✓');
+      if (b.dataset.a === 'done') { done = done.includes(i) ? done.filter((x) => x !== i) : [...done, i]; try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (err) {} render(); }
+    });
+    render();
+  })();
+  </script>
+</body>
+</html>

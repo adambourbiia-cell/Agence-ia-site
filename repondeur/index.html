@@ -150,6 +150,60 @@
       </div>
     </section>
 
+    <section class="local-text" id="simulateur">
+      <div class="container">
+        <h2 class="title" data-reveal>Combien vous coûtent <em>vos appels manqués ?</em></h2>
+        <div class="sim" data-reveal style="--d:.1s">
+          <div class="sim__in">
+            <label>Appels manqués par semaine <b id="sCallsV">5</b></label>
+            <input type="range" id="sCalls" min="1" max="40" value="5">
+            <label>Sur 10 appels, combien deviennent clients ? <b id="sRateV">3</b></label>
+            <input type="range" id="sRate" min="1" max="10" value="3">
+            <label>Montant moyen d'une prestation <b id="sBasketV">200 €</b></label>
+            <input type="range" id="sBasket" min="30" max="2000" step="10" value="200">
+          </div>
+          <div class="sim__out">
+            <span>Chiffre d'affaires perdu chaque mois</span>
+            <strong id="sLost">0 €</strong>
+            <p id="sRatio"></p>
+            <a href="#tarif" class="btn btn--primary">Ne plus les perdre · 199 €/mois</a>
+            <small>Estimation indicative, basée sur vos réponses.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+    <style>
+      .sim { display: grid; gap: 18px; margin-top: 30px; }
+      @media (min-width: 860px) { .sim { grid-template-columns: 1.2fr 1fr; } }
+      .sim__in, .sim__out { background: #141824; color: #fff; border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 22px; }
+      .sim__in label { display: flex; justify-content: space-between; gap: 10px; font-weight: 600; margin: 18px 0 8px; font-size: 15px; }
+      .sim__in label:first-child { margin-top: 0; }
+      .sim__in label b { color: var(--teal-2); white-space: nowrap; }
+      .sim__in input[type=range] { width: 100%; accent-color: var(--teal-2); height: 28px; }
+      .sim__out { display: flex; flex-direction: column; justify-content: center; text-align: center; gap: 8px; background: linear-gradient(160deg, #173842, #141824 70%); }
+      .sim__out span { color: #b6bfcd; font-size: 15px; }
+      .sim__out strong { font-family: var(--display); font-size: clamp(44px, 9vw, 64px); line-height: 1; color: #ef6461; font-variant-numeric: tabular-nums; }
+      .sim__out p { color: #d5dbe5; font-size: 16px; margin-bottom: 8px; }
+      .sim__out small { color: #9aa3b2; font-size: 12.5px; }
+    </style>
+    <script>
+      (() => {
+        const $ = (s) => document.getElementById(s);
+        const f = (n) => Math.round(n).toLocaleString('fr-FR') + ' €';
+        let shown = 0, raf;
+        const run = () => {
+          const c = +$('sCalls').value, r = +$('sRate').value / 10, b = +$('sBasket').value;
+          $('sCallsV').textContent = c; $('sRateV').textContent = $('sRate').value; $('sBasketV').textContent = f(b);
+          const lost = c * 4.33 * r * b, ratio = lost / 199;
+          $('sRatio').textContent = ratio >= 1.5 ? `Soit environ ${Math.floor(ratio)} fois le prix de l'AI Répondeur.` : ratio >= 1 ? 'Ça couvre déjà le prix de l\'AI Répondeur.' : 'Même un seul client récupéré par mois peut suffire à le rentabiliser.';
+          cancelAnimationFrame(raf); const from = shown, t0 = performance.now();
+          const step = (t) => { const p = Math.min(1, (t - t0) / 500); shown = from + (lost - from) * (1 - Math.pow(1 - p, 3)); $('sLost').textContent = f(shown); if (p < 1) raf = requestAnimationFrame(step); };
+          raf = requestAnimationFrame(step);
+        };
+        ['sCalls', 'sRate', 'sBasket'].forEach((id) => $(id).addEventListener('input', run));
+        run();
+      })();
+    </script>
     <section class="local-offer" id="tarif">
       <div class="container local-offer__grid">
         <div data-reveal>
