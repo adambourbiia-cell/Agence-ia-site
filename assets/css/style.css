@@ -349,6 +349,14 @@ svg { display: block; }
 @keyframes fabIn { from { transform: scale(0); } }
 @keyframes ring { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.6); opacity: 0; } }
 
+/* ---------- WhatsApp flottant ---------- */
+.wa-fab { position: fixed; right: 22px; bottom: 22px; z-index: 60; display: flex; align-items: center; gap: 10px; height: 58px; padding: 0 20px 0 15px; border-radius: 99px; background: #25d366; color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; box-shadow: 0 14px 34px -10px rgba(37,211,102,.65), 0 4px 12px rgba(0,0,0,.35); animation: fabIn .8s var(--ease-out) 1.2s both; transition: transform .3s var(--ease-out); }
+.wa-fab::before { content: ""; position: absolute; inset: 0; border-radius: inherit; border: 2px solid #25d366; opacity: 0; animation: ring 2.6s ease-out infinite 2.4s; pointer-events: none; }
+.wa-fab svg { width: 28px; height: 28px; fill: #fff; flex: none; }
+.wa-fab:hover { transform: translateY(-3px) scale(1.03); }
+@media (max-width: 640px) { .wa-fab { right: 16px; bottom: 16px; width: 58px; padding: 0; justify-content: center; } .wa-fab span { display: none; } }
+@media print { .wa-fab { display: none; } }
+
 /* ---------- Standalone pages (merci.html) ---------- */
 .page-center { min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 40px var(--gutter); }
 .page-center .hero__title { margin-bottom: 20px; }
