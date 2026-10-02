@@ -1,0 +1,207 @@
+<div class="cam">
+  <div class="title disp"><span class="tw">Visible sur</span><span class="acc rw"></span></div>
+  <svg class="beams" viewBox="0 0 1920 1080">
+    <defs>
+      <linearGradient id="s04g" x1="0" x2="1"><stop offset="0" stop-color="#22c1d3" stop-opacity="0"/><stop offset="0.5" stop-color="#9ff0f8"/><stop offset="1" stop-color="#22c1d3" stop-opacity="0"/></linearGradient>
+    </defs>
+    <path class="bp b1" d="M 765 520 C 640 520, 640 470, 590 470" />
+    <path class="bp b2" d="M 1155 520 C 1280 520, 1280 470, 1330 470" />
+    <path class="bp b3" d="M 960 600 C 960 700, 960 760, 960 830" />
+    <path class="bl l1" d="M 765 520 C 640 520, 640 470, 590 470" />
+    <path class="bl l2" d="M 1155 520 C 1280 520, 1280 470, 1330 470" />
+    <path class="bl l3" d="M 960 600 C 960 700, 960 760, 960 830" />
+  </svg>
+  <div class="orbits">
+    <div class="oring o1"></div><div class="oring o2"></div>
+  </div>
+  <div class="sats"></div>
+  <div class="hub"><div class="globe"><svg viewBox="0 0 24 24" fill="none" stroke="#22c1d3" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg></div><span>votre-entreprise.fr</span></div>
+
+  <div class="card c1">
+    <div class="ch"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="#b7bfcb" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></span>Recherche</div>
+    <div class="q"><svg viewBox="0 0 24 24" fill="none" stroke="#8b94a3" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>coiffeur Lyon</div>
+    <div class="res hit"><div class="u"><i class="fav"></i>votre-entreprise.fr</div><div class="rt">Votre salon — Coiffeur à Lyon</div><div class="ln"></div><div class="ln s"></div></div>
+    <div class="res"><div class="u g"></div><div class="ln t"></div><div class="ln"></div></div>
+  </div>
+
+  <div class="card c2">
+    <div class="ch"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="#b7bfcb" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span>Carte · Lyon</div>
+    <div class="map">
+      <svg class="mapbg" viewBox="0 0 440 300" preserveAspectRatio="xMidYMid slice">
+        <rect width="440" height="300" fill="#121821"/>
+        <g stroke="#1e2733" stroke-width="10" fill="none" stroke-linecap="round"><path d="M-10 70 L450 40"/><path d="M-10 190 L450 230"/><path d="M90 -10 L60 310"/><path d="M300 -10 L340 310"/><path d="M-10 130 L450 120"/></g>
+        <g stroke="#19212b" stroke-width="5" fill="none"><path d="M180 -10 L170 310"/><path d="M-10 260 L450 270"/><path d="M230 -10 L250 310"/><path d="M-10 20 L450 10"/></g>
+        <path d="M150 -10 C 120 80, 200 140, 160 200 S 140 300, 170 320" stroke="#173a4a" stroke-width="16" fill="none"/>
+        <path d="M330 -10 C 300 90, 260 160, 280 230 S 300 300, 290 320" stroke="#173a4a" stroke-width="20" fill="none"/>
+      </svg>
+      <div class="pulse"></div>
+      <svg class="pin" viewBox="0 0 40 52"><path d="M20 50s-16-15.5-16-28a16 16 0 0 1 32 0c0 12.5-16 28-16 28z" fill="#22c1d3"/><circle cx="20" cy="21" r="6.5" fill="#0d1016"/></svg>
+      <div class="plabel">Votre entreprise</div>
+    </div>
+  </div>
+
+  <div class="card c3">
+    <div class="dev d1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg><span>Ordinateur</span></div>
+    <div class="dev d2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2.5" width="14" height="19" rx="2"/><circle cx="12" cy="18" r="0.8"/></svg><span>Tablette</span></div>
+    <div class="dev d3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/></svg><span>Mobile</span></div>
+  </div>
+</div>
+
+<style>
+.title { position: absolute; left: 0; right: 0; top: 96px; display: flex; justify-content: center; gap: 0.28em; font-size: 96px; white-space: nowrap; }
+.beams { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
+.bp { fill: none; stroke: rgba(255,255,255,0.10); stroke-width: 2.5; }
+.bl { fill: none; stroke: url(#s04g); stroke-width: 4; stroke-linecap: round; }
+.orbits { position: absolute; left: 960px; top: 520px; }
+.oring { position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,0.08); }
+.o1 { width: 420px; height: 420px; margin: -210px 0 0 -210px; }
+.o2 { width: 600px; height: 600px; margin: -300px 0 0 -300px; border-style: dashed; border-color: rgba(34,193,211,0.16); }
+.sats { position: absolute; left: 960px; top: 520px; }
+.sat { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: #171b25; border: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; }
+.sat svg { width: 26px; height: 26px; }
+.hub { position: absolute; left: 765px; top: 465px; width: 390px; white-space: nowrap; height: 110px; border-radius: 26px; background: linear-gradient(180deg,#1a1f2a,#131720); border: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; gap: 18px; padding: 0 26px; font-size: 26px; font-weight: 600; box-shadow: 0 0 80px rgba(34,193,211,0.18), 0 30px 80px rgba(0,0,0,0.5); }
+.globe { width: 58px; height: 58px; border-radius: 16px; background: rgba(34,193,211,0.12); display: flex; align-items: center; justify-content: center; flex: none; }
+.globe svg { width: 34px; height: 34px; }
+.card { padding: 26px 28px; }
+.ch { display: flex; align-items: center; gap: 12px; font-size: 20px; color: var(--mute); font-weight: 600; letter-spacing: 0.02em; margin-bottom: 18px; }
+.ci { width: 34px; height: 34px; border-radius: 10px; background: #1f2530; display: flex; align-items: center; justify-content: center; }
+.ci svg { width: 20px; height: 20px; }
+.c1 { left: 110px; top: 300px; width: 480px; height: 400px; }
+.q { display: flex; align-items: center; gap: 12px; height: 54px; border-radius: 27px; background: #0f1218; border: 1px solid rgba(255,255,255,0.1); padding: 0 20px; font-size: 22px; color: #fff; margin-bottom: 18px; }
+.q svg { width: 22px; height: 22px; }
+.res { border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; border: 1px solid transparent; }
+.res.hit { background: rgba(34,193,211,0.08); border-color: rgba(34,193,211,0.45); }
+.u { display: flex; align-items: center; gap: 10px; font-size: 17px; color: var(--mute); margin-bottom: 8px; }
+.u.g { width: 46%; height: 12px; border-radius: 6px; background: #252b36; }
+.fav { width: 22px; height: 22px; border-radius: 6px; background: var(--acc); display: block; }
+.rt { font-size: 24px; font-weight: 700; color: var(--acc); margin-bottom: 12px; }
+.ln { height: 10px; border-radius: 5px; background: #2a303b; margin-bottom: 9px; width: 92%; }
+.ln.s { width: 64%; }
+.ln.t { height: 14px; width: 74%; background: #343b48; }
+.c2 { left: 1330px; top: 300px; width: 480px; height: 400px; }
+.map { position: relative; height: 290px; border-radius: 16px; overflow: hidden; }
+.map > svg.mapbg { width: 100%; height: 100%; display: block; }
+.pin { position: absolute; left: 50%; top: 50%; width: 52px; height: 68px; margin: -68px 0 0 -26px; transform-origin: 50% 100%; }
+.pulse { position: absolute; left: 50%; top: 50%; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 3px solid var(--acc); }
+.plabel { position: absolute; left: 50%; top: 50%; margin: 14px 0 0 0; transform: translateX(-50%); background: #0d1016; border: 1px solid rgba(255,255,255,0.14); color: #fff; font-size: 18px; font-weight: 600; padding: 8px 14px; border-radius: 10px; white-space: nowrap; }
+.c3 { left: 610px; top: 840px; width: 700px; height: 150px; display: flex; align-items: center; justify-content: space-around; padding: 0 30px; }
+.dev { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--dim); font-size: 20px; font-weight: 600; }
+.dev svg { width: 50px; height: 50px; }
+</style>
+
+<script>
+const cam = q(".cam");
+const title = q(".title");
+const tw = q(".tw");
+const rw = VX.rotator(q(".rw"), ["Google,", "Maps,", "partout."], { stagger: 0.03, dur: 0.3 });
+const RT = [16.5, 17.38, 17.8].map(A);
+const hub = q(".hub");
+const hbeam = VX.beam(hub, { radius: 26, size: 220 });
+const c1 = q(".c1"), c2 = q(".c2"), c3 = q(".c3");
+const b1beam = VX.beam(c1, { radius: 22, size: 240 });
+const b2beam = VX.beam(c2, { radius: 22, size: 240 });
+const pin = q(".pin"), pulse = q(".pulse"), plabel = q(".plabel");
+const hit = q(".res.hit");
+const devs = qa(".dev");
+const paths = qa(".bp"), lights = qa(".bl");
+let LEN = null;
+const BT = [16.3, 17.18, 17.7].map(A); // beam fire times
+const sats = q(".sats");
+const ICONS = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="#22c1d3" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="#b7bfcb" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="#b7bfcb" stroke-width="2"><rect x="7" y="2.5" width="10" height="19" rx="2"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="#22c1d3" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="#b7bfcb" stroke-width="2" stroke-linecap="round"><path d="M4 12h16M12 4v16"/></svg>',
+];
+const SAT = [
+  { r: 210, a: 0, s: 26 }, { r: 210, a: 120, s: 26 }, { r: 210, a: 240, s: 26 },
+  { r: 300, a: 60, s: -16 }, { r: 300, a: 240, s: -16 },
+].map((o, i) => {
+  const el = document.createElement("div");
+  el.className = "sat";
+  el.innerHTML = ICONS[i];
+  sats.appendChild(el);
+  return { ...o, el };
+});
+
+function render(t) {
+  const ta = t + T0;
+  if (!LEN || !LEN[0]) LEN = paths.map((p) => p.getTotalLength());
+  // title
+  const pt = VX.sp(ta, 15.62, 2.6, 0.8);
+  VX.tf(tw, `translate3d(0, ${((1 - pt) * 70).toFixed(1)}px, 0)`);
+  tw.style.clipPath = `inset(-20% -5% ${((1 - VX.clamp(pt)) * 100).toFixed(1)}% -5%)`;
+  if (t >= RT[0]) rw.render(t, RT);
+  else rw.layers.forEach((L) => L.letters.forEach((l) => (l.style.opacity = "0")));
+  if (t < RT[0]) q(".rw").style.width = "0px";
+
+  // hub + orbits
+  const ph = VX.sp(t, 0.1, 2.2, 0.72);
+  VX.tf(hub, `scale(${(0.6 + 0.4 * ph).toFixed(4)})`);
+  VX.op(hub, VX.clamp(ph * 1.6));
+  hbeam.render(t, 0.5, 0, 1);
+  const po = VX.sp(t, 0.2, 1.6, 0.8);
+  VX.tf(q(".orbits"), `scale(${(0.5 + 0.5 * po).toFixed(4)}) rotate(${(t * 8).toFixed(2)}deg)`);
+  VX.op(q(".orbits"), VX.clamp(po));
+  SAT.forEach((s, i) => {
+    const a = ((s.a + t * s.s) * Math.PI) / 180;
+    const pi = VX.sp(t, 0.3 + i * 0.06, 2.4, 0.7);
+    const r = s.r * po;
+    VX.tf(s.el, `translate3d(${(Math.cos(a) * r).toFixed(1)}px, ${(Math.sin(a) * r).toFixed(1)}px, 0) scale(${VX.clamp(pi, 0, 1.3).toFixed(3)})`);
+  });
+
+  // beams: draw the path, then a light pulse travels to the card
+  paths.forEach((p, i) => {
+    const d = VX.E.outCubic(VX.prog(t, BT[i] - 0.15, BT[i] + 0.15));
+    p.style.strokeDasharray = `${LEN[i]}`;
+    p.style.strokeDashoffset = `${(LEN[i] * (1 - d)).toFixed(1)}`;
+    const L = lights[i];
+    const seg = 90;
+    const u = VX.E.inOutCubic(VX.prog(t, BT[i], BT[i] + 0.32));
+    L.style.strokeDasharray = `${seg} ${LEN[i] + seg}`;
+    L.style.strokeDashoffset = `${(seg - u * (LEN[i] + seg)).toFixed(1)}`;
+    L.style.opacity = t > BT[i] && u < 1 ? "1" : "0";
+  });
+
+  // cards pop when their beam lands
+  [[c1, 0], [c2, 1], [c3, 2]].forEach(([c, i]) => {
+    const p = VX.sp(t, BT[i] + 0.22, 2.5, 0.72);
+    VX.tf(c, `translate3d(0, ${((1 - p) * 50).toFixed(1)}px, 0) scale(${(0.86 + 0.14 * p).toFixed(4)})`);
+    VX.op(c, VX.clamp(p * 1.6));
+  });
+  b1beam.render(t, 0.45, 0.3, VX.tw(t, BT[0] + 0.3, BT[0] + 0.6, 0, 1));
+  b2beam.render(t, 0.45, 0.6, VX.tw(t, BT[1] + 0.3, BT[1] + 0.6, 0, 1));
+  const ph1 = VX.tw(t, BT[0] + 0.45, BT[0] + 0.8, 0, 1);
+  hit.style.boxShadow = `0 0 ${(ph1 * 40).toFixed(1)}px rgba(34,193,211,${(ph1 * 0.35).toFixed(3)})`;
+  // map pin drops, pulse
+  const pp = VX.sp(t, BT[1] + 0.4, 2.8, 0.55);
+  VX.tf(pin, `translate3d(0, ${((1 - pp) * -120).toFixed(1)}px, 0) scale(${(0.7 + 0.3 * VX.clamp(pp, 0, 1.2)).toFixed(3)})`);
+  VX.op(pin, VX.clamp(pp * 3));
+  const pu = VX.prog(t, BT[1] + 0.55, BT[1] + 1.35);
+  VX.tf(pulse, `scale(${(0.3 + pu * 1.6).toFixed(3)})`);
+  VX.op(pulse, pu > 0 && pu < 1 ? 1 - pu : 0);
+  const pl = VX.sp(t, BT[1] + 0.6, 2.6, 0.8);
+  VX.op(plabel, VX.clamp(pl * 1.5));
+  // devices light up in turn
+  devs.forEach((d, i) => {
+    const on = VX.tw(t, BT[2] + 0.35 + i * 0.18, BT[2] + 0.55 + i * 0.18, 0, 1);
+    d.style.color = on > 0.5 ? "#22c1d3" : "#8b94a3";
+    VX.tf(d, `scale(${(1 + 0.12 * Math.sin(Math.PI * VX.clamp(on))).toFixed(3)})`);
+  });
+
+  // camera: enter from below, drift, push in on exit
+  const win = VX.E.outExpo(VX.prog(t, 0, 0.4));
+  const wout = VX.E.inExpo(VX.prog(ta, 19.42, 19.714));
+  cam.style.transformOrigin = "960px 520px";
+  VX.tf(cam, `translate3d(${(Math.sin(t * 0.7) * 8).toFixed(1)}px, ${((1 - win) * 1300).toFixed(1)}px, 0) scale(${(1.04 - t * 0.008 + wout * 2.2).toFixed(4)})`);
+  const bl = Math.max((1 - win) * 14, wout * 12);
+  cam.style.filter = bl > 0.3 ? `blur(${bl.toFixed(1)}px)` : "none";
+  VX.op(cam, 1 - wout * 0.9);
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+</script>

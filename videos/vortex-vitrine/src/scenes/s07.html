@@ -1,0 +1,189 @@
+<div class="cam">
+  <div class="bento">
+    <div class="cell cA">
+      <div class="lab"><span class="li">01</span>Création de site web</div>
+      <div class="browser mini"><div class="bar"><i></i><i></i><i></i><div class="url">votre-entreprise.fr</div></div><div class="shot"><div class="scroller"></div></div></div>
+    </div>
+    <div class="cell cB">
+      <div class="lab"><span class="li">02</span>Référencement local</div>
+      <div class="sq"><svg viewBox="0 0 24 24" fill="none" stroke="#8b94a3" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>coiffeur Lyon</div>
+      <div class="rank"></div>
+    </div>
+    <div class="cell cC">
+      <div class="lab"><span class="li">03</span>Fiche Google</div>
+      <div class="gp">
+        <div class="gmap"><svg class="gpin" viewBox="0 0 40 52"><path d="M20 50s-16-15.5-16-28a16 16 0 0 1 32 0c0 12.5-16 28-16 28z" fill="#22c1d3"/><circle cx="20" cy="21" r="6.5" fill="#0d1016"/></svg></div>
+        <div class="ginfo"><b>Votre entreprise</b><span>Coiffeur · Lyon</span><em>Ouvert</em>
+          <div class="gbtns"><i>Itinéraire</i><i>Appeler</i><i>Site web</i></div></div>
+      </div>
+    </div>
+    <div class="cell cD">
+      <div class="lab"><span class="li">04</span>Maintenance &amp; suivi mensuel</div>
+      <div class="md">
+        <div class="checks">
+          <div class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Mises à jour</div>
+          <div class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sécurité</div>
+          <div class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sauvegardes</div>
+        </div>
+        <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="veil"></div>
+  <h2 class="disp final">On s'occupe <span class="acc">de tout.</span></h2>
+</div>
+
+<style>
+.cam { transform-origin: 0 0; }
+.bento { position: absolute; inset: 0; }
+.cell { position: absolute; border-radius: 26px; background: linear-gradient(180deg, #181c26, #12151d); border: 1px solid rgba(255,255,255,0.09); box-shadow: 0 30px 80px rgba(0,0,0,0.45); padding: 26px 28px; overflow: hidden; }
+.spot { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle 320px at var(--sx) var(--sy), rgba(34,193,211,0.10), rgba(34,193,211,0) 70%); }
+.lab { display: flex; align-items: center; gap: 14px; font-family: "Syne", sans-serif; font-weight: 700; font-size: 30px; margin-bottom: 20px; position: relative; z-index: 2; }
+.li { font-size: 16px; color: var(--acc); border: 1.5px solid rgba(34,193,211,0.5); border-radius: 999px; padding: 4px 10px; font-family: "Inter", sans-serif; }
+.cA { left: 140px; top: 120px; width: 900px; height: 530px; }
+.cB { left: 1070px; top: 120px; width: 710px; height: 530px; }
+.cC { left: 140px; top: 680px; width: 600px; height: 300px; }
+.cD { left: 770px; top: 680px; width: 1010px; height: 300px; }
+.mini { left: 28px; right: 28px; top: 90px; bottom: 0; border-radius: 16px 16px 0 0; }
+.scroller { position: absolute; left: 0; right: 0; top: 0; }
+.scroller img { width: 100%; display: block; }
+.sq { display: flex; align-items: center; gap: 12px; height: 54px; border-radius: 27px; background: #0f1218; border: 1px solid rgba(255,255,255,0.1); padding: 0 20px; font-size: 22px; margin-bottom: 18px; }
+.sq svg { width: 22px; height: 22px; }
+.rank { position: relative; height: 340px; }
+.rk { position: absolute; left: 0; right: 0; top: 0; height: 60px; border-radius: 14px; display: flex; align-items: center; gap: 16px; padding: 0 18px; background: #161a22; border: 1px solid rgba(255,255,255,0.06); }
+.rk i { display: block; height: 12px; border-radius: 6px; background: #2c323d; }
+.rk .f { width: 26px; height: 26px; border-radius: 8px; background: #252b35; flex: none; }
+.rk.me { background: rgba(34,193,211,0.1); border-color: rgba(34,193,211,0.55); z-index: 2; }
+.rk.me .f { background: var(--acc); }
+.rk.me b { font-size: 22px; font-weight: 700; color: var(--acc); }
+.rk.me span { font-size: 18px; color: var(--mute); }
+.gp { display: flex; gap: 22px; }
+.gmap { width: 170px; height: 180px; border-radius: 16px; flex: none; position: relative; background:
+  linear-gradient(90deg, transparent 47%, #1e2733 47% 55%, transparent 55%),
+  linear-gradient(0deg, transparent 40%, #1e2733 40% 47%, transparent 47%),
+  linear-gradient(30deg, transparent 60%, #173a4a 60% 70%, transparent 70%), #121821; }
+.gpin { position: absolute; left: 50%; top: 50%; width: 40px; height: 52px; margin: -52px 0 0 -20px; }
+.ginfo b { display: block; font-family: "Syne", sans-serif; font-size: 30px; }
+.ginfo span { display: block; font-size: 20px; color: var(--mute); margin-top: 6px; }
+.ginfo em { display: inline-block; font-style: normal; font-size: 18px; color: var(--acc); font-weight: 600; margin-top: 8px; }
+.gbtns { display: flex; gap: 10px; margin-top: 18px; }
+.gbtns i { font-style: normal; font-size: 17px; font-weight: 600; padding: 9px 14px; border-radius: 999px; border: 1px solid rgba(34,193,211,0.5); color: var(--acc); }
+.md { display: flex; gap: 40px; align-items: flex-end; }
+.checks { width: 330px; display: flex; flex-direction: column; gap: 16px; }
+.ck { display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 600; }
+.ck svg { width: 34px; height: 34px; padding: 5px; border-radius: 10px; background: rgba(34,193,211,0.14); fill: none; stroke: #22c1d3; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.bars { flex: 1; height: 170px; display: flex; align-items: flex-end; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.12); padding: 0 6px; }
+.bars i { flex: 1; display: block; height: 100%; border-radius: 8px 8px 0 0; background: linear-gradient(180deg, #22c1d3, rgba(34,193,211,0.25)); transform-origin: 50% 100%; }
+.veil { position: absolute; inset: -400px; background: rgba(11,13,18,0.72); opacity: 0; }
+.final { position: absolute; left: 0; right: 0; top: 450px; text-align: center; font-size: 112px; white-space: nowrap; }
+</style>
+
+<script>
+const cam = q(".cam");
+const cells = qa(".cell");
+const scroller = q(".scroller");
+const rank = q(".rank");
+const checks = qa(".ck svg path");
+const ckRows = qa(".ck");
+const barEls = qa(".bars i");
+const veil = q(".veil");
+const final = q(".final");
+const gpin = q(".gpin");
+["brasier", "cuivre", "lune", "delta", "brasier", "cuivre"].forEach((n) => {
+  const im = document.createElement("img");
+  im.src = "assets/img/" + n + ".jpg";
+  scroller.appendChild(im);
+});
+const spots = cells.map((c) => {
+  const s = document.createElement("div");
+  s.className = "spot";
+  c.appendChild(s);
+  return s;
+});
+const cbeams = cells.map((c) => VX.beam(c, { radius: 26, size: 280 }));
+// ranking rows: index 4 = "Votre entreprise", climbs to the top
+const rows = [];
+for (let i = 0; i < 5; i++) {
+  const r = document.createElement("div");
+  r.className = "rk" + (i === 4 ? " me" : "");
+  r.innerHTML = i === 4 ? '<i class="f"></i><b>Votre entreprise</b><span>votre-entreprise.fr</span>' : `<i class="f"></i><i style="width:${[52, 40, 60, 46][i]}%"></i>`;
+  rank.appendChild(r);
+  rows.push(r);
+}
+const CLIMB = A(29.3);
+checks.forEach((p) => { p.style.strokeDasharray = "24"; });
+const BH = [0.38, 0.46, 0.44, 0.58, 0.64, 0.72, 0.86];
+const fw = VX.splitWords(final);
+const FT = [31.48, 31.52, 31.98, 32.14].map(A);
+
+// camera targets (absolute times): centre x, centre y, scale
+const CAM = [
+  [28.0, 960, 550, 1.0],
+  [28.36, 590, 385, 1.72],
+  [29.02, 1425, 385, 1.85],
+  [29.88, 440, 830, 2.1],
+  [30.5, 1275, 830, 1.62],
+  [31.42, 960, 550, 0.94],
+];
+const ck = (k) => CAM.map((c) => [A(c[0]), c[k]]);
+const KX = ck(1), KY = ck(2), KS = ck(3);
+
+function render(t) {
+  const ta = t + T0;
+  // cells fly in from different directions
+  const FROM = [[-700, -300, -14], [700, -300, 14], [-600, 500, 10], [600, 500, -10]];
+  cells.forEach((c, i) => {
+    const p = VX.sp(t, 0.02 + i * 0.07, 2.2, 0.76);
+    const [fx, fy, fr] = FROM[i];
+    VX.tf(c, `translate3d(${((1 - p) * fx).toFixed(1)}px, ${((1 - p) * fy).toFixed(1)}px, 0) rotate(${((1 - p) * fr).toFixed(2)}deg) scale(${(0.8 + 0.2 * VX.clamp(p, 0, 1.05)).toFixed(4)})`);
+    VX.op(c, VX.clamp(p * 1.6));
+    spots[i].style.setProperty("--sx", (300 + Math.sin(t * 1.4 + i * 2) * 260).toFixed(0) + "px");
+    spots[i].style.setProperty("--sy", (160 + Math.cos(t * 1.1 + i) * 120).toFixed(0) + "px");
+  });
+  // focus beam on the cell the camera dives into
+  const focus = [[A(28.36), A(29.02)], [A(29.02), A(29.88)], [A(29.88), A(30.5)], [A(30.5), A(31.42)]];
+  cbeams.forEach((b, i) => {
+    const [a, z] = focus[i];
+    b.render(t, 0.5, i * 0.2, VX.tw(t, a, a + 0.2, 0, 1) * (1 - VX.tw(t, z, z + 0.2, 0, 1)));
+  });
+
+  // A: website scrolls continuously
+  VX.tf(scroller, `translate3d(0, ${(-VX.loop(t, 260, 4 * 528)).toFixed(1)}px, 0)`);
+  // B: "Votre entreprise" climbs from 5th to 1st
+  rows.forEach((r, i) => {
+    let slot;
+    if (i === 4) slot = VX.spring(t, [[0, 4], [CLIMB, 3], [CLIMB + 0.18, 2], [CLIMB + 0.36, 1], [CLIMB + 0.54, 0]], 3, 0.8);
+    else slot = i + VX.sp(t, CLIMB + (3 - i) * 0.18, 3, 0.8);
+    VX.tf(r, `translate3d(0, ${(slot * 70).toFixed(1)}px, 0)`);
+  });
+  // C: pin bounce
+  const pp = VX.sp(t, A(29.95), 2.8, 0.55);
+  VX.tf(gpin, `translate3d(0, ${((1 - pp) * -60).toFixed(1)}px, 0)`);
+  // D: checks draw, bars grow
+  checks.forEach((p, i) => {
+    p.style.strokeDashoffset = (24 * (1 - VX.E.outCubic(VX.prog(ta, 30.62 + i * 0.16, 30.9 + i * 0.16)))).toFixed(2);
+    VX.op(ckRows[i], VX.tw(ta, 30.55 + i * 0.16, 30.75 + i * 0.16, 0.35, 1));
+  });
+  barEls.forEach((b, i) => {
+    const p = VX.sp(ta, 30.7 + i * 0.07, 2.6, 0.7);
+    VX.tf(b, `scaleY(${(BH[i] * Math.max(0, p)).toFixed(4)})`);
+  });
+
+  // camera dives into each cell as the voice names it, then pulls back
+  const s = VX.spring(t, KS, 1.9, 0.86), cx = VX.spring(t, KX, 1.9, 0.86), cy = VX.spring(t, KY, 1.9, 0.86);
+  const wout = VX.E.inCubic(VX.prog(ta, 33.143, 33.429));
+  const S = s * (1 - 0.15 * wout);
+  VX.tf(cam, `translate3d(${(960 - cx * S).toFixed(1)}px, ${(540 - cy * S).toFixed(1)}px, 0) scale(${S.toFixed(4)})`);
+  cam.style.filter = wout > 0.02 ? `blur(${(wout * 10).toFixed(1)}px)` : "none";
+  VX.op(cam, 1 - wout);
+
+  // "On s'occupe de tout."
+  VX.op(veil, VX.tw(ta, 31.4, 31.8, 0, 1));
+  VX.revealWords(fw, t, FT);
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+</script>

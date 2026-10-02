@@ -1,0 +1,189 @@
+<div class="cam">
+  <div class="wall-wrap"><div class="wall"></div></div>
+  <div class="eyebrow-wrap"><div class="pill eyebrow"><span class="dot"></span><span class="eb-txt">Aujourd'hui</span></div></div>
+  <h1 class="disp head">Vos clients vous cherchent d'abord <span class="acc">en ligne.</span></h1>
+  <div class="search">
+    <div class="sbar">
+      <svg class="mag" viewBox="0 0 24 24" fill="none" stroke="#8b94a3" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+      <div class="field"><span class="typed"></span><span class="rotwrap"><span class="metier"></span><span class="city"> Lyon</span></span><span class="caret"></span></div>
+      <div class="go"><svg viewBox="0 0 24 24" fill="none" stroke="#0d1016" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
+      <div class="ripple"></div>
+    </div>
+    <div class="sugg">
+      <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="#8b94a3" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><b class="sm"></b><span> Lyon</span></div>
+      <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="#8b94a3" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><b class="sm"></b><span> près de chez moi</span></div>
+      <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="#8b94a3" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><b class="sm"></b><span> ouvert maintenant</span></div>
+    </div>
+  </div>
+</div>
+<svg class="cursor" viewBox="0 0 40 48"><path d="M4 3 L4 37 L13 29 L19 43 L25 40 L19 27 L31 27 Z" fill="#ffffff" stroke="#0d1016" stroke-width="2.4" stroke-linejoin="round"/></svg>
+<div class="layer flash"></div>
+
+<style>
+.wall-wrap { position: absolute; inset: -200px; perspective: 1400px; perspective-origin: 50% 30%;
+  -webkit-mask: radial-gradient(ellipse 60% 55% at 50% 55%, #000 10%, transparent 75%);
+  mask: radial-gradient(ellipse 60% 55% at 50% 55%, #000 10%, transparent 75%); }
+.wall { position: absolute; left: 50%; top: 50%; width: 2200px; height: 2400px; margin: -1200px 0 0 -1100px;
+  display: flex; gap: 28px; justify-content: center; transform-style: preserve-3d; }
+.col { width: 320px; display: flex; flex-direction: column; gap: 28px; }
+.res { height: 170px; border-radius: 18px; background: #161a23; border: 1px solid rgba(255,255,255,0.06); padding: 22px 24px; flex: none; }
+.res i { display: block; height: 12px; border-radius: 6px; background: #2a303b; margin-bottom: 14px; }
+.res i.u { width: 45%; height: 9px; background: #222832; }
+.res i.t { width: 80%; height: 16px; background: #343b48; }
+.res i.d { width: 95%; }
+.res i.e { width: 70%; }
+.eyebrow-wrap { position: absolute; left: 0; right: 0; top: 150px; display: flex; justify-content: center; }
+.head { position: absolute; left: 160px; right: 160px; top: 218px; text-align: center; font-size: 92px; }
+.search { position: absolute; left: 460px; top: 640px; width: 1000px; }
+.sbar { position: relative; height: 104px; border-radius: 52px; background: linear-gradient(180deg,#191d27,#13161e);
+  border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 30px 90px rgba(0,0,0,0.5), 0 0 60px rgba(34,193,211,0.08);
+  display: flex; align-items: center; padding: 0 16px 0 38px; z-index: 2; }
+.mag { width: 34px; height: 34px; flex: none; }
+.field { flex: 1; display: flex; align-items: center; margin-left: 22px; font-size: 38px; font-weight: 500; color: #fff; height: 60px; white-space: nowrap; }
+.typed { white-space: pre; }
+.rotwrap { display: none; white-space: pre; }
+.metier { color: #fff; }
+.city { white-space: pre; }
+.caret { width: 3px; height: 44px; background: var(--acc); margin-left: 4px; border-radius: 2px; }
+.go { width: 76px; height: 76px; border-radius: 50%; background: linear-gradient(180deg,#3fd3e3,#1fb3c4); display: flex; align-items: center; justify-content: center; flex: none; box-shadow: 0 0 30px rgba(34,193,211,0.35); }
+.go svg { width: 34px; height: 34px; }
+.ripple { position: absolute; right: 16px; top: 14px; width: 76px; height: 76px; border-radius: 50%; border: 3px solid var(--acc); opacity: 0; }
+.sugg { position: absolute; left: 24px; right: 24px; top: 92px; padding: 34px 34px 18px; border-radius: 0 0 26px 26px;
+  background: #12151c; border: 1px solid rgba(255,255,255,0.08); border-top: none; z-index: 1; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 18px; height: 58px; font-size: 28px; color: var(--mute); white-space: nowrap; }
+.row svg { width: 24px; height: 24px; flex: none; }
+.row b { color: #fff; font-weight: 600; }
+.flash { background: #0f1117; opacity: 0; }
+</style>
+
+<script>
+const cam = q(".cam");
+const wall = q(".wall");
+const eyebrow = q(".eyebrow");
+const head = q(".head");
+const search = q(".search");
+const sbar = q(".sbar");
+const typed = q(".typed");
+const rotwrap = q(".rotwrap");
+const caret = q(".caret");
+const go = q(".go");
+const ripple = q(".ripple");
+const sugg = q(".sugg");
+const rows = qa(".row");
+const cursor = q(".cursor");
+const flash = q(".flash");
+
+// 3D marquee of grey search results
+const R = VX.rng(3);
+const cols = [];
+for (let c = 0; c < 6; c++) {
+  const col = document.createElement("div");
+  col.className = "col";
+  for (let k = 0; k < 16; k++) {
+    const r = document.createElement("div");
+    r.className = "res";
+    r.innerHTML = '<i class="u"></i><i class="t" style="width:' + (55 + R() * 35) + '%"></i><i class="d"></i><i class="e" style="width:' + (40 + R() * 45) + '%"></i>';
+    col.appendChild(r);
+  }
+  wall.appendChild(col);
+  cols.push(col);
+}
+const words = VX.splitWords(head);
+const WT = [1.2, 1.38, 1.69, 1.88, 2.32, 2.63, 2.72];
+const METIERS = ["coiffeur", "garage", "restaurant"];
+const MT = [-1, 3.3, 3.95];
+const rot = VX.rotator(q(".metier"), METIERS, { stagger: 0.024, dur: 0.28 });
+const srot = qa(".sm").map((el) => VX.rotator(el, METIERS, { stagger: 0.02, dur: 0.26 }));
+const TXT = "coiffeur Lyon";
+const TYPE0 = 1.55, TYPE_DT = 0.068;
+const SWAP = 2.6;
+const sbeam = VX.beam(sbar, { radius: 52, size: 260 });
+
+// cursor path keys (x, y) — closed-form springs between waypoints
+const CX = [[0, 1560], [0.8, 1560], [1.0, 790], [4.15, 790], [4.3, 1420]];
+const CY = [[0, 1120], [0.8, 1120], [1.0, 690], [4.15, 690], [4.3, 674]];
+const CLICK1 = 1.42, CLICK2 = 4.72;
+
+function render(t) {
+  // wall columns scroll in opposite directions on an inclined plane
+  VX.tf(wall, `rotateX(50deg) rotateZ(-16deg) translate3d(0, ${(-40 - t * 30).toFixed(1)}px, 0) scale(1.15)`);
+  cols.forEach((col, i) => {
+    const dir = i % 2 ? 1 : -1;
+    const y = -600 + dir * VX.loop(t, 70 + i * 9, 198 * 3) - (dir > 0 ? 198 * 3 : 0);
+    VX.tf(col, `translate3d(0, ${y.toFixed(1)}px, 0)`);
+  });
+  q(".wall-wrap").style.opacity = (0.55 * VX.tw(t, 0, 0.9, 0, 1)).toFixed(3);
+
+  // eyebrow + headline
+  const pe = VX.sp(t, 0.62, 2.6, 0.8);
+  VX.tf(eyebrow, `translate3d(0, ${(1 - pe) * 24}px, 0) scale(${0.9 + 0.1 * pe})`);
+  VX.op(eyebrow, VX.clamp(pe * 1.4) * (1 - VX.prog(t, 4.75, 5.05)));
+  VX.revealWords(words, t, WT);
+  VX.hideWords(words, t, 4.8, 0.018);
+
+  // search bar
+  const ps = VX.sp(t, 0.3, 2.2, 0.78);
+  VX.tf(search, `translate3d(0, ${(1 - ps) * 60}px, 0) scale(${(0.92 + 0.08 * ps).toFixed(4)})`);
+  VX.op(search, VX.clamp(ps * 1.5));
+  sbeam.render(t, 0.38, 0.1, VX.tw(t, 0.6, 1.2, 0, 1));
+  // click 1 focus glow
+  const foc = VX.tw(t, CLICK1, CLICK1 + 0.3, 0, 1);
+  sbar.style.borderColor = `rgba(34,193,211,${(0.12 + 0.45 * foc).toFixed(3)})`;
+
+  // typing then rotation
+  if (t < SWAP) {
+    const n = VX.clamp(Math.floor((t - TYPE0) / TYPE_DT) + 1, 0, TXT.length);
+    typed.textContent = t < TYPE0 ? "" : TXT.slice(0, n);
+    typed.style.display = "inline";
+    rotwrap.style.display = "none";
+  } else {
+    typed.style.display = "none";
+    rotwrap.style.display = "inline-flex";
+  }
+  if (t >= SWAP) rot.render(t, MT);
+  const typing = t >= TYPE0 && t < TYPE0 + TXT.length * TYPE_DT + 0.05;
+  const blink = Math.floor(t * 2.6) % 2 === 0;
+  caret.style.opacity = t < CLICK1 ? "0" : typing || blink ? "1" : "0";
+
+  // suggestions dropdown
+  const pd = VX.sp(t, 2.42, 2.4, 0.82);
+  sugg.style.clipPath = `inset(0 0 ${((1 - VX.clamp(pd)) * 100).toFixed(2)}% 0)`;
+  VX.op(sugg, VX.clamp(pd * 2));
+  rows.forEach((r, i) => {
+    const p = VX.sp(t, 2.5 + i * 0.07, 2.6, 0.8);
+    VX.tf(r, `translate3d(${((1 - p) * -30).toFixed(1)}px, 0, 0)`);
+    VX.op(r, VX.clamp(p * 1.5));
+  });
+  srot.forEach((s, i) => s.render(t, [-1, MT[1] + 0.05 + i * 0.05, MT[2] + 0.05 + i * 0.05]));
+
+  // cursor
+  const cx = VX.spring(t, CX, 1.9, 0.82), cy = VX.spring(t, CY, 1.9, 0.82);
+  const press = Math.max(1 - Math.abs(t - CLICK1) / 0.1, 1 - Math.abs(t - CLICK2) / 0.1, 0);
+  VX.tf(cursor, `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0) scale(${(1 - 0.16 * press).toFixed(3)})`);
+  VX.op(cursor, VX.tw(t, 0.75, 0.95, 0, 1) * (1 - VX.prog(t, 4.95, 5.1)));
+
+  // button press + ripple
+  const bp = VX.spring(t, [[0, 1], [CLICK2 - 0.04, 0.88], [CLICK2 + 0.08, 1]], 4, 0.6);
+  VX.tf(go, `scale(${bp.toFixed(4)})`);
+  const rp = VX.prog(t, CLICK2, CLICK2 + 0.5);
+  VX.tf(ripple, `scale(${(1 + rp * 1.6).toFixed(3)})`);
+  VX.op(ripple, rp > 0 && rp < 1 ? (1 - rp) * 0.9 : 0);
+
+  // camera: slow drift, then push through the search bar
+  const drift = `translate3d(${(Math.sin(t * 0.6) * 10).toFixed(2)}px, ${(-t * 4).toFixed(2)}px, 0) scale(${(1.0 + t * 0.012).toFixed(4)})`;
+  const pp = VX.E.inExpo(VX.prog(t, 4.95, 5.95));
+  cam.style.transformOrigin = "960px 692px";
+  VX.tf(cam, drift + ` scale(${(1 + pp * 16).toFixed(3)})`);
+  cam.style.filter = pp > 0.02 ? `blur(${(pp * 6).toFixed(2)}px)` : "none";
+  VX.op(flash, VX.tw(t, 5.6, 5.95, 0, 1, VX.E.lin));
+}
+VX.ready().then(() => {
+  rotwrap.style.display = "inline-flex";
+  rot.measure();
+  srot.forEach((s) => s.measure());
+  sbeam.measure();
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+</script>

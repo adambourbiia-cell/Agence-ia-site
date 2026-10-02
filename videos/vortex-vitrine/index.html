@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #0f1117; }
+      #root { width: 100%; height: 100%; position: relative; background: #0f1117; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="41.143" data-width="1920" data-height="1080">
+      <div
+        id="slot-bg"
+        data-composition-id="bg"
+        data-composition-src="compositions/bg.html"
+        data-start="0"
+        data-duration="41.143"
+        data-track-index="0"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div
+        id="slot-s01"
+        data-composition-id="s01"
+        data-composition-src="compositions/s01.html"
+        data-start="0"
+        data-duration="6"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div
+        id="slot-s02"
+        data-composition-id="s02"
+        data-composition-src="compositions/s02.html"
+        data-start="5.714"
+        data-duration="6"
+        data-track-index="2"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div
+        id="slot-s03"
+        data-composition-id="s03"
+        data-composition-src="compositions/s03.html"
+        data-start="11.429"
+        data-duration="4.286"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div
+        id="slot-s04"
+        data-composition-id="s04"
+        data-composition-src="compositions/s04.html"
+        data-start="15.429"
+        data-duration="4.286"
+        data-track-index="2"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div
+        id="slot-s05"
+        data-composition-id="s05"
+        data-composition-src="compositions/s05.html"
+        data-start="19.429"
+        data-duration="3.714"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div
+        id="slot-s06"
+        data-composition-id="s06"
+        data-composition-src="compositions/s06.html"
+        data-start="22.857"
+        data-duration="5.429"
+        data-track-index="2"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div
+        id="slot-s07"
+        data-composition-id="s07"
+        data-composition-src="compositions/s07.html"
+        data-start="28"
+        data-duration="5.429"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <div
+        id="slot-s08"
+        data-composition-id="s08"
+        data-composition-src="compositions/s08.html"
+        data-start="33.143"
+        data-duration="8"
+        data-track-index="2"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+      <audio id="vo1" src="assets/voice/vo1.mp3" data-start="0.6" data-duration="2.691" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo2" src="assets/voice/vo2.mp3" data-start="6" data-duration="3.709" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo3" src="assets/voice/vo3.mp3" data-start="11.7" data-duration="3.082" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo4" src="assets/voice/vo4.mp3" data-start="15.7" data-duration="3.474" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo5" src="assets/voice/vo5.mp3" data-start="19.7" data-duration="2.691" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo6" src="assets/voice/vo6.mp3" data-start="23.1" data-duration="4.598" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo7" src="assets/voice/vo7.mp3" data-start="28.3" data-duration="4.519" data-track-index="10" data-volume="1"></audio>
+      <audio id="vo8" src="assets/voice/vo8.mp3" data-start="33.4" data-duration="4.754" data-track-index="10" data-volume="1"></audio>
+      <audio id="music" src="assets/audio/music.wav" data-start="0" data-duration="41.143" data-track-index="11" data-volume="0.24"></audio>
+      <audio id="sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="41.143" data-track-index="12" data-volume="0.55"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+[
+  {
+    "text": "Visibles",
+    "start": 0.02,
+    "end": 0.61,
+    "id": "w0"
+  },
+  {
+    "text": "sur",
+    "start": 0.61,
+    "end": 0.83,
+    "id": "w1"
+  },
+  {
+    "text": "Google,",
+    "start": 0.83,
+    "end": 1.45,
+    "id": "w2"
+  },
+  {
+    "text": "sur",
+    "start": 1.45,
+    "end": 1.64,
+    "id": "w3"
+  },
+  {
+    "text": "Maps,",
+    "start": 1.7,
+    "end": 2.08,
+    "id": "w4"
+  },
+  {
+    "text": "partout",
+    "start": 2.12,
+    "end": 2.37,
+    "id": "w5"
+  },
+  {
+    "text": "où",
+    "start": 2.39,
+    "end": 2.47,
+    "id": "w6"
+  },
+  {
+    "text": "l'on",
+    "start": 2.47,
+    "end": 2.62,
+    "id": "w7"
+  },
+  {
+    "text": "vous",
+    "start": 2.62,
+    "end": 2.8,
+    "id": "w8"
+  },
+  {
+    "text": "cherche.",
+    "start": 2.8,
+    "end": 3.24,
+    "id": "w9"
+  }
+]

@@ -1,0 +1,343 @@
+{
+  "typography": [
+    {
+      "role": "display",
+      "fontFamily": "Syne",
+      "fontSize": "64px",
+      "fontWeight": "700",
+      "lineHeight": "65.28px",
+      "letterSpacing": "-1.92px",
+      "color": "#FFFFFF",
+      "sampleText": "L'agence qui crée le site web des artisans, restaurants et c"
+    },
+    {
+      "role": "heading",
+      "fontFamily": "Syne",
+      "fontSize": "48px",
+      "fontWeight": "700",
+      "lineHeight": "51.84px",
+      "letterSpacing": "-0.96px",
+      "color": "#0D1016",
+      "sampleText": "Tout ce qu'il faut pour attirer plus de clients."
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Syne",
+      "fontSize": "22px",
+      "fontWeight": "700",
+      "lineHeight": "34.1px",
+      "letterSpacing": "normal",
+      "color": "#FFFFFF",
+      "sampleText": "On échange"
+    },
+    {
+      "role": "body-small",
+      "fontFamily": "Syne",
+      "fontSize": "22px",
+      "fontWeight": "600",
+      "lineHeight": "23.1px",
+      "letterSpacing": "normal",
+      "color": "#9AA3B2",
+      "sampleText": "/mois"
+    },
+    {
+      "role": "link",
+      "fontFamily": "Syne",
+      "fontSize": "21px",
+      "fontWeight": "700",
+      "lineHeight": "32.55px",
+      "letterSpacing": "-0.42px",
+      "color": "#FFFFFF",
+      "sampleText": "vortex"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Inter",
+      "fontSize": "18px",
+      "fontWeight": "400",
+      "lineHeight": "27.9px",
+      "letterSpacing": "normal",
+      "color": "#9AA3B2",
+      "sampleText": "Un site moderne, rapide et pensé pour être trouvé sur Google"
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Syne",
+      "fontSize": "17px",
+      "fontWeight": "700",
+      "lineHeight": "26.35px",
+      "letterSpacing": "-0.17px",
+      "color": "#FFFFFF",
+      "sampleText": "Référencement local"
+    },
+    {
+      "role": "label",
+      "fontFamily": "Inter",
+      "fontSize": "12px",
+      "fontWeight": "600",
+      "lineHeight": "18.6px",
+      "letterSpacing": "0.48px",
+      "color": "#22C1D3",
+      "sampleText": "Site de démonstration"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      2,
+      4,
+      5,
+      6,
+      8,
+      10,
+      12,
+      14,
+      15,
+      16,
+      18,
+      20,
+      22,
+      24,
+      28
+    ],
+    "baseUnit": 4
+  },
+  "radius": [
+    "8px",
+    "10px",
+    "14px",
+    "999px"
+  ],
+  "shadows": [
+    {
+      "value": "rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset, rgba(34, 193, 211, 0.6) 0px 6px 24px -8px",
+      "count": 10
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.9) 0px 40px 80px -40px, rgba(34, 193, 211, 0) 0px 0px 0px 0px",
+      "count": 4
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.8) 0px 20px 40px -20px",
+      "count": 2
+    }
+  ],
+  "buttons": [
+    {
+      "label": "Demander mon site",
+      "background": "transparent",
+      "backgroundImage": "linear-gradient(rgb(34, 193, 211), rgb(26, 159, 176) 55%, rgb(15, 111, 124))",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "11px 18px",
+      "borderRadius": "10px",
+      "border": "1px solid rgba(120, 230, 240, 0.45)",
+      "boxShadow": "rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset, rgba(34, 193, 211, 0.6) 0px 6px 24px -8px",
+      "fontSize": "14px",
+      "fontWeight": "600",
+      "height": "45.6875px"
+    },
+    {
+      "label": "Demander mon site \n          Voir l'offr",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "53.25px"
+    },
+    {
+      "label": "Voir l'offre à 250 €",
+      "background": "#FFFFFF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#E7EBF1",
+      "padding": "14px 20px",
+      "borderRadius": "10px",
+      "border": "1px solid rgba(255, 255, 255, 0.16)",
+      "boxShadow": "none",
+      "fontSize": "15px",
+      "fontWeight": "600",
+      "height": "53.25px"
+    },
+    {
+      "label": "Parler de mon projet",
+      "background": "#FFFFFF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#0D1016",
+      "padding": "14px 20px",
+      "borderRadius": "10px",
+      "border": "1px solid rgb(214, 218, 225)",
+      "boxShadow": "none",
+      "fontSize": "15px",
+      "fontWeight": "600",
+      "height": "53.25px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#0D1016",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(13, 16, 22)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "444.188px"
+    },
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "radial-gradient(120% 140% at 0% 0%, rgb(18, 57, 74) 0%, rgb(17, 23, 35) 55%, rgb(14, 18, 26) 100%)",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "24px",
+      "borderRadius": "14px",
+      "border": "1px solid rgba(255, 255, 255, 0.06)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "214.094px"
+    },
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "164.094px"
+    }
+  ],
+  "nav": {
+    "label": "navigation",
+    "background": "#0F1117",
+    "backgroundImage": "",
+    "backdropFilter": "blur(14px)",
+    "color": "#FFFFFF",
+    "padding": "0px",
+    "borderRadius": "0px",
+    "border": "",
+    "boxShadow": "none",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "height": "67px"
+  },
+  "chips": [
+    {
+      "label": "Création de sites web à ",
+      "background": "#FFFFFF",
+      "color": "#C6CCD6",
+      "padding": "8px 16px",
+      "borderRadius": "999px",
+      "border": "1px solid rgba(255, 255, 255, 0.16)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "height": "39.6875px"
+    },
+    {
+      "label": "Site de démonstration",
+      "background": "#22C1D3",
+      "color": "#22C1D3",
+      "padding": "6px 12px",
+      "borderRadius": "999px",
+      "border": "1px solid rgba(34, 193, 211, 0.3)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "600",
+      "height": "32.5938px"
+    },
+    {
+      "label": "Nouveau",
+      "background": "transparent",
+      "color": "#0F1117",
+      "padding": "5px 12px",
+      "borderRadius": "999px",
+      "border": "0px none rgb(15, 17, 23)",
+      "boxShadow": "rgba(34, 193, 211, 0.8) 0px 6px 20px -6px",
+      "fontSize": "12px",
+      "fontWeight": "700",
+      "height": "28.5938px"
+    }
+  ],
+  "statCells": [
+    {
+      "background": "#FFFFFF",
+      "borderRadius": "14px",
+      "border": "1px solid rgba(255, 255, 255, 0.16)",
+      "boxShadow": "none",
+      "numberFontSize": "30px",
+      "numberFontWeight": "700",
+      "numberColor": "#22C1D3"
+    },
+    {
+      "background": "transparent",
+      "borderRadius": "0px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "numberFontSize": "30px",
+      "numberFontWeight": "700",
+      "numberColor": "#22C1D3"
+    }
+  ],
+  "tabs": [],
+  "backgrounds": [
+    {
+      "value": "radial-gradient(closest-side, rgb(19, 26, 38) 96%, rgba(0, 0, 0, 0) 100%)",
+      "area": 10240000
+    },
+    {
+      "value": "radial-gradient(rgba(34, 193, 211, 0.12), rgba(0, 0, 0, 0) 65%)",
+      "area": 4422090
+    },
+    {
+      "value": "linear-gradient(rgba(255, 255, 255, 0.035) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, rgba(0, 0, 0, 0) 1px)",
+      "area": 2073600
+    },
+    {
+      "value": "radial-gradient(rgba(255, 255, 255, 0.08) 1px, rgba(0, 0, 0, 0) 1px)",
+      "area": 1515990
+    },
+    {
+      "value": "radial-gradient(rgba(255, 255, 255, 0.07) 1px, rgba(0, 0, 0, 0) 1px)",
+      "area": 1200210
+    },
+    {
+      "value": "radial-gradient(80% 60% at 40% 30%, rgba(34, 193, 211, 0.22), rgba(0, 0, 0, 0) 70%), none",
+      "area": 215091
+    }
+  ],
+  "glass": [
+    {
+      "backdropFilter": "blur(14px)",
+      "background": "rgba(15, 17, 23, 0.78)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "",
+      "area": 128640
+    },
+    {
+      "backdropFilter": "blur(6px)",
+      "background": "rgba(255, 255, 255, 0.03)",
+      "border": "1px solid rgba(255, 255, 255, 0.16)",
+      "borderRadius": "14px",
+      "boxShadow": "",
+      "area": 31928
+    }
+  ]
+}

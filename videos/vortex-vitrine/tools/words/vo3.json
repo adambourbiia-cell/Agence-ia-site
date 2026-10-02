@@ -1,0 +1,44 @@
+[
+  {
+    "text": "un",
+    "start": 0.06,
+    "end": 0.16,
+    "id": "w0"
+  },
+  {
+    "text": "site",
+    "start": 0.16,
+    "end": 0.48,
+    "id": "w1"
+  },
+  {
+    "text": "moderne,",
+    "start": 0.48,
+    "end": 1.2,
+    "id": "w2"
+  },
+  {
+    "text": "rapide,",
+    "start": 1.2,
+    "end": 1.7,
+    "id": "w3"
+  },
+  {
+    "text": "adapté",
+    "start": 1.84,
+    "end": 2.32,
+    "id": "w4"
+  },
+  {
+    "text": "au",
+    "start": 2.32,
+    "end": 2.48,
+    "id": "w5"
+  },
+  {
+    "text": "mobile.",
+    "start": 2.48,
+    "end": 3,
+    "id": "w6"
+  }
+]

@@ -1,0 +1,645 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+@font-face {
+  font-family: "Syne";
+  src: url("assets/fonts/syne-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Syne";
+  src: url("assets/fonts/syne-latin-ext.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin-ext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+#root {
+  --bg: #0f1117;
+  --bg2: #0d1016;
+  --panel: #151922;
+  --panel2: #1a1f2a;
+  --line: rgba(255, 255, 255, 0.09);
+  --ink: #ffffff;
+  --mute: #b7bfcb;
+  --dim: #8b94a3;
+  --acc: #22c1d3;
+  --acc2: #1a9fb0;
+  --acc3: #0f6f7c;
+  font-family: "Inter", sans-serif;
+  color: var(--ink);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+#root * {
+  box-sizing: border-box;
+}
+.disp {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+.acc {
+  color: var(--acc);
+}
+.cam {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+}
+/* mask reveal */
+.mw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.06em 0.03em 0.14em;
+  margin: -0.06em -0.03em -0.14em;
+}
+.mwi {
+  display: inline-block;
+  will-change: transform;
+}
+/* text rotate */
+.rot {
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+  white-space: nowrap;
+  height: 1.16em;
+}
+.rot-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  display: inline-flex;
+}
+.rot-m {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.02em 0 0.14em;
+}
+.rot-l {
+  display: inline-block;
+}
+/* border beam */
+.beam {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  overflow: hidden;
+}
+.beam-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 220px;
+  margin: -110px 0 0 -110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #7fe6f1 14%, rgba(34, 193, 211, 0.85) 28%, rgba(34, 193, 211, 0) 66%);
+}
+/* UI cards */
+.card {
+  position: absolute;
+  background: linear-gradient(180deg, #171b25 0%, #12151d 100%);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), 0 2px 0 rgba(255, 255, 255, 0.03) inset;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(21, 25, 34, 0.85);
+  color: var(--mute);
+  font-size: 24px;
+  font-weight: 500;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 14px var(--acc);
+}
+.browser {
+  position: absolute;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b0d12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55);
+}
+.browser .bar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background: #171a22;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.browser .bar i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #3a404c;
+  display: block;
+}
+.browser .bar .url {
+  margin-left: 14px;
+  flex: 1;
+  height: 24px;
+  border-radius: 8px;
+  background: #0f1117;
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 24px;
+  padding-left: 12px;
+}
+.browser .shot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  bottom: 0;
+  overflow: hidden;
+}
+.browser .shot img {
+  width: 100%;
+  display: block;
+}
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 48px;
+  z-index: 50;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  color: #0d1016;
+  background: linear-gradient(180deg, #3fd3e3 0%, #1fb3c4 100%);
+}
+
+
+.wall-wrap { position: absolute; inset: -300px; perspective: 1600px;
+  -webkit-mask: radial-gradient(ellipse 55% 55% at 50% 50%, #000 0%, transparent 80%);
+  mask: radial-gradient(ellipse 55% 55% at 50% 50%, #000 0%, transparent 80%); }
+.wall { position: absolute; left: 50%; top: 50%; width: 2600px; height: 3000px; margin: -1500px 0 0 -1300px; display: flex; gap: 30px; justify-content: center; }
+.wcol { width: 460px; display: flex; flex-direction: column; gap: 30px; }
+.wcol img { width: 460px; height: 288px; border-radius: 16px; display: block; flex: none; object-fit: cover; }
+.left { position: absolute; left: 150px; top: 320px; width: 820px; }
+.eb { margin-bottom: 34px; }
+.l1 { font-size: 120px; }
+.l2 { font-size: 124px; margin-top: 4px; height: 170px; }
+.stack-wrap { position: absolute; left: 1000px; top: 230px; width: 820px; height: 640px; perspective: 1800px; }
+.stack { position: absolute; inset: 0; transform-style: preserve-3d; }
+.bcard { position: absolute; left: 30px; top: 40px; width: 760px; height: 515px; border-radius: 18px; transform-origin: 50% 60%; }
+.bcard .browser { position: absolute; inset: 0; }
+.bcard .shot img { height: 100%; object-fit: cover; object-position: top; }
+.spot { position: absolute; inset: 0; border-radius: 18px; pointer-events: none; background: radial-gradient(circle 360px at var(--sx) var(--sy), rgba(255,255,255,0.16), rgba(255,255,255,0) 70%); mix-blend-mode: screen; }
+.chips { position: absolute; left: 30px; top: 590px; width: 760px; height: 80px; }
+.chip { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 18px; padding: 14px 26px 14px 16px; border-radius: 999px; background: rgba(21,25,34,0.92); border: 1px solid rgba(255,255,255,0.12); white-space: nowrap; }
+.chip .tag { font-size: 18px; font-weight: 600; color: #0d1016; background: var(--acc); padding: 7px 14px; border-radius: 999px; }
+.chip b { font-family: "Syne", sans-serif; font-size: 28px; font-weight: 700; }
+.chip span { font-size: 22px; color: var(--mute); }
+
+      </style>
+      <div id="root" data-composition-id="s03" data-width="1920" data-height="1080" data-duration="4.286">
+<div class="cam">
+  <div class="wall-wrap"><div class="wall"></div></div>
+  <div class="left">
+    <div class="pill eb"><span class="dot"></span>Nos réalisations</div>
+    <div class="disp l1">Un site</div>
+    <div class="disp l2 acc"><span class="rw"></span></div>
+  </div>
+  <div class="stack-wrap">
+    <div class="stack"></div>
+    <div class="chips"></div>
+  </div>
+</div>
+      </div>
+      <script>
+// Shared, deterministic motion helpers. Inlined into every scene by tools/build.mjs.
+// Everything is a pure function of scene time t (seconds) — no clocks, no randomness.
+window.VX = window.VX || (function () {
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const prog = (t, t0, t1) => (t1 <= t0 ? (t >= t1 ? 1 : 0) : clamp((t - t0) / (t1 - t0)));
+  const E = {
+    lin: (p) => p,
+    outCubic: (p) => 1 - Math.pow(1 - p, 3),
+    inCubic: (p) => p * p * p,
+    inOutCubic: (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2),
+    outQuart: (p) => 1 - Math.pow(1 - p, 4),
+    outExpo: (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p)),
+    inExpo: (p) => (p <= 0 ? 0 : Math.pow(2, 10 * p - 10)),
+    inOutExpo: (p) =>
+      p <= 0 ? 0 : p >= 1 ? 1 : p < 0.5 ? Math.pow(2, 20 * p - 10) / 2 : (2 - Math.pow(2, -20 * p + 10)) / 2,
+    inOutSine: (p) => -(Math.cos(Math.PI * p) - 1) / 2,
+  };
+  const tw = (t, t0, t1, a, b, ease = E.outCubic) => lerp(a, b, ease(prog(t, t0, t1)));
+
+  // Closed-form step response of a damped spring (unit step at tau = 0).
+  function step(tau, f, z) {
+    if (tau <= 0) return 0;
+    const w = 2 * Math.PI * f;
+    if (z >= 1) return 1 - Math.exp(-w * tau) * (1 + w * tau);
+    const wd = w * Math.sqrt(1 - z * z);
+    return 1 - Math.exp(-z * w * tau) * (Math.cos(wd * tau) + ((z * w) / wd) * Math.sin(wd * tau));
+  }
+  // Spring through a list of target changes: keys = [[t0, v0], [t1, v1], ...].
+  // Value = v0 + sum of (vi - v(i-1)) * step(t - ti): one step response per target change.
+  function spring(t, keys, f = 2.4, z = 0.74) {
+    let v = keys[0][1];
+    for (let i = 1; i < keys.length; i++) v += (keys[i][1] - keys[i - 1][1]) * step(t - keys[i][0], f, z);
+    return v;
+  }
+  // Spring 0 -> 1 starting at t0.
+  const sp = (t, t0, f = 2.4, z = 0.74) => step(t - t0, f, z);
+
+  // Seeded PRNG (mulberry32) for deterministic scatter.
+  function rng(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6d2b79f5) >>> 0;
+      let r = Math.imul(a ^ (a >>> 15), 1 | a);
+      r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  const set = (el, css) => {
+    if (!el) return;
+    for (const k in css) {
+      if (k.startsWith("--")) el.style.setProperty(k, css[k]);
+      else el.style[k] = css[k];
+    }
+  };
+  const tf = (el, s) => el && (el.style.transform = s);
+  const op = (el, v) => el && (el.style.opacity = String(clamp(v)));
+
+  // Split an element's words into mask-reveal structures: <span.mw><span.mwi>word</span></span>
+  function splitWords(el) {
+    const parts = [];
+    const walk = (node, cls) => {
+      for (const child of Array.from(node.childNodes)) {
+        if (child.nodeType === 3) {
+          child.textContent.split(/(\s+)/).forEach((w) => {
+            if (!w) return;
+            if (/^\s+$/.test(w)) parts.push({ space: true });
+            else parts.push({ w, cls });
+          });
+        } else if (child.nodeType === 1) {
+          walk(child, (cls ? cls + " " : "") + (child.className || ""));
+        }
+      }
+    };
+    walk(el, "");
+    el.innerHTML = "";
+    const words = [];
+    parts.forEach((p) => {
+      if (p.space) {
+        el.appendChild(document.createTextNode(" "));
+        return;
+      }
+      const mw = document.createElement("span");
+      mw.className = "mw";
+      const mwi = document.createElement("span");
+      mwi.className = "mwi" + (p.cls ? " " + p.cls : "");
+      mwi.textContent = p.w;
+      mw.appendChild(mwi);
+      el.appendChild(mw);
+      words.push(mwi);
+    });
+    return words;
+  }
+  // Mask reveal: word rises from below a cut line. times[i] = start time of word i.
+  function revealWords(words, t, times, dur = 0.42) {
+    words.forEach((w, i) => {
+      const t0 = times[Math.min(i, times.length - 1)];
+      const p = sp(t, t0, 2.6, 0.78);
+      tf(w, `translate3d(0, ${(1 - p) * 112}%, 0) rotate(${(1 - clamp(p)) * 4}deg)`);
+      w.style.opacity = t < t0 ? "0" : "1";
+    });
+  }
+  // Exit: words drop/rise away.
+  function hideWords(words, t, t0, stagger = 0.02) {
+    words.forEach((w, i) => {
+      const p = E.inCubic(prog(t, t0 + i * stagger, t0 + i * stagger + 0.3));
+      if (p > 0) tf(w, `translate3d(0, ${-p * 112}%, 0)`);
+    });
+  }
+
+  // Text Rotate: swaps words letter by letter. Builds stacked layers inside `el`.
+  function rotator(el, words, opts = {}) {
+    el.innerHTML = "";
+    el.classList.add("rot");
+    el.setAttribute("data-layout-allow-overlap", ""); // stacked letter layers are intentional
+    const layers = words.map((w) => {
+      const lay = document.createElement("span");
+      lay.className = "rot-layer";
+      const letters = Array.from(w).map((ch) => {
+        const m = document.createElement("span");
+        m.className = "rot-m";
+        const l = document.createElement("span");
+        l.className = "rot-l";
+        l.textContent = ch === " " ? " " : ch;
+        m.appendChild(l);
+        lay.appendChild(m);
+        return l;
+      });
+      el.appendChild(lay);
+      return { lay, letters, width: 0 };
+    });
+    let measured = false;
+    const measure = () => {
+      layers.forEach((L, i) => (L.width = textW(words[i].replace(/ /g, "\u00a0"), el)));
+      measured = layers.every((L) => L.width > 0);
+    };
+    const stg = opts.stagger ?? 0.028;
+    const d = opts.dur ?? 0.34;
+    // times[i] = time word i becomes current (times[0] is its entry time, may be -1 for "already there").
+    function render(t, times) {
+      if (!measured) measure();
+      let cur = 0;
+      for (let i = 0; i < times.length; i++) if (t >= times[i]) cur = i;
+      layers.forEach((L, i) => {
+        const tin = times[i];
+        const tout = i + 1 < times.length ? times[i + 1] : 1e9;
+        L.letters.forEach((l, k) => {
+          const pin = tin < 0 ? 1 : E.outCubic(prog(t, tin + k * stg, tin + k * stg + d));
+          const pout = E.inCubic(prog(t, tout + k * stg, tout + k * stg + d * 0.8));
+          const y = (1 - pin) * 105 - pout * 105;
+          l.style.transform = `translate3d(0, ${y}%, 0)`;
+          l.style.opacity = pin > 0 && pout < 1 ? "1" : "0";
+        });
+      });
+      // width follows the current word with a spring
+      const keys = [[0, layers[0].width]];
+      for (let i = 1; i < times.length; i++) keys.push([times[i], layers[i].width]);
+      el.style.width = spring(t, keys, 2.8, 0.8).toFixed(2) + "px";
+      return cur;
+    }
+    return { measure, render, layers };
+  }
+
+  // Border Beam: a light blob travelling around a rounded rect, masked to the border ring.
+  function beam(host, opts = {}) {
+    const ring = document.createElement("div");
+    ring.className = "beam";
+    ring.setAttribute("data-layout-allow-overflow", "");
+    if (opts.radius != null) ring.style.borderRadius = opts.radius + "px";
+    const dot = document.createElement("div");
+    dot.className = "beam-dot";
+    if (opts.size) set(dot, { width: opts.size + "px", height: opts.size + "px", margin: `${-opts.size / 2}px 0 0 ${-opts.size / 2}px` });
+    ring.appendChild(dot);
+    host.appendChild(ring);
+    let W = 0, H = 0;
+    const R = opts.radius ?? 20;
+    const measure = () => {
+      W = host.offsetWidth;
+      H = host.offsetHeight;
+    };
+    function point(u) {
+      // u in [0,1) along a rounded-rect perimeter, clockwise from top-left straight segment
+      const r = Math.min(R, W / 2, H / 2);
+      const sx = W - 2 * r, sy = H - 2 * r, arc = (Math.PI * r) / 2;
+      const P = 2 * sx + 2 * sy + 4 * arc;
+      let d = (((u % 1) + 1) % 1) * P;
+      const segs = [
+        [sx, (q) => [r + q, 0]],
+        [arc, (q) => { const a = -Math.PI / 2 + (q / arc) * (Math.PI / 2); return [W - r + r * Math.cos(a), r + r * Math.sin(a)]; }],
+        [sy, (q) => [W, r + q]],
+        [arc, (q) => { const a = (q / arc) * (Math.PI / 2); return [W - r + r * Math.cos(a), H - r + r * Math.sin(a)]; }],
+        [sx, (q) => [W - r - q, H]],
+        [arc, (q) => { const a = Math.PI / 2 + (q / arc) * (Math.PI / 2); return [r + r * Math.cos(a), H - r + r * Math.sin(a)]; }],
+        [sy, (q) => [0, H - r - q]],
+        [arc, (q) => { const a = Math.PI + (q / arc) * (Math.PI / 2); return [r + r * Math.cos(a), r + r * Math.sin(a)]; }],
+      ];
+      for (const [len, f] of segs) {
+        if (d <= len) return f(d);
+        d -= len;
+      }
+      return [r, 0];
+    }
+    function render(t, speed = 0.42, phase = 0, alpha = 1) {
+      if (!W) measure();
+      const [x, y] = point(t * speed + phase);
+      dot.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+      ring.style.opacity = String(alpha);
+    }
+    return { render, measure, ring };
+  }
+
+  // Layout-independent text width (canvas) — works even while the slot is hidden.
+  const _cv = document.createElement("canvas").getContext("2d");
+  function textW(text, el) {
+    const cs = getComputedStyle(el);
+    _cv.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const ls = parseFloat(cs.letterSpacing) || 0;
+    return _cv.measureText(text).width + ls * Array.from(text).length;
+  }
+
+  // Deterministic looping offset (marquee).
+  const loop = (t, speed, len) => (((t * speed) % len) + len) % len;
+
+  // Render clock: a property setter tweened by the paused GSAP timeline calls render(t)
+  // on every seek, so the whole scene state is a pure function of time.
+  function clock(tl, dur, render) {
+    let cur = -1;
+    const proxy = {};
+    Object.defineProperty(proxy, "t", {
+      get: () => cur,
+      set: (v) => {
+        cur = v;
+        render(v);
+      },
+    });
+    tl.fromTo(proxy, { t: 0 }, { t: dur, duration: dur, ease: "none" }, 0);
+    render(0);
+    return tl;
+  }
+
+  async function ready(fonts) {
+    try {
+      await Promise.all(
+        (fonts || ['800 100px "Syne"', '700 100px "Syne"', '400 40px "Inter"', '600 40px "Inter"']).map((f) => document.fonts.load(f)),
+      );
+      await document.fonts.ready;
+    } catch (e) {}
+  }
+
+  return { textW, clamp, lerp, prog, E, tw, step, spring, sp, rng, set, tf, op, splitWords, revealWords, hideWords, rotator, beam, loop, clock, ready };
+})();
+
+(function () {
+  const ID = "s03";
+  const DUR = 4.286;
+  const T0 = 11.429;
+  const A = (x) => x - T0; // absolute (voice-over) time -> scene time
+  const root = document.querySelector('[data-composition-id="s03"]');
+  const q = (sel) => root.querySelector(sel);
+  const qa = (sel) => Array.from(root.querySelectorAll(sel));
+
+const cam = q(".cam");
+const wall = q(".wall");
+const stack = q(".stack");
+const chipsEl = q(".chips");
+const eb = q(".eb");
+const l1 = q(".l1");
+const IMGS = ["brasier", "cuivre", "lune", "delta"];
+const SITES = [
+  { img: "brasier", url: "le-brasier · démo", name: "Le Brasier", desc: "Restaurant · réservation en ligne" },
+  { img: "cuivre", url: "cuivre-and-co · démo", name: "Cuivre & Co", desc: "Plombier · estimation en ligne" },
+  { img: "lune", url: "atelier-lune · démo", name: "Atelier Lune", desc: "Coiffure · rendez-vous en ligne" },
+  { img: "delta", url: "delta-auto · démo", name: "Delta Auto", desc: "Garage · devis express" },
+];
+// background wall of real demo sites
+const wcols = [];
+for (let c = 0; c < 5; c++) {
+  const col = document.createElement("div");
+  col.className = "wcol";
+  for (let k = 0; k < 10; k++) {
+    const im = document.createElement("img");
+    im.src = "assets/img/" + IMGS[(k + c * 3) % 4] + ".jpg";
+    col.appendChild(im);
+  }
+  wall.appendChild(col);
+  wcols.push(col);
+}
+// card stack (front = index 0)
+const cards = SITES.map((s, i) => {
+  const c = document.createElement("div");
+  c.className = "bcard";
+  c.innerHTML = `<div class="browser"><div class="bar"><i></i><i></i><i></i><div class="url">${s.url}</div></div><div class="shot"><img src="assets/img/${s.img}.jpg"></div></div><div class="spot"></div>`;
+  stack.appendChild(c);
+  return c;
+});
+cards.slice().reverse().forEach((c) => stack.appendChild(c)); // DOM order: back first, front last
+const beams = cards.map((c) => VX.beam(c, { radius: 18, size: 240 }));
+const chips = SITES.map((s) => {
+  const c = document.createElement("div");
+  c.className = "chip";
+  c.innerHTML = `<span class="tag">Site de démonstration</span><b>${s.name}</b><span>${s.desc}</span>`;
+  chipsEl.appendChild(c);
+  return c;
+});
+const rw = VX.rotator(q(".rw"), ["moderne.", "rapide.", "mobile."], { stagger: 0.03, dur: 0.32 });
+const RT = [A(12.12), A(12.86), A(13.9)];
+const FLY = [12.86, 13.5, 14.14].map(A); // card i leaves at FLY[i]
+
+function render(t) {
+  const ta = t + T0;
+  // wall
+  VX.tf(wall, `rotateX(42deg) rotateZ(14deg) translate3d(0, ${(-t * 40).toFixed(1)}px, 0)`);
+  wcols.forEach((col, i) => {
+    const dir = i % 2 ? 1 : -1;
+    const y = -900 + dir * VX.loop(t, 120 + i * 14, 318 * 4) - (dir > 0 ? 318 * 4 : 0);
+    VX.tf(col, `translate3d(0, ${y.toFixed(1)}px, 0)`);
+  });
+  q(".wall-wrap").style.opacity = "0.22";
+
+  // left copy
+  const pe = VX.sp(t, 0.2, 2.6, 0.8);
+  VX.tf(eb, `translate3d(${((1 - pe) * -40).toFixed(1)}px, 0, 0)`);
+  VX.op(eb, VX.clamp(pe * 1.5));
+  const p1 = VX.sp(ta, 11.74, 2.6, 0.8);
+  VX.tf(l1, `translate3d(0, ${((1 - p1) * 80).toFixed(1)}px, 0)`);
+  l1.style.clipPath = `inset(-20% -10% ${((1 - VX.clamp(p1)) * 100).toFixed(1)}% -10%)`;
+  VX.op(l1, t < A(11.74) ? 0 : 1);
+  if (t >= RT[0]) rw.render(t, RT);
+  else rw.layers.forEach((L) => L.letters.forEach((l) => (l.style.opacity = "0")));
+
+  // stack: each card's depth = its index minus the number of cards flown
+  const lead = [0, 1, 2, 3].map((k) => (k === 0 ? 0 : VX.sp(t, FLY[k - 1], 2.3, 0.72)));
+  const flown = lead.reduce((a, b) => a + b, 0);
+  const pin = VX.sp(t, 0.08, 1.9, 0.8);
+  cards.forEach((c, i) => {
+    const depth = i - flown;
+    const fly = i < 3 ? VX.E.inCubic(VX.prog(t, FLY[i] - 0.05, FLY[i] + 0.38)) : 0;
+    const d = Math.max(depth, 0);
+    const x = d * 34 + fly * 1000;
+    const y = -d * 34 - fly * 520 + (1 - pin) * 500;
+    const z = -d * 90;
+    const rz = fly * 24 + d * 2.5;
+    const tiltY = -16 + Math.sin(t * 1.3 + i) * 3;
+    const tiltX = 7 + Math.cos(t * 1.1 + i) * 2;
+    VX.tf(c, `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${tiltY.toFixed(2)}deg) rotateX(${tiltX.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg)`);
+    VX.op(c, (1 - fly) * VX.clamp(1.4 - d * 0.28) * VX.clamp(pin * 1.4));
+    c.style.filter = d > 0.05 ? `brightness(${(1 - d * 0.22).toFixed(3)})` : "none";
+    // spotlight drifts across the front card
+    c.style.setProperty("--sx", (380 + Math.sin(t * 1.6 + i) * 300).toFixed(0) + "px");
+    c.style.setProperty("--sy", (220 + Math.cos(t * 1.2 + i) * 160).toFixed(0) + "px");
+    beams[i].render(t, 0.55, i * 0.25, VX.clamp(1 - d * 2) * (1 - fly));
+  });
+  // chips: current card's chip slides in, previous slides out
+  chips.forEach((ch, i) => {
+    const tin = i === 0 ? 0.5 : FLY[i - 1] + 0.1;
+    const tout = i < 3 ? FLY[i] : 99;
+    const pi = VX.sp(t, tin, 2.8, 0.8);
+    const po = VX.E.inCubic(VX.prog(t, tout - 0.05, tout + 0.2));
+    VX.tf(ch, `translate3d(${((1 - pi) * 60 - po * 60).toFixed(1)}px, 0, 0)`);
+    VX.op(ch, VX.clamp(pi * 1.5) * (1 - po));
+  });
+
+  // camera: whip in from the right, drift, whip out upward
+  const win = VX.E.outExpo(VX.prog(t, 0, 0.42));
+  const wout = VX.E.inExpo(VX.prog(ta, 15.4, 15.714));
+  VX.tf(cam, `translate3d(${((1 - win) * 2200).toFixed(1)}px, ${(-wout * 1300 - t * 6).toFixed(1)}px, 0) scale(${(1.02 + t * 0.008).toFixed(4)}) skewX(${(-(1 - win) * 8).toFixed(2)}deg)`);
+  const bl = Math.max((1 - win) * 14, wout * 14);
+  cam.style.filter = bl > 0.3 ? `blur(${bl.toFixed(1)}px)` : "none";
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+
+})();
+      </script>
+    </template>
+  </body>
+</html>

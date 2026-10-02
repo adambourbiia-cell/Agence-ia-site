@@ -1,0 +1,202 @@
+[span] vortex
+[a] Services
+[a] Réalisations
+[a] AI Répondeur
+[a] Avis Google
+[a] Demander mon site
+[div] Création de sites web à
+[strong] Lyon
+[span] L'agence
+[span] qui
+[span] crée
+[span] site
+[span] web
+[span] des
+[span] artisans,
+[span] restaurants
+[span] commerçants.
+[p] Un site moderne, rapide et pensé pour être trouvé sur Google. On s'occupe de tout : création, référencement et maintenance.
+[a] Demander mon site
+[a] Voir l'offre à 250 €
+[span] 100
+[span] clients accompagnés
+[span] de chiffre d'affaires
+[span] Artisans
+[span] Restaurants
+[span] Commerçants
+[span] Boulangeries
+[span] Plombiers
+[span] Coiffeurs
+[span] Électriciens
+[span] Fleuristes
+[span] Cafés
+[span] Boutiques
+[span] Artisans
+[span] Restaurants
+[span] Commerçants
+[span] Boulangeries
+[span] Plombiers
+[span] Coiffeurs
+[span] Électriciens
+[span] Fleuristes
+[span] Cafés
+[span] Boutiques
+[span] Tout
+[span] qu'il
+[span] faut
+[span] pour
+[span] attirer
+[span] plus
+[span] clients.
+[p] On prend en charge votre présence en ligne de A à Z, pour que vous puissiez vous concentrer sur votre métier.
+[a] Demander mon site
+[h3] Référencement local
+[p] Apparaissez sur Google quand un client cherche votre activité à Lyon et autour.
+[h3] Maintenance
+[p] Mises à jour, sécurité, sauvegardes et petites modifications : votre site reste impeccable.
+[h3] Création de site web
+[p] Un site vitrine moderne et animé, adapté au mobile, qui donne envie de vous contacter.
+[span] Votre
+[span] site
+[span] trois
+[span] étapes.
+[p] Simple, rapide et sans jargon.
+[h3] On échange
+[p] Vous nous parlez de votre activité, de vos clients et de ce que vous voulez mettre en avant.
+[h3] On crée
+[p] On conçoit votre site, on vous le montre et on l'ajuste avec vous jusqu'à ce qu'il vous ressemble.
+[h3] On met en ligne
+[p] Votre site est publié, référencé sur Google et suivi pour rester rapide et à jour.
+[span] Nos
+[span] réalisations.
+[p] Découvrez le type de sites que l'on crée pour les restaurants, artisans et commerçants.
+[span] le-brasier · démo
+[span] Site de démonstration
+[h3] Le Brasier
+[p] Un bistrot-grill lyonnais imaginé pour montrer ce que l'on peut faire pour un restaurant : carte interactive, galerie animée, réservation en ligne et ambiance au feu de bois.
+[li] Restaurant
+[li] Carte en ligne
+[li] Réservation
+[li] Animations
+[a] Visiter le site
+[span] cuivre-and-co · démo
+[span] Site de démonstration
+[h3] Cuivre & Co
+[p] Un plombier-chauffagiste lyonnais : bandeau urgence, estimation de prix en ligne, avant / après interactif, zone d'intervention et bouton d'appel toujours visible sur mobile.
+[li] Artisan
+[li] Estimation de prix
+[li] Avant / après
+[li] Demande de rappel
+[a] Visiter le site
+[span] atelier-lune · démo
+[span] Site de démonstration
+[h3] Atelier Lune
+[p] Un salon de coiffure élégant : prise de rendez-vous en ligne en 3 étapes, carte des prestations par catégorie, lookbook avec zoom plein écran et avis clients animés.
+[li] Coiffure
+[li] Réservation en ligne
+[li] Lookbook
+[li] Commerçant
+[a] Visiter le site
+[span] delta-auto · démo
+[span] Site de démonstration
+[h3] Delta Auto
+[p] Un garage toutes marques : devis express à partir de la plaque d'immatriculation avec compteur animé, services avec tarifs, prise de rendez-vous en ligne et bouton d'appel sur mobile.
+[li] Garage
+[li] Devis express
+[li] Rendez-vous
+[li] Artisan
+[a] Visiter le site
+[span] Découvrez
+[span] notre
+[span] offre.
+[p] Un prix clair pour lancer votre présence en ligne. Pour un besoin spécifique, on construit votre devis ensemble.
+[p] Prix fixe
+[span] 250
+[p] Tout pour exister en ligne et attirer vos clients, clé en main.
+[a] Payer en ligne · 250 €
+[a] Poser une question d'abord
+[p] Paiement 100 % sécurisé par Stripe
+[p] Ce qui est inclus :
+[li] Création de votre site web professionnel
+[li] Design moderne et animé
+[li] Adapté mobile et tablette
+[li] Référencement de base sur Google
+[li] Formulaire de contact
+[li] Mise en ligne incluse
+[span] Nouveau
+[p] Abonnement mensuel
+[small] /mois
+[p] Votre site toujours à jour, sécurisé et qui évolue avec vous. Sans engagement.
+[a] S'abonner · 50 €/mois
+[p] Résiliable à tout moment · paiement sécurisé Stripe
+[p] Chaque mois :
+[li] Mises à jour et sécurité du site
+[li] Sauvegardes régulières
+[li] Petites modifications (textes, photos, horaires, tarifs)
+[li] Surveillance : site en ligne et rapide
+[li] Suivi du référencement Google
+[li] Support prioritaire par e-mail
+[p] Prix
+[p] Sur devis
+[p] Pour les projets plus complets ou un besoin particulier.
+[a] Parler de mon projet
+[p] Ce qui est inclus :
+[li] Site sur mesure avec plus de pages
+[li] Référencement local avancé
+[li] Boutique en ligne ou réservation
+[li] Fonctionnalités spécifiques
+[span] Questions
+[span] fréquentes.
+[p] Une autre question ?
+[a] Écrivez-nous
+[p] , on vous répond sous 24 h.
+[summary] Combien coûte un site web ?
+[p] Un site vitrine clé en main coûte 250 € : design moderne, adapté au mobile, formulaire de contact et mise en ligne inclus. Pour un projet plus complet, on établit ensemble un devis gratuit.
+[summary] Qu'est-ce qui est inclus dans l'offre à 250 € ?
+[p] La création de votre site professionnel, un design moderne et animé, l'adaptation au mobile et à la tablette, le référencement de base sur Google, un formulaire de contact et la mise en ligne.
+[summary] En combien de temps mon site est-il en ligne ?
+[p] Le délai dépend de votre projet et de la rapidité à rassembler vos textes et photos. On vous donne une date précise dès le premier échange.
+[summary] Mon site sera-t-il visible sur Google ?
+[p] Oui : chaque site est optimisé pour Google dès sa création (titres, description, vitesse, adaptation mobile). Pour aller plus loin, nous proposons un accompagnement en référencement local.
+[summary] Pourrai-je faire modifier mon site ensuite ?
+[p] Oui. Avec l'abonnement maintenance à 50 € par mois (sans engagement), les mises à jour, la sécurité, les sauvegardes et les petites modifications sont incluses. Sans abonnement, les modifications sont faites sur devis.
+[summary] Et le nom de domaine ?
+[p] Nous vous aidons à choisir et configurer votre nom de domaine (par exemple votre-entreprise.fr). Il est enregistré à votre nom et coûte généralement une dizaine d'euros par an.
+[div] Réponse sous 24 h
+[h2] Construisons dès maintenant
+[em] le site de votre entreprise.
+[p] Laissez-nous vos coordonnées : on vous recontacte rapidement pour parler de votre projet.
+[li] +100 clients accompagnés
+[li] Sans engagement
+[li] Site clé en main à 250 €
+[li] Basé à Lyon
+[label] Ne pas remplir
+[span] Prénom et nom
+[span] Adresse e-mail
+[span] Téléphone
+[span] Entreprise
+[span] Objet de votre demande
+[option] Création de site web · 250 €
+[option] Projet sur devis
+[option] Référencement
+[option] Maintenance · 50 €/mois
+[span] Votre message
+[span] Demander mon site
+[p] Sans engagement · Réponse sous 24 h · Vos données servent uniquement à vous répondre (
+[a] en savoir plus
+[a] Audit Google gratuit
+[a] AI Répondeur
+[a] Vortex Avis : plus d'avis Google
+[a] Site plombier
+[a] Site électricien
+[a] Site artisan du bâtiment
+[a] Site restaurant
+[a] Site coiffeur
+[a] Site garage
+[a] Création site web Lyon
+[a] Villeurbanne
+[a] Vénissieux
+[a] Brignais
+[p] Vortex. Tous droits réservés. ·
+[a] Mentions légales & confidentialité
+[a] vortex.twitch.live@gmail.com

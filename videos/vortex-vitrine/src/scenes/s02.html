@@ -1,0 +1,164 @@
+<div class="cam">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 32 32" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round">
+      <g class="arcs"><path d="M16 3a13 13 0 0 1 12.2 8.5"/><path d="M29 16a13 13 0 0 1-8.5 12.2"/><path d="M16 29A13 13 0 0 1 3.8 20.5"/><path d="M3 16a13 13 0 0 1 8.5-12.2"/></g>
+      <circle class="core" cx="16" cy="16" r="4.6" fill="#22c1d3" stroke="none"/>
+    </svg>
+    <div class="word disp"></div>
+  </div>
+  <h2 class="disp head">On crée la <span class="acc kw">vitrine digitale</span> de votre entreprise.</h2>
+  <div class="stage">
+    <div class="tablet">
+      <div class="screen">
+        <div class="site">
+          <div class="b nav"><span class="logo-s">Votre salon</span><span class="links"><i>Prestations</i><i>Tarifs</i><i>Contact</i></span><span class="nbtn">Réserver</span></div>
+          <div class="hero">
+            <div class="hl">
+              <div class="b kick">SALON DE COIFFURE · LYON</div>
+              <div class="b ht">Prenez soin de vous.</div>
+              <div class="b hs">Coupes, couleurs et soins, sur rendez-vous.</div>
+              <div class="b hb"><span class="cta">Prendre rendez-vous</span><span class="ghost">Voir les tarifs</span></div>
+            </div>
+            <div class="b himg"></div>
+          </div>
+          <div class="svc">
+            <div class="b sc"><div class="ico">✂</div><b>Coupe</b><span>Femme, homme, enfant</span></div>
+            <div class="b sc"><div class="ico">◐</div><b>Couleur</b><span>Balayage, coloration</span></div>
+            <div class="b sc"><div class="ico">❀</div><b>Soins</b><span>Soins profonds, brushing</span></div>
+          </div>
+          <div class="b band"><div><b>Réservez en ligne</b><span>En 3 étapes, 24 h/24.</span></div><span class="cta">Choisir un créneau</span></div>
+          <div class="b foot"><span>Horaires</span><span>Accès</span><span>Mentions légales</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.brand { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 34px; transform-origin: 0 50%; }
+.mark { width: 200px; height: 200px; flex: none; overflow: visible; }
+.arcs { transform-origin: 16px 16px; }
+.core { transform-origin: 16px 16px; }
+.word { font-size: 150px; letter-spacing: -0.02em; display: flex; }
+.word span { display: inline-block; }
+.head { position: absolute; left: 200px; right: 200px; top: 226px; text-align: center; font-size: 78px; }
+.kw { background-image: linear-gradient(100deg, #22c1d3 0%, #22c1d3 42%, #e8fbfd 50%, #22c1d3 58%, #22c1d3 100%); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stage { position: absolute; left: 0; right: 0; top: 440px; height: 1100px; perspective: 1000px; perspective-origin: 50% 0%; }
+.tablet { position: absolute; left: 50%; top: 0; width: 1300px; height: 820px; margin-left: -650px; border-radius: 40px; background: #20242e; border: 2px solid #3a4150; padding: 18px; transform-origin: 50% 0%; box-shadow: 0 0 0 1px #000, 0 60px 140px rgba(0,0,0,0.6), 0 0 120px rgba(34,193,211,0.12); }
+.screen { position: relative; width: 100%; height: 100%; border-radius: 24px; overflow: hidden; background: #f7f1ec; }
+.site { position: absolute; left: 0; top: 0; width: 100%; color: #2b2320; font-family: "Inter", sans-serif; }
+.b { will-change: transform; }
+.nav { height: 72px; display: flex; align-items: center; padding: 0 44px; gap: 30px; border-bottom: 1px solid #eadfd6; background: #fbf7f3; }
+.logo-s { font-family: "Syne", sans-serif; font-weight: 700; font-size: 24px; }
+.links { flex: 1; display: flex; gap: 26px; justify-content: center; font-size: 17px; color: #6b5d55; }
+.links i { font-style: normal; }
+.nbtn { background: #2b2320; color: #fff; font-size: 16px; font-weight: 600; padding: 11px 20px; border-radius: 999px; }
+.hero { display: flex; gap: 40px; padding: 46px 44px 30px; }
+.hl { flex: 1.1; padding-top: 20px; }
+.kick { font-size: 14px; letter-spacing: 0.16em; color: #8f5b49; font-weight: 700; }
+.ht { font-family: "Syne", sans-serif; font-weight: 800; font-size: 66px; line-height: 1.02; margin-top: 18px; color: #241c19; }
+.hs { font-size: 21px; color: #6b5d55; margin-top: 20px; }
+.hb { display: flex; gap: 14px; margin-top: 30px; }
+.cta { background: #2b2320; color: #fff; font-weight: 600; font-size: 17px; padding: 15px 24px; border-radius: 999px; }
+.ghost { border: 1.5px solid #2b2320; color: #2b2320; font-weight: 600; font-size: 17px; padding: 14px 22px; border-radius: 999px; }
+.himg { flex: 0.9; height: 380px; border-radius: 26px; background: url("assets/img/lune.jpg") 92% 30% / 230% auto no-repeat, #e8d5d0; }
+.svc { display: flex; gap: 22px; padding: 10px 44px 30px; }
+.sc { flex: 1; background: #fff; border: 1px solid #eadfd6; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 6px; }
+.sc .ico { width: 46px; height: 46px; border-radius: 12px; background: #f3e4dc; color: #8f5b49; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 8px; }
+.sc b { font-size: 21px; }
+.sc span { font-size: 16px; color: #7a6c64; }
+.band { margin: 10px 44px 30px; padding: 30px 34px; border-radius: 22px; background: #2b2320; color: #fff; display: flex; align-items: center; justify-content: space-between; }
+.band b { display: block; font-family: "Syne", sans-serif; font-size: 30px; }
+.band span { font-size: 17px; color: #d8cbc3; }
+.band .cta { background: #f3e4dc; color: #2b2320; }
+.foot { display: flex; gap: 30px; padding: 20px 44px 60px; color: #7a6c64; font-size: 16px; }
+</style>
+
+<script>
+const cam = q(".cam");
+const brand = q(".brand");
+const arcs = q(".arcs");
+const core = q(".core");
+const wordEl = q(".word");
+const head = q(".head");
+const kw = q(".kw");
+const tablet = q(".tablet");
+const site = q(".site");
+const blocks = qa(".b");
+const letters = Array.from("vortex").map((ch) => {
+  const s = document.createElement("span");
+  s.textContent = ch;
+  wordEl.appendChild(s);
+  return s;
+});
+const words = VX.splitWords(head);
+const WT = [6.85, 7.01, 7.16, 7.28, 7.73, 8.27, 8.37, 8.71].map(A);
+// splitWords drops the kw span into classes; re-find the keyword words for the sheen
+const kwWords = words.filter((w) => w.classList.contains("kw"));
+kwWords.forEach((w) => w.classList.add("kw"));
+
+// block build order (absolute times)
+const BT = { nav: 8.75, kick: 8.88, ht: 8.95, hs: 9.08, hb: 9.18, himg: 9.02, sc: 9.35, band: 9.6, foot: 9.7 };
+let markW = 200, wordW = 0;
+function render(t) {
+  const ta = t + T0; // absolute time
+  if (!wordW) wordW = VX.textW("vortex", wordEl);
+  // entry from the push-through
+  const pin = VX.E.outCubic(VX.prog(t, 0, 0.45));
+  // logo spin + grow
+  const ps = VX.sp(ta, 5.78, 1.6, 0.68);
+  VX.tf(arcs, `rotate(${(-300 * (1 - ps)).toFixed(2)}deg)`);
+  const pc = VX.sp(ta, 6.2, 3.2, 0.5);
+  VX.tf(core, `scale(${VX.clamp(pc, 0, 2).toFixed(3)})`);
+  // wordmark letters with "Vortex" (6.25 - 6.75)
+  letters.forEach((l, i) => {
+    const p = VX.sp(ta, 6.22 + i * 0.07, 3, 0.75);
+    VX.tf(l, `translate3d(0, ${((1 - p) * 60).toFixed(1)}px, 0)`);
+    VX.op(l, VX.clamp(p * 1.6));
+  });
+  // group layout: centred; letters widen the group; then lift to the top
+  const shown = VX.clamp((ta - 6.22) / 0.42);
+  const groupW = 200 + (34 + wordW) * VX.E.outCubic(shown);
+  const lift = VX.sp(ta, 6.62, 1.8, 0.85);
+  const sc = VX.lerp(1, 0.42, lift) * VX.lerp(0.25, 1, ps);
+  const gx = 960 - (groupW * sc) / 2;
+  const gy = VX.lerp(540, 150, lift) - 100;
+  VX.tf(brand, `translate3d(${gx.toFixed(1)}px, ${gy.toFixed(1)}px, 0) scale(${sc.toFixed(4)})`);
+  VX.op(brand, VX.clamp(ps * 2));
+
+  VX.revealWords(words, t, WT);
+  // sheen across "vitrine digitale"
+  const sh = VX.prog(ta, 8.0, 8.9);
+  kwWords.forEach((w) => (w.style.backgroundPosition = `${(100 - sh * 100).toFixed(1)}% 0`));
+
+  // tablet: container-scroll (rotateX 20 -> 0, scale 1.05 -> 1)
+  const pt = VX.E.outCubic(VX.prog(ta, 8.35, 9.55));
+  const rise = VX.sp(ta, 8.3, 1.5, 0.86);
+  VX.tf(tablet, `translate3d(0, ${((1 - rise) * 700).toFixed(1)}px, 0) rotateX(${(20 * (1 - pt)).toFixed(2)}deg) scale(${(1.05 - 0.05 * pt).toFixed(4)})`);
+  // site builds block by block
+  blocks.forEach((b) => {
+    const key = Object.keys(BT).find((k) => b.classList.contains(k));
+    let t0 = BT[key] ?? 9.0;
+    if (key === "sc") t0 += Array.from(b.parentNode.children).indexOf(b) * 0.08;
+    const p = VX.sp(ta, t0, 2.6, 0.78);
+    VX.tf(b, `translate3d(0, ${((1 - p) * 40).toFixed(1)}px, 0) scale(${(0.96 + 0.04 * VX.clamp(p)).toFixed(4)})`);
+    VX.op(b, VX.clamp(p * 1.6));
+  });
+  // then the page scrolls
+  const sy = VX.E.inOutCubic(VX.prog(ta, 10.0, 11.35)) * 430;
+  VX.tf(site, `translate3d(0, ${(-sy).toFixed(1)}px, 0)`);
+
+  // camera drift + whip exit to the left
+  const wp = VX.E.inExpo(VX.prog(ta, 11.36, 11.714));
+  const drift = `translate3d(${(-wp * 2400).toFixed(1)}px, ${(-(ta - 5.7) * 5).toFixed(1)}px, 0) scale(${(1.0 + (ta - 5.7) * 0.01).toFixed(4)})`;
+  cam.style.transformOrigin = "960px 540px";
+  VX.tf(cam, drift + ` scale(${(1.5 - 0.5 * pin).toFixed(4)}) skewX(${(wp * 8).toFixed(2)}deg)`);
+  cam.style.filter = wp > 0.02 ? `blur(${(wp * 14).toFixed(1)}px)` : pin < 0.98 ? `blur(${((1 - pin) * 10).toFixed(1)}px)` : "none";
+  VX.op(cam, pin);
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+</script>

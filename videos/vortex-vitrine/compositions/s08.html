@@ -1,0 +1,676 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+@font-face {
+  font-family: "Syne";
+  src: url("assets/fonts/syne-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Syne";
+  src: url("assets/fonts/syne-latin-ext.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: block;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/inter-latin-ext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: block;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+#root {
+  --bg: #0f1117;
+  --bg2: #0d1016;
+  --panel: #151922;
+  --panel2: #1a1f2a;
+  --line: rgba(255, 255, 255, 0.09);
+  --ink: #ffffff;
+  --mute: #b7bfcb;
+  --dim: #8b94a3;
+  --acc: #22c1d3;
+  --acc2: #1a9fb0;
+  --acc3: #0f6f7c;
+  font-family: "Inter", sans-serif;
+  color: var(--ink);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+#root * {
+  box-sizing: border-box;
+}
+.disp {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+.acc {
+  color: var(--acc);
+}
+.cam {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+}
+/* mask reveal */
+.mw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.06em 0.03em 0.14em;
+  margin: -0.06em -0.03em -0.14em;
+}
+.mwi {
+  display: inline-block;
+  will-change: transform;
+}
+/* text rotate */
+.rot {
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+  white-space: nowrap;
+  height: 1.16em;
+}
+.rot-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  display: inline-flex;
+}
+.rot-m {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.02em 0 0.14em;
+}
+.rot-l {
+  display: inline-block;
+}
+/* border beam */
+.beam {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  overflow: hidden;
+}
+.beam-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 220px;
+  margin: -110px 0 0 -110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #7fe6f1 14%, rgba(34, 193, 211, 0.85) 28%, rgba(34, 193, 211, 0) 66%);
+}
+/* UI cards */
+.card {
+  position: absolute;
+  background: linear-gradient(180deg, #171b25 0%, #12151d 100%);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), 0 2px 0 rgba(255, 255, 255, 0.03) inset;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(21, 25, 34, 0.85);
+  color: var(--mute);
+  font-size: 24px;
+  font-weight: 500;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 14px var(--acc);
+}
+.browser {
+  position: absolute;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b0d12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55);
+}
+.browser .bar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background: #171a22;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.browser .bar i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #3a404c;
+  display: block;
+}
+.browser .bar .url {
+  margin-left: 14px;
+  flex: 1;
+  height: 24px;
+  border-radius: 8px;
+  background: #0f1117;
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 24px;
+  padding-left: 12px;
+}
+.browser .shot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  bottom: 0;
+  overflow: hidden;
+}
+.browser .shot img {
+  width: 100%;
+  display: block;
+}
+.cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 48px;
+  z-index: 50;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  color: #0d1016;
+  background: linear-gradient(180deg, #3fd3e3 0%, #1fb3c4 100%);
+}
+
+
+.q { position: absolute; left: 0; right: 0; top: 96px; text-align: center; font-size: 104px; }
+.stage { position: absolute; left: 0; right: 0; top: 268px; height: 700px; perspective: 1000px; perspective-origin: 50% 0%; }
+.tablet { position: absolute; left: 50%; top: 0; width: 1000px; height: 560px; margin-left: -500px; border-radius: 34px; background: #20242e; border: 2px solid #3a4150; padding: 14px; transform-origin: 50% 0%; box-shadow: 0 0 0 1px #000, 0 50px 120px rgba(0,0,0,0.6), 0 0 120px rgba(34,193,211,0.14); }
+.screen { position: relative; width: 100%; height: 100%; border-radius: 22px; overflow: hidden; background: #0f1117; }
+.page { position: absolute; left: 0; top: 0; width: 100%; display: block; }
+.btnwrap { position: absolute; left: 0; right: 0; top: 868px; display: flex; justify-content: center; }
+.sbtn { position: relative; width: 560px; height: 104px; border-radius: 22px; padding: 3px; overflow: hidden; box-shadow: 0 0 60px rgba(34,193,211,0.35), 0 20px 50px rgba(0,0,0,0.4); }
+.spark { position: absolute; left: 50%; top: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px; background: conic-gradient(from 0deg, rgba(255,255,255,0) 0deg, rgba(255,255,255,0) 290deg, #ffffff 340deg, rgba(255,255,255,0) 360deg); }
+.face { position: relative; width: 100%; height: 100%; border-radius: 19px; background: linear-gradient(180deg, #3fd3e3 0%, #1fb3c4 100%); }
+.st { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 34px; font-weight: 700; color: #0d1016; white-space: nowrap; }
+.st svg { width: 32px; height: 32px; }
+.spin { display: block; width: 36px; height: 36px; border-radius: 50%; border: 4px solid rgba(13,16,22,0.25); border-top-color: #0d1016; }
+.ok { width: 38px !important; height: 38px !important; }
+.ok path { stroke-dasharray: 24; }
+.sheen { position: absolute; top: 0; bottom: 0; left: 0; width: 160px; background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 100%); }
+.end { position: absolute; left: 0; right: 0; top: 0; height: 900px; }
+.ring { position: absolute; left: 960px; top: 330px; width: 220px; height: 220px; margin: -110px 0 0 -110px; border-radius: 50%; border: 3px solid var(--acc); }
+.end .mark { position: absolute; left: 870px; top: 240px; width: 180px; height: 180px; overflow: visible; }
+.end .arcs { transform-origin: 16px 16px; }
+.name { position: absolute; left: 0; right: 0; top: 440px; text-align: center; font-size: 150px; letter-spacing: -0.02em; }
+.base { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-size: 40px; color: var(--mute); }
+.base b { font-weight: 700; }
+.meta { position: absolute; left: 0; right: 0; top: 730px; display: flex; justify-content: center; align-items: center; gap: 28px; }
+.url { font-size: 36px; font-weight: 700; color: #fff; }
+.sep { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); display: block; }
+.rep { font-size: 28px; }
+.band { position: absolute; left: 0; right: 0; top: 930px; height: 90px; overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent 0, #000 240px, #000 1680px, transparent 1920px);
+  mask: linear-gradient(90deg, transparent 0, #000 240px, #000 1680px, transparent 1920px); }
+.track { position: absolute; left: 0; top: 0; height: 90px; display: flex; align-items: center; white-space: nowrap; }
+.track span { font-family: "Syne", sans-serif; font-weight: 700; font-size: 34px; color: #8b94a3; padding: 0 34px; }
+.track i { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--acc); flex: none; }
+
+      </style>
+      <div id="root" data-composition-id="s08" data-width="1920" data-height="1080" data-duration="8">
+<div class="cam">
+  <div class="ctaPart">
+    <h2 class="disp q">Prêt à être <span class="acc">trouvé ?</span></h2>
+    <div class="stage"><div class="tablet"><div class="screen"><img class="page" src="assets/img/vortex-full.jpg"></div></div></div>
+    <div class="btnwrap">
+      <div class="sbtn">
+        <div class="spark"></div>
+        <div class="face">
+          <span class="st st1">Demander mon site <svg viewBox="0 0 24 24" fill="none" stroke="#0d1016" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <span class="st st2"><i class="spin"></i>Envoi…</span>
+          <span class="st st3"><svg class="ok" viewBox="0 0 24 24" fill="none" stroke="#0d1016" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Demande envoyée</span>
+        </div>
+        <div class="sheen"></div>
+      </div>
+    </div>
+  </div>
+  <div class="end">
+    <div class="ring"></div>
+    <svg class="mark" viewBox="0 0 32 32" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round">
+      <g class="arcs"><path d="M16 3a13 13 0 0 1 12.2 8.5"/><path d="M29 16a13 13 0 0 1-8.5 12.2"/><path d="M16 29A13 13 0 0 1 3.8 20.5"/><path d="M3 16a13 13 0 0 1 8.5-12.2"/></g>
+      <circle cx="16" cy="16" r="4.6" fill="#22c1d3" stroke="none"/>
+    </svg>
+    <div class="disp name">vortex</div>
+    <div class="base">Création de sites web à <b class="acc">Lyon</b></div>
+    <div class="meta"><span class="url">vortex-agence.fr</span><span class="sep"></span><span class="pill rep"><span class="dot"></span>Réponse sous 24 h</span></div>
+  </div>
+  <div class="band"><div class="track"></div></div>
+</div>
+<svg class="cursor" viewBox="0 0 40 48"><path d="M4 3 L4 37 L13 29 L19 43 L25 40 L19 27 L31 27 Z" fill="#ffffff" stroke="#0d1016" stroke-width="2.4" stroke-linejoin="round"/></svg>
+      </div>
+      <script>
+// Shared, deterministic motion helpers. Inlined into every scene by tools/build.mjs.
+// Everything is a pure function of scene time t (seconds) — no clocks, no randomness.
+window.VX = window.VX || (function () {
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const prog = (t, t0, t1) => (t1 <= t0 ? (t >= t1 ? 1 : 0) : clamp((t - t0) / (t1 - t0)));
+  const E = {
+    lin: (p) => p,
+    outCubic: (p) => 1 - Math.pow(1 - p, 3),
+    inCubic: (p) => p * p * p,
+    inOutCubic: (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2),
+    outQuart: (p) => 1 - Math.pow(1 - p, 4),
+    outExpo: (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p)),
+    inExpo: (p) => (p <= 0 ? 0 : Math.pow(2, 10 * p - 10)),
+    inOutExpo: (p) =>
+      p <= 0 ? 0 : p >= 1 ? 1 : p < 0.5 ? Math.pow(2, 20 * p - 10) / 2 : (2 - Math.pow(2, -20 * p + 10)) / 2,
+    inOutSine: (p) => -(Math.cos(Math.PI * p) - 1) / 2,
+  };
+  const tw = (t, t0, t1, a, b, ease = E.outCubic) => lerp(a, b, ease(prog(t, t0, t1)));
+
+  // Closed-form step response of a damped spring (unit step at tau = 0).
+  function step(tau, f, z) {
+    if (tau <= 0) return 0;
+    const w = 2 * Math.PI * f;
+    if (z >= 1) return 1 - Math.exp(-w * tau) * (1 + w * tau);
+    const wd = w * Math.sqrt(1 - z * z);
+    return 1 - Math.exp(-z * w * tau) * (Math.cos(wd * tau) + ((z * w) / wd) * Math.sin(wd * tau));
+  }
+  // Spring through a list of target changes: keys = [[t0, v0], [t1, v1], ...].
+  // Value = v0 + sum of (vi - v(i-1)) * step(t - ti): one step response per target change.
+  function spring(t, keys, f = 2.4, z = 0.74) {
+    let v = keys[0][1];
+    for (let i = 1; i < keys.length; i++) v += (keys[i][1] - keys[i - 1][1]) * step(t - keys[i][0], f, z);
+    return v;
+  }
+  // Spring 0 -> 1 starting at t0.
+  const sp = (t, t0, f = 2.4, z = 0.74) => step(t - t0, f, z);
+
+  // Seeded PRNG (mulberry32) for deterministic scatter.
+  function rng(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6d2b79f5) >>> 0;
+      let r = Math.imul(a ^ (a >>> 15), 1 | a);
+      r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  const set = (el, css) => {
+    if (!el) return;
+    for (const k in css) {
+      if (k.startsWith("--")) el.style.setProperty(k, css[k]);
+      else el.style[k] = css[k];
+    }
+  };
+  const tf = (el, s) => el && (el.style.transform = s);
+  const op = (el, v) => el && (el.style.opacity = String(clamp(v)));
+
+  // Split an element's words into mask-reveal structures: <span.mw><span.mwi>word</span></span>
+  function splitWords(el) {
+    const parts = [];
+    const walk = (node, cls) => {
+      for (const child of Array.from(node.childNodes)) {
+        if (child.nodeType === 3) {
+          child.textContent.split(/(\s+)/).forEach((w) => {
+            if (!w) return;
+            if (/^\s+$/.test(w)) parts.push({ space: true });
+            else parts.push({ w, cls });
+          });
+        } else if (child.nodeType === 1) {
+          walk(child, (cls ? cls + " " : "") + (child.className || ""));
+        }
+      }
+    };
+    walk(el, "");
+    el.innerHTML = "";
+    const words = [];
+    parts.forEach((p) => {
+      if (p.space) {
+        el.appendChild(document.createTextNode(" "));
+        return;
+      }
+      const mw = document.createElement("span");
+      mw.className = "mw";
+      const mwi = document.createElement("span");
+      mwi.className = "mwi" + (p.cls ? " " + p.cls : "");
+      mwi.textContent = p.w;
+      mw.appendChild(mwi);
+      el.appendChild(mw);
+      words.push(mwi);
+    });
+    return words;
+  }
+  // Mask reveal: word rises from below a cut line. times[i] = start time of word i.
+  function revealWords(words, t, times, dur = 0.42) {
+    words.forEach((w, i) => {
+      const t0 = times[Math.min(i, times.length - 1)];
+      const p = sp(t, t0, 2.6, 0.78);
+      tf(w, `translate3d(0, ${(1 - p) * 112}%, 0) rotate(${(1 - clamp(p)) * 4}deg)`);
+      w.style.opacity = t < t0 ? "0" : "1";
+    });
+  }
+  // Exit: words drop/rise away.
+  function hideWords(words, t, t0, stagger = 0.02) {
+    words.forEach((w, i) => {
+      const p = E.inCubic(prog(t, t0 + i * stagger, t0 + i * stagger + 0.3));
+      if (p > 0) tf(w, `translate3d(0, ${-p * 112}%, 0)`);
+    });
+  }
+
+  // Text Rotate: swaps words letter by letter. Builds stacked layers inside `el`.
+  function rotator(el, words, opts = {}) {
+    el.innerHTML = "";
+    el.classList.add("rot");
+    el.setAttribute("data-layout-allow-overlap", ""); // stacked letter layers are intentional
+    const layers = words.map((w) => {
+      const lay = document.createElement("span");
+      lay.className = "rot-layer";
+      const letters = Array.from(w).map((ch) => {
+        const m = document.createElement("span");
+        m.className = "rot-m";
+        const l = document.createElement("span");
+        l.className = "rot-l";
+        l.textContent = ch === " " ? " " : ch;
+        m.appendChild(l);
+        lay.appendChild(m);
+        return l;
+      });
+      el.appendChild(lay);
+      return { lay, letters, width: 0 };
+    });
+    let measured = false;
+    const measure = () => {
+      layers.forEach((L, i) => (L.width = textW(words[i].replace(/ /g, "\u00a0"), el)));
+      measured = layers.every((L) => L.width > 0);
+    };
+    const stg = opts.stagger ?? 0.028;
+    const d = opts.dur ?? 0.34;
+    // times[i] = time word i becomes current (times[0] is its entry time, may be -1 for "already there").
+    function render(t, times) {
+      if (!measured) measure();
+      let cur = 0;
+      for (let i = 0; i < times.length; i++) if (t >= times[i]) cur = i;
+      layers.forEach((L, i) => {
+        const tin = times[i];
+        const tout = i + 1 < times.length ? times[i + 1] : 1e9;
+        L.letters.forEach((l, k) => {
+          const pin = tin < 0 ? 1 : E.outCubic(prog(t, tin + k * stg, tin + k * stg + d));
+          const pout = E.inCubic(prog(t, tout + k * stg, tout + k * stg + d * 0.8));
+          const y = (1 - pin) * 105 - pout * 105;
+          l.style.transform = `translate3d(0, ${y}%, 0)`;
+          l.style.opacity = pin > 0 && pout < 1 ? "1" : "0";
+        });
+      });
+      // width follows the current word with a spring
+      const keys = [[0, layers[0].width]];
+      for (let i = 1; i < times.length; i++) keys.push([times[i], layers[i].width]);
+      el.style.width = spring(t, keys, 2.8, 0.8).toFixed(2) + "px";
+      return cur;
+    }
+    return { measure, render, layers };
+  }
+
+  // Border Beam: a light blob travelling around a rounded rect, masked to the border ring.
+  function beam(host, opts = {}) {
+    const ring = document.createElement("div");
+    ring.className = "beam";
+    ring.setAttribute("data-layout-allow-overflow", "");
+    if (opts.radius != null) ring.style.borderRadius = opts.radius + "px";
+    const dot = document.createElement("div");
+    dot.className = "beam-dot";
+    if (opts.size) set(dot, { width: opts.size + "px", height: opts.size + "px", margin: `${-opts.size / 2}px 0 0 ${-opts.size / 2}px` });
+    ring.appendChild(dot);
+    host.appendChild(ring);
+    let W = 0, H = 0;
+    const R = opts.radius ?? 20;
+    const measure = () => {
+      W = host.offsetWidth;
+      H = host.offsetHeight;
+    };
+    function point(u) {
+      // u in [0,1) along a rounded-rect perimeter, clockwise from top-left straight segment
+      const r = Math.min(R, W / 2, H / 2);
+      const sx = W - 2 * r, sy = H - 2 * r, arc = (Math.PI * r) / 2;
+      const P = 2 * sx + 2 * sy + 4 * arc;
+      let d = (((u % 1) + 1) % 1) * P;
+      const segs = [
+        [sx, (q) => [r + q, 0]],
+        [arc, (q) => { const a = -Math.PI / 2 + (q / arc) * (Math.PI / 2); return [W - r + r * Math.cos(a), r + r * Math.sin(a)]; }],
+        [sy, (q) => [W, r + q]],
+        [arc, (q) => { const a = (q / arc) * (Math.PI / 2); return [W - r + r * Math.cos(a), H - r + r * Math.sin(a)]; }],
+        [sx, (q) => [W - r - q, H]],
+        [arc, (q) => { const a = Math.PI / 2 + (q / arc) * (Math.PI / 2); return [r + r * Math.cos(a), H - r + r * Math.sin(a)]; }],
+        [sy, (q) => [0, H - r - q]],
+        [arc, (q) => { const a = Math.PI + (q / arc) * (Math.PI / 2); return [r + r * Math.cos(a), r + r * Math.sin(a)]; }],
+      ];
+      for (const [len, f] of segs) {
+        if (d <= len) return f(d);
+        d -= len;
+      }
+      return [r, 0];
+    }
+    function render(t, speed = 0.42, phase = 0, alpha = 1) {
+      if (!W) measure();
+      const [x, y] = point(t * speed + phase);
+      dot.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+      ring.style.opacity = String(alpha);
+    }
+    return { render, measure, ring };
+  }
+
+  // Layout-independent text width (canvas) — works even while the slot is hidden.
+  const _cv = document.createElement("canvas").getContext("2d");
+  function textW(text, el) {
+    const cs = getComputedStyle(el);
+    _cv.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const ls = parseFloat(cs.letterSpacing) || 0;
+    return _cv.measureText(text).width + ls * Array.from(text).length;
+  }
+
+  // Deterministic looping offset (marquee).
+  const loop = (t, speed, len) => (((t * speed) % len) + len) % len;
+
+  // Render clock: a property setter tweened by the paused GSAP timeline calls render(t)
+  // on every seek, so the whole scene state is a pure function of time.
+  function clock(tl, dur, render) {
+    let cur = -1;
+    const proxy = {};
+    Object.defineProperty(proxy, "t", {
+      get: () => cur,
+      set: (v) => {
+        cur = v;
+        render(v);
+      },
+    });
+    tl.fromTo(proxy, { t: 0 }, { t: dur, duration: dur, ease: "none" }, 0);
+    render(0);
+    return tl;
+  }
+
+  async function ready(fonts) {
+    try {
+      await Promise.all(
+        (fonts || ['800 100px "Syne"', '700 100px "Syne"', '400 40px "Inter"', '600 40px "Inter"']).map((f) => document.fonts.load(f)),
+      );
+      await document.fonts.ready;
+    } catch (e) {}
+  }
+
+  return { textW, clamp, lerp, prog, E, tw, step, spring, sp, rng, set, tf, op, splitWords, revealWords, hideWords, rotator, beam, loop, clock, ready };
+})();
+
+(function () {
+  const ID = "s08";
+  const DUR = 8;
+  const T0 = 33.143;
+  const A = (x) => x - T0; // absolute (voice-over) time -> scene time
+  const root = document.querySelector('[data-composition-id="s08"]');
+  const q = (sel) => root.querySelector(sel);
+  const qa = (sel) => Array.from(root.querySelectorAll(sel));
+
+const cam = q(".cam");
+const qEl = q(".q");
+const tablet = q(".tablet");
+const page = q(".page");
+const sbtn = q(".sbtn");
+const spark = q(".spark");
+const sheen = q(".sheen");
+const st = [q(".st1"), q(".st2"), q(".st3")];
+const spin = q(".spin");
+const okPath = q(".ok path");
+const ctaPart = q(".ctaPart");
+const cursor = q(".cursor");
+const ring = q(".ring");
+const mark = q(".end .mark");
+const arcs = q(".end .arcs");
+const nameEl = q(".name");
+const base = q(".base");
+const meta = q(".meta");
+const band = q(".band");
+const track = q(".track");
+const qw = VX.splitWords(qEl);
+const QT = [33.46, 33.65, 33.7, 33.91, 34.05].map(A);
+const ITEMS = ["Artisans", "Restaurants", "Coiffeurs", "Garages", "Commerçants", "Lyon", "Villeurbanne", "Vénissieux", "Brignais"];
+let html = "";
+for (let k = 0; k < 3; k++) ITEMS.forEach((s) => (html += `<span>${s}</span><i></i>`));
+track.innerHTML = html;
+let trackW = 0;
+const nameLetters = Array.from("vortex").map((ch) => {
+  const s = document.createElement("span");
+  s.style.display = "inline-block";
+  s.textContent = ch;
+  return s;
+});
+nameEl.textContent = "";
+nameLetters.forEach((s) => nameEl.appendChild(s));
+const CLICK = A(34.86), LOAD = A(34.98), DONE = A(35.62), END = A(36.571);
+const CX = [[0, 1500], [A(34.2), 1500], [A(34.45), 1060], [A(35.3), 1060], [A(35.6), 1700]];
+const CY = [[0, 1150], [A(34.2), 1150], [A(34.45), 930], [A(35.3), 930], [A(35.6), 1180]];
+
+function render(t) {
+  const ta = t + T0;
+  if (!trackW) trackW = ITEMS.reduce((a, s) => a + VX.textW(s, track.querySelector("span")) + 68 + 8, 0);
+  // question + tablet (container scroll)
+  VX.revealWords(qw, t, QT);
+  const rise = VX.sp(ta, 33.2, 1.6, 0.85);
+  const pt = VX.E.outCubic(VX.prog(ta, 33.25, 34.3));
+  VX.tf(tablet, `translate3d(0, ${((1 - rise) * 700).toFixed(1)}px, 0) rotateX(${(20 * (1 - pt)).toFixed(2)}deg) scale(${(1.05 - 0.05 * pt).toFixed(4)})`);
+  // stays between the services and the work sections: no price on screen (single CTA)
+  const sy = 560 + VX.E.inOutSine(VX.prog(ta, 33.9, 36.6)) * 1250;
+  VX.tf(page, `translate3d(0, ${(-sy).toFixed(1)}px, 0)`);
+
+  // shimmer button
+  const pb = VX.sp(ta, 33.75, 2.4, 0.75);
+  const press = VX.spring(t, [[0, 1], [CLICK - 0.04, 0.93], [CLICK + 0.1, 1]], 4, 0.6);
+  VX.tf(sbtn, `translate3d(0, ${((1 - pb) * 80).toFixed(1)}px, 0) scale(${(press * (0.9 + 0.1 * VX.clamp(pb))).toFixed(4)})`);
+  VX.op(sbtn, VX.clamp(pb * 1.5));
+  VX.tf(spark, `rotate(${(t * 220).toFixed(1)}deg)`);
+  const shp = VX.loop(t, 0.55, 1);
+  VX.tf(sheen, `translate3d(${(-200 + shp * 1000).toFixed(1)}px, 0, 0) skewX(-18deg)`);
+  // states: label -> loader -> confirmation
+  const s1 = 1 - VX.tw(t, LOAD - 0.06, LOAD + 0.08, 0, 1);
+  const s2 = VX.tw(t, LOAD, LOAD + 0.12, 0, 1) * (1 - VX.tw(t, DONE - 0.05, DONE + 0.08, 0, 1));
+  const s3 = VX.tw(t, DONE, DONE + 0.14, 0, 1);
+  [s1, s2, s3].forEach((v, i) => {
+    VX.op(st[i], v);
+    VX.tf(st[i], `translate3d(0, ${((1 - v) * (i === 0 ? -24 : 24)).toFixed(1)}px, 0)`);
+  });
+  VX.tf(spin, `rotate(${(t * 720).toFixed(1)}deg)`);
+  okPath.style.strokeDashoffset = (24 * (1 - VX.E.outCubic(VX.prog(t, DONE + 0.05, DONE + 0.4)))).toFixed(2);
+
+  // cursor
+  const cx = VX.spring(t, CX, 2, 0.82), cy = VX.spring(t, CY, 2, 0.82);
+  const pr = Math.max(1 - Math.abs(t - CLICK) / 0.1, 0);
+  VX.tf(cursor, `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0) scale(${(1 - 0.16 * pr).toFixed(3)})`);
+  VX.op(cursor, VX.tw(ta, 34.15, 34.3, 0, 1) * (1 - VX.prog(ta, 35.45, 35.6)));
+
+  // hand-off to the end card on the downbeat (36.571)
+  const out = VX.E.inCubic(VX.prog(t, END - 0.3, END + 0.05));
+  VX.tf(ctaPart, `translate3d(0, ${(out * 60).toFixed(1)}px, 0) scale(${(1 - out * 0.25).toFixed(4)})`);
+  VX.op(ctaPart, 1 - out);
+  ctaPart.style.filter = out > 0.02 ? `blur(${(out * 12).toFixed(1)}px)` : "none";
+
+  // end card: impact on the logo
+  const pm = VX.sp(t, END, 2.2, 0.62);
+  VX.tf(mark, `scale(${(VX.clamp(pm, 0, 1.2) * 1).toFixed(4)})`);
+  VX.op(mark, t >= END ? 1 : 0);
+  VX.tf(arcs, `rotate(${(-200 * (1 - VX.sp(t, END, 1.4, 0.8)) + (t - END) * 6).toFixed(2)}deg)`);
+  const rp = VX.prog(t, END, END + 0.9);
+  VX.tf(ring, `scale(${(0.6 + rp * 3.2).toFixed(3)})`);
+  VX.op(ring, rp > 0 && rp < 1 ? (1 - rp) * 0.9 : 0);
+  nameLetters.forEach((l, i) => {
+    const p = VX.sp(t, END + 0.12 + i * 0.05, 2.8, 0.78);
+    VX.tf(l, `translate3d(0, ${((1 - p) * 70).toFixed(1)}px, 0)`);
+    VX.op(l, VX.clamp(p * 1.6));
+  });
+  [[base, A(36.95)], [meta, A(37.12)]].forEach(([el, t0]) => {
+    const p = VX.sp(t, t0, 2.6, 0.8);
+    VX.tf(el, `translate3d(0, ${((1 - p) * 40).toFixed(1)}px, 0)`);
+    VX.op(el, VX.clamp(p * 1.5));
+  });
+  // marquee band
+  const pbd = VX.sp(ta, 37.3, 2, 0.85);
+  VX.op(band, VX.clamp(pbd));
+  if (trackW) VX.tf(track, `translate3d(${(-VX.loop(t, 70, trackW)).toFixed(1)}px, 0, 0)`);
+
+  // camera: whip in from the left (previous scale-out), slow push on the end card
+  const win = VX.E.outExpo(VX.prog(t, 0, 0.45));
+  cam.style.transformOrigin = "960px 480px";
+  VX.tf(cam, `translate3d(${((1 - win) * -1600).toFixed(1)}px, 0, 0) scale(${(1 + Math.max(0, t - END) * 0.012).toFixed(4)}) skewX(${((1 - win) * 6).toFixed(2)}deg)`);
+  cam.style.filter = win < 0.97 ? `blur(${((1 - win) * 14).toFixed(1)}px)` : "none";
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+
+})();
+      </script>
+    </template>
+  </body>
+</html>

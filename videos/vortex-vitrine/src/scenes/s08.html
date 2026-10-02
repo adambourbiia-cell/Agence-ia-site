@@ -1,0 +1,183 @@
+<div class="cam">
+  <div class="ctaPart">
+    <h2 class="disp q">Prêt à être <span class="acc">trouvé ?</span></h2>
+    <div class="stage"><div class="tablet"><div class="screen"><img class="page" src="assets/img/vortex-full.jpg"></div></div></div>
+    <div class="btnwrap">
+      <div class="sbtn">
+        <div class="spark"></div>
+        <div class="face">
+          <span class="st st1">Demander mon site <svg viewBox="0 0 24 24" fill="none" stroke="#0d1016" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          <span class="st st2"><i class="spin"></i>Envoi…</span>
+          <span class="st st3"><svg class="ok" viewBox="0 0 24 24" fill="none" stroke="#0d1016" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Demande envoyée</span>
+        </div>
+        <div class="sheen"></div>
+      </div>
+    </div>
+  </div>
+  <div class="end">
+    <div class="ring"></div>
+    <svg class="mark" viewBox="0 0 32 32" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round">
+      <g class="arcs"><path d="M16 3a13 13 0 0 1 12.2 8.5"/><path d="M29 16a13 13 0 0 1-8.5 12.2"/><path d="M16 29A13 13 0 0 1 3.8 20.5"/><path d="M3 16a13 13 0 0 1 8.5-12.2"/></g>
+      <circle cx="16" cy="16" r="4.6" fill="#22c1d3" stroke="none"/>
+    </svg>
+    <div class="disp name">vortex</div>
+    <div class="base">Création de sites web à <b class="acc">Lyon</b></div>
+    <div class="meta"><span class="url">vortex-agence.fr</span><span class="sep"></span><span class="pill rep"><span class="dot"></span>Réponse sous 24 h</span></div>
+  </div>
+  <div class="band"><div class="track"></div></div>
+</div>
+<svg class="cursor" viewBox="0 0 40 48"><path d="M4 3 L4 37 L13 29 L19 43 L25 40 L19 27 L31 27 Z" fill="#ffffff" stroke="#0d1016" stroke-width="2.4" stroke-linejoin="round"/></svg>
+
+<style>
+.q { position: absolute; left: 0; right: 0; top: 96px; text-align: center; font-size: 104px; }
+.stage { position: absolute; left: 0; right: 0; top: 268px; height: 700px; perspective: 1000px; perspective-origin: 50% 0%; }
+.tablet { position: absolute; left: 50%; top: 0; width: 1000px; height: 560px; margin-left: -500px; border-radius: 34px; background: #20242e; border: 2px solid #3a4150; padding: 14px; transform-origin: 50% 0%; box-shadow: 0 0 0 1px #000, 0 50px 120px rgba(0,0,0,0.6), 0 0 120px rgba(34,193,211,0.14); }
+.screen { position: relative; width: 100%; height: 100%; border-radius: 22px; overflow: hidden; background: #0f1117; }
+.page { position: absolute; left: 0; top: 0; width: 100%; display: block; }
+.btnwrap { position: absolute; left: 0; right: 0; top: 868px; display: flex; justify-content: center; }
+.sbtn { position: relative; width: 560px; height: 104px; border-radius: 22px; padding: 3px; overflow: hidden; box-shadow: 0 0 60px rgba(34,193,211,0.35), 0 20px 50px rgba(0,0,0,0.4); }
+.spark { position: absolute; left: 50%; top: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px; background: conic-gradient(from 0deg, rgba(255,255,255,0) 0deg, rgba(255,255,255,0) 290deg, #ffffff 340deg, rgba(255,255,255,0) 360deg); }
+.face { position: relative; width: 100%; height: 100%; border-radius: 19px; background: linear-gradient(180deg, #3fd3e3 0%, #1fb3c4 100%); }
+.st { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 34px; font-weight: 700; color: #0d1016; white-space: nowrap; }
+.st svg { width: 32px; height: 32px; }
+.spin { display: block; width: 36px; height: 36px; border-radius: 50%; border: 4px solid rgba(13,16,22,0.25); border-top-color: #0d1016; }
+.ok { width: 38px !important; height: 38px !important; }
+.ok path { stroke-dasharray: 24; }
+.sheen { position: absolute; top: 0; bottom: 0; left: 0; width: 160px; background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 100%); }
+.end { position: absolute; left: 0; right: 0; top: 0; height: 900px; }
+.ring { position: absolute; left: 960px; top: 330px; width: 220px; height: 220px; margin: -110px 0 0 -110px; border-radius: 50%; border: 3px solid var(--acc); }
+.end .mark { position: absolute; left: 870px; top: 240px; width: 180px; height: 180px; overflow: visible; }
+.end .arcs { transform-origin: 16px 16px; }
+.name { position: absolute; left: 0; right: 0; top: 440px; text-align: center; font-size: 150px; letter-spacing: -0.02em; }
+.base { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-size: 40px; color: var(--mute); }
+.base b { font-weight: 700; }
+.meta { position: absolute; left: 0; right: 0; top: 730px; display: flex; justify-content: center; align-items: center; gap: 28px; }
+.url { font-size: 36px; font-weight: 700; color: #fff; }
+.sep { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); display: block; }
+.rep { font-size: 28px; }
+.band { position: absolute; left: 0; right: 0; top: 930px; height: 90px; overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent 0, #000 240px, #000 1680px, transparent 1920px);
+  mask: linear-gradient(90deg, transparent 0, #000 240px, #000 1680px, transparent 1920px); }
+.track { position: absolute; left: 0; top: 0; height: 90px; display: flex; align-items: center; white-space: nowrap; }
+.track span { font-family: "Syne", sans-serif; font-weight: 700; font-size: 34px; color: #8b94a3; padding: 0 34px; }
+.track i { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--acc); flex: none; }
+</style>
+
+<script>
+const cam = q(".cam");
+const qEl = q(".q");
+const tablet = q(".tablet");
+const page = q(".page");
+const sbtn = q(".sbtn");
+const spark = q(".spark");
+const sheen = q(".sheen");
+const st = [q(".st1"), q(".st2"), q(".st3")];
+const spin = q(".spin");
+const okPath = q(".ok path");
+const ctaPart = q(".ctaPart");
+const cursor = q(".cursor");
+const ring = q(".ring");
+const mark = q(".end .mark");
+const arcs = q(".end .arcs");
+const nameEl = q(".name");
+const base = q(".base");
+const meta = q(".meta");
+const band = q(".band");
+const track = q(".track");
+const qw = VX.splitWords(qEl);
+const QT = [33.46, 33.65, 33.7, 33.91, 34.05].map(A);
+const ITEMS = ["Artisans", "Restaurants", "Coiffeurs", "Garages", "Commerçants", "Lyon", "Villeurbanne", "Vénissieux", "Brignais"];
+let html = "";
+for (let k = 0; k < 3; k++) ITEMS.forEach((s) => (html += `<span>${s}</span><i></i>`));
+track.innerHTML = html;
+let trackW = 0;
+const nameLetters = Array.from("vortex").map((ch) => {
+  const s = document.createElement("span");
+  s.style.display = "inline-block";
+  s.textContent = ch;
+  return s;
+});
+nameEl.textContent = "";
+nameLetters.forEach((s) => nameEl.appendChild(s));
+const CLICK = A(34.86), LOAD = A(34.98), DONE = A(35.62), END = A(36.571);
+const CX = [[0, 1500], [A(34.2), 1500], [A(34.45), 1060], [A(35.3), 1060], [A(35.6), 1700]];
+const CY = [[0, 1150], [A(34.2), 1150], [A(34.45), 930], [A(35.3), 930], [A(35.6), 1180]];
+
+function render(t) {
+  const ta = t + T0;
+  if (!trackW) trackW = ITEMS.reduce((a, s) => a + VX.textW(s, track.querySelector("span")) + 68 + 8, 0);
+  // question + tablet (container scroll)
+  VX.revealWords(qw, t, QT);
+  const rise = VX.sp(ta, 33.2, 1.6, 0.85);
+  const pt = VX.E.outCubic(VX.prog(ta, 33.25, 34.3));
+  VX.tf(tablet, `translate3d(0, ${((1 - rise) * 700).toFixed(1)}px, 0) rotateX(${(20 * (1 - pt)).toFixed(2)}deg) scale(${(1.05 - 0.05 * pt).toFixed(4)})`);
+  // stays between the services and the work sections: no price on screen (single CTA)
+  const sy = 560 + VX.E.inOutSine(VX.prog(ta, 33.9, 36.6)) * 1250;
+  VX.tf(page, `translate3d(0, ${(-sy).toFixed(1)}px, 0)`);
+
+  // shimmer button
+  const pb = VX.sp(ta, 33.75, 2.4, 0.75);
+  const press = VX.spring(t, [[0, 1], [CLICK - 0.04, 0.93], [CLICK + 0.1, 1]], 4, 0.6);
+  VX.tf(sbtn, `translate3d(0, ${((1 - pb) * 80).toFixed(1)}px, 0) scale(${(press * (0.9 + 0.1 * VX.clamp(pb))).toFixed(4)})`);
+  VX.op(sbtn, VX.clamp(pb * 1.5));
+  VX.tf(spark, `rotate(${(t * 220).toFixed(1)}deg)`);
+  const shp = VX.loop(t, 0.55, 1);
+  VX.tf(sheen, `translate3d(${(-200 + shp * 1000).toFixed(1)}px, 0, 0) skewX(-18deg)`);
+  // states: label -> loader -> confirmation
+  const s1 = 1 - VX.tw(t, LOAD - 0.06, LOAD + 0.08, 0, 1);
+  const s2 = VX.tw(t, LOAD, LOAD + 0.12, 0, 1) * (1 - VX.tw(t, DONE - 0.05, DONE + 0.08, 0, 1));
+  const s3 = VX.tw(t, DONE, DONE + 0.14, 0, 1);
+  [s1, s2, s3].forEach((v, i) => {
+    VX.op(st[i], v);
+    VX.tf(st[i], `translate3d(0, ${((1 - v) * (i === 0 ? -24 : 24)).toFixed(1)}px, 0)`);
+  });
+  VX.tf(spin, `rotate(${(t * 720).toFixed(1)}deg)`);
+  okPath.style.strokeDashoffset = (24 * (1 - VX.E.outCubic(VX.prog(t, DONE + 0.05, DONE + 0.4)))).toFixed(2);
+
+  // cursor
+  const cx = VX.spring(t, CX, 2, 0.82), cy = VX.spring(t, CY, 2, 0.82);
+  const pr = Math.max(1 - Math.abs(t - CLICK) / 0.1, 0);
+  VX.tf(cursor, `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0) scale(${(1 - 0.16 * pr).toFixed(3)})`);
+  VX.op(cursor, VX.tw(ta, 34.15, 34.3, 0, 1) * (1 - VX.prog(ta, 35.45, 35.6)));
+
+  // hand-off to the end card on the downbeat (36.571)
+  const out = VX.E.inCubic(VX.prog(t, END - 0.3, END + 0.05));
+  VX.tf(ctaPart, `translate3d(0, ${(out * 60).toFixed(1)}px, 0) scale(${(1 - out * 0.25).toFixed(4)})`);
+  VX.op(ctaPart, 1 - out);
+  ctaPart.style.filter = out > 0.02 ? `blur(${(out * 12).toFixed(1)}px)` : "none";
+
+  // end card: impact on the logo
+  const pm = VX.sp(t, END, 2.2, 0.62);
+  VX.tf(mark, `scale(${(VX.clamp(pm, 0, 1.2) * 1).toFixed(4)})`);
+  VX.op(mark, t >= END ? 1 : 0);
+  VX.tf(arcs, `rotate(${(-200 * (1 - VX.sp(t, END, 1.4, 0.8)) + (t - END) * 6).toFixed(2)}deg)`);
+  const rp = VX.prog(t, END, END + 0.9);
+  VX.tf(ring, `scale(${(0.6 + rp * 3.2).toFixed(3)})`);
+  VX.op(ring, rp > 0 && rp < 1 ? (1 - rp) * 0.9 : 0);
+  nameLetters.forEach((l, i) => {
+    const p = VX.sp(t, END + 0.12 + i * 0.05, 2.8, 0.78);
+    VX.tf(l, `translate3d(0, ${((1 - p) * 70).toFixed(1)}px, 0)`);
+    VX.op(l, VX.clamp(p * 1.6));
+  });
+  [[base, A(36.95)], [meta, A(37.12)]].forEach(([el, t0]) => {
+    const p = VX.sp(t, t0, 2.6, 0.8);
+    VX.tf(el, `translate3d(0, ${((1 - p) * 40).toFixed(1)}px, 0)`);
+    VX.op(el, VX.clamp(p * 1.5));
+  });
+  // marquee band
+  const pbd = VX.sp(ta, 37.3, 2, 0.85);
+  VX.op(band, VX.clamp(pbd));
+  if (trackW) VX.tf(track, `translate3d(${(-VX.loop(t, 70, trackW)).toFixed(1)}px, 0, 0)`);
+
+  // camera: whip in from the left (previous scale-out), slow push on the end card
+  const win = VX.E.outExpo(VX.prog(t, 0, 0.45));
+  cam.style.transformOrigin = "960px 480px";
+  VX.tf(cam, `translate3d(${((1 - win) * -1600).toFixed(1)}px, 0, 0) scale(${(1 + Math.max(0, t - END) * 0.012).toFixed(4)}) skewX(${((1 - win) * 6).toFixed(2)}deg)`);
+  cam.style.filter = win < 0.97 ? `blur(${((1 - win) * 14).toFixed(1)}px)` : "none";
+}
+VX.ready().then(() => {
+  const tl = gsap.timeline({ paused: true });
+  VX.clock(tl, DUR, render);
+  window.__timelines[ID] = tl;
+});
+</script>

@@ -1,0 +1,134 @@
+{
+ "bpm": 105,
+ "total": 41.143,
+ "scenes": [
+  {
+   "id": "bg",
+   "start": 0,
+   "dur": 41.143,
+   "track": 0
+  },
+  {
+   "id": "s01",
+   "start": 0,
+   "dur": 6.0,
+   "track": 1
+  },
+  {
+   "id": "s02",
+   "start": 5.714,
+   "dur": 6.0,
+   "track": 2
+  },
+  {
+   "id": "s03",
+   "start": 11.429,
+   "dur": 4.286,
+   "track": 1
+  },
+  {
+   "id": "s04",
+   "start": 15.429,
+   "dur": 4.286,
+   "track": 2
+  },
+  {
+   "id": "s05",
+   "start": 19.429,
+   "dur": 3.714,
+   "track": 1
+  },
+  {
+   "id": "s06",
+   "start": 22.857,
+   "dur": 5.429,
+   "track": 2
+  },
+  {
+   "id": "s07",
+   "start": 28.0,
+   "dur": 5.429,
+   "track": 1
+  },
+  {
+   "id": "s08",
+   "start": 33.143,
+   "dur": 8.0,
+   "track": 2
+  }
+ ],
+ "audio": [
+  {
+   "id": "vo1",
+   "src": "assets/voice/vo1.mp3",
+   "start": 0.6,
+   "track": 10,
+   "dur": 2.691
+  },
+  {
+   "id": "vo2",
+   "src": "assets/voice/vo2.mp3",
+   "start": 6.0,
+   "track": 10,
+   "dur": 3.709
+  },
+  {
+   "id": "vo3",
+   "src": "assets/voice/vo3.mp3",
+   "start": 11.7,
+   "track": 10,
+   "dur": 3.082
+  },
+  {
+   "id": "vo4",
+   "src": "assets/voice/vo4.mp3",
+   "start": 15.7,
+   "track": 10,
+   "dur": 3.474
+  },
+  {
+   "id": "vo5",
+   "src": "assets/voice/vo5.mp3",
+   "start": 19.7,
+   "track": 10,
+   "dur": 2.691
+  },
+  {
+   "id": "vo6",
+   "src": "assets/voice/vo6.mp3",
+   "start": 23.1,
+   "track": 10,
+   "dur": 4.598
+  },
+  {
+   "id": "vo7",
+   "src": "assets/voice/vo7.mp3",
+   "start": 28.3,
+   "track": 10,
+   "dur": 4.519
+  },
+  {
+   "id": "vo8",
+   "src": "assets/voice/vo8.mp3",
+   "start": 33.4,
+   "track": 10,
+   "dur": 4.754
+  },
+  {
+   "id": "music",
+   "src": "assets/audio/music.wav",
+   "start": 0,
+   "dur": 41.143,
+   "track": 11,
+   "volume": 0.24
+  },
+  {
+   "id": "sfx",
+   "src": "assets/audio/sfx.wav",
+   "start": 0,
+   "dur": 41.143,
+   "track": 12,
+   "volume": 0.55
+  }
+ ]
+}

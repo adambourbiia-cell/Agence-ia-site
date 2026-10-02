@@ -1,0 +1,62 @@
+[
+  {
+    "text": "Chez",
+    "start": 0.07,
+    "end": 0.25,
+    "id": "w0"
+  },
+  {
+    "text": "Vortex,",
+    "start": 0.25,
+    "end": 0.75,
+    "id": "w1"
+  },
+  {
+    "text": "on",
+    "start": 0.75,
+    "end": 0.83,
+    "id": "w2"
+  },
+  {
+    "text": "crée",
+    "start": 1.01,
+    "end": 1.12,
+    "id": "w3"
+  },
+  {
+    "text": "la",
+    "start": 1.16,
+    "end": 1.28,
+    "id": "w4"
+  },
+  {
+    "text": "vitrine",
+    "start": 1.28,
+    "end": 1.68,
+    "id": "w5"
+  },
+  {
+    "text": "digitale",
+    "start": 1.73,
+    "end": 2.2,
+    "id": "w6"
+  },
+  {
+    "text": "de",
+    "start": 2.27,
+    "end": 2.37,
+    "id": "w7"
+  },
+  {
+    "text": "votre",
+    "start": 2.37,
+    "end": 2.66,
+    "id": "w8"
+  },
+  {
+    "text": "entreprise.",
+    "start": 2.71,
+    "end": 3.46,
+    "id": "w9"
+  }
+]

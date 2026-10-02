@@ -1,0 +1,80 @@
+[
+  {
+    "text": "Votre",
+    "start": 0.06,
+    "end": 0.3,
+    "id": "w0"
+  },
+  {
+    "text": "site",
+    "start": 0.3,
+    "end": 0.56,
+    "id": "w1"
+  },
+  {
+    "text": "a",
+    "start": 0.56,
+    "end": 0.58,
+    "id": "w2"
+  },
+  {
+    "text": "trois",
+    "start": 0.64,
+    "end": 0.94,
+    "id": "w3"
+  },
+  {
+    "text": "étapes.",
+    "start": 0.94,
+    "end": 1.44,
+    "id": "w4"
+  },
+  {
+    "text": "On",
+    "start": 1.44,
+    "end": 1.81,
+    "id": "w5"
+  },
+  {
+    "text": "échange,",
+    "start": 1.81,
+    "end": 2.45,
+    "id": "w6"
+  },
+  {
+    "text": "on",
+    "start": 2.45,
+    "end": 2.74,
+    "id": "w7"
+  },
+  {
+    "text": "crée,",
+    "start": 2.74,
+    "end": 3.22,
+    "id": "w8"
+  },
+  {
+    "text": "on",
+    "start": 3.22,
+    "end": 3.55,
+    "id": "w9"
+  },
+  {
+    "text": "met",
+    "start": 3.55,
+    "end": 3.75,
+    "id": "w10"
+  },
+  {
+    "text": "en",
+    "start": 3.75,
+    "end": 3.89,
+    "id": "w11"
+  },
+  {
+    "text": "ligne.",
+    "start": 3.89,
+    "end": 4.3,
+    "id": "w12"
+  }
+]

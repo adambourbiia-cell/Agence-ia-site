@@ -1,0 +1,38 @@
+[
+  {
+    "text": "Présultat,",
+    "start": 0.04,
+    "end": 1,
+    "id": "w0"
+  },
+  {
+    "text": "vos",
+    "start": 1,
+    "end": 1.14,
+    "id": "w1"
+  },
+  {
+    "text": "visiteurs",
+    "start": 1.14,
+    "end": 1.56,
+    "id": "w2"
+  },
+  {
+    "text": "deviennent",
+    "start": 1.56,
+    "end": 2.04,
+    "id": "w3"
+  },
+  {
+    "text": "des",
+    "start": 2.04,
+    "end": 2.18,
+    "id": "w4"
+  },
+  {
+    "text": "clients.",
+    "start": 2.18,
+    "end": 2.62,
+    "id": "w5"
+  }
+]

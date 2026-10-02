@@ -1,0 +1,91 @@
+{
+  "files": [
+    {
+      "file": "inter-latin-ext.woff2",
+      "family": "Inter",
+      "rawFamily": "Inter",
+      "subfamily": "Regular",
+      "postscript": "Inter-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "inter-latin.woff2",
+      "family": "Inter",
+      "rawFamily": "Inter",
+      "subfamily": "Regular",
+      "postscript": "Inter-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "syne-latin-ext.woff2",
+      "family": "Syne",
+      "rawFamily": "Syne",
+      "subfamily": "Regular",
+      "postscript": "Syne-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "syne-latin.woff2",
+      "family": "Syne",
+      "rawFamily": "Syne",
+      "subfamily": "Regular",
+      "postscript": "Syne-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    }
+  ],
+  "families": [
+    {
+      "family": "Inter",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 2,
+      "files": [
+        "inter-latin-ext.woff2",
+        "inter-latin.woff2"
+      ]
+    },
+    {
+      "family": "Syne",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 2,
+      "files": [
+        "syne-latin-ext.woff2",
+        "syne-latin.woff2"
+      ]
+    }
+  ],
+  "unidentified": [],
+  "meta": {
+    "generatedAt": "2026-10-02T02:26:12.673Z",
+    "tool": "fontkit"
+  }
+}
