@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Devis à signer — Vortex</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; --red:#ef6461; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font-family: "Inter", system-ui, sans-serif; line-height: 1.5; font-size: 15px; -webkit-font-smoothing: antialiased; }
+    .w { max-width: 640px; margin: 0 auto; padding: 22px 16px 60px; }
+    h1 { font-family: "Syne", sans-serif; font-size: 26px; line-height: 1.15; margin: 0 0 6px; }
+    h1 em { font-style: normal; color: var(--teal-2); }
+    .lead { color: var(--muted); margin: 0 0 16px; }
+    .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #d5dbe5; margin: 12px 0 5px; }
+    input, select, textarea { width: 100%; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 12px; padding: 11px 12px; color: #fff; font: inherit; font-size: 16px; outline: none; }
+    textarea { min-height: 110px; }
+    input:focus, select:focus { border-color: var(--teal-2); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+    .presets { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { border: 1px solid var(--line-2); background: var(--bg-3); color: #fff; border-radius: 99px; padding: 8px 12px; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+    .line { display: grid; grid-template-columns: 1fr 58px 92px 34px; gap: 6px; margin-top: 8px; }
+    .line input { padding: 10px; font-size: 15px; }
+    .x { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 18px; }
+    .total { text-align: right; font-weight: 700; font-size: 18px; margin-top: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line-2); background: var(--bg-3); color: #fff; border-radius: 12px; padding: 12px; font: inherit; font-weight: 650; font-size: 14px; cursor: pointer; text-decoration: none; }
+    .btn.p { background: linear-gradient(180deg, var(--teal-2), var(--teal) 60%, #0f6f7c); border-color: transparent; }
+    .btn.wa { background: #1fa855; border-color: transparent; }
+    .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .link { word-break: break-all; font-size: 12.5px; background: var(--bg-3); border: 1px dashed var(--line-2); border-radius: 12px; padding: 10px 12px; color: var(--teal-2); max-height: 90px; overflow: auto; }
+    .hint { color: var(--muted); font-size: 13px; margin-top: 8px; }
+    .msg { color: var(--red); font-size: 14px; min-height: 20px; margin-top: 6px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: #fff; color: #0f1117; font-weight: 600; padding: 10px 18px; border-radius: 99px; opacity: 0; transition: .3s; pointer-events: none; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <h1>Devis à <em>signer en ligne</em></h1>
+    <p class="lead">Le client ouvre le lien, signe avec le doigt, et peut payer tout de suite. Tu reçois sa signature par e-mail.</p>
+    <div class="card">
+      <div class="row">
+        <div><label for="c">Client *</label><input id="c" placeholder="Ex. Plomberie Martin"></div>
+        <div><label for="to">Son téléphone</label><input id="to" type="tel" placeholder="06 12 34 56 78"></div>
+      </div>
+      <label for="ca">Adresse du client</label><input id="ca" placeholder="Ex. 12 rue de la Paix, 69700 Givors">
+      <label for="o">Objet</label><input id="o" value="Création de site internet">
+    </div>
+    <div class="card">
+      <label style="margin-top:0">Ajout rapide</label>
+      <div class="presets" id="presets"></div>
+      <label>Prestations (description · qté · prix €)</label>
+      <div id="lines"></div>
+      <button class="chip" type="button" id="addLine" style="margin-top:10px">+ Ligne libre</button>
+      <div class="total" id="total"></div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div><label for="valid">Validité (jours)</label><input id="valid" type="number" value="30" min="1"></div>
+        <div><label for="pay">Paiement après signature</label><select id="pay"></select></div>
+      </div>
+      <label for="r">Conditions (facultatif)</label><input id="r" placeholder="Ex. Mise en ligne sous 7 jours après réception des contenus.">
+      <button class="btn p" type="button" id="gen" style="width:100%;margin-top:14px">Créer le lien du devis</button>
+      <p class="msg" id="msg"></p>
+    </div>
+    <div class="card" id="out" hidden>
+      <label style="margin-top:0">Lien à envoyer</label>
+      <div class="link" id="link"></div>
+      <div class="btns"><button class="btn p" type="button" id="copy">📋 Copier</button><a class="btn" id="open" target="_blank" rel="noopener">👁 Voir</a></div>
+      <div class="btns"><a class="btn p" id="sms">💬 SMS</a><a class="btn wa" id="wa" target="_blank" rel="noopener">WhatsApp</a></div>
+      <p class="hint">Le devis est contenu dans le lien : rien n'est stocké en ligne. Quand le client signe, tu reçois un e-mail avec son nom, la date, le détail du devis et sa signature.</p>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script>
+  (() => {
+    const $ = (s) => document.querySelector(s);
+    const PRE = [
+      ['Site vitrine clé en main', 1, 250], ['Maintenance mensuelle (1er mois)', 1, 50], ['AI Répondeur — mise en place et 1er mois', 1, 199], ['Vortex Avis — 1er mois', 1, 29], ['Page supplémentaire', 1, 50], ['Rédaction des textes', 1, 40],
+    ];
+    const PAY = [
+      ['', 'Aucun (virement / plus tard)'], ['https://buy.stripe.com/6oU7sKeFweKm5UU84z7Zu04', 'Site 250 € (Stripe)'], ['https://buy.stripe.com/9B63cucxo0Tw5UU5Wr7Zu05', 'Maintenance 50 €/mois'], ['https://buy.stripe.com/aFaeVc0OG7hUfvugB57Zu07', 'AI Répondeur 199 €/mois'], ['https://buy.stripe.com/dRm14mgNEbyagzyacH7Zu06', 'Vortex Avis 29 €/mois'],
+    ];
+    $('#presets').innerHTML = PRE.map((p, i) => `<button class="chip" type="button" data-i="${i}">+ ${p[0].split(' —')[0]} · ${p[2]} €</button>`).join('');
+    $('#pay').innerHTML = PAY.map(([v, t]) => `<option value="${v}">${t}</option>`).join('');
+    const lines = $('#lines');
+    const addLine = (d = '', q = 1, p = '') => { const el = document.createElement('div'); el.className = 'line'; el.innerHTML = `<input placeholder="Description" value="${d.replace(/"/g, '&quot;')}"><input type="number" min="1" value="${q}" aria-label="Quantité"><input type="number" min="0" step="0.01" value="${p}" placeholder="Prix" aria-label="Prix"><button class="x" type="button" aria-label="Retirer">✕</button>`; lines.appendChild(el); calc(); };
+    const read = () => [...lines.children].map((l) => { const [d, q, p] = l.querySelectorAll('input'); return { d: d.value.trim(), q: +q.value || 1, p: +p.value || 0 }; }).filter((x) => x.d);
+    const calc = () => { const t = read().reduce((a, x) => a + x.q * x.p, 0); $('#total').textContent = 'Total : ' + t.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + ' € (TVA non applicable)'; };
+    lines.addEventListener('input', calc);
+    lines.addEventListener('click', (e) => { if (e.target.closest('.x')) { e.target.closest('.line').remove(); calc(); } });
+    $('#presets').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (!b) return; const p = PRE[+b.dataset.i]; addLine(p[0], p[1], p[2]);
+      if (p[2] === 250 && !$('#pay').value) $('#pay').value = PAY[1][0]; if (p[2] === 199 && !$('#pay').value) $('#pay').value = PAY[3][0]; if (p[2] === 29 && !$('#pay').value) $('#pay').value = PAY[4][0]; });
+    $('#addLine').onclick = () => addLine();
+    addLine('Site vitrine clé en main', 1, 250); $('#pay').value = PAY[1][0];
+    const b64 = (s) => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const fmt = (d) => d.toLocaleDateString('fr-FR');
+    let url = '';
+    $('#gen').onclick = () => {
+      const l = read(), c = $('#c').value.trim();
+      if (!c) { $('#msg').textContent = 'Indique le nom du client.'; return; }
+      if (!l.length) { $('#msg').textContent = 'Ajoute au moins une prestation.'; return; }
+      $('#msg').textContent = '';
+      const now = new Date(), v = new Date(now.getTime() + (+$('#valid').value || 30) * 86400000);
+      const no = 'D' + now.toISOString().slice(2, 10).replace(/-/g, '') + '-' + String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
+      const D = { no, d: fmt(now), v: fmt(v), c, ca: $('#ca').value.trim(), o: $('#o').value.trim(), l, r: $('#r').value.trim(), pay: $('#pay').value };
+      url = 'https://vortex-agence.fr/signer/#' + b64(JSON.stringify(D));
+      $('#out').hidden = false; $('#link').textContent = url; $('#open').href = url.replace('https://vortex-agence.fr', '');
+      const total = l.reduce((a, x) => a + x.q * x.p, 0).toLocaleString('fr-FR');
+      const txt = `Bonjour, voici votre devis Vortex (${total} €). Vous pouvez le lire et le signer directement sur votre téléphone, en 1 minute 👉 ${url}`;
+      const to = $('#to').value.replace(/[^\d+]/g, ''), intl = to.startsWith('0') ? '33' + to.slice(1) : to.replace('+', '');
+      $('#sms').href = `sms:${to}?&body=${encodeURIComponent(txt)}`; $('#wa').href = `https://wa.me/${intl}?text=${encodeURIComponent(txt)}`;
+      $('#out').scrollIntoView({ behavior: 'smooth' });
+    };
+    $('#copy').onclick = async () => { try { await navigator.clipboard.writeText(url); const t = $('#toast'); t.textContent = 'Lien copié ✓'; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1500); } catch (e) { prompt('Copie le lien :', url); } };
+  })();
+  </script>
+</body>
+</html>

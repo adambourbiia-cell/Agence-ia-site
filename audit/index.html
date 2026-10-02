@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audit gratuit : votre entreprise est-elle visible sur Google ? | Vortex</title>
+  <meta name="description" content="Testez gratuitement en 2 minutes la visibilité de votre entreprise sur Google : fiche Google, avis, site internet, mobile. Score sur 100 et conseils personnalisés pour artisans et commerçants.">
+  <link rel="canonical" href="https://vortex-agence.fr/audit/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#0f1117">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Vortex">
+  <meta property="og:title" content="Votre entreprise est-elle visible sur Google ? Testez en 2 minutes">
+  <meta property="og:description" content="10 questions, un score sur 100 et des conseils concrets. Gratuit.">
+  <meta property="og:url" content="https://vortex-agence.fr/audit/">
+  <meta property="og:image" content="https://vortex-agence.fr/assets/img/og-image.jpg">
+  <link rel="preload" href="/assets/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/fonts.css?v=3b9ea1b4">
+  <link rel="stylesheet" href="/assets/css/style.css?v=6d6761c0">
+  <style>
+    .au { max-width: 640px; margin: 0 auto; }
+    .au-card { background: #161a26; border: 1px solid rgba(255,255,255,.1); border-radius: 22px; padding: 24px 20px; }
+    .au-prog { height: 6px; background: rgba(255,255,255,.08); border-radius: 99px; overflow: hidden; margin-bottom: 22px; }
+    .au-prog i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--teal), var(--teal-2)); transition: width .5s var(--ease-out); }
+    .au-step { color: var(--muted); font-size: 14px; margin-bottom: 6px; }
+    .au-q { font-family: var(--display); font-size: clamp(22px, 5vw, 28px); line-height: 1.2; margin-bottom: 8px; }
+    .au-help { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+    .au-opts { display: grid; gap: 10px; }
+    .au-opt { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; background: #1d2231; border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 15px 16px; color: #fff; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: border-color .2s, transform .15s; }
+    .au-opt:hover { border-color: var(--teal-2); }
+    .au-opt:active { transform: scale(.98); }
+    .au-opt span { font-size: 20px; }
+    .au-back { background: none; border: 0; color: var(--muted); margin-top: 16px; cursor: pointer; font: inherit; font-size: 14px; }
+    .au-intro input, .au-form input { width: 100%; background: #1d2231; border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: 13px; color: #fff; font: inherit; font-size: 16px; margin-bottom: 10px; outline: none; }
+    .au-intro input:focus, .au-form input:focus { border-color: var(--teal-2); }
+    .au-score { text-align: center; }
+    .au-gauge { width: 210px; height: 210px; margin: 0 auto 10px; position: relative; }
+    .au-gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .au-gauge circle { fill: none; stroke-width: 14; }
+    .au-gauge .bg { stroke: rgba(255,255,255,.08); }
+    .au-gauge .fg { stroke-linecap: round; stroke-dasharray: 565; stroke-dashoffset: 565; transition: stroke-dashoffset 1.6s var(--ease-out), stroke .3s; }
+    .au-gauge b { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--display); font-size: 56px; }
+    .au-gauge b small { font-size: 18px; color: var(--muted); }
+    .au-level { font-family: var(--display); font-size: 24px; margin-bottom: 6px; }
+    .au-recs { text-align: left; margin-top: 18px; }
+    .au-rec { display: flex; gap: 12px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.08); }
+    .au-rec b { display: block; font-size: 16px; margin-bottom: 2px; }
+    .au-rec p { color: #c9d0db; font-size: 15px; }
+    .au-rec .pts { flex: none; color: var(--gold, #f5b942); font-weight: 700; font-size: 14px; white-space: nowrap; }
+    .au-ok { color: #3ecf8e; }
+    .au-cta { margin-top: 20px; display: grid; gap: 10px; }
+    .au-msg { min-height: 22px; font-size: 14.5px; margin-top: 8px; }
+    .hp { position: absolute; left: -9999px; }
+  </style>
+</head>
+<body class="local-page">
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="/" class="logo" aria-label="Vortex, accueil">
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5" /><path d="M29 16a13 13 0 0 1-8.5 12.2" /><path d="M16 29A13 13 0 0 1 3.8 20.5" /><path d="M3 16a13 13 0 0 1 8.5-12.2" /><circle cx="16" cy="16" r="4.5" /></svg>
+        <span>vortex</span>
+      </a>
+      <nav class="header__nav" aria-label="Navigation principale">
+        <a href="/#services">Services</a>
+        <a href="/#offre">Offre</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+      <a href="/#contact" class="btn btn--primary btn--sm" data-magnetic>Demander mon site</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="local-hero" style="padding-bottom:60px">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="container au">
+        <div class="pill"><span class="pill__dot"></span>Gratuit · 2 minutes</div>
+        <h1 class="local-title" style="font-size:clamp(34px,7vw,56px)">Votre entreprise est-elle <em>visible sur Google ?</em></h1>
+        <p class="hero__lead" style="margin-bottom:26px">10 questions simples pour savoir si les clients vous trouvent, et ce qu'il faut corriger en priorité. Score sur 100 et conseils personnalisés.</p>
+
+        <div class="au-card" id="app">
+          <div class="au-intro" id="intro">
+            <p class="au-q">C'est parti.</p>
+            <p class="au-help">Pour personnaliser vos conseils (facultatif) :</p>
+            <input id="job" placeholder="Votre métier (ex. plombier, coiffeuse…)" maxlength="40">
+            <input id="city" placeholder="Votre ville (ex. Givors)" maxlength="40">
+            <button class="btn btn--primary" type="button" id="start" style="width:100%;margin-top:6px">Commencer le test →</button>
+          </div>
+          <div id="quiz" hidden>
+            <div class="au-prog"><i id="prog"></i></div>
+            <p class="au-step" id="step"></p>
+            <p class="au-q" id="q"></p>
+            <p class="au-help" id="help"></p>
+            <div class="au-opts" id="opts"></div>
+            <button class="au-back" type="button" id="back">← Question précédente</button>
+          </div>
+          <div class="au-score" id="result" hidden>
+            <div class="au-gauge"><svg viewBox="0 0 200 200"><circle class="bg" cx="100" cy="100" r="90"/><circle class="fg" id="arc" cx="100" cy="100" r="90"/></svg><b><span id="num">0</span><small>/100</small></b></div>
+            <p class="au-level" id="level"></p>
+            <p class="au-help" id="levelTxt" style="margin-bottom:0"></p>
+            <div class="au-recs" id="recs"></div>
+            <div class="au-cta">
+              <a class="btn btn--primary" href="/#offre">Corriger tout ça : site clé en main dès 250 € →</a>
+            </div>
+            <form class="au-form" id="lead" style="text-align:left;margin-top:22px" novalidate>
+              <p class="au-q" style="font-size:21px">Recevoir mon plan d'action gratuit</p>
+              <p class="au-help">On vous rappelle ou on vous écrit avec les 3 actions prioritaires pour votre entreprise. Sans engagement.</p>
+              <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+              <input id="lName" placeholder="Votre prénom et nom *" autocomplete="name">
+              <input id="lBiz" placeholder="Nom de votre entreprise" autocomplete="organization">
+              <input id="lTel" type="tel" placeholder="Téléphone *" autocomplete="tel" inputmode="tel">
+              <input id="lMail" type="email" placeholder="E-mail" autocomplete="email" inputmode="email">
+              <button class="btn btn--primary" type="submit" id="lBtn" style="width:100%">Recevoir mon plan d'action</button>
+              <p class="au-msg" id="lMsg" role="status" aria-live="polite"></p>
+              <p class="au-help" style="font-size:12.5px">Vos informations servent uniquement à vous recontacter. <a href="/mentions-legales.html" style="color:var(--teal-2)">Confidentialité</a>.</p>
+            </form>
+            <button class="au-back" type="button" id="restart">Refaire le test</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <div>
+          <a href="/" class="logo logo--small" aria-label="Vortex, accueil">
+            <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 1 12.2 8.5" /><path d="M29 16a13 13 0 0 1-8.5 12.2" /><path d="M16 29A13 13 0 0 1 3.8 20.5" /><path d="M3 16a13 13 0 0 1 8.5-12.2" /><circle cx="16" cy="16" r="4.5" /></svg>
+            <span>vortex</span>
+          </a>
+          <p class="footer__copy">© <span class="year">2026</span> Vortex. Tous droits réservés. · <a href="/mentions-legales.html">Mentions légales &amp; confidentialité</a></p>
+        </div>
+        <div class="footer__right"><span>📍 Givors · Lyon</span><a href="mailto:vortex.twitch.live@gmail.com">vortex.twitch.live@gmail.com</a></div>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/js/main.js?v=3554a65c"></script>
+  <script>
+  (() => {
+    const $ = (s) => document.querySelector(s);
+    const Q = [
+      { k: 'gbp', q: 'Avez-vous une fiche Google Business (Google Maps) ?', h: 'C\'est la fiche qui apparaît sur Google Maps avec vos horaires et vos avis.', w: 20, rec: ['Créer votre fiche Google', 'C\'est gratuit et c\'est la première chose que voient vos clients quand ils cherchent « {job} {city} ». Sans fiche, vous êtes invisible sur Google Maps.'] },
+      { k: 'reviews', q: 'Avez-vous au moins 20 avis Google ?', h: 'Les clients comparent le nombre d\'avis et les étoiles avant d\'appeler.', w: 10, rec: ['Récolter plus d\'avis', 'Demandez un avis à chaque client satisfait, juste après la prestation, avec le lien direct. 20 avis changent complètement la confiance.'] },
+      { k: 'rating', q: 'Votre note Google est-elle de 4,5 étoiles ou plus ?', h: '', w: 5, rec: ['Améliorer votre note', 'Répondez à chaque avis, même négatif, calmement. Et demandez plus d\'avis à vos clients contents : ils font remonter la moyenne.'] },
+      { k: 'site', q: 'Avez-vous un site internet ?', h: 'Une page Facebook ou Planity ne compte pas comme un site.', w: 20, rec: ['Avoir votre propre site', 'Un site rassure, présente vos services et vos prix, et vous fait apparaître sur Google pour « {job} {city} ». Facebook seul remonte très peu.'] },
+      { k: 'mobile', q: 'Votre site est-il agréable sur téléphone ?', h: 'Texte lisible sans zoomer, boutons faciles à toucher.', w: 10, needs: 'site', rec: ['Un site adapté au mobile', 'La majorité de vos visiteurs viennent d\'un téléphone. Un site difficile à lire sur mobile fait fuir les clients en quelques secondes.'] },
+      { k: 'call', q: 'Peut-on vous appeler en un clic depuis votre site ou votre fiche ?', h: 'Un bouton « Appeler » ou un numéro cliquable.', w: 5, rec: ['Un bouton « Appeler » visible', 'Le client pressé veut appeler tout de suite. Un numéro à recopier, c\'est un client qui abandonne.'] },
+      { k: 'rank', q: 'Apparaissez-vous quand on tape « {job} {city} » sur Google ?', h: 'Testez sur votre téléphone, en navigation privée.', w: 15, rec: ['Être trouvé sur « {job} {city} »', 'Votre métier et votre ville doivent apparaître sur votre site et votre fiche Google. C\'est ce que tapent vos futurs clients, pas votre nom.'] },
+      { k: 'photos', q: 'Avez-vous ajouté des photos récentes (moins de 6 mois) ?', h: 'Réalisations, boutique, équipe…', w: 5, rec: ['Ajouter des photos récentes', 'Les fiches avec de vraies photos reçoivent plus de demandes. Prenez une photo à chaque chantier ou prestation.'] },
+      { k: 'hours', q: 'Vos horaires sont-ils à jour partout ?', h: 'Fiche Google, site, réseaux sociaux.', w: 5, rec: ['Mettre à jour vos horaires', 'Un client qui trouve porte close à cause d\'horaires faux ne revient pas, et peut laisser un avis négatif.'] },
+      { k: 'answer', q: 'Répondez-vous aux avis de vos clients ?', h: '', w: 5, rec: ['Répondre aux avis', 'Une réponse courte et polie à chaque avis montre que vous êtes sérieux, et Google le valorise.'] },
+    ];
+    let i = 0, A = {}, job = '', city = '';
+    const fill = (s) => s.replaceAll('{job}', job || 'votre métier').replaceAll('{city}', city || 'votre ville').replace(/« votre métier votre ville »/, '« votre métier + votre ville »');
+    const visible = () => Q.filter((x) => !x.needs || A[x.needs] === 'yes');
+    function show() {
+      const list = visible(); const x = list[i];
+      $('#prog').style.width = (i / list.length * 100) + '%';
+      $('#step').textContent = `Question ${i + 1} sur ${list.length}`;
+      $('#q').textContent = fill(x.q); $('#help').textContent = fill(x.h); $('#help').hidden = !x.h;
+      $('#opts').innerHTML = [['yes', '✅', 'Oui'], ['no', '❌', 'Non'], ['dk', '🤷', 'Je ne sais pas']].map(([v, e, t]) => `<button class="au-opt" type="button" data-v="${v}"><span>${e}</span>${t}</button>`).join('');
+      $('#back').hidden = i === 0;
+    }
+    $('#start').onclick = () => { job = $('#job').value.trim().toLowerCase(); city = $('#city').value.trim(); $('#intro').hidden = true; $('#quiz').hidden = false; i = 0; A = {}; show(); };
+    $('#opts').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (!b) return; const list = visible(); A[list[i].k] = b.dataset.v; i++; if (i < visible().length) show(); else result(); });
+    $('#back').onclick = () => { if (i > 0) { i--; show(); } };
+    let score = 0, fails = [];
+    function result() {
+      $('#quiz').hidden = true; $('#result').hidden = false;
+      score = 0; fails = [];
+      for (const x of Q) { if (A[x.k] === 'yes') score += x.w; else if (!x.needs || A[x.needs] === 'yes') fails.push(x); }
+      const lvl = score >= 80 ? ['Excellent 👏', 'Votre présence sur Google est solide. Quelques détails peuvent encore vous apporter plus de clients.', '#3ecf8e'] : score >= 55 ? ['Pas mal, mais vous perdez des clients', 'Les bases sont là, mais plusieurs points font partir des clients chez vos concurrents.', '#f5b942'] : ['Vous êtes presque invisible', 'Aujourd\'hui, la plupart des clients qui cherchent votre métier près de chez eux ne vous trouvent pas. Bonne nouvelle : ça se corrige vite.', '#ef6461'];
+      $('#level').textContent = lvl[0]; $('#levelTxt').textContent = lvl[1]; $('#arc').style.stroke = lvl[2];
+      requestAnimationFrame(() => { $('#arc').style.strokeDashoffset = 565 - 565 * score / 100; });
+      const t0 = performance.now(); const tick = (t) => { const p = Math.min(1, (t - t0) / 1500); $('#num').textContent = Math.round(score * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(tick); }; requestAnimationFrame(tick);
+      fails.sort((a, b) => b.w - a.w);
+      $('#recs').innerHTML = (fails.length ? '<p class="au-q" style="font-size:20px;margin-top:10px">Vos priorités</p>' : '<p class="au-ok">Rien d\'important à corriger, bravo !</p>') + fails.slice(0, 5).map((x) => `<div class="au-rec"><div style="flex:1"><b>${fill(x.rec[0])}</b><p>${fill(x.rec[1])}</p></div><span class="pts">+${x.w} pts</span></div>`).join('');
+      scrollTo({ top: $('#app').getBoundingClientRect().top + scrollY - 90, behavior: 'smooth' });
+    }
+    $('#restart').onclick = () => { $('#result').hidden = true; $('#intro').hidden = false; $('#arc').style.strokeDashoffset = 565; };
+    $('#lead').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = $('#lName').value.trim(), tel = $('#lTel').value.trim(), mail = $('#lMail').value.trim(), msg = $('#lMsg');
+      if (!name || !/\d{9,}/.test(tel.replace(/\D/g, ''))) { msg.style.color = '#ef6461'; msg.textContent = 'Merci d\'indiquer votre nom et un numéro de téléphone.'; return; }
+      $('#lBtn').disabled = true; msg.style.color = ''; msg.textContent = 'Envoi…';
+      const answers = Q.map((x) => `${fill(x.q)} → ${({ yes: 'Oui', no: 'Non', dk: 'Ne sait pas' })[A[x.k]] || '—'}`).join('\n');
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({
+          access_key: 'f8395aee-45d6-4075-b864-0a58bdfb17a0', subject: `Audit Google — ${$('#lBiz').value.trim() || name} : ${score}/100`, from_name: 'Audit Vortex', replyto: mail || undefined,
+          Nom: name, Entreprise: $('#lBiz').value.trim() || '—', 'Téléphone': tel, 'E-mail': mail || '—', 'Métier': job || '—', Ville: city || '—', Score: score + '/100',
+          'Priorités': fails.slice(0, 5).map((x) => fill(x.rec[0])).join(' · ') || '—', 'Réponses': answers, botcheck: e.target.botcheck.checked,
+        }) });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || d.success === false) throw new Error();
+        $('#lead').innerHTML = '<p class="au-q" style="font-size:21px">Merci, c\'est reçu ✅</p><p class="au-help">On vous recontacte rapidement avec votre plan d\'action. En attendant, découvrez <a href="/#realisations" style="color:var(--teal-2)">nos réalisations</a>.</p>';
+      } catch (err) { $('#lBtn').disabled = false; msg.style.color = '#ef6461'; msg.innerHTML = 'L\'envoi a échoué. Écrivez-nous à <a href="mailto:vortex.twitch.live@gmail.com" style="color:var(--teal-2)">vortex.twitch.live@gmail.com</a>.'; }
+    });
+  })();
+  </script>
+</body>
+</html>

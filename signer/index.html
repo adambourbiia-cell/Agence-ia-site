@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Votre devis — Vortex</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --ink:#141821; --muted:#5f6878; --line:#e3e6ec; --teal:#1a9fb0; --teal-2:#22c1d3; --bg:#eef1f5; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Inter", system-ui, sans-serif; line-height: 1.5; font-size: 15px; -webkit-font-smoothing: antialiased; }
+    .w { max-width: 760px; margin: 0 auto; padding: 22px 14px 60px; }
+    .doc { background: #fff; border-radius: 18px; padding: 26px 22px; box-shadow: 0 20px 50px -30px rgba(15,17,23,.4); }
+    .head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-bottom: 18px; }
+    .logo { display: flex; align-items: center; gap: 9px; font-family: "Syne", sans-serif; font-weight: 700; font-size: 22px; }
+    .logo svg { width: 28px; height: 28px; fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; }
+    .logo svg circle { fill: var(--teal-2); stroke: none; }
+    .em { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .meta { text-align: right; font-size: 13.5px; color: var(--muted); }
+    .meta b { color: var(--ink); font-size: 20px; display: block; font-family: "Syne"; }
+    .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+    @media (max-width: 560px) { .parties { grid-template-columns: 1fr; } .meta { text-align: left; } }
+    .box { background: #f7f8fa; border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+    .box small { display: block; text-transform: uppercase; letter-spacing: .06em; font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+    th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 8px 6px; border-bottom: 2px solid var(--ink); }
+    td { padding: 11px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    td.n, th.n { text-align: right; white-space: nowrap; }
+    .tot { margin-left: auto; width: min(100%, 300px); margin-top: 14px; font-size: 14.5px; }
+    .tot div { display: flex; justify-content: space-between; padding: 5px 0; }
+    .tot .big { font-weight: 800; font-size: 19px; border-top: 2px solid var(--ink); padding-top: 9px; margin-top: 4px; }
+    .mention { font-size: 12.5px; color: var(--muted); margin-top: 14px; }
+    .sign { margin-top: 22px; border-top: 1px solid var(--line); padding-top: 20px; }
+    .sign h2 { font-family: "Syne"; font-size: 20px; margin: 0 0 4px; }
+    .sign p { color: var(--muted); margin: 0 0 12px; font-size: 14px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin: 10px 0 5px; }
+    input[type=text] { width: 100%; border: 1px solid #cdd3dc; border-radius: 10px; padding: 12px; font: inherit; font-size: 16px; outline: none; }
+    input[type=text]:focus { border-color: var(--teal); }
+    .pad { position: relative; border: 2px dashed #cdd3dc; border-radius: 14px; background: #fbfcfd; touch-action: none; }
+    .pad canvas { display: block; width: 100%; height: 170px; cursor: crosshair; }
+    .pad span { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; color: #b3bac6; pointer-events: none; font-size: 14px; }
+    .row { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-top: 6px; }
+    .lnk { background: none; border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; font-size: 13px; }
+    .chk { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; margin: 14px 0; }
+    .chk input { width: 20px; height: 20px; margin-top: 1px; flex: none; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; border: 0; border-radius: 14px; padding: 15px; font: inherit; font-weight: 700; font-size: 16px; color: #fff; background: linear-gradient(180deg, var(--teal-2), var(--teal) 60%, #0f6f7c); cursor: pointer; text-decoration: none; margin-top: 10px; }
+    .btn.alt { background: #fff; color: var(--ink); border: 1px solid #cdd3dc; }
+    .btn[disabled] { opacity: .6; cursor: wait; }
+    .msg { min-height: 22px; font-size: 14px; margin-top: 8px; color: #c2413b; }
+    .done { background: #e9f8f1; border: 1px solid #b6e6cf; border-radius: 14px; padding: 16px; margin-top: 16px; }
+    .done b { color: #187a4e; }
+    .sigimg { max-width: 260px; max-height: 110px; display: block; margin-top: 6px; }
+    .err { text-align: center; padding: 60px 20px; }
+    @media print { body { background: #fff; } .w { padding: 0; } .doc { box-shadow: none; padding: 0; } .noprint { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <div class="doc" id="doc"></div>
+  </div>
+  <script>
+  (() => {
+    const $ = (s) => document.querySelector(s);
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const eur = (n) => (Math.round(n * 100) / 100).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    let D;
+    try { D = JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(1).replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { D = null; }
+    if (!D || !Array.isArray(D.l) || !D.l.length) { $('#doc').innerHTML = '<div class="err"><h2>Lien de devis invalide</h2><p>Le lien semble incomplet. Demandez un nouveau lien à Vortex : <a href="mailto:vortex.twitch.live@gmail.com">vortex.twitch.live@gmail.com</a></p></div>'; return; }
+    const total = D.l.reduce((a, x) => a + (+x.q || 1) * (+x.p || 0), 0);
+    const SIGNED_KEY = 'vx-signed-' + D.no;
+    $('#doc').innerHTML = `
+      <div class="head">
+        <div><div class="logo"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 1 12.2 8.5"/><path d="M29 16a13 13 0 0 1-8.5 12.2"/><path d="M16 29A13 13 0 0 1 3.8 20.5"/><path d="M3 16a13 13 0 0 1 8.5-12.2"/><circle cx="16" cy="16" r="4.5"/></svg>vortex</div>
+          <div class="em">Gallardo — EI · 16 avenue Danielle Casanova, 69700 Givors<br>SIRET 912 177 193 00014 · vortex.twitch.live@gmail.com</div></div>
+        <div class="meta"><b>Devis n° ${esc(D.no)}</b>Date : ${esc(D.d)}<br>Valable jusqu'au : ${esc(D.v)}</div>
+      </div>
+      <div class="parties">
+        <div class="box"><small>Client</small><b>${esc(D.c)}</b>${D.ca ? '<br>' + esc(D.ca) : ''}</div>
+        <div class="box"><small>Objet</small>${esc(D.o || 'Création de site internet')}</div>
+      </div>
+      <table><thead><tr><th>Prestation</th><th class="n">Qté</th><th class="n">Prix</th><th class="n">Total</th></tr></thead><tbody>
+        ${D.l.map((x) => `<tr><td>${esc(x.d)}</td><td class="n">${esc(x.q || 1)}</td><td class="n">${eur(+x.p || 0)}</td><td class="n">${eur((+x.q || 1) * (+x.p || 0))}</td></tr>`).join('')}
+      </tbody></table>
+      <div class="tot"><div><span>Total HT</span><span>${eur(total)}</span></div><div><span>TVA</span><span>0,00 €</span></div><div class="big"><span>Total à payer</span><span>${eur(total)}</span></div></div>
+      <p class="mention">TVA non applicable, art. 293 B du CGI. ${D.r ? esc(D.r) + ' ' : ''}Paiement par carte bancaire via Stripe (lien sécurisé) ou par virement.</p>
+      <div class="sign" id="signZone">
+        <h2>Bon pour accord</h2>
+        <p>Pour accepter ce devis, indiquez votre nom, signez avec le doigt (ou la souris) puis validez.</p>
+        <label for="sName">Nom et prénom du signataire</label><input type="text" id="sName" autocomplete="name">
+        <label>Signature</label>
+        <div class="pad"><canvas id="pad"></canvas><span id="padHint">Signez ici</span></div>
+        <div class="row"><span></span><button class="lnk" type="button" id="clear">Effacer</button></div>
+        <label class="chk"><input type="checkbox" id="agree"> J'accepte ce devis et ses conditions, « bon pour accord ».</label>
+        <button class="btn" type="button" id="send">✍️ Signer le devis</button>
+        <p class="msg" id="msg" role="status" aria-live="polite"></p>
+      </div>
+      <div id="after"></div>`;
+
+    const cv = $('#pad'), ctx = cv.getContext('2d'); let drawing = false, drawn = false, last;
+    const size = () => { const r = cv.getBoundingClientRect(), dpr = devicePixelRatio || 1; cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.scale(dpr, dpr); ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#141821'; };
+    size();
+    const pos = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    cv.addEventListener('pointerdown', (e) => { drawing = true; last = pos(e); cv.setPointerCapture(e.pointerId); $('#padHint').hidden = true; });
+    cv.addEventListener('pointermove', (e) => { if (!drawing) return; const p = pos(e); ctx.beginPath(); ctx.moveTo(...last); ctx.lineTo(...p); ctx.stroke(); last = p; drawn = true; });
+    addEventListener('pointerup', () => { drawing = false; });
+    $('#clear').onclick = () => { ctx.clearRect(0, 0, cv.width, cv.height); drawn = false; $('#padHint').hidden = false; };
+
+    const showDone = (who, when, sig) => {
+      $('#signZone').innerHTML = `<h2>Devis signé ✓</h2><p>Signé par <b>${esc(who)}</b> le ${esc(when)}.</p>${sig ? `<img class="sigimg" src="${sig}" alt="Signature">` : ''}`;
+      $('#after').innerHTML = `<div class="done noprint"><b>Merci ! Vortex a bien reçu votre accord.</b><p style="margin:6px 0 0">${D.pay ? 'Vous pouvez régler maintenant par carte, en toute sécurité :' : 'Nous revenons vers vous très vite pour la suite.'}</p></div>
+        ${D.pay ? `<a class="btn noprint" href="${esc(D.pay)}" rel="noopener">💳 Payer ${D.acompte ? 'l\'acompte' : ''} en ligne</a>` : ''}
+        <button class="btn alt noprint" type="button" onclick="print()">⬇ Télécharger mon devis signé (PDF)</button>`;
+    };
+    try { const s = JSON.parse(localStorage.getItem(SIGNED_KEY)); if (s) showDone(s.n, s.t, s.sig); } catch (e) {}
+
+    $('#send').onclick = async () => {
+      const name = $('#sName').value.trim(), msg = $('#msg');
+      if (!name) { msg.textContent = 'Indiquez votre nom.'; return; }
+      if (!drawn) { msg.textContent = 'Merci de signer dans le cadre.'; return; }
+      if (!$('#agree').checked) { msg.textContent = 'Cochez « bon pour accord » pour valider.'; return; }
+      const sig = cv.toDataURL('image/png'); const when = new Date().toLocaleString('fr-FR');
+      $('#send').disabled = true; msg.style.color = '#5f6878'; msg.textContent = 'Envoi de votre signature…';
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({
+          access_key: 'f8395aee-45d6-4075-b864-0a58bdfb17a0', subject: `✍️ Devis ${D.no} signé — ${D.c} (${eur(total)})`, from_name: 'Signature Vortex',
+          'Devis': D.no, Client: D.c, Signataire: name, 'Signé le': when, Total: eur(total), Objet: D.o || '—',
+          'Prestations': D.l.map((x) => `${x.d} — ${x.q || 1} × ${eur(+x.p || 0)}`).join('\n'),
+          'Lien du devis': location.href, 'Navigateur': navigator.userAgent.slice(0, 160), 'Signature (image)': sig,
+        }) });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || d.success === false) throw new Error(d.message || 'erreur');
+        try { localStorage.setItem(SIGNED_KEY, JSON.stringify({ n: name, t: when, sig })); } catch (e) {}
+        showDone(name, when, sig);
+      } catch (e) { $('#send').disabled = false; msg.style.color = '#c2413b'; msg.innerHTML = 'L\'envoi a échoué. Réessayez, ou écrivez à <a href="mailto:vortex.twitch.live@gmail.com">vortex.twitch.live@gmail.com</a>.'; }
+    };
+  })();
+  </script>
+</body>
+</html>

@@ -6,6 +6,7 @@ Disallow: /outils/
 Disallow: /avis/app/
 Disallow: /repondeur/demarrage/
 Disallow: /repondeur/demo/
+Disallow: /signer/
 Disallow: /_src/
 Disallow: /paiement-confirme.html
 
