@@ -137,6 +137,9 @@ HEAD = """<!doctype html>
   <title>{title}</title>
   <meta name="description" content="{desc}">
   <link rel="canonical" href="{url}">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png">
+  <link rel="icon" href="/assets/img/favicon-192.png" sizes="192x192" type="image/png">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   <meta name="theme-color" content="#0f1117">
@@ -451,7 +454,7 @@ def blog_pages():
             {"@context": "https://schema.org", "@type": "BlogPosting", "headline": a["title"], "description": a["desc"], "url": url,
              "datePublished": a["date"], "dateModified": a["date"], "inLanguage": "fr-FR", "image": SITE + "/assets/img/og-image.jpg",
              "author": {"@type": "Organization", "name": "Vortex", "url": SITE + "/"},
-             "publisher": {"@type": "Organization", "name": "Vortex", "logo": {"@type": "ImageObject", "url": SITE + "/assets/img/apple-touch-icon.png"}},
+             "publisher": {"@type": "Organization", "name": "Vortex", "logo": {"@type": "ImageObject", "url": SITE + "/assets/img/logo-512.png"}},
              "mainEntityOfPage": url},
             {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"},
