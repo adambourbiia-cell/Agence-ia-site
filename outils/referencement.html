@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kit Google — Vortex</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1117">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
+  <style>
+    :root { --bg:#0f1117; --bg-2:#161a26; --bg-3:#1d2231; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16); --teal:#1a9fb0; --teal-2:#22c1d3; --muted:#9aa3b2; --ok:#3ecf8e; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font-family: "Inter", system-ui, sans-serif; line-height: 1.5; font-size: 15px; -webkit-font-smoothing: antialiased; }
+    .w { max-width: 720px; margin: 0 auto; padding: 22px 16px 70px; }
+    h1 { font-family: "Syne", sans-serif; font-size: 26px; line-height: 1.15; margin: 0 0 6px; }
+    h1 em, h2 em { font-style: normal; color: var(--teal-2); }
+    h2 { font-family: "Syne", sans-serif; font-size: 20px; margin: 34px 0 10px; }
+    .lead { color: var(--muted); margin: 0 0 14px; }
+    .bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; }
+    .prog { height: 10px; background: var(--bg-3); border-radius: 99px; overflow: hidden; }
+    .prog i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--teal), var(--ok)); transition: width .4s; }
+    .pl { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .card { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
+    .field { margin-bottom: 12px; }
+    .field label { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+    .val { background: var(--bg-3); border-radius: 10px; padding: 10px 12px; white-space: pre-wrap; font-size: 14px; color: #e3e8ef; }
+    .cp { border: 1px solid var(--line-2); background: var(--bg-3); color: #fff; border-radius: 8px; padding: 4px 10px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; text-transform: none; letter-spacing: 0; }
+    .task { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--line); }
+    .task:first-child { border-top: 0; }
+    .task input { width: 22px; height: 22px; accent-color: var(--ok); margin: 2px 0 0; }
+    .task b { display: block; }
+    .task small { color: var(--muted); font-size: 13px; display: block; margin-top: 2px; }
+    .task a { color: var(--teal-2); }
+    .task.done b { text-decoration: line-through; color: var(--muted); }
+    .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: rgba(34,193,211,.12); color: var(--teal-2); margin-left: 6px; vertical-align: 2px; }
+    .warn { background: rgba(255,194,51,.08); border: 1px solid rgba(255,194,51,.3); border-radius: 14px; padding: 12px 14px; font-size: 14px; color: #f3dfa8; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: #fff; color: #0f1117; font-weight: 600; padding: 10px 18px; border-radius: 99px; opacity: 0; transition: .3s; pointer-events: none; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  </style>
+</head>
+<body>
+  <div class="w">
+    <h1>Kit <em>Google</em> : être n°1 à Givors</h1>
+    <p class="lead">Tout est prêt à copier-coller. Coche chaque étape quand c'est fait : ta progression est enregistrée sur ce téléphone.</p>
+    <div class="bar"><div class="prog"><i id="pg"></i></div><div class="pl" id="pl"></div></div>
+
+    <h2>1. Ta <em>fiche Google Business</em></h2>
+    <p class="lead">Sur <a href="https://business.google.com/" target="_blank" rel="noopener" style="color:#22c1d3">business.google.com</a>. C'est elle qui te fait apparaître dans la carte Google Maps, au-dessus des sites.</p>
+    <div class="card" id="fiche"></div>
+
+    <h2>2. Les <em>étapes</em> dans l'ordre</h2>
+    <div class="card" id="tasks"></div>
+
+    <h2>3. Les <em>annuaires</em> gratuits</h2>
+    <p class="lead">Chaque inscription est un lien vers ton site et une preuve pour Google que Vortex existe vraiment. Utilise toujours les informations du bloc 1, à l'identique.</p>
+    <div class="warn">⚠️ Nom, adresse et téléphone <b>exactement identiques</b> partout (même ponctuation). C'est un critère de classement local.</div>
+    <div class="card" id="dirs" style="margin-top:10px"></div>
+  </div>
+  <div class="toast" id="toast">Copié ✓</div>
+  <script>
+  (() => {
+    const F = [
+      ['Nom de l\'établissement', 'Vortex'],
+      ['Catégorie principale', 'Concepteur de sites Web'],
+      ['Catégories secondaires', 'Service de marketing en ligne\nConsultant en marketing\nService de conception graphique'],
+      ['Adresse', '16 avenue Danielle Casanova, 69700 Givors'],
+      ['Zone desservie', 'Givors, Grigny, Chasse-sur-Rhône, Brignais, Vienne, Saint-Priest, Vénissieux, Villeurbanne, Lyon'],
+      ['Téléphone', '06 14 25 12 56'],
+      ['Site web', 'https://vortex-agence.fr/'],
+      ['Horaires', 'Lundi au vendredi : 9 h – 19 h\nSamedi : 9 h – 12 h'],
+      ['Description (750 caractères max)', 'Vortex crée des sites internet professionnels pour les artisans, restaurants, salons de coiffure, garages et commerçants de Givors et de la région lyonnaise. Site vitrine clé en main à 250 € prix fixe : design sur mesure, adapté au mobile, référencement Google local et mise en ligne inclus. Vous voyez votre maquette personnalisée gratuitement avant de payer. Maintenance possible à 50 €/mois sans engagement (mises à jour, sécurité, modifications). Nous optimisons aussi votre fiche Google et vous aidons à récolter plus d\'avis clients. Un interlocuteur local, qui répond vite et s\'occupe de tout. Voyez votre futur site en 10 secondes sur vortex-agence.fr/mon-site'],
+      ['Services (à ajouter un par un)', 'Création de site vitrine — 250 €\nMaintenance de site — 50 €/mois\nRéférencement local (SEO)\nOptimisation de fiche Google\nRefonte de site internet\nSite de restaurant\nSite pour artisan\nSite pour salon de coiffure\nSite pour garage\nAssistante téléphonique IA (AI Répondeur)'],
+      ['Attributs à cocher', 'Rendez-vous en ligne · Devis gratuits · Services sur place · Services en ligne'],
+      ['Question-réponse n°1', 'Q : Combien coûte un site internet ?\nR : Le site vitrine clé en main est à 250 € prix fixe, mise en ligne incluse. Les options (pages en plus, réservation…) sont détaillées sur vortex-agence.fr/tarif'],
+      ['Question-réponse n°2', 'Q : Peut-on voir le site avant de payer ?\nR : Oui, nous préparons une maquette personnalisée gratuite et sans engagement.'],
+      ['Question-réponse n°3', 'Q : En combien de temps le site est-il en ligne ?\nR : En général sous une semaine après validation de la maquette.'],
+      ['Message d\'accueil (messagerie)', 'Bonjour ! Merci pour votre message. Dites-moi votre activité et votre ville, je vous envoie un aperçu de votre futur site 🙂 Trystan — Vortex'],
+    ];
+    const T = [
+      ['f1', 'Créer ou revendiquer la fiche', 'Choisis « Concepteur de sites Web », ajoute l\'adresse puis valide (vidéo ou courrier selon Google).'],
+      ['f2', 'Remplir tous les champs du bloc 1', 'Une fiche complète à 100 % est mieux classée.'],
+      ['f3', 'Ajouter 10 photos', 'Logo, photo de toi, captures de tes démos (sur ordi et téléphone), ta couverture. Elles sont dans ton site : /assets/img et /google-business.'],
+      ['f4', 'Ajouter les 10 services avec leur prix', ''],
+      ['f5', 'Publier le premier post', 'Tes 12 posts sont prêts dans Vortex Pro → Posts Google. Ensuite 1 par semaine.'],
+      ['f6', 'Demander 5 avis à tes proches et anciens contacts', 'Uniquement des gens qui te connaissent vraiment. Envoie le lien « Demander des avis » de ta fiche.'],
+      ['f7', 'Répondre à chaque avis', 'Remercie avec le prénom et une phrase personnelle.'],
+      ['f8', 'Search Console : demander l\'indexation de la page d\'accueil', 'Inspection de l\'URL → https://vortex-agence.fr/ → Demander une indexation.'],
+      ['f9', 'Mettre le lien de ta fiche dans ta signature e-mail et sur LinkedIn', ''],
+      ['f10', 'Demander à chaque client un lien « Site réalisé par Vortex »', 'Ajoute-le en bas de chaque site que tu livres, avec un lien vers vortex-agence.fr.'],
+    ];
+    const D = [
+      ['Bing Places', 'https://www.bingplaces.com/', 'Importe ta fiche Google en 1 clic', 'Prioritaire'],
+      ['Apple Business Connect', 'https://businessconnect.apple.com/', 'Plans sur iPhone', 'Prioritaire'],
+      ['PagesJaunes', 'https://www.solocal.com/inscription-gratuite', 'Inscription gratuite (refuse les options payantes)', 'Prioritaire'],
+      ['Facebook (page pro)', 'https://www.facebook.com/pages/create', 'Avec le lien du site et l\'adresse', ''],
+      ['LinkedIn (page entreprise)', 'https://www.linkedin.com/company/setup/new/', 'En plus de ton profil', ''],
+      ['Yelp', 'https://biz.yelp.fr/', '', ''],
+      ['Hoodspot', 'https://www.hoodspot.fr/', '', ''],
+      ['Cylex', 'https://www.cylex-france.fr/', '', ''],
+      ['118712', 'https://www.118712.fr/', '', ''],
+      ['Justacoté', 'https://www.justacote.com/', '', ''],
+      ['Malt', 'https://www.malt.fr/', 'Profil freelance : missions de création de site', 'Bonus'],
+      ['Codeur.com', 'https://www.codeur.com/', 'Appels d\'offres de création de site', 'Bonus'],
+      ['CCI Lyon Métropole', 'https://www.lyon-metropole.cci.fr/', 'Annuaire des entreprises adhérentes', 'Bonus'],
+      ['Mairie de Givors', 'https://www.givors.fr/', 'Demande l\'ajout à l\'annuaire des entreprises locales', 'Bonus'],
+    ];
+    const KEY = 'vx-seo-kit'; let st = {}; try { st = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+    const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    document.getElementById('fiche').innerHTML = F.map(([k, v], i) => `<div class="field"><label>${esc(k)} <button class="cp" data-c="${i}">Copier</button></label><div class="val">${esc(v)}</div></div>`).join('');
+    const task = (id, t, s, extra = '') => `<label class="task ${st[id] ? 'done' : ''}"><input type="checkbox" data-id="${id}" ${st[id] ? 'checked' : ''}><span><b>${t}${extra}</b>${s ? `<small>${s}</small>` : ''}</span></label>`;
+    const render = () => {
+      document.getElementById('tasks').innerHTML = T.map(([id, t, s]) => task(id, esc(t), esc(s))).join('');
+      document.getElementById('dirs').innerHTML = D.map(([n, u, s, tag], i) => task('d' + i, `<a href="${u}" target="_blank" rel="noopener">${esc(n)}</a>`, esc(s), tag ? `<span class="tag">${tag}</span>` : '')).join('');
+      const all = T.length + D.length, done = Object.values(st).filter(Boolean).length;
+      document.getElementById('pg').style.width = (done / all * 100) + '%';
+      document.getElementById('pl').textContent = `${done} / ${all} étapes faites` + (done === all ? ' 🎉' : '');
+    };
+    document.addEventListener('change', (e) => { const id = e.target.dataset && e.target.dataset.id; if (id) { st[id] = e.target.checked; save(); render(); } });
+    document.addEventListener('click', async (e) => {
+      const b = e.target.closest('[data-c]'); if (!b) return; e.preventDefault();
+      const v = F[+b.dataset.c][1];
+      try { await navigator.clipboard.writeText(v); } catch (err) { prompt('Copie :', v); }
+      const t = document.getElementById('toast'); t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1300);
+    });
+    render();
+  })();
+  </script>
+</body>
+</html>

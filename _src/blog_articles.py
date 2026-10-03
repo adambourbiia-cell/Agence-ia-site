@@ -213,4 +213,173 @@ ARTICLES = [
 <p>👉 C'est ce que fait l'<a href="/repondeur/">AI Répondeur de Vortex</a>. <a href="/repondeur/demo/">Testez la démo en direct</a> : vous parlez à l'assistante depuis votre navigateur, et vous voyez le SMS qu'elle enverrait.</p>
 """,
     },
+    {
+        "slug": "site-internet-restaurant",
+        "date": "2026-10-03",
+        "title": "Site internet pour restaurant : les 7 éléments indispensables",
+        "h1": ("Site de restaurant :", "les 7 indispensables"),
+        "desc": "Ce que doit absolument contenir le site internet d'un restaurant pour remplir les tables : menu lisible sur mobile, photos, réservation, horaires, avis. Guide simple pour restaurateurs.",
+        "excerpt": "Vos futurs clients décident en 10 secondes, sur leur téléphone. Voici ce qu'ils doivent trouver tout de suite.",
+        "read": 5,
+        "cta": ("/demo/restaurant/", "Voir un exemple de site de restaurant"),
+        "body": """
+<p>Avant de pousser la porte d'un restaurant, la plupart des clients regardent sur leur téléphone : la carte, les photos, les prix, les horaires. Si l'information est introuvable ou illisible, ils passent au restaurant suivant. Voici les 7 éléments qui font la différence.</p>
+
+<h2>1. Un menu lisible sur téléphone</h2>
+<p>Le menu en PDF à télécharger est la première cause d'abandon : il faut zoomer, il charge lentement. Un menu écrit directement sur la page, avec les prix, se lit en un coup d'œil et Google peut le comprendre (et vous faire apparaître sur « pizza 4 fromages Lyon 7 »).</p>
+
+<h2>2. De vraies photos qui donnent faim</h2>
+<p>Vos plats, votre salle, votre terrasse, votre équipe. Des photos lumineuses prises au téléphone valent mieux que des images de banque d'images que les clients reconnaissent tout de suite.</p>
+
+<h2>3. Les horaires, à jour</h2>
+<p>Rien ne coûte plus cher qu'un client qui se déplace et trouve porte close. Affichez les horaires en haut de page, et pensez aux jours fériés et aux vacances.</p>
+
+<h2>4. Un bouton « Réserver » ou « Appeler » toujours visible</h2>
+<p>Sur mobile, le bouton d'appel ou de réservation doit rester accessible sans chercher. Un clic, et la table est réservée.</p>
+
+<h2>5. L'adresse et l'itinéraire en un clic</h2>
+<p>Un lien qui ouvre directement Google Maps ou Waze, avec l'information sur le stationnement ou le transport en commun le plus proche.</p>
+
+<h2>6. Vos avis clients</h2>
+<p>Mettre en avant quelques avis Google rassure ceux qui ne vous connaissent pas encore. Et pour en récolter plus, lisez <a href="/blog/avoir-plus-avis-google/">notre guide pour avoir plus d'avis Google</a>.</p>
+
+<h2>7. Un site rapide</h2>
+<p>Sur un réseau mobile moyen, chaque seconde d'attente fait fuir des visiteurs. Des images optimisées et un site léger, c'est la base.</p>
+
+<h2>Et la commande en ligne ?</h2>
+<p>Les plateformes de livraison prennent souvent une commission importante sur chaque commande. Un lien de commande ou de click &amp; collect sur votre propre site peut compléter ces plateformes, pour vos clients fidèles.</p>
+
+<p>👉 Voyez à quoi pourrait ressembler votre site : <a href="/mon-site/">tapez le nom de votre restaurant ici</a>, l'aperçu s'affiche en 10 secondes.</p>
+""",
+    },
+    {
+        "slug": "site-internet-coiffeur-rendez-vous",
+        "date": "2026-10-03",
+        "title": "Coiffeur, esthéticienne : faut-il un site avec prise de rendez-vous ?",
+        "h1": ("Salon de coiffure :", "un site, ça change quoi ?"),
+        "desc": "Planity, Instagram, site internet : quel outil pour un salon de coiffure ou d'esthétique ? Avantages d'un site avec vos tarifs et la prise de rendez-vous en ligne.",
+        "excerpt": "Planity, Instagram, site internet… Que faut-il vraiment à un salon pour remplir son agenda ?",
+        "read": 4,
+        "cta": ("/demo/coiffure/", "Voir un exemple de site de salon"),
+        "body": """
+<p>Beaucoup de salons de coiffure et d'instituts fonctionnent avec Instagram et une plateforme de réservation. C'est un bon début. Mais quand une nouvelle cliente cherche « coiffeur Grigny » ou « onglerie Vienne » sur Google, c'est souvent un site internet qui ressort.</p>
+
+<h2>Instagram : idéal pour montrer, pas pour être trouvé</h2>
+<p>Instagram est parfait pour montrer vos réalisations et fidéliser. Mais les nouvelles clientes qui cherchent sur Google tombent rarement sur un compte Instagram, et n'y trouvent pas facilement vos tarifs ou vos horaires.</p>
+
+<h2>Les plateformes de réservation : pratiques, mais vous n'êtes pas chez vous</h2>
+<p>Sur une plateforme, votre salon est affiché à côté de vos concurrents. Un site à votre nom vous présente seule, avec votre univers. Les deux se complètent très bien : votre site peut renvoyer vers votre agenda en ligne.</p>
+
+<h2>Ce que doit contenir le site d'un salon</h2>
+<ul>
+<li><strong>Vos prestations et vos tarifs</strong>, clairs, par catégorie (coupe, couleur, soins…).</li>
+<li><strong>Un bouton « Prendre rendez-vous »</strong> toujours visible.</li>
+<li><strong>Vos réalisations</strong> en photos, l'équipe, l'ambiance du salon.</li>
+<li><strong>L'adresse, les horaires, l'accès.</strong></li>
+<li><strong>Vos avis</strong> clients.</li>
+</ul>
+
+<h2>Le vrai gain : moins d'appels pendant que vous travaillez</h2>
+<p>Quand vos tarifs et votre agenda sont en ligne, vous recevez moins d'appels « juste pour savoir », souvent pendant une couleur ou un brushing. Les clientes réservent seules, même le soir.</p>
+
+<p>👉 Envie de voir ce que ça donnerait ? <a href="/mon-site/">Tapez le nom de votre salon ici</a> et choisissez « Coiffure, beauté ».</p>
+""",
+    },
+    {
+        "slug": "site-internet-garage-automobile",
+        "date": "2026-10-03",
+        "title": "Site internet pour garage automobile : comment attirer plus de clients",
+        "h1": ("Garage automobile :", "attirer plus de clients"),
+        "desc": "Comment un garage ou une carrosserie peut attirer de nouveaux clients avec un site internet : services, devis en ligne, prise de rendez-vous, fiche Google et avis.",
+        "excerpt": "Vidange, freins, carrosserie : vos clients comparent en ligne avant d'appeler. Voici comment être celui qu'ils choisissent.",
+        "read": 4,
+        "cta": ("/demo/garage/", "Voir un exemple de site de garage"),
+        "body": """
+<p>Quand une voiture fait un bruit bizarre ou que le contrôle technique approche, l'automobiliste cherche « garage près de chez moi ». Il compare deux ou trois garages en quelques minutes, puis il appelle. Voici comment faire partie de ceux qu'il appelle.</p>
+
+<h2>1. Lister clairement vos services</h2>
+<p>Entretien, vidange, freins, pneus, climatisation, diagnostic, carrosserie… Chaque service listé sur votre site est une recherche de plus sur laquelle Google peut vous montrer.</p>
+
+<h2>2. Donner une idée des prix</h2>
+<p>La première question des clients est « combien ça coûte ? ». Une fourchette de prix ou un formulaire de devis rapide filtre les demandes et vous évite des appels qui n'aboutissent pas.</p>
+
+<h2>3. Permettre la prise de rendez-vous</h2>
+<p>Un formulaire ou un bouton de rendez-vous permet au client de réserver le soir, quand le garage est fermé. Vous retrouvez les demandes le matin.</p>
+
+<h2>4. Soigner votre fiche Google</h2>
+<p>Pour un garage, la fiche Google est souvent la première impression : photos de l'atelier, horaires, avis. Suivez <a href="/blog/fiche-google-apparaitre-google-maps/">nos 7 réglages pour apparaître dans Google Maps</a>.</p>
+
+<h2>5. Ne plus perdre les appels manqués</h2>
+<p>Sous une voiture, impossible de décrocher. Chaque appel manqué peut être un client qui appelle le garage suivant. On a fait le calcul dans <a href="/blog/appels-manques-artisan/">cet article sur les appels manqués</a>.</p>
+
+<p>👉 Voyez votre futur site : <a href="/mon-site/">tapez le nom de votre garage ici</a> et choisissez « Garage ».</p>
+""",
+    },
+    {
+        "slug": "refonte-site-internet",
+        "date": "2026-10-03",
+        "title": "Refonte de site internet : 6 signes qu'il est temps de refaire le vôtre",
+        "h1": ("Refaire son site :", "les 6 signes qui ne trompent pas"),
+        "desc": "Votre site internet a plus de 5 ans, s'affiche mal sur téléphone ou ne vous apporte aucun client ? 6 signes qu'une refonte s'impose, et combien ça coûte.",
+        "excerpt": "Un vieux site peut faire plus de mal que pas de site du tout. 6 signes qu'il est temps de le refaire.",
+        "read": 4,
+        "cta": ("/tarif/", "Calculer le prix de ma refonte"),
+        "body": """
+<p>Un site internet vieillit vite. Celui qui était très bien il y a quelques années peut aujourd'hui faire fuir vos clients. Voici 6 signes qu'une refonte s'impose.</p>
+
+<h2>1. Il s'affiche mal sur téléphone</h2>
+<p>Texte minuscule, il faut zoomer, les boutons sont trop petits : la majorité de vos visiteurs arrivent sur mobile. Un site non adapté donne une image négligée et Google le classe moins bien.</p>
+
+<h2>2. Il est lent</h2>
+<p>Si votre site met plusieurs secondes à s'afficher, une partie des visiteurs partent avant même de le voir.</p>
+
+<h2>3. Les informations ne sont plus à jour</h2>
+<p>Anciens tarifs, horaires faux, services que vous ne faites plus, numéro de téléphone changé… Chaque erreur fait perdre confiance.</p>
+
+<h2>4. Vous ne pouvez pas le modifier</h2>
+<p>Le prestataire a disparu, vous n'avez pas les accès, chaque petite modification coûte cher. C'est le moment de repartir sur une base saine, avec un nom de domaine et des accès à votre nom.</p>
+
+<h2>5. Il ne vous apporte aucun client</h2>
+<p>Pas de demandes via le formulaire, pas d'appels qui viennent du site : il ne remplit pas son rôle. Souvent, c'est un problème de référencement ou de bouton d'action introuvable.</p>
+
+<h2>6. Il n'est pas sécurisé</h2>
+<p>Si votre navigateur affiche « Non sécurisé » à côté de l'adresse, vos visiteurs le voient aussi. Un site moderne est en HTTPS.</p>
+
+<h2>Combien coûte une refonte ?</h2>
+<p>Pour un site vitrine, une refonte coûte généralement le prix d'un site neuf : chez Vortex, 250 € clé en main, en reprenant vos textes et vos photos quand c'est possible. <a href="/tarif/">Le calculateur</a> vous donne le prix exact avec vos options.</p>
+""",
+    },
+    {
+        "slug": "choisir-nom-de-domaine",
+        "date": "2026-10-03",
+        "title": "Nom de domaine : comment bien le choisir pour son entreprise",
+        "h1": ("Nom de domaine :", "bien le choisir"),
+        "desc": "Comment choisir le nom de domaine de son entreprise : .fr ou .com, avec ou sans ville, pièges à éviter, prix et propriété. Guide simple pour artisans et commerçants.",
+        "excerpt": ".fr ou .com ? Avec le nom de la ville ? À qui il appartient vraiment ? Les réponses simples.",
+        "read": 4,
+        "cta": ("/mon-site/", "Voir mon futur site en 10 s"),
+        "body": """
+<p>Le nom de domaine, c'est l'adresse de votre site : <strong>votre-entreprise.fr</strong>. Il apparaît sur vos cartes de visite, votre camion, vos factures. Voici comment bien le choisir.</p>
+
+<h2>.fr ou .com ?</h2>
+<p>Pour une entreprise qui travaille en France, le <strong>.fr</strong> est un excellent choix : il inspire confiance et il est souvent encore disponible. Le .com est très bien aussi, mais les noms courts sont souvent déjà pris.</p>
+
+<h2>Court, simple, facile à dicter</h2>
+<p>Imaginez que vous le donnez au téléphone. Évitez les tirets multiples, les chiffres, les orthographes compliquées. <em>plomberie-martin.fr</em> se dicte mieux que <em>plomb3rie-mrtn-69.fr</em>.</p>
+
+<h2>Ajouter la ville ? Parfois</h2>
+<p>Si le nom de votre entreprise est déjà pris, ajouter la ville est une bonne solution : <em>garage-dupont-givors.fr</em>. Ça aide aussi les clients à vous situer.</p>
+
+<h2>Le piège à éviter : un domaine qui n'est pas à votre nom</h2>
+<p>Votre nom de domaine doit être enregistré <strong>à votre nom</strong>, pas à celui de votre prestataire. Sinon, le jour où vous voulez changer de prestataire, vous risquez de perdre votre adresse. Exigez-le de votre prestataire, et demandez les accès.</p>
+
+<h2>Combien ça coûte ?</h2>
+<p>Un .fr coûte en général une dizaine d'euros par an chez les bureaux d'enregistrement comme OVH ou Gandi. Méfiez-vous des offres « gratuites » qui deviennent très chères au renouvellement.</p>
+
+<h2>Et l'adresse e-mail ?</h2>
+<p>Avec votre domaine, vous pouvez avoir une adresse comme <em>contact@votre-entreprise.fr</em>. C'est plus professionnel qu'une adresse gratuite, et vos clients s'en souviennent mieux.</p>
+
+<p>👉 Avant même de choisir votre domaine, <a href="/mon-site/">voyez votre futur site en 10 secondes</a>.</p>
+""",
+    },
 ]
