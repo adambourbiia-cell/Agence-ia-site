@@ -1,0 +1,435 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Bangers;src:url(fonts/Bangers.ttf)}
+@font-face{font-family:Anton;src:url(fonts/Anton.ttf)}
+@font-face{font-family:Oswald;src:url(fonts/Oswald.ttf)}
+@font-face{font-family:Marker;src:url(fonts/Marker.ttf)}
+html,body{margin:0;background:#000}
+canvas{display:block}
+</style></head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+const W = 1080, H = 1920, DUR = 10;
+const RED = '#ff1a1a', DARK_RED = '#8a0000';
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+
+const imgs = {};
+function load(name, src) {
+  return new Promise(r => { const i = new Image(); i.onload = () => { imgs[name] = i; r(); }; i.src = src; });
+}
+
+// ---------- helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = x => 1 - Math.pow(1 - x, 3);
+const easeIn = x => x * x * x;
+const easeInOut = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const backOut = x => { const c1 = 2.2, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const elastic = x => x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - .75) * (2 * Math.PI / 3)) + 1;
+function rng(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+
+// slam: scale from big to 1 with overshoot
+function slam(t, start, d = .35) { const p = prog(t, start, start + d); return { p, s: 1 + (1 - backOut(p)) * 1.6, a: clamp(p * 3) }; }
+
+// impacts drive camera shake + flash
+const IMPACTS = [0.15, 0.55, 0.85, 1.75, 5.05, 7.35, 8.55];
+function shake(t) {
+  let amp = 0;
+  for (const i of IMPACTS) { const d = t - i; if (d >= 0 && d < .35) amp += 22 * Math.pow(1 - d / .35, 2); }
+  return { x: Math.sin(t * 97) * amp, y: Math.cos(t * 83) * amp };
+}
+function flash(t) {
+  let a = 0;
+  for (const i of IMPACTS) { const d = t - i; if (d >= 0 && d < .18) a = Math.max(a, .55 * (1 - d / .18)); }
+  return a;
+}
+
+function glowText(txt, x, y, font, fill, glow = RED, blur = 30, opts = {}) {
+  ctx.save();
+  ctx.font = font; ctx.textAlign = opts.align || 'center'; ctx.textBaseline = 'middle';
+  if (opts.spacing) ctx.letterSpacing = opts.spacing + 'px';
+  if (opts.glitch) {
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = 'rgba(255,0,40,.8)'; ctx.fillText(txt, x - opts.glitch, y);
+    ctx.fillStyle = 'rgba(0,220,255,.6)'; ctx.fillText(txt, x + opts.glitch, y);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  ctx.shadowColor = glow; ctx.shadowBlur = blur;
+  if (opts.stroke) { ctx.lineWidth = opts.stroke; ctx.strokeStyle = '#000'; ctx.lineJoin = 'round'; ctx.strokeText(txt, x, y); }
+  ctx.fillStyle = fill; ctx.fillText(txt, x, y);
+  ctx.restore();
+}
+
+function roundRect(x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+// angular "gamer" box (cut corners)
+function cutBox(x, y, w, h, c) {
+  ctx.beginPath(); ctx.moveTo(x + c, y); ctx.lineTo(x + w - c, y); ctx.lineTo(x + w, y + c); ctx.lineTo(x + w, y + h - c);
+  ctx.lineTo(x + w - c, y + h); ctx.lineTo(x + c, y + h); ctx.lineTo(x, y + h - c); ctx.lineTo(x, y + c); ctx.closePath();
+}
+// partial stroke of a path by progress, using dash
+function neonStroke(drawPath, perim, p, width = 6) {
+  ctx.save();
+  drawPath();
+  ctx.setLineDash([perim * p, perim]);
+  ctx.lineWidth = width; ctx.strokeStyle = RED; ctx.shadowColor = RED; ctx.shadowBlur = 30; ctx.stroke();
+  ctx.lineWidth = 2; ctx.strokeStyle = '#ffd0d0'; ctx.shadowBlur = 0; ctx.stroke();
+  ctx.restore();
+}
+
+function crown(x, y, s, color = RED) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  ctx.beginPath(); ctx.moveTo(-30, 12); ctx.lineTo(-34, -14); ctx.lineTo(-16, 0); ctx.lineTo(0, -22); ctx.lineTo(16, 0); ctx.lineTo(34, -14); ctx.lineTo(30, 12); ctx.closePath();
+  ctx.lineWidth = 5; ctx.strokeStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 15; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-28, 20); ctx.lineTo(28, 20); ctx.stroke();
+  ctx.restore();
+}
+
+// ---------- icons (centered at 0,0, ~ 70px) ----------
+function heart() { ctx.beginPath(); ctx.moveTo(0, 28); ctx.bezierCurveTo(-60, -10, -30, -55, 0, -22); ctx.bezierCurveTo(30, -55, 60, -10, 0, 28); ctx.closePath(); ctx.fillStyle = RED; ctx.fill(); }
+function bubble() {
+  ctx.beginPath(); ctx.ellipse(0, -4, 36, 28, 0, 0, Math.PI * 2); ctx.lineWidth = 6; ctx.strokeStyle = RED; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-14, 20); ctx.lineTo(-24, 36); ctx.lineTo(0, 23); ctx.stroke();
+  ctx.fillStyle = RED; for (const dx of [-14, 0, 14]) { ctx.beginPath(); ctx.arc(dx, -4, 4.5, 0, 7); ctx.fill(); }
+}
+function plane() {
+  ctx.beginPath(); ctx.moveTo(-36, -4); ctx.lineTo(36, -32); ctx.lineTo(10, 34); ctx.lineTo(0, 6); ctx.closePath();
+  ctx.lineJoin = 'round'; ctx.lineWidth = 6; ctx.strokeStyle = RED; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, 6); ctx.lineTo(36, -32); ctx.stroke();
+}
+function bookmark() { ctx.beginPath(); ctx.moveTo(-24, -34); ctx.lineTo(24, -34); ctx.lineTo(24, 34); ctx.lineTo(0, 14); ctx.lineTo(-24, 34); ctx.closePath(); ctx.lineJoin = 'round'; ctx.lineWidth = 6; ctx.strokeStyle = RED; ctx.stroke(); }
+function bell(swing) {
+  ctx.save(); ctx.rotate(swing);
+  ctx.fillStyle = '#fff'; ctx.shadowColor = '#fff'; ctx.shadowBlur = 12;
+  ctx.beginPath(); ctx.moveTo(-26, 18); ctx.quadraticCurveTo(-24, -30, 0, -32); ctx.quadraticCurveTo(24, -30, 26, 18); ctx.lineTo(32, 26); ctx.lineTo(-32, 26); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.arc(0, -36, 6, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.arc(swing * -30, 33, 8, 0, 7); ctx.fill();
+  ctx.restore();
+}
+
+// ---------- particles (embers) ----------
+const R = rng(42);
+const embers = Array.from({ length: 90 }, () => ({ x: R() * W, y: R() * H, v: 60 + R() * 160, s: 1.5 + R() * 4, ph: R() * 6.28, w: 20 + R() * 40 }));
+function drawEmbers(t) {
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  for (const e of embers) {
+    const y = ((e.y - e.v * t) % H + H) % H;
+    const x = e.x + Math.sin(t * 1.5 + e.ph) * e.w;
+    const a = .35 + .4 * Math.sin(t * 4 + e.ph) ** 2;
+    ctx.fillStyle = `rgba(255,${60 + (e.s * 20) | 0},30,${a})`;
+    ctx.shadowColor = '#ff3000'; ctx.shadowBlur = 12;
+    ctx.beginPath(); ctx.arc(x, y, e.s, 0, 7); ctx.fill();
+  }
+  ctx.restore();
+}
+
+// burst particles at a point
+function burst(t, start, cx, cy, n = 40, seed = 7, color = '255,40,40') {
+  const d = t - start; if (d < 0 || d > .9) return;
+  const r = rng(seed);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < n; i++) {
+    const ang = r() * 6.283, sp = 300 + r() * 900, sz = 2 + r() * 6;
+    const k = easeOut(d / .9);
+    const x = cx + Math.cos(ang) * sp * k * .9, y = cy + Math.sin(ang) * sp * k * .9 + 200 * d * d;
+    ctx.fillStyle = `rgba(${color},${1 - d / .9})`; ctx.shadowColor = `rgb(${color})`; ctx.shadowBlur = 15;
+    ctx.beginPath(); ctx.arc(x, y, sz * (1 - d / .9 * .6), 0, 7); ctx.fill();
+  }
+  ctx.restore();
+}
+
+// ---------- scenes ----------
+function background(t) {
+  ctx.fillStyle = '#050000'; ctx.fillRect(0, 0, W, H);
+  // red ambient
+  const g = ctx.createRadialGradient(W / 2, 700, 50, W / 2, 800, 1200);
+  g.addColorStop(0, 'rgba(120,0,0,.55)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+  // monster artwork
+  const m = imgs.monster; const p = easeOut(prog(t, .1, .6));
+  const zoom = 1.25 + .1 * (1 - p) + .04 * Math.sin(t * .6);
+  const iw = W * zoom, ih = m.height / m.width * iw;
+  ctx.save();
+  ctx.globalAlpha = p;
+  const pulse = .85 + .15 * Math.sin(t * 5);
+  ctx.filter = `brightness(${pulse}) contrast(1.15)`;
+  ctx.drawImage(m, (W - iw) / 2 - 20, 70 - (ih - 500) * .25, iw, ih);
+  ctx.restore();
+  // fade artwork bottom into black
+  const fg = ctx.createLinearGradient(0, 480, 0, 760);
+  fg.addColorStop(0, 'rgba(5,0,0,0)'); fg.addColorStop(1, 'rgba(5,0,0,1)');
+  ctx.fillStyle = fg; ctx.fillRect(0, 480, W, H);
+  const tg = ctx.createLinearGradient(0, 0, 0, 160);
+  tg.addColorStop(0, 'rgba(5,0,0,1)'); tg.addColorStop(1, 'rgba(5,0,0,0)');
+  ctx.fillStyle = tg; ctx.fillRect(0, 0, W, 160);
+  // eye glow flicker
+  const eg = .5 + .5 * Math.sin(t * 9) * Math.sin(t * 3.3);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = p * (.25 + .35 * eg);
+  const rg = ctx.createRadialGradient(W / 2 + 25, 330, 0, W / 2 + 25, 330, 260);
+  rg.addColorStop(0, 'rgba(255,0,0,.9)'); rg.addColorStop(1, 'rgba(255,0,0,0)');
+  ctx.fillStyle = rg; ctx.fillRect(0, 0, W, 800); ctx.restore();
+}
+
+function titleBlock(t, y0) {
+  // OH LE
+  const a = slam(t, .45);
+  if (a.p > 0) {
+    ctx.save(); ctx.translate(W / 2 - 20, y0); ctx.scale(a.s, a.s); ctx.transform(1, 0, -.18, 1, 0, 0); ctx.globalAlpha = a.a;
+    glowText('OH LE', 0, 0, '150px Bangers', '#fff', 'rgba(255,255,255,.6)', 25, { stroke: 10, glitch: a.p < 1 ? 8 : 0 });
+    ctx.restore();
+  }
+  const b = slam(t, .75);
+  if (b.p > 0) {
+    const gl = (t > 3.2 && t < 3.3) || (t > 6.4 && t < 6.48) ? 14 : (b.p < 1 ? 10 : 0);
+    ctx.save(); ctx.translate(W / 2, y0 + 140); ctx.scale(b.s, b.s); ctx.transform(1, 0, -.18, 1, 0, 0); ctx.globalAlpha = b.a;
+    glowText('MONSTRE', 0, 0, '205px Bangers', RED, RED, 45, { stroke: 12, glitch: gl });
+    ctx.restore();
+  }
+  // subtitle typewriter
+  const s = 'LE MONSTRE EST LÂCHÉ';
+  const n = Math.floor(prog(t, 1.1, 1.6) * s.length);
+  if (n > 0) glowText(s.slice(0, n), W / 2, y0 + 262, '500 34px Oswald', '#e8e8e8', 'rgba(0,0,0,0)', 0, { spacing: 12 });
+  // crowns flanking
+  const cp = backOut(prog(t, 1.4, 1.8));
+  if (cp > 0) { crown(170, y0 + 262, .7 * cp); crown(W - 170, y0 + 262, .7 * cp); }
+}
+
+function scene1(t) {
+  // scene out
+  const out = easeIn(prog(t, 4.55, 4.9));
+  ctx.save(); ctx.translate(-out * W * 1.1, 0); ctx.globalAlpha = 1 - out;
+
+  // ABONNE-TOI box
+  const bx = 110, by = 1145, bw = 860, bh = 165;
+  const bp = easeInOut(prog(t, 1.55, 2.05));
+  if (bp > 0) {
+    ctx.save(); cutBox(bx, by, bw, bh, 30); ctx.fillStyle = 'rgba(40,0,0,.75)'; ctx.globalAlpha *= bp; ctx.fill(); ctx.restore();
+    neonStroke(() => cutBox(bx, by, bw, bh, 30), 2 * (bw + bh), bp, 7);
+  }
+  const ap = slam(t, 1.75, .3);
+  if (ap.p > 0) {
+    const breathe = 1 + .03 * Math.sin((t - 2.1) * 6) * (t > 2.1);
+    ctx.save(); ctx.translate(W / 2 - 50, by + bh / 2 + 6); ctx.scale(ap.s * breathe, ap.s * breathe); ctx.transform(1, 0, -.15, 1, 0, 0); ctx.globalAlpha = ap.a;
+    ctx.font = '130px Bangers'; ctx.textBaseline = 'middle';
+    const w1 = ctx.measureText('ABONNE-').width, w2 = ctx.measureText('TOI').width, x0 = -(w1 + w2) / 2;
+    glowText('ABONNE-', x0, 0, '130px Bangers', '#fff', 'rgba(255,255,255,.5)', 18, { align: 'left', stroke: 8 });
+    glowText('TOI', x0 + w1, 0, '130px Bangers', RED, RED, 35, { align: 'left', stroke: 8 });
+    ctx.restore();
+  }
+  // bell
+  const bellP = backOut(prog(t, 2.0, 2.3));
+  if (bellP > 0) {
+    const sw = t > 2.1 ? Math.sin((t - 2.1) * 26) * .5 * Math.exp(-(t - 2.1) * 1.6) + Math.sin(t * 7) * .04 : 0;
+    ctx.save(); ctx.translate(bx + bw - 95, by + bh / 2); ctx.scale(bellP * 1.15, bellP * 1.15); bell(sw);
+    // ring waves
+    if (t > 2.1) for (let k = 0; k < 2; k++) {
+      const wv = ((t - 2.1) * 1.6 + k * .5) % 1;
+      ctx.globalAlpha = 1 - wv; ctx.strokeStyle = RED; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(0, 0, 45 + wv * 40, -1.1, -.2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, 0, 45 + wv * 40, Math.PI + .2, Math.PI + 1.1); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // icons row
+  const icons = [[heart, 'LIKE', 'SI TU KIFFES'], [bubble, 'COMMENTE', 'TON AVIS'], [plane, 'PARTAGE', 'À TES POTES'], [bookmark, 'ENREGISTRE', 'POUR PLUS TARD']];
+  const iy = 1420;
+  icons.forEach(([fn, l1, l2], i) => {
+    const st = 2.45 + i * .2, p = prog(t, st, st + .35);
+    if (p <= 0) return;
+    const cx = 175 + i * 243;
+    const pop = elastic(p);
+    let extra = 1;
+    if (i === 0 && t > 3.3) extra = 1 + .12 * Math.max(0, Math.sin((t - 3.3) * 9)) * Math.exp(-(t - 3.3) * 1.2);
+    ctx.save(); ctx.translate(cx, iy - 50); ctx.scale(pop * extra, pop * extra); ctx.shadowColor = RED; ctx.shadowBlur = 20; fn(); ctx.restore();
+    ctx.save(); ctx.globalAlpha = clamp(p * 2);
+    glowText(l1, cx, iy + 25, '600 36px Oswald', '#fff', 'rgba(0,0,0,0)', 0);
+    glowText(l2, cx, iy + 65, '400 24px Oswald', '#c9c9c9', 'rgba(0,0,0,0)', 0, { spacing: 2 });
+    ctx.restore();
+    if (i < 3) {
+      ctx.save(); ctx.globalAlpha = clamp(p * 2) * .5; ctx.strokeStyle = '#888'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx + 121, iy - 80); ctx.lineTo(cx + 121, iy + 70); ctx.stroke(); ctx.restore();
+    }
+  });
+  burst(t, 2.45, 175, 1370, 25, 3);
+  ctx.restore();
+}
+
+function scene2(t) {
+  const inP = easeOut(prog(t, 4.75, 5.15));
+  const out = easeIn(prog(t, 7.1, 7.4));
+  if (inP <= 0 || out >= 1) return;
+  ctx.save(); ctx.translate((1 - inP) * W - out * W * 1.1, 0); ctx.globalAlpha = 1 - out;
+  const cx = 110, cy = 1110, cw = 860, ch = 480;
+  ctx.save(); roundRect(cx, cy, cw, ch, 26); ctx.fillStyle = 'rgba(30,0,0,.8)'; ctx.fill(); ctx.restore();
+  neonStroke(() => roundRect(cx, cy, cw, ch, 26), 2 * (cw + ch), easeInOut(prog(t, 4.8, 5.4)), 5);
+
+  glowText('— OBJECTIF —', cx + 300, cy + 55, '500 32px Oswald', '#ddd', 'rgba(0,0,0,0)', 0, { spacing: 10 });
+  const f = slam(t, 5.0, .3);
+  if (f.p > 0) {
+    ctx.save(); ctx.translate(cx + 300, cy + 125); ctx.scale(f.s, f.s); ctx.transform(1, 0, -.15, 1, 0, 0); ctx.globalAlpha = f.a;
+    glowText('FACE REVEAL À', 0, 0, '78px Bangers', '#fff', 'rgba(255,255,255,.4)', 15, { stroke: 6 }); ctx.restore();
+  }
+  const k = slam(t, 5.25, .35);
+  if (k.p > 0) {
+    // counting 0 -> 25K
+    const n = Math.round(easeOut(prog(t, 5.25, 5.9)) * 25);
+    ctx.save(); ctx.translate(cx + 300, cy + 245); ctx.scale(k.s, k.s); ctx.transform(1, 0, -.15, 1, 0, 0); ctx.globalAlpha = k.a;
+    glowText(n + 'K', 0, 0, '190px Bangers', RED, RED, 50, { stroke: 10, glitch: t < 5.9 ? 6 : 0 }); ctx.restore();
+    glowText('ABONNÉS', cx + 300, cy + 350, '64px Bangers', '#fff', 'rgba(0,0,0,0)', 0, { stroke: 6 });
+  }
+  // silhouette with ?
+  const sp = easeOut(prog(t, 5.5, 5.9));
+  if (sp > 0) {
+    const s = imgs.sil; const sw = 320, sh = s.height / s.width * sw;
+    ctx.save(); ctx.globalAlpha = sp * (.85 + .15 * Math.sin(t * 12) * (Math.sin(t * 2.7) > .9));
+    ctx.drawImage(s, cx + cw - sw - 20, cy + 40, sw, sh);
+    ctx.restore();
+  }
+  // progress bar: charges, then shows "+1 = TOI"
+  const by = cy + 405, bx = cx + 50, bw = cw - 100;
+  ctx.save(); roundRect(bx, by - 14, bw, 28, 14); ctx.fillStyle = '#1a1a1a'; ctx.fill(); ctx.strokeStyle = '#555'; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
+  const fill = easeInOut(prog(t, 5.9, 6.7)) * .5;
+  if (fill > 0) {
+    ctx.save(); roundRect(bx + 3, by - 11, (bw - 6) * fill, 22, 11);
+    const lg = ctx.createLinearGradient(bx, 0, bx + bw * fill, 0); lg.addColorStop(0, DARK_RED); lg.addColorStop(1, RED);
+    ctx.fillStyle = lg; ctx.shadowColor = RED; ctx.shadowBlur = 25; ctx.fill();
+    // shimmer
+    const shx = bx + ((t * 500) % (bw * fill + 80)) - 40;
+    ctx.clip(); ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(shx, by - 11, 30, 22);
+    ctx.restore();
+  }
+  const tp = backOut(prog(t, 6.6, 6.9));
+  if (tp > 0) {
+    ctx.save(); ctx.translate(bx + (bw - 6) * fill, by + 45); ctx.scale(tp, tp);
+    glowText('+1 = TOI', 0, 0, '46px Bangers', '#fff', RED, 25, { stroke: 6 }); ctx.restore();
+  }
+  ctx.restore();
+}
+
+function scene3(t) {
+  const inP = prog(t, 7.25, 7.6);
+  if (inP <= 0) return;
+  // REJOINS LA MEUTE
+  const r = slam(t, 7.3, .35);
+  ctx.save(); ctx.translate(W / 2, 1185); ctx.scale(r.s, r.s); ctx.rotate(-.04); ctx.globalAlpha = r.a;
+  glowText('REJOINS LA MEUTE', 0, 0, '90px Marker', RED, RED, 40, { stroke: 8, glitch: r.p < 1 ? 8 : 0 });
+  ctx.restore();
+  crown(W / 2, 1275, .8 * backOut(prog(t, 7.6, 7.9)));
+
+  // profile pill
+  const pp = easeOut(prog(t, 7.6, 8.0));
+  const px = 110, py = 1330 + (1 - pp) * 120, pw = 860, ph = 160;
+  ctx.save(); ctx.globalAlpha = pp;
+  roundRect(px, py, pw, ph, 80); ctx.fillStyle = 'rgba(20,20,20,.92)'; ctx.fill();
+  ctx.strokeStyle = 'rgba(255,40,40,.6)'; ctx.lineWidth = 3; ctx.stroke();
+  // avatar
+  ctx.save(); ctx.beginPath(); ctx.arc(px + 80, py + 80, 62, 0, 7); ctx.clip(); ctx.drawImage(imgs.face, px + 18, py + 18, 124, 124); ctx.restore();
+  ctx.beginPath(); ctx.arc(px + 80, py + 80, 64, 0, 7); ctx.strokeStyle = RED; ctx.lineWidth = 5; ctx.shadowColor = RED; ctx.shadowBlur = 15; ctx.stroke(); ctx.shadowBlur = 0;
+  glowText('OH LE MONSTRE', px + 165, py + 58, '44px Anton', '#fff', 'rgba(0,0,0,0)', 0, { align: 'left' });
+  glowText('@oh_le_monstre', px + 165, py + 108, '400 34px Oswald', '#bbb', 'rgba(0,0,0,0)', 0, { align: 'left' });
+
+  // follow button: S'abonner -> Abonné ✓
+  const fbx = px + pw - 290, fby = py + 40, fbw = 250, fbh = 80;
+  const clickT = 8.55;
+  const pressed = t >= clickT;
+  const press = t > clickT - .08 && t < clickT + .1 ? .92 : 1;
+  ctx.save(); ctx.translate(fbx + fbw / 2, fby + fbh / 2); ctx.scale(press, press);
+  roundRect(-fbw / 2, -fbh / 2, fbw, fbh, 14);
+  ctx.fillStyle = pressed ? '#3a3a3a' : '#fe2c55'; if (!pressed) { ctx.shadowColor = '#fe2c55'; ctx.shadowBlur = 25 + 15 * Math.sin(t * 10); }
+  ctx.fill(); ctx.shadowBlur = 0;
+  glowText(pressed ? 'Abonné ✓' : "S'abonner", 0, 2, '600 38px Oswald', '#fff', 'rgba(0,0,0,0)', 0);
+  ctx.restore();
+  ctx.restore();
+
+  // tap hand / cursor
+  const hp = prog(t, 8.0, 8.5);
+  if (hp > 0 && t < 9.3) {
+    const hx = fbx + fbw / 2 + 60 + (1 - easeOut(hp)) * 260, hy = fby + fbh / 2 + 40 + (1 - easeOut(hp)) * 300;
+    ctx.save(); ctx.translate(hx, hy); ctx.globalAlpha = clamp((9.3 - t) * 3);
+    // tap ripple
+    if (pressed) { const d = t - clickT; ctx.strokeStyle = `rgba(255,255,255,${clamp(1 - d * 2)})`; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(-25, -30, 20 + d * 120, 0, 7); ctx.stroke(); }
+    const sc = t > clickT - .08 && t < clickT + .1 ? .9 : 1; ctx.scale(sc, sc);
+    ctx.fillStyle = '#fff'; ctx.strokeStyle = '#000'; ctx.lineWidth = 4; ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 10;
+    ctx.beginPath(); // stylised pointing hand
+    ctx.moveTo(-25, -40); ctx.lineTo(-25, 10); ctx.lineTo(-40, 0); ctx.quadraticCurveTo(-55, 0, -45, 18); ctx.lineTo(-15, 60);
+    ctx.lineTo(35, 60); ctx.quadraticCurveTo(45, 30, 45, 10); ctx.lineTo(45, -5); ctx.quadraticCurveTo(45, -15, 33, -15);
+    ctx.lineTo(28, -15); ctx.quadraticCurveTo(25, -25, 12, -22); ctx.quadraticCurveTo(5, -30, -8, -22); ctx.lineTo(-8, -40); ctx.quadraticCurveTo(-16, -55, -25, -40); ctx.closePath();
+    ctx.fill(); ctx.stroke(); ctx.restore();
+  }
+  burst(t, clickT, fbx + fbw / 2, fby + fbh / 2, 50, 11, '254,44,85');
+  // "+1" float
+  if (t > clickT) {
+    const d = t - clickT;
+    ctx.save(); ctx.globalAlpha = clamp(1.1 - d); glowText('+1', fbx + fbw / 2, fby - 20 - d * 60, '80px Bangers', '#fff', RED, 30, { stroke: 6 }); ctx.restore();
+  }
+  // final tagline
+  const fp = prog(t, 9.0, 9.4);
+  if (fp > 0) {
+    ctx.save(); ctx.globalAlpha = fp;
+    glowText('MÊME PASSION • MÊME FAMILLE', W / 2, 1555, '500 34px Oswald', '#ddd', 'rgba(0,0,0,0)', 0, { spacing: 6 });
+    ctx.restore();
+  }
+}
+
+function vignette() {
+  const g = ctx.createRadialGradient(W / 2, H / 2, 500, W / 2, H / 2, 1250);
+  g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.75)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+function scanlines(t) {
+  ctx.save(); ctx.globalAlpha = .06; ctx.fillStyle = '#000';
+  for (let y = (t * 60) % 6; y < H; y += 6) ctx.fillRect(0, y, W, 2);
+  ctx.restore();
+}
+// glitch slice shift at impacts
+function glitchSlices(t) {
+  const hit = IMPACTS.find(i => t - i >= 0 && t - i < .12);
+  if (hit === undefined) return;
+  const r = rng(Math.floor(t * 30) + 5);
+  for (let k = 0; k < 6; k++) {
+    const y = r() * H, h = 20 + r() * 90, dx = (r() - .5) * 80;
+    ctx.drawImage(cv, 0, y, W, h, dx, y, W, h);
+  }
+}
+
+function draw(t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.globalAlpha = 1; ctx.filter = 'none';
+  const sh = shake(t);
+  ctx.save(); ctx.translate(sh.x, sh.y);
+  background(t);
+  drawEmbers(t);
+  titleBlock(t, 805);
+  scene1(t);
+  scene2(t);
+  scene3(t);
+  burst(t, .85, W / 2, 945, 60, 21);
+  ctx.restore();
+  vignette();
+  scanlines(t);
+  glitchSlices(t);
+  const f = flash(t);
+  if (f > 0) { ctx.fillStyle = `rgba(255,40,40,${f})`; ctx.fillRect(0, 0, W, H); }
+  // fade in from black / fade out end
+  const fi = 1 - prog(t, 0, .15), fo = prog(t, 9.75, 10);
+  if (fi > 0 || fo > 0) { ctx.fillStyle = `rgba(0,0,0,${Math.max(fi, fo * .0)})`; ctx.fillRect(0, 0, W, H); }
+}
+
+window.ready = (async () => {
+  await Promise.all([load('monster', 'monster.png'), load('sil', 'silhouette.png'), load('face', 'face.png')]);
+  await document.fonts.load('100px Bangers'); await document.fonts.load('100px Anton');
+  await document.fonts.load('500 30px Oswald'); await document.fonts.load('100px Marker');
+  draw(0);
+  return true;
+})();
+window.draw = draw;
+window.DUR = DUR;
+</script>
+</body></html>
