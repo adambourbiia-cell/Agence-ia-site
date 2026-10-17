@@ -4,14 +4,36 @@ import * as Crypto from 'expo-crypto';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { AppState } from 'react-native';
 
+import { identifyBilling, onProChange, resetBilling } from './billing';
 import { docToUpsert, mergeCompany, mergeCounters, mergeDocs, rowToDoc, type DocumentRow } from './merge';
 import { newId } from './money';
+import { registerPush, unregisterPush } from './notifications';
 import { SIGN_URL, supabase } from './supabase';
 import type { Company, Doc, DocKind, State } from './types';
 
 const STORAGE_KEY = 'dicta:v1';
 const EPOCH = new Date(0).toISOString();
-const DOC_COLUMNS = 'id, kind, number, data, deleted, updated_at, share_token, signed_at, signer_name, signature';
+const DOC_COLUMNS =
+  'id, kind, number, data, deleted, updated_at, share_token, signed_at, signer_name, signature, reminders_sent, last_reminder_at';
+
+/** Plan gratuit : dictées IA par mois (même valeur que la fonction parse-quote). */
+export const FREE_MONTHLY_DICTATIONS = 5;
+
+/** Fonction réservée à Dicta Pro : l'écran appelant ouvre la page d'abonnement. */
+export class ProRequiredError extends Error {
+  constructor() {
+    super('Fonction réservée à Dicta Pro');
+  }
+}
+
+export type Plan = { pro: boolean; aiUsedThisMonth: number };
+
+const monthStart = () => {
+  const d = new Date();
+  d.setUTCDate(1);
+  d.setUTCHours(0, 0, 0, 0);
+  return d.toISOString();
+};
 
 const defaultCompany: Company = {
   name: '',
@@ -34,6 +56,7 @@ type Store = Omit<State, 'companyUpdatedAt'> & {
   ready: boolean;
   session: Session | null;
   sync: SyncStatus;
+  plan: Plan;
   createQuote: (doc: NewDoc) => Doc;
   updateDoc: (id: string, patch: Partial<Doc>) => void;
   deleteDoc: (id: string) => void;
@@ -66,6 +89,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [sync, setSync] = useState<SyncStatus>({ state: 'off' });
+  // Pro vient du serveur (webhook RevenueCat) ; storePro donne l'accès tout de suite après l'achat.
+  const [serverPlan, setServerPlan] = useState<Plan>({ pro: false, aiUsedThisMonth: 0 });
+  const [storePro, setStorePro] = useState(false);
+  const plan = useMemo(() => ({ ...serverPlan, pro: serverPlan.pro || storePro }), [serverPlan, storePro]);
 
   // stateRef est toujours à jour : les actions calculent le nouvel état de façon
   // synchrone (pour renvoyer un document créé) et la synchro relit l'état courant.
@@ -119,12 +146,19 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       dirty.current = false;
       setSync((s) => ({ ...s, state: 'syncing' }));
       try {
-        const [docsRes, profileRes] = await Promise.all([
+        const [docsRes, profileRes, subRes, usageRes] = await Promise.all([
           db.from('documents').select(DOC_COLUMNS),
           db.from('profiles').select('company, counters, updated_at').maybeSingle(),
+          db.from('subscriptions').select('status, expires_at').maybeSingle(),
+          db.from('ai_usage').select('id', { count: 'exact', head: true }).gte('created_at', monthStart()),
         ]);
         if (docsRes.error) throw docsRes.error;
         if (profileRes.error) throw profileRes.error;
+        const sub = subRes.data;
+        setServerPlan({
+          pro: sub?.status === 'active' && (!sub.expires_at || new Date(sub.expires_at) > new Date()),
+          aiUsedThisMonth: usageRes.count ?? 0,
+        });
         const remote = (docsRes.data as DocumentRow[]).map(rowToDoc);
         const profile = profileRes.data;
         const remoteCompany = profile ? { company: profile.company as Partial<Company>, updatedAt: profile.updated_at as string } : null;
@@ -173,12 +207,33 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!ready || !userId) {
       setSync({ state: 'off' });
+      setServerPlan({ pro: false, aiUsedThisMonth: 0 });
       return;
     }
     syncNow();
     const sub = AppState.addEventListener('change', (s) => s === 'active' && syncNow());
     return () => sub.remove();
   }, [ready, userId, syncNow]);
+
+  // Abonnement (RevenueCat) et notifications, liés au compte connecté.
+  useEffect(() => {
+    if (!userId) {
+      setStorePro(false);
+      return;
+    }
+    let unsubscribe = () => {};
+    identifyBilling(userId)
+      .then(() => {
+        unsubscribe = onProChange((pro) => {
+          setStorePro(pro);
+          // Le webhook met quelques secondes : on resynchronise pour récupérer l'état serveur.
+          if (pro) setTimeout(syncNow, 5000);
+        });
+      })
+      .catch((e) => console.warn('RevenueCat indisponible', e));
+    registerPush(false);
+    return () => unsubscribe();
+  }, [userId, syncNow]);
 
   useEffect(() => {
     if (!ready || !userId || !dirty.current) return;
@@ -264,6 +319,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const requestSignature = useCallback(
     async (id: string) => {
       if (!supabase || !userId) throw new Error('Connecte-toi pour envoyer un devis à signer.');
+      if (!plan.pro) throw new ProRequiredError();
       if (!SIGN_URL) throw new Error('Page de signature non configurée (EXPO_PUBLIC_SIGN_URL).');
       let doc = stateRef.current.docs.find((d) => d.id === id);
       if (!doc) throw new Error('Devis introuvable');
@@ -278,16 +334,25 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       }
       // Le client doit voir la dernière version : on publie ce devis tout de suite.
       const { error } = await supabase.from('documents').upsert(docToUpsert(doc));
+      if (error && errorMessage(error).includes('pro_required')) {
+        // Achat tout juste fait : le webhook n'a pas encore prévenu le serveur.
+        if (storePro) throw new Error('Ton abonnement Pro est en cours d’activation, réessaie dans quelques secondes.');
+        throw new ProRequiredError();
+      }
       if (error) throw new Error(errorMessage(error));
+      // Le bon moment pour demander l'autorisation : « être prévenu quand le client signe ».
+      registerPush(true);
       return `${SIGN_URL}?t=${doc.shareToken}`;
     },
-    [userId, replaceDoc],
+    [userId, plan.pro, storePro, replaceDoc],
   );
 
   const signOut = useCallback(async () => {
     if (!supabase) return;
     await syncNow();
     if (dirty.current) throw new Error('Des modifications ne sont pas encore sauvegardées. Réessaie avec du réseau.');
+    await unregisterPush().catch(() => {});
+    await resetBilling();
     // Les données appartiennent au compte : on vide le téléphone avant de fermer la session.
     commit(initialState, false);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(initialState));
@@ -304,6 +369,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       ready,
       session,
       sync,
+      plan,
       createQuote,
       updateDoc,
       deleteDoc,
@@ -313,7 +379,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       requestSignature,
       signOut,
     }),
-    [visibleDocs, state.company, state.counters, ready, session, sync, createQuote, updateDoc, deleteDoc, convertToInvoice, updateCompany, syncNow, requestSignature, signOut],
+    [visibleDocs, state.company, state.counters, ready, session, sync, plan, createQuote, updateDoc, deleteDoc, convertToInvoice, updateCompany, syncNow, requestSignature, signOut],
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;

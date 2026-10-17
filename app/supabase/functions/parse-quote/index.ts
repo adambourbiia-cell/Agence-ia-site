@@ -31,6 +31,9 @@ Produis les lignes du devis :
 
 const anthropic = new Anthropic();
 
+/** Plan gratuit : dictées IA par mois calendaire. Dicta Pro : illimité. */
+const FREE_MONTHLY_DICTATIONS = 5;
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
@@ -38,6 +41,21 @@ Deno.serve(async (req) => {
   const jwt = req.headers.get('Authorization')?.replace(/^Bearer /, '') ?? '';
   const { data: auth } = await admin.auth.getUser(jwt);
   if (!auth.user) return json({ error: 'Connecte-toi pour utiliser l’IA.' }, 401);
+
+  const { data: pro } = await admin.rpc('is_pro', { uid: auth.user.id });
+  if (!pro) {
+    const monthStart = new Date();
+    monthStart.setUTCDate(1);
+    monthStart.setUTCHours(0, 0, 0, 0);
+    const { count } = await admin
+      .from('ai_usage')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', auth.user.id)
+      .gte('created_at', monthStart.toISOString());
+    if ((count ?? 0) >= FREE_MONTHLY_DICTATIONS) {
+      return json({ error: `Tu as utilisé tes ${FREE_MONTHLY_DICTATIONS} dictées IA gratuites ce mois-ci.`, code: 'quota' }, 402);
+    }
+  }
 
   const { text } = await req.json().catch(() => ({ text: '' }));
   if (typeof text !== 'string' || !text.trim()) return json({ error: 'Texte manquant' }, 400);
@@ -55,6 +73,7 @@ Deno.serve(async (req) => {
     if (response.stop_reason === 'refusal' || !response.parsed_output) {
       return json({ error: 'L’IA n’a pas pu analyser cette description. Reformule ou saisis le devis à la main.' }, 422);
     }
+    await admin.from('ai_usage').insert({ user_id: auth.user.id });
     return json(response.parsed_output);
   } catch (e) {
     if (e instanceof Anthropic.RateLimitError) return json({ error: 'Trop de demandes, réessaie dans un instant.' }, 429);

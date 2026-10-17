@@ -3,6 +3,7 @@
 // POST { t, name, signature, accept }   -> enregistre la signature du client
 // Déployer sans vérification de JWT : `supabase functions deploy sign --no-verify-jwt`
 import { admin, corsHeaders, json } from '../_shared/http.ts';
+import { notifyUser } from '../_shared/push.ts';
 
 const TOKEN = /^[a-f0-9]{32}$/;
 const PNG = /^data:image\/png;base64,[A-Za-z0-9+/=]+$/;
@@ -79,10 +80,15 @@ Deno.serve(async (req) => {
         .eq('kind', 'quote')
         .eq('deleted', false)
         .is('signed_at', null)
-        .select('signed_at')
+        .select('id, user_id, number, signed_at')
         .maybeSingle();
       if (error) throw error;
       if (!data) return json({ error: 'Ce devis est déjà signé ou n’est plus disponible.' }, 409);
+      await notifyUser(data.user_id, {
+        title: 'Devis signé ✍️',
+        body: `${name} a signé le devis ${data.number}. Tu peux lancer le chantier !`,
+        data: { docId: data.id },
+      });
       return json({ signedAt: data.signed_at });
     }
 

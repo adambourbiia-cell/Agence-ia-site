@@ -1,11 +1,11 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Share, Text, TextInput, View } from 'react-native';
+import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Share, Switch, Text, TextInput, View } from 'react-native';
 
 import { Button, Card, colors, confirm, Field, styles } from '@/components/ui';
 import { formatDate, formatEur, newId, totals } from '@/lib/money';
 import { shareDocPdf } from '@/lib/pdf';
-import { useStore } from '@/lib/store';
+import { ProRequiredError, useStore } from '@/lib/store';
 import { UNITS, type Line } from '@/lib/types';
 
 const parseNumber = (s: string) => {
@@ -75,7 +75,7 @@ function LineEditor({
 
 export default function DocScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { docs, company, session, updateDoc, deleteDoc, convertToInvoice, requestSignature } = useStore();
+  const { docs, company, session, plan, updateDoc, deleteDoc, convertToInvoice, requestSignature } = useStore();
   const [sharing, setSharing] = useState(false);
   const [requesting, setRequesting] = useState(false);
   const doc = docs.find((d) => d.id === id);
@@ -94,6 +94,8 @@ export default function DocScreen() {
   const t = totals(doc.lines, company);
   const invoice = docs.find((d) => d.sourceQuoteId === doc.id);
   const hasEstimates = doc.lines.some((l) => l.estimated);
+  const due = new Date(new Date(doc.createdAt).getTime() + company.paymentTermsDays * 86_400_000);
+  const overdueDays = Math.floor((Date.now() - due.getTime()) / 86_400_000);
 
   const setLine = (lineId: string, patch: Partial<Line>) =>
     updateDoc(doc.id, { lines: doc.lines.map((l) => (l.id === lineId ? { ...l, ...patch } : l)) });
@@ -122,6 +124,7 @@ export default function DocScreen() {
         message: `Bonjour${doc.clientName ? ' ' + doc.clientName : ''}, voici votre devis ${doc.number} de ${who}. Vous pouvez le consulter et le signer en ligne : ${url}`,
       });
     } catch (e) {
+      if (e instanceof ProRequiredError) return router.push('/pro');
       Alert.alert('Envoi impossible', e instanceof Error ? e.message : String(e));
     } finally {
       setRequesting(false);
@@ -160,6 +163,14 @@ export default function DocScreen() {
         <Card>
           <Field label="Objet" defaultValue={doc.title} onChangeText={(title) => updateDoc(doc.id, { title })} editable={editable} />
           <Field label="Client" defaultValue={doc.clientName} onChangeText={(clientName) => updateDoc(doc.id, { clientName })} />
+          <Field
+            label="E-mail du client"
+            defaultValue={doc.clientEmail}
+            onChangeText={(clientEmail) => updateDoc(doc.id, { clientEmail: clientEmail.trim() })}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            placeholder="Pour les relances automatiques"
+          />
           <Field
             label="Adresse du client"
             defaultValue={doc.clientAddress}
@@ -215,6 +226,38 @@ export default function DocScreen() {
             </Text>
             {doc.signature && (
               <Image source={{ uri: doc.signature }} style={{ height: 80, width: '100%' }} resizeMode="contain" />
+            )}
+          </Card>
+        )}
+
+        {!isQuote && doc.status !== 'paid' && (
+          <Card>
+            <Text style={styles.text}>
+              Échéance : {formatDate(due.toISOString())}
+              {overdueDays > 0 ? (
+                <Text style={{ color: colors.danger }}> · en retard de {overdueDays} jour{overdueDays > 1 ? 's' : ''}</Text>
+              ) : null}
+            </Text>
+            <View style={[styles.row, { justifyContent: 'space-between' }]}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.text}>Relances automatiques {plan.pro ? '' : '(Pro)'}</Text>
+                <Text style={styles.muted}>
+                  {!doc.clientEmail
+                    ? 'Ajoute l’e-mail du client pour les activer.'
+                    : 'Par e-mail à J+1, J+8 et J+15 après l’échéance, de ta part.'}
+                </Text>
+              </View>
+              <Switch
+                value={plan.pro && doc.autoRemind !== false && Boolean(doc.clientEmail)}
+                disabled={plan.pro && !doc.clientEmail}
+                onValueChange={(on) => (plan.pro ? updateDoc(doc.id, { autoRemind: on }) : router.push('/pro'))}
+              />
+            </View>
+            {(doc.remindersSent ?? 0) > 0 && (
+              <Text style={styles.muted}>
+                {doc.remindersSent} relance{doc.remindersSent! > 1 ? 's' : ''} envoyée{doc.remindersSent! > 1 ? 's' : ''}
+                {doc.lastReminderAt ? `, la dernière le ${formatDate(doc.lastReminderAt)}` : ''}.
+              </Text>
             )}
           </Card>
         )}

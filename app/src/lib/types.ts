@@ -44,10 +44,12 @@ export type Doc = {
   signerName?: string;
   /** Image PNG de la signature (data URL). */
   signature?: string;
+  /** Facture : relances automatiques par e-mail (Pro), activées par défaut. */
+  autoRemind?: boolean;
+  /** Relances envoyées par le serveur. */
+  remindersSent?: number;
+  lastReminderAt?: string;
 };
-
-/** Champs que seul le serveur peut écrire (signature en ligne). */
-export const SIGNATURE_FIELDS = ['signedAt', 'signerName', 'signature'] as const;
 
 export type Company = {
   name: string;

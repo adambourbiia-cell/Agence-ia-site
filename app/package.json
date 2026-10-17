@@ -9,6 +9,7 @@
     "expo-constants": "~58.0.12",
     "expo-crypto": "~58.0.7",
     "expo-linking": "~58.0.13",
+    "expo-notifications": "~58.1.5",
     "expo-print": "~58.0.6",
     "expo-router": "~58.0.23",
     "expo-sharing": "~58.0.19",
@@ -17,6 +18,7 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-native": "0.88.0",
+    "react-native-purchases": "^10.14.0",
     "react-native-safe-area-context": "~5.10.1",
     "react-native-screens": "~4.30.0",
     "react-native-web": "^0.21.4"
@@ -34,7 +36,7 @@
     "typecheck": "tsc --noEmit",
     "test": "npm run test:db && npm run test:merge",
     "test:db": "node tests/db.test.mjs",
-    "test:merge": "npx --yes deno@2.9.6 test --sloppy-imports tests/merge.test.ts"
+    "test:merge": "npx --yes deno@2.9.6 test --sloppy-imports tests/merge.test.ts tests/server.test.ts"
   },
   "private": true
 }

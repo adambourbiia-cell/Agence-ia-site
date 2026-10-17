@@ -14,7 +14,7 @@ const syncLabel = {
 };
 
 export default function Account() {
-  const { session, sync, syncNow, signOut } = useStore();
+  const { session, sync, plan, syncNow, signOut } = useStore();
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [step, setStep] = useState<'email' | 'code'>('email');
@@ -66,6 +66,11 @@ export default function Account() {
         <Card>
           <Text style={styles.muted}>Connecté avec</Text>
           <Text style={styles.h2}>{session.user.email}</Text>
+        </Card>
+        <Card>
+          <Text style={styles.muted}>Abonnement</Text>
+          <Text style={[styles.h2, plan.pro && { color: colors.success }]}>{plan.pro ? 'Dicta Pro ✓' : 'Gratuit'}</Text>
+          <Button title={plan.pro ? 'Gérer mon abonnement' : 'Découvrir Dicta Pro'} variant="secondary" onPress={() => router.push('/pro')} />
         </Card>
         <Card>
           <Text style={[styles.text, sync.state === 'error' && { color: colors.danger }]}>{syncLabel[sync.state]}</Text>

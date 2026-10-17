@@ -30,6 +30,13 @@ Deno.test('signature always comes from server, even when local is newer', () => 
   assertEquals(mergeDocs([fake], [doc('a', '2026-10-02T00:00:00Z')]).docs[0].signedAt, undefined);
 });
 
+Deno.test('reminders always come from server', () => {
+  const l = doc('a', '2026-10-05T00:00:00Z', { kind: 'invoice', remindersSent: 0 });
+  const r = doc('a', '2026-10-02T00:00:00Z', { kind: 'invoice', remindersSent: 2, lastReminderAt: '2026-10-04T00:00:00Z' });
+  const m = mergeDocs([l], [r]).docs[0];
+  assertEquals([m.remindersSent, m.lastReminderAt], [2, '2026-10-04T00:00:00Z']);
+});
+
 Deno.test('deletion tombstone propagates', () => {
   const l = doc('a', '2026-10-05T00:00:00Z', { deleted: true });
   const r = mergeDocs([l], [doc('a', '2026-10-02T00:00:00Z')]);
@@ -37,12 +44,12 @@ Deno.test('deletion tombstone propagates', () => {
 });
 
 Deno.test('row <-> doc round trip never sends signature columns', () => {
-  const d = doc('a', '2026-10-02T00:00:00Z', { shareToken: 'abc', signedAt: 'x', signerName: 'y', signature: 'z' });
+  const d = doc('a', '2026-10-02T00:00:00Z', { shareToken: 'abc', signedAt: 'x', signerName: 'y', signature: 'z', remindersSent: 2, lastReminderAt: 'w' });
   const up = docToUpsert(d);
   assertEquals(Object.keys(up).sort(), ['data', 'deleted', 'id', 'kind', 'number', 'share_token', 'updated_at']);
-  assertEquals('signature' in up.data || 'signedAt' in up.data, false);
-  const back = rowToDoc({ ...up, signed_at: null, signer_name: null, signature: null } as any);
-  const { signedAt: _a, signerName: _b, signature: _c, ...unsigned } = d;
+  assertEquals(['signature', 'signedAt', 'signerName', 'remindersSent', 'lastReminderAt'].some((k) => k in up.data), false);
+  const back = rowToDoc({ ...up, signed_at: null, signer_name: null, signature: null, reminders_sent: 0, last_reminder_at: null } as any);
+  const { signedAt: _a, signerName: _b, signature: _c, remindersSent: _d, lastReminderAt: _e, ...unsigned } = d;
   assertEquals(back, unsigned);
 });
 

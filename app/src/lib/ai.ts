@@ -2,6 +2,9 @@ import { newId } from './money';
 import { supabase } from './supabase';
 import { UNITS, type Line, type Unit } from './types';
 
+/** Quota de dictées IA du plan gratuit atteint : proposer Dicta Pro. */
+export class QuotaError extends Error {}
+
 export type ParsedQuote = {
   title: string;
   clientName: string;
@@ -29,6 +32,7 @@ export async function parseDictation(text: string, signedIn: boolean): Promise<P
   const { data, error } = await supabase.functions.invoke<RemoteQuote>('parse-quote', { body: { text } });
   if (error || !data) {
     const body = error && 'context' in error ? await (error.context as Response).json().catch(() => null) : null;
+    if (body?.code === 'quota') throw new QuotaError(body.error);
     throw new Error(body?.error ?? 'Le service IA est indisponible.');
   }
   return {

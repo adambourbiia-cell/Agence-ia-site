@@ -26,7 +26,8 @@
     "plugins": [
       "expo-router",
       "expo-sharing",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-notifications"
     ],
     "scheme": "dicta",
     "experiments": {
