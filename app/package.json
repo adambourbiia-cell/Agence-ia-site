@@ -4,12 +4,15 @@
   "main": "expo-router/entry",
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@supabase/supabase-js": "^2.118.0",
     "expo": "~58.0.14",
     "expo-constants": "~58.0.12",
+    "expo-crypto": "~58.0.7",
     "expo-linking": "~58.0.13",
     "expo-print": "~58.0.6",
     "expo-router": "~58.0.23",
     "expo-sharing": "~58.0.19",
+    "expo-sqlite": "~58.0.13",
     "expo-status-bar": "~58.0.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -19,6 +22,7 @@
     "react-native-web": "^0.21.4"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.10",
     "@types/react": "~19.3.0",
     "typescript": "~6.0.3"
   },
@@ -27,7 +31,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:db && npm run test:merge",
+    "test:db": "node tests/db.test.mjs",
+    "test:merge": "npx --yes deno@2.9.6 test --sloppy-imports tests/merge.test.ts"
   },
   "private": true
 }

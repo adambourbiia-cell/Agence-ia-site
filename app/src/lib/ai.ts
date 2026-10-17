@@ -1,4 +1,5 @@
 import { newId } from './money';
+import { supabase } from './supabase';
 import { UNITS, type Line, type Unit } from './types';
 
 export type ParsedQuote = {
@@ -7,21 +8,16 @@ export type ParsedQuote = {
   lines: Line[];
 };
 
-const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
-
-export const aiConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
-
 type RemoteLine = { description: string; quantity: number; unit: string; unit_price: number; price_estimated: boolean };
 type RemoteQuote = { title: string; client_name: string; lines: RemoteLine[] };
 
 /**
  * Transforme une description dictée en lignes de devis.
- * La clé Claude reste côté serveur (fonction Supabase `parse-quote`) ;
- * sans backend configuré, on crée une ligne unique à compléter à la main.
+ * La clé Claude reste côté serveur (fonction Supabase `parse-quote`), réservée
+ * aux comptes connectés ; sinon on crée une ligne unique à compléter à la main.
  */
-export async function parseDictation(text: string): Promise<ParsedQuote> {
-  if (!aiConfigured) {
+export async function parseDictation(text: string, signedIn: boolean): Promise<ParsedQuote> {
+  if (!supabase || !signedIn) {
     return {
       title: text.slice(0, 60),
       clientName: '',
@@ -29,20 +25,12 @@ export async function parseDictation(text: string): Promise<ParsedQuote> {
     };
   }
 
-  const res = await fetch(`${SUPABASE_URL}/functions/v1/parse-quote`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-      apikey: SUPABASE_ANON_KEY!,
-    },
-    body: JSON.stringify({ text }),
-  });
-  if (!res.ok) {
-    const body = await res.json().catch(() => null);
-    throw new Error(body?.error ?? `Erreur serveur (${res.status})`);
+  // invoke() ajoute le jeton de session de l'utilisateur connecté.
+  const { data, error } = await supabase.functions.invoke<RemoteQuote>('parse-quote', { body: { text } });
+  if (error || !data) {
+    const body = error && 'context' in error ? await (error.context as Response).json().catch(() => null) : null;
+    throw new Error(body?.error ?? 'Le service IA est indisponible.');
   }
-  const data = (await res.json()) as RemoteQuote;
   return {
     title: data.title,
     clientName: data.client_name,

@@ -15,7 +15,7 @@ const statusLabel: Record<DocStatus, string> = {
 };
 
 export default function Home() {
-  const { docs, company, ready } = useStore();
+  const { docs, company, ready, session, sync } = useStore();
   const [tab, setTab] = useState<DocKind>('quote');
   const list = docs.filter((d) => d.kind === tab);
 
@@ -27,6 +27,11 @@ export default function Home() {
     <View style={styles.screen}>
       <Stack.Screen
         options={{
+          headerLeft: () => (
+            <Link href="/account" style={{ color: sync.state === 'error' ? colors.danger : colors.primary, fontSize: 16 }}>
+              {session ? (sync.state === 'syncing' ? 'Compte ⟳' : sync.state === 'error' ? 'Compte ⚠' : 'Compte ✓') : 'Connexion'}
+            </Link>
+          ),
           headerRight: () => (
             <Link href="/settings" style={{ color: colors.primary, fontSize: 16 }}>
               Réglages
@@ -44,6 +49,13 @@ export default function Home() {
               <Pressable onPress={() => router.push('/settings')} style={[styles.card, { backgroundColor: colors.warnBg }]}>
                 <Text style={[styles.text, { color: colors.warn }]}>
                   Renseigne ton entreprise (nom, SIRET, TVA) pour des devis conformes →
+                </Text>
+              </Pressable>
+            )}
+            {!session && ready && docs.length > 0 && (
+              <Pressable onPress={() => router.push('/account')} style={[styles.card, { backgroundColor: colors.warnBg }]}>
+                <Text style={[styles.text, { color: colors.warn }]}>
+                  Tes devis ne sont que sur ce téléphone. Crée ton compte gratuit pour les sauvegarder →
                 </Text>
               </Pressable>
             )}
@@ -88,8 +100,8 @@ export default function Home() {
               <Text style={styles.muted}>
                 {item.number} · {formatDate(item.createdAt)}
               </Text>
-              <Text style={[styles.muted, item.status === 'paid' && { color: colors.success }]}>
-                {statusLabel[item.status]}
+              <Text style={[styles.muted, (item.status === 'paid' || item.signedAt) && { color: colors.success }]}>
+                {item.signedAt && item.kind === 'quote' ? 'Signé ✓' : statusLabel[item.status]}
               </Text>
             </View>
           </Pressable>

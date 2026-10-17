@@ -1,9 +1,9 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput } from 'react-native';
 
 import { Button, Card, colors, Field, styles } from '@/components/ui';
-import { aiConfigured, parseDictation } from '@/lib/ai';
+import { parseDictation } from '@/lib/ai';
 import { useStore } from '@/lib/store';
 
 const EXAMPLE =
@@ -12,7 +12,7 @@ const EXAMPLE =
   'et 2 jours de main d’œuvre.';
 
 export default function NewQuote() {
-  const { createQuote } = useStore();
+  const { createQuote, session } = useStore();
   const [text, setText] = useState('');
   const [clientName, setClientName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ export default function NewQuote() {
     if (!text.trim()) return;
     setLoading(true);
     try {
-      const parsed = await parseDictation(text.trim());
+      const parsed = await parseDictation(text.trim(), Boolean(session));
       const doc = createQuote({
         title: parsed.title,
         clientName: clientName.trim() || parsed.clientName,
@@ -45,7 +45,7 @@ export default function NewQuote() {
           <Text style={styles.h2}>Décris le chantier</Text>
           <Text style={styles.muted}>
             Appuie sur le micro 🎙 de ton clavier et parle naturellement : travaux, quantités, prix si tu les connais.
-            {aiConfigured ? ' L’IA s’occupe du reste.' : ''}
+            {session ? ' L’IA s’occupe du reste.' : ''}
           </Text>
           <TextInput
             value={text}
@@ -59,10 +59,13 @@ export default function NewQuote() {
           {!text && <Button title="Essayer avec un exemple" variant="secondary" onPress={() => setText(EXAMPLE)} />}
         </Card>
         <Field label="Client (facultatif)" value={clientName} onChangeText={setClientName} placeholder="Mme Martin" />
-        {!aiConfigured && (
-          <Text style={[styles.muted, { color: colors.warn }]}>
-            Mode hors ligne : l’IA n’est pas connectée, le texte sera mis dans une seule ligne à chiffrer à la main.
-          </Text>
+        {!session && (
+          <Pressable onPress={() => router.push('/account')}>
+            <Text style={[styles.muted, { color: colors.warn }]}>
+              Sans compte, le texte sera mis dans une seule ligne à chiffrer à la main.{' '}
+              <Text style={{ fontWeight: '700' }}>Crée ton compte gratuit pour activer l’IA →</Text>
+            </Text>
+          </Pressable>
         )}
         <Button title="Générer le devis" onPress={generate} loading={loading} disabled={!text.trim()} />
       </ScrollView>

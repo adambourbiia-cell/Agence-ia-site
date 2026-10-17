@@ -21,6 +21,7 @@ export default function RootLayout() {
         <Stack.Screen name="new" options={{ title: 'Nouveau devis', presentation: 'modal' }} />
         <Stack.Screen name="doc/[id]" options={{ title: '' }} />
         <Stack.Screen name="settings" options={{ title: 'Mon entreprise' }} />
+        <Stack.Screen name="account" options={{ title: 'Compte', presentation: 'modal' }} />
       </Stack>
     </StoreProvider>
   );

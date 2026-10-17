@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Signature du devis</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --card: #fff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0;
+    --primary: #2563eb; --success: #15803d; --danger: #b91c1c;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 16px 16px 48px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 17px; margin: 0 0 8px; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .row { display: flex; justify-content: space-between; gap: 12px; }
+  .line { padding: 10px 0; border-top: 1px solid var(--border); }
+  .line:first-of-type { border-top: 0; }
+  .total { font-weight: 700; font-size: 18px; border-top: 2px solid var(--text); padding-top: 8px; margin-top: 4px; }
+  label { display: block; font-weight: 600; font-size: 13px; color: var(--muted); margin: 12px 0 4px; }
+  input[type=text] { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 16px; }
+  .pad { position: relative; border: 1px dashed var(--muted); border-radius: 10px; background: #fff; touch-action: none; }
+  .pad canvas { display: block; width: 100%; height: 180px; }
+  .pad .hint { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); pointer-events: none; }
+  .clear { background: none; border: 0; color: var(--primary); font-size: 14px; padding: 6px 0; cursor: pointer; }
+  .check { display: flex; gap: 10px; align-items: flex-start; margin: 14px 0; font-size: 15px; color: var(--text); font-weight: 400; }
+  .check input { width: 22px; height: 22px; margin-top: 1px; flex-shrink: 0; }
+  button.primary { width: 100%; padding: 15px; border: 0; border-radius: 12px; background: var(--primary); color: #fff; font-size: 17px; font-weight: 600; cursor: pointer; }
+  button.primary:disabled { opacity: .5; }
+  .error { color: var(--danger); margin-top: 10px; }
+  .done { text-align: center; }
+  .done .big { font-size: 48px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <div id="loading" class="card muted">Chargement du devis…</div>
+  <div id="failure" class="card" hidden><h2>Devis indisponible</h2><p id="failure-msg" class="muted"></p></div>
+
+  <div id="quote" hidden>
+    <div class="card">
+      <p class="muted" id="company-name"></p>
+      <h1 id="title"></h1>
+      <p class="muted" id="meta"></p>
+    </div>
+    <div class="card">
+      <h2>Prestations</h2>
+      <div id="lines"></div>
+      <div class="row muted" style="margin-top:8px"><span>Total HT</span><span id="ht"></span></div>
+      <div class="row muted"><span id="vat-label"></span><span id="vat"></span></div>
+      <div class="row total"><span>Total TTC</span><span id="ttc"></span></div>
+      <p class="muted" id="company-details" style="margin-top:12px"></p>
+    </div>
+
+    <div id="signed" class="card done" hidden>
+      <div class="big">✅</div>
+      <h2>Devis signé</h2>
+      <p class="muted" id="signed-msg"></p>
+    </div>
+
+    <form id="form" class="card">
+      <h2>Bon pour accord</h2>
+      <label for="name">Nom et prénom</label>
+      <input id="name" type="text" autocomplete="name" required minlength="2" maxlength="100">
+      <label>Signature</label>
+      <div class="pad">
+        <canvas id="canvas"></canvas>
+        <div class="hint" id="hint">Signez ici avec le doigt</div>
+      </div>
+      <button type="button" class="clear" id="clear">Effacer</button>
+      <label class="check"><input type="checkbox" id="accept"> <span>J’ai lu ce devis et je l’accepte (bon pour accord).</span></label>
+      <button class="primary" id="submit" type="submit" disabled>Signer le devis</button>
+      <p class="error" id="error" hidden></p>
+    </form>
+  </div>
+</main>
+<script>
+  // Adresse de la fonction Supabase `sign` de ton projet.
+  const API_URL = 'https://VOTRE-PROJET.supabase.co/functions/v1/sign';
+
+  const $ = (id) => document.getElementById(id);
+  const token = new URLSearchParams(location.search).get('t') || '';
+  const eur = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' });
+  const date = (iso) => new Date(iso).toLocaleDateString('fr-FR');
+  const time = (iso) => new Date(iso).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+  function fail(msg) {
+    $('loading').hidden = true;
+    $('failure').hidden = false;
+    $('failure-msg').textContent = msg;
+  }
+
+  function showSigned(name, signedAt) {
+    $('form').hidden = true;
+    $('signed').hidden = false;
+    $('signed-msg').textContent = `Signé par ${name} le ${date(signedAt)} à ${time(signedAt)}. Votre artisan la retrouvera dans son application Dicta.`;
+  }
+
+  function render(q) {
+    const c = q.company;
+    document.title = `Devis ${q.number}${c.name ? ' · ' + c.name : ''}`;
+    $('company-name').textContent = c.name;
+    $('title').textContent = q.title;
+    $('meta').textContent = `Devis ${q.number} du ${date(q.createdAt)}${q.clientName ? ' · pour ' + q.clientName : ''}`;
+
+    let ht = 0;
+    for (const l of q.lines) {
+      const amount = l.quantity * l.unitPrice;
+      ht += amount;
+      const row = document.createElement('div');
+      row.className = 'line';
+      const desc = document.createElement('div');
+      desc.textContent = l.description;
+      const detail = document.createElement('div');
+      detail.className = 'row muted';
+      const left = document.createElement('span');
+      left.textContent = `${l.quantity.toLocaleString('fr-FR')} ${l.unit} × ${eur.format(l.unitPrice)}`;
+      const right = document.createElement('span');
+      right.textContent = eur.format(amount);
+      detail.append(left, right);
+      row.append(desc, detail);
+      $('lines').append(row);
+    }
+    ht = Math.round(ht * 100) / 100;
+    const rate = c.vatExempt ? 0 : c.vatRate;
+    const vat = Math.round(ht * rate) / 100;
+    $('ht').textContent = eur.format(ht);
+    $('vat-label').textContent = c.vatExempt ? 'TVA non applicable, art. 293 B du CGI' : `TVA ${rate} %`;
+    $('vat').textContent = eur.format(vat);
+    $('ttc').textContent = eur.format(ht + vat);
+    $('company-details').textContent = [c.name, c.address, c.siret && 'SIRET ' + c.siret, c.email, c.phone]
+      .filter(Boolean).join(' · ');
+
+    $('loading').hidden = true;
+    $('quote').hidden = false;
+    if (q.signedAt) showSigned(q.signerName, q.signedAt);
+    else setupPad();
+  }
+
+  // Zone de signature : souris, doigt ou stylet.
+  let hasInk = false;
+  function setupPad() {
+    const canvas = $('canvas');
+    const ctx = canvas.getContext('2d');
+    let width = 0;
+    const resize = (force) => {
+      // Sur mobile, « resize » part aussi quand le clavier ou la barre d'adresse
+      // bougent : on ne réinitialise que si la largeur change (rotation) ou sur « Effacer ».
+      if (force !== true && canvas.offsetWidth === width) return;
+      width = canvas.offsetWidth;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#0f172a';
+      hasInk = false;
+      $('hint').hidden = false;
+      update();
+    };
+    resize(true);
+    window.addEventListener('resize', resize);
+
+    let drawing = false;
+    const point = (e) => {
+      const r = canvas.getBoundingClientRect();
+      return [e.clientX - r.left, e.clientY - r.top];
+    };
+    canvas.addEventListener('pointerdown', (e) => {
+      drawing = true;
+      canvas.setPointerCapture(e.pointerId);
+      ctx.beginPath();
+      ctx.moveTo(...point(e));
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!drawing) return;
+      ctx.lineTo(...point(e));
+      ctx.stroke();
+      if (!hasInk) { hasInk = true; $('hint').hidden = true; update(); }
+    });
+    const stop = () => { drawing = false; };
+    canvas.addEventListener('pointerup', stop);
+    canvas.addEventListener('pointercancel', stop);
+    $('clear').addEventListener('click', () => resize(true));
+  }
+
+  function update() {
+    $('submit').disabled = !(hasInk && $('accept').checked && $('name').value.trim().length >= 2);
+  }
+  $('accept').addEventListener('change', update);
+  $('name').addEventListener('input', update);
+
+  $('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $('error').hidden = true;
+    $('submit').disabled = true;
+    $('submit').textContent = 'Signature en cours…';
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          t: token,
+          name: $('name').value.trim(),
+          signature: $('canvas').toDataURL('image/png'),
+          accept: $('accept').checked,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erreur');
+      showSigned($('name').value.trim(), data.signedAt);
+    } catch (err) {
+      $('error').textContent = err.message || 'La signature a échoué, réessayez.';
+      $('error').hidden = false;
+      $('submit').textContent = 'Signer le devis';
+      update();
+    }
+  });
+
+  if (!/^[a-f0-9]{32}$/.test(token)) {
+    fail('Ce lien est incomplet. Demandez à votre artisan de vous le renvoyer.');
+  } else {
+    fetch(`${API_URL}?t=${token}`)
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        render(data);
+      })
+      .catch((err) => fail(err.message || 'Impossible de charger le devis. Vérifiez votre connexion.'));
+  }
+</script>
+</body>
+</html>

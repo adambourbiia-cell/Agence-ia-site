@@ -33,7 +33,21 @@ export type Doc = {
   sourceQuoteId?: string;
   /** Texte dicté d'origine, gardé pour pouvoir régénérer. */
   dictation?: string;
+  /** Dernière modification, sert à la synchro (la plus récente gagne). */
+  updatedAt: string;
+  /** Suppression synchronisée (on garde une trace côté serveur). */
+  deleted?: boolean;
+  /** Jeton du lien de signature envoyé au client. */
+  shareToken?: string;
+  /** Signature du client, écrite uniquement par le serveur. */
+  signedAt?: string;
+  signerName?: string;
+  /** Image PNG de la signature (data URL). */
+  signature?: string;
 };
+
+/** Champs que seul le serveur peut écrire (signature en ligne). */
+export const SIGNATURE_FIELDS = ['signedAt', 'signerName', 'signature'] as const;
 
 export type Company = {
   name: string;
@@ -52,6 +66,7 @@ export type Company = {
 export type State = {
   docs: Doc[];
   company: Company;
+  companyUpdatedAt: string;
   /** Derniers numéros attribués, par type et par année : { "quote-2026": 3 }. */
   counters: Record<string, number>;
 };

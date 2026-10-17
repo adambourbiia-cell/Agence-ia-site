@@ -1,9 +1,9 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Share, Text, TextInput, View } from 'react-native';
 
 import { Button, Card, colors, confirm, Field, styles } from '@/components/ui';
-import { formatEur, newId, totals } from '@/lib/money';
+import { formatDate, formatEur, newId, totals } from '@/lib/money';
 import { shareDocPdf } from '@/lib/pdf';
 import { useStore } from '@/lib/store';
 import { UNITS, type Line } from '@/lib/types';
@@ -54,7 +54,7 @@ function LineEditor({
           style={[
             styles.input,
             { width: 80, paddingVertical: 6 },
-            line.estimated && { backgroundColor: colors.warnBg, borderColor: colors.warn },
+            line.estimated && editable && { backgroundColor: colors.warnBg, borderColor: colors.warn },
           ]}
         />
         <Text style={[styles.text, { flex: 1, textAlign: 'right', fontWeight: '600' }]} numberOfLines={1} adjustsFontSizeToFit>
@@ -75,8 +75,9 @@ function LineEditor({
 
 export default function DocScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { docs, company, updateDoc, deleteDoc, convertToInvoice } = useStore();
+  const { docs, company, session, updateDoc, deleteDoc, convertToInvoice, requestSignature } = useStore();
   const [sharing, setSharing] = useState(false);
+  const [requesting, setRequesting] = useState(false);
   const doc = docs.find((d) => d.id === id);
 
   if (!doc) {
@@ -88,8 +89,8 @@ export default function DocScreen() {
   }
 
   const isQuote = doc.kind === 'quote';
-  // Une facture émise ne se modifie plus : on garde les lignes figées.
-  const editable = isQuote;
+  // Une facture émise ou un devis signé ne se modifient plus : lignes figées.
+  const editable = isQuote && !doc.signedAt;
   const t = totals(doc.lines, company);
   const invoice = docs.find((d) => d.sourceQuoteId === doc.id);
   const hasEstimates = doc.lines.some((l) => l.estimated);
@@ -107,6 +108,23 @@ export default function DocScreen() {
       Alert.alert('Envoi impossible', e instanceof Error ? e.message : String(e));
     } finally {
       setSharing(false);
+    }
+  }
+
+  async function sendForSignature() {
+    if (!doc) return;
+    if (!session) return router.push('/account');
+    setRequesting(true);
+    try {
+      const url = await requestSignature(doc.id);
+      const who = company.name || 'votre artisan';
+      await Share.share({
+        message: `Bonjour${doc.clientName ? ' ' + doc.clientName : ''}, voici votre devis ${doc.number} de ${who}. Vous pouvez le consulter et le signer en ligne : ${url}`,
+      });
+    } catch (e) {
+      Alert.alert('Envoi impossible', e instanceof Error ? e.message : String(e));
+    } finally {
+      setRequesting(false);
     }
   }
 
@@ -188,17 +206,42 @@ export default function DocScreen() {
           </View>
         </Card>
 
-        {hasEstimates && (
+        {doc.signedAt && (
+          <Card>
+            <Text style={[styles.h2, { color: colors.success }]}>Signé ✓</Text>
+            <Text style={styles.text}>
+              Par {doc.signerName} le {formatDate(doc.signedAt)} à{' '}
+              {new Date(doc.signedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+            </Text>
+            {doc.signature && (
+              <Image source={{ uri: doc.signature }} style={{ height: 80, width: '100%' }} resizeMode="contain" />
+            )}
+          </Card>
+        )}
+
+        {hasEstimates && editable && (
           <Text style={[styles.muted, { color: colors.warn }]}>
             Certains prix ont été estimés par l’IA (en orange). Vérifie-les avant d’envoyer.
           </Text>
         )}
 
-        <Button title={`Envoyer le ${isQuote ? 'devis' : 'la facture'} (PDF)`} onPress={share} loading={sharing} />
+        {isQuote && !doc.signedAt && (
+          <Button
+            title={doc.shareToken ? '✍️  Renvoyer le lien de signature' : '✍️  Envoyer pour signature en ligne'}
+            onPress={sendForSignature}
+            loading={requesting}
+          />
+        )}
+        <Button
+          title={`Envoyer ${isQuote ? 'le devis' : 'la facture'} (PDF)`}
+          variant={isQuote && !doc.signedAt ? 'secondary' : 'primary'}
+          onPress={share}
+          loading={sharing}
+        />
         {isQuote ? (
           <>
             <Button title={invoice ? 'Voir la facture' : 'Transformer en facture'} variant="secondary" onPress={toInvoice} />
-            {!invoice && <Button title="Supprimer le devis" variant="danger" onPress={remove} />}
+            {!invoice && !doc.signedAt && <Button title="Supprimer le devis" variant="danger" onPress={remove} />}
           </>
         ) : (
           <Button

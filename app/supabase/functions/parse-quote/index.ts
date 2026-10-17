@@ -4,6 +4,8 @@ import Anthropic from 'npm:@anthropic-ai/sdk@^0.135.0';
 import { zodOutputFormat } from 'npm:@anthropic-ai/sdk@^0.135.0/helpers/zod';
 import { z } from 'npm:zod@^4.6.0';
 
+import { admin, corsHeaders, json } from '../_shared/http.ts';
+
 const QuoteSchema = z.object({
   title: z.string().describe('Objet court du devis, ex. « Rénovation salle de bain »'),
   client_name: z.string().describe('Nom du client si mentionné, sinon chaîne vide'),
@@ -29,16 +31,13 @@ Produis les lignes du devis :
 
 const anthropic = new Anthropic();
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
-
-const json = (body: unknown, status = 200) =>
-  new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
-
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
+
+  // Réservé aux comptes connectés : la clé publique seule ne suffit pas.
+  const jwt = req.headers.get('Authorization')?.replace(/^Bearer /, '') ?? '';
+  const { data: auth } = await admin.auth.getUser(jwt);
+  if (!auth.user) return json({ error: 'Connecte-toi pour utiliser l’IA.' }, 401);
 
   const { text } = await req.json().catch(() => ({ text: '' }));
   if (typeof text !== 'string' || !text.trim()) return json({ error: 'Texte manquant' }, 400);

@@ -31,7 +31,11 @@ export function renderDocHtml(doc: Doc, company: Company) {
     ? `<p>Échéance : ${formatDate(addDays(doc.createdAt, company.paymentTermsDays))}.
        En cas de retard, pénalités au taux de 3 fois le taux d'intérêt légal et indemnité forfaitaire
        pour frais de recouvrement de 40 € (art. L441-10 du Code de commerce).</p>`
-    : `<p>Devis valable 30 jours. Bon pour accord, date et signature du client :</p><div class="sign"></div>`;
+    : doc.signedAt
+      ? `<p>Bon pour accord, signé électroniquement par ${esc(doc.signerName ?? '')} le ${formatDate(doc.signedAt)}
+         à ${new Date(doc.signedAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}.</p>
+         ${doc.signature && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(doc.signature) ? `<img class="sig" src="${doc.signature}">` : ''}`
+      : `<p>Devis valable 30 jours. Bon pour accord, date et signature du client :</p><div class="sign"></div>`;
 
   return `<!doctype html><html><head><meta charset="utf-8"><style>
     body { font-family: -apple-system, Helvetica, Arial, sans-serif; color: #111; padding: 32px; font-size: 12px; }
@@ -47,6 +51,7 @@ export function renderDocHtml(doc: Doc, company: Company) {
     .ttc td { font-weight: bold; font-size: 14px; border-top: 2px solid #111; }
     .legal { margin-top: 32px; font-size: 10px; color: #444; }
     .sign { border: 1px solid #aaa; height: 70px; width: 260px; }
+    .sig { height: 70px; }
   </style></head><body>
     <div class="head">
       <div>
