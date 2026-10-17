@@ -1,0 +1,71 @@
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput } from 'react-native';
+
+import { Button, Card, colors, Field, styles } from '@/components/ui';
+import { aiConfigured, parseDictation } from '@/lib/ai';
+import { useStore } from '@/lib/store';
+
+const EXAMPLE =
+  "Salle de bain chez madame Martin, 12 rue des Lilas à Lyon. Dépose de l'ancienne baignoire, " +
+  'pose d’un receveur de douche 90 par 120, 6 mètres carrés de faïence à 45 euros le mètre carré, ' +
+  'et 2 jours de main d’œuvre.';
+
+export default function NewQuote() {
+  const { createQuote } = useStore();
+  const [text, setText] = useState('');
+  const [clientName, setClientName] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function generate() {
+    if (!text.trim()) return;
+    setLoading(true);
+    try {
+      const parsed = await parseDictation(text.trim());
+      const doc = createQuote({
+        title: parsed.title,
+        clientName: clientName.trim() || parsed.clientName,
+        clientEmail: '',
+        clientAddress: '',
+        lines: parsed.lines,
+        dictation: text.trim(),
+      });
+      router.replace(`/doc/${doc.id}`);
+    } catch (e) {
+      Alert.alert('Impossible de générer le devis', e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <Card>
+          <Text style={styles.h2}>Décris le chantier</Text>
+          <Text style={styles.muted}>
+            Appuie sur le micro 🎙 de ton clavier et parle naturellement : travaux, quantités, prix si tu les connais.
+            {aiConfigured ? ' L’IA s’occupe du reste.' : ''}
+          </Text>
+          <TextInput
+            value={text}
+            onChangeText={setText}
+            placeholder={EXAMPLE}
+            placeholderTextColor={colors.muted}
+            multiline
+            autoFocus
+            style={[styles.input, { minHeight: 180, textAlignVertical: 'top' }]}
+          />
+          {!text && <Button title="Essayer avec un exemple" variant="secondary" onPress={() => setText(EXAMPLE)} />}
+        </Card>
+        <Field label="Client (facultatif)" value={clientName} onChangeText={setClientName} placeholder="Mme Martin" />
+        {!aiConfigured && (
+          <Text style={[styles.muted, { color: colors.warn }]}>
+            Mode hors ligne : l’IA n’est pas connectée, le texte sera mis dans une seule ligne à chiffrer à la main.
+          </Text>
+        )}
+        <Button title="Générer le devis" onPress={generate} loading={loading} disabled={!text.trim()} />
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
