@@ -1,16 +1,57 @@
-import type { ReactNode } from 'react';
-import { ActivityIndicator, Alert, Platform, Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
+import { useEffect, useState, type ReactNode } from 'react';
+import { ActivityIndicator, Alert, Modal, Platform, Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 
-/** Alert.alert n'affiche rien sur le web : on passe par window.confirm. */
+// Sur le web, Alert.alert n'affiche rien et window.confirm peut être bloqué (pages intégrées) :
+// on affiche nos propres boîtes de dialogue via <DialogHost />. Sur mobile, les natives.
+type Dialog = { title: string; message: string; okLabel?: string; onOk?: () => void; destructive?: boolean };
+let showDialog: ((d: Dialog) => void) | null = null;
+
+export function notify(title: string, message = '') {
+  if (Platform.OS === 'web' && showDialog) return showDialog({ title, message });
+  Alert.alert(title, message || undefined);
+}
+
 export function confirm(title: string, message: string, okLabel: string, onOk: () => void, destructive = false) {
-  if (Platform.OS === 'web') {
-    if (window.confirm(`${title}\n\n${message}`)) onOk();
-    return;
-  }
+  if (Platform.OS === 'web' && showDialog) return showDialog({ title, message, okLabel, onOk, destructive });
   Alert.alert(title, message, [
     { text: 'Annuler', style: 'cancel' },
     { text: okLabel, style: destructive ? 'destructive' : 'default', onPress: onOk },
   ]);
+}
+
+export function DialogHost() {
+  const [dialog, setDialog] = useState<Dialog | null>(null);
+  useEffect(() => {
+    showDialog = setDialog;
+    return () => {
+      showDialog = null;
+    };
+  }, []);
+  if (!dialog) return null;
+  const close = () => setDialog(null);
+  return (
+    <Modal transparent animationType="fade" onRequestClose={close}>
+      <View style={styles.backdrop}>
+        <View style={[styles.card, { width: '100%', maxWidth: 380 }]}>
+          <Text style={styles.h2}>{dialog.title}</Text>
+          {dialog.message ? <Text style={styles.text}>{dialog.message}</Text> : null}
+          <View style={{ gap: 8, marginTop: 6 }}>
+            {dialog.onOk && (
+              <Button
+                title={dialog.okLabel ?? 'OK'}
+                variant={dialog.destructive ? 'danger' : 'primary'}
+                onPress={() => {
+                  close();
+                  dialog.onOk?.();
+                }}
+              />
+            )}
+            <Button title={dialog.onOk ? 'Annuler' : 'OK'} variant={dialog.onOk ? 'secondary' : 'primary'} onPress={close} />
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
 }
 
 export const colors = {
@@ -99,4 +140,5 @@ export const styles = StyleSheet.create({
   buttonSecondary: { backgroundColor: colors.card, borderWidth: 1, borderColor: colors.border },
   buttonText: { fontSize: 16, fontWeight: '600' },
   row: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  backdrop: { flex: 1, backgroundColor: 'rgba(15, 23, 42, 0.45)', alignItems: 'center', justifyContent: 'center', padding: 24 },
 });

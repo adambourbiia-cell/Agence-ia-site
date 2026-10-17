@@ -52,6 +52,13 @@ Abonnement mensuel via l'App Store / Google Play (RevenueCat), prix et essai gra
 `parse-quote`, lien de signature refusé par la base sans abonnement actif, relances envoyées seulement aux
 comptes Pro. Les liens déjà envoyés restent valables si l'abonnement s'arrête.
 
+## Version web
+
+`cd app && npm run build:web-demo` produit `dist-web-demo/` (une page + un fichier JS) à héberger
+n'importe où, sous-dossier compris : l'app complète en mode hors ligne, avec des exemples au premier
+lancement et un aperçu du devis à la place de l'envoi du PDF. L'IA, la signature et les relances restent
+réservées à l'app mobile.
+
 ## Lancer l'app
 
 ```bash

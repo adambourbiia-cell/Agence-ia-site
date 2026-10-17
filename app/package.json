@@ -36,7 +36,8 @@
     "typecheck": "tsc --noEmit",
     "test": "npm run test:db && npm run test:merge",
     "test:db": "node tests/db.test.mjs",
-    "test:merge": "npx --yes deno@2.9.6 test --sloppy-imports tests/merge.test.ts tests/server.test.ts"
+    "test:merge": "npx --yes deno@2.9.6 test --sloppy-imports tests/merge.test.ts tests/server.test.ts",
+    "build:web-demo": "node scripts/build-web-demo.mjs"
   },
   "private": true
 }

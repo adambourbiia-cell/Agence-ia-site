@@ -1,9 +1,9 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert, Linking, Platform, ScrollView, Text, View } from 'react-native';
+import { Linking, Platform, ScrollView, Text, View } from 'react-native';
 import type { PurchasesPackage } from 'react-native-purchases';
 
-import { Button, Card, colors, styles } from '@/components/ui';
+import { Button, Card, colors, notify, styles } from '@/components/ui';
 import { billingAvailable, getProPackage, purchasePro, restorePro } from '@/lib/billing';
 import { FREE_MONTHLY_DICTATIONS, useStore } from '@/lib/store';
 
@@ -36,10 +36,10 @@ export default function Pro() {
         await syncNow();
         router.back();
       } else if (kind === 'restore') {
-        Alert.alert('Aucun abonnement trouvé', 'Aucun achat Dicta Pro n’est associé à ce compte App Store / Google Play.');
+        notify('Aucun abonnement trouvé', 'Aucun achat Dicta Pro n’est associé à ce compte App Store / Google Play.');
       }
     } catch (e) {
-      Alert.alert('Achat impossible', e instanceof Error ? e.message : String(e));
+      notify('Achat impossible', e instanceof Error ? e.message : String(e));
     } finally {
       setLoading(null);
     }

@@ -1,8 +1,8 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native';
 
-import { Button, Card, colors, confirm, Field, styles } from '@/components/ui';
+import { Button, Card, colors, confirm, Field, notify, styles } from '@/components/ui';
 import { useStore } from '@/lib/store';
 import { supabase } from '@/lib/supabase';
 
@@ -24,9 +24,10 @@ export default function Account() {
     return (
       <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
         <Card>
-          <Text style={styles.h2}>Cloud non configuré</Text>
+          <Text style={styles.h2}>Compte indisponible</Text>
           <Text style={styles.muted}>
-            Renseigne EXPO_PUBLIC_SUPABASE_URL et EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY dans .env.local (voir le README).
+            Cette version garde tes devis sur cet appareil. Le compte, la sauvegarde dans le cloud et l’IA sont dans
+            l’app mobile Dicta.
           </Text>
         </Card>
       </ScrollView>
@@ -38,7 +39,7 @@ export default function Account() {
     setLoading(true);
     const { error } = await auth.signInWithOtp({ email: email.trim().toLowerCase(), options: { shouldCreateUser: true } });
     setLoading(false);
-    if (error) return Alert.alert('Envoi impossible', error.message);
+    if (error) return notify('Envoi impossible', error.message);
     setStep('code');
   }
 
@@ -46,7 +47,7 @@ export default function Account() {
     setLoading(true);
     const { error } = await auth.verifyOtp({ email: email.trim().toLowerCase(), token: code.trim(), type: 'email' });
     setLoading(false);
-    if (error) return Alert.alert('Code invalide', 'Vérifie le code reçu par e-mail ou demande-en un nouveau.');
+    if (error) return notify('Code invalide', 'Vérifie le code reçu par e-mail ou demande-en un nouveau.');
     router.back();
   }
 
@@ -55,7 +56,7 @@ export default function Account() {
       try {
         await signOut();
       } catch (e) {
-        Alert.alert('Déconnexion impossible', e instanceof Error ? e.message : String(e));
+        notify('Déconnexion impossible', e instanceof Error ? e.message : String(e));
       }
     });
   }

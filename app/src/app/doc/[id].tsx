@@ -1,11 +1,13 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Share, Switch, Text, TextInput, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Share, Switch, Text, TextInput, View } from 'react-native';
 
-import { Button, Card, colors, confirm, Field, styles } from '@/components/ui';
+import { Button, Card, colors, confirm, Field, notify, styles } from '@/components/ui';
+import { PdfPreview } from '@/components/PdfPreview';
 import { formatDate, formatEur, newId, totals } from '@/lib/money';
-import { shareDocPdf } from '@/lib/pdf';
+import { renderDocHtml, shareDocPdf } from '@/lib/pdf';
 import { ProRequiredError, useStore } from '@/lib/store';
+import { supabase } from '@/lib/supabase';
 import { UNITS, type Line } from '@/lib/types';
 
 const parseNumber = (s: string) => {
@@ -78,6 +80,7 @@ export default function DocScreen() {
   const { docs, company, session, plan, updateDoc, deleteDoc, convertToInvoice, requestSignature } = useStore();
   const [sharing, setSharing] = useState(false);
   const [requesting, setRequesting] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
   const doc = docs.find((d) => d.id === id);
 
   if (!doc) {
@@ -102,12 +105,13 @@ export default function DocScreen() {
 
   async function share() {
     if (!doc) return;
+    if (Platform.OS === 'web') return setPreview(renderDocHtml(doc, company));
     setSharing(true);
     try {
       await shareDocPdf(doc, company);
       if (doc.status === 'draft') updateDoc(doc.id, { status: 'sent' });
     } catch (e) {
-      Alert.alert('Envoi impossible', e instanceof Error ? e.message : String(e));
+      notify('Envoi impossible', e instanceof Error ? e.message : String(e));
     } finally {
       setSharing(false);
     }
@@ -125,7 +129,7 @@ export default function DocScreen() {
       });
     } catch (e) {
       if (e instanceof ProRequiredError) return router.push('/pro');
-      Alert.alert('Envoi impossible', e instanceof Error ? e.message : String(e));
+      notify('Envoi impossible', e instanceof Error ? e.message : String(e));
     } finally {
       setRequesting(false);
     }
@@ -230,7 +234,7 @@ export default function DocScreen() {
           </Card>
         )}
 
-        {!isQuote && doc.status !== 'paid' && (
+        {!isQuote && doc.status !== 'paid' && supabase && (
           <Card>
             <Text style={styles.text}>
               Échéance : {formatDate(due.toISOString())}
@@ -268,7 +272,7 @@ export default function DocScreen() {
           </Text>
         )}
 
-        {isQuote && !doc.signedAt && (
+        {isQuote && !doc.signedAt && supabase && (
           <Button
             title={doc.shareToken ? '✍️  Renvoyer le lien de signature' : '✍️  Envoyer pour signature en ligne'}
             onPress={sendForSignature}
@@ -276,8 +280,10 @@ export default function DocScreen() {
           />
         )}
         <Button
-          title={`Envoyer ${isQuote ? 'le devis' : 'la facture'} (PDF)`}
-          variant={isQuote && !doc.signedAt ? 'secondary' : 'primary'}
+          title={
+            Platform.OS === 'web' ? `Aperçu ${isQuote ? 'du devis' : 'de la facture'}` : `Envoyer ${isQuote ? 'le devis' : 'la facture'} (PDF)`
+          }
+          variant={isQuote && !doc.signedAt && supabase ? 'secondary' : 'primary'}
           onPress={share}
           loading={sharing}
         />
@@ -294,6 +300,7 @@ export default function DocScreen() {
           />
         )}
       </ScrollView>
+      <PdfPreview html={preview} onClose={() => setPreview(null)} />
     </KeyboardAvoidingView>
   );
 }

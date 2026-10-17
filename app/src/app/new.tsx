@@ -1,10 +1,11 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput } from 'react-native';
 
-import { Button, Card, colors, Field, styles } from '@/components/ui';
+import { Button, Card, colors, Field, notify, styles } from '@/components/ui';
 import { parseDictation, QuotaError } from '@/lib/ai';
 import { FREE_MONTHLY_DICTATIONS, useStore } from '@/lib/store';
+import { supabase } from '@/lib/supabase';
 
 const EXAMPLE =
   "Salle de bain chez madame Martin, 12 rue des Lilas à Lyon. Dépose de l'ancienne baignoire, " +
@@ -34,7 +35,7 @@ export default function NewQuote() {
       syncNow();
     } catch (e) {
       if (e instanceof QuotaError) return router.push('/pro');
-      Alert.alert('Impossible de générer le devis', e instanceof Error ? e.message : String(e));
+      notify('Impossible de générer le devis', e instanceof Error ? e.message : String(e));
     } finally {
       setLoading(false);
     }
@@ -61,7 +62,12 @@ export default function NewQuote() {
           {!text && <Button title="Essayer avec un exemple" variant="secondary" onPress={() => setText(EXAMPLE)} />}
         </Card>
         <Field label="Client (facultatif)" value={clientName} onChangeText={setClientName} placeholder="Mme Martin" />
-        {!session && (
+        {!supabase && (
+          <Text style={[styles.muted, { color: colors.warn }]}>
+            Dans cette version, l’IA n’est pas branchée : ta description devient une ligne de devis que tu chiffres à la main.
+          </Text>
+        )}
+        {supabase && !session && (
           <Pressable onPress={() => router.push('/account')}>
             <Text style={[styles.muted, { color: colors.warn }]}>
               Sans compte, le texte sera mis dans une seule ligne à chiffrer à la main.{' '}

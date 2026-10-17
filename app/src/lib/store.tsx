@@ -5,6 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { AppState } from 'react-native';
 
 import { identifyBilling, onProChange, resetBilling } from './billing';
+import { demoState } from './demo';
 import { docToUpsert, mergeCompany, mergeCounters, mergeDocs, rowToDoc, type DocumentRow } from './merge';
 import { newId } from './money';
 import { registerPush, unregisterPush } from './notifications';
@@ -109,7 +110,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)
       .then((raw) => {
-        if (!raw) return;
+        if (!raw) {
+          if (process.env.EXPO_PUBLIC_WEB_DEMO) commit(demoState(initialState), false);
+          return;
+        }
         const saved = JSON.parse(raw) as Partial<State>;
         commit(
           {

@@ -5,6 +5,7 @@ import { FlatList, Pressable, Text, View } from 'react-native';
 import { Button, colors, styles } from '@/components/ui';
 import { formatDate, formatEur, totals } from '@/lib/money';
 import { useStore } from '@/lib/store';
+import { supabase } from '@/lib/supabase';
 import type { DocKind, DocStatus } from '@/lib/types';
 
 const statusLabel: Record<DocStatus, string> = {
@@ -27,11 +28,12 @@ export default function Home() {
     <View style={styles.screen}>
       <Stack.Screen
         options={{
-          headerLeft: () => (
-            <Link href="/account" style={{ color: sync.state === 'error' ? colors.danger : colors.primary, fontSize: 16 }}>
-              {session ? (sync.state === 'syncing' ? 'Compte ⟳' : sync.state === 'error' ? 'Compte ⚠' : 'Compte ✓') : 'Connexion'}
-            </Link>
-          ),
+          headerLeft: () =>
+            supabase ? (
+              <Link href="/account" style={{ color: sync.state === 'error' ? colors.danger : colors.primary, fontSize: 16 }}>
+                {session ? (sync.state === 'syncing' ? 'Compte ⟳' : sync.state === 'error' ? 'Compte ⚠' : 'Compte ✓') : 'Connexion'}
+              </Link>
+            ) : null,
           headerRight: () => (
             <Link href="/settings" style={{ color: colors.primary, fontSize: 16 }}>
               Réglages
@@ -52,7 +54,16 @@ export default function Home() {
                 </Text>
               </Pressable>
             )}
-            {!session && ready && docs.length > 0 && (
+            {process.env.EXPO_PUBLIC_WEB_DEMO && (
+              <View style={[styles.card, { backgroundColor: '#EFF6FF', borderColor: '#BFDBFE' }]}>
+                <Text style={[styles.text, { fontWeight: '700' }]}>Version web de Dicta</Text>
+                <Text style={styles.muted}>
+                  Les exemples ci-dessous sont modifiables. Tes devis restent dans ce navigateur. L’IA, la signature en
+                  ligne et les relances sont dans l’app mobile.
+                </Text>
+              </View>
+            )}
+            {supabase && !session && ready && docs.length > 0 && (
               <Pressable onPress={() => router.push('/account')} style={[styles.card, { backgroundColor: colors.warnBg }]}>
                 <Text style={[styles.text, { color: colors.warn }]}>
                   Tes devis ne sont que sur ce téléphone. Crée ton compte gratuit pour les sauvegarder →

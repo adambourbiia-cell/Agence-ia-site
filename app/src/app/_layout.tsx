@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
 import { NotificationsBridge } from '@/components/NotificationsBridge';
-import { colors } from '@/components/ui';
+import { colors, DialogHost } from '@/components/ui';
 import { StoreProvider } from '@/lib/store';
 
 export default function RootLayout() {
@@ -26,6 +26,7 @@ export default function RootLayout() {
         <Stack.Screen name="account" options={{ title: 'Compte', presentation: 'modal' }} />
         <Stack.Screen name="pro" options={{ title: '', presentation: 'modal' }} />
       </Stack>
+      <DialogHost />
     </StoreProvider>
   );
 }
